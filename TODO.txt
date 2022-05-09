@@ -3,12 +3,12 @@ RASPBERRY-RED PLANET
 
 HECHO
 =====
-
+08/05/22 - Cargar mapa en tuplas a partir de "mapa.h"
 
 POR HACER
 =========
+- Pintar los tiles de la pantalla a partir de la tupla del mapa
 - Cargar música de tacha; wyz -> ogg
-- Cargar mapa a partir de "mapa.h"
 - Navegador de mapeado (por pantallas)
 - Navegador de mapeado (con scroll)
 - Cambiar tileset al vuelo (ZX->CPC->Pi)
