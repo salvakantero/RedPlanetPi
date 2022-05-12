@@ -495,7 +495,7 @@ def saturate_color(color):
     blue = min(blue, 255)
     return red, green, blue
 
-Para mezclar colores podemos usar la interpolación lineal, o hacer "lerp" entreç
+Para mezclar colores podemos usar la interpolación lineal, o hacer "lerp" entre 
 dos valores. Para ello hay que obtener la diferencia entre valor2 y valor1, 
 multiplicarla por un factor entre 0 y 1, y añadir el resultado a valor1.
 
