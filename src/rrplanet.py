@@ -70,7 +70,7 @@ pygame.display.set_caption(".:: Raspberry-Red Planet ::.")
 # clock to control the FPS
 clock = pygame.time.Clock()
 
-#loadMap(mapNumber)
+loadMap(mapNumber)
 
 
 #===============================================================================
