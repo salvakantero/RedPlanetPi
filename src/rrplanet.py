@@ -17,9 +17,12 @@ from pygame.constants import (QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT)
 # Global vars
 #===============================================================================
 
-# ruta del ejecutable (+ "/" en VS Code)
+# executable path (+ "/" when using VS Code)
 BASEPATH = os.path.dirname(__file__) + "/"
+d = os.path.join # forms the folder/file path
+
 mapNumber = 0 # current map number
+
 
 
 
@@ -28,7 +31,17 @@ mapNumber = 0 # current map number
 #===============================================================================
 
 def loadMap(mapNumber): # loads the map into memory
-    mapData = processMap(os.path.join(BASEPATH, "map/map" + str(mapNumber) + ".json"))
+    global mapData
+    mapData = processMap(d(BASEPATH, "map/map" + str(mapNumber) + ".json"))
+    drawMap()
+
+
+
+def findData(lst, key, value): # get a value from a dictionary
+    for i, dic in enumerate(lst):
+        if dic[key] == value:
+            return dic
+    return -1
 
 
 
@@ -41,13 +54,13 @@ def processMap(mapFile):
     rawData = dataReaded["layers"][0]["data"]
     data["data"] = []
 
-    for x in range(0, data["width"]):
+    for x in range(0, data["height"]):
         st = x * data["width"]
-        data["data"].append(rawData[st: st + data["height"]])
+        data["data"].append(rawData[st: st + data["width"]])
 
     tileset = dataReaded["tilesets"][0]["source"].replace(".tsx",".json")
 
-    with open(os.path.join(BASEPATH,"map/" + tileset)) as json_data:
+    with open(d(BASEPATH,"map/" + tileset)) as json_data:
         t = json.load(json_data)
 
     data["tiles"] = t["tiles"]
@@ -62,26 +75,15 @@ def processMap(mapFile):
 
 def drawMap():
     # recorre el mapa
-    for x in range(0, 15):
-        for y in range(0, 10):
+    for y in range(0, mapData["height"]):
+        for x in range(0, mapData["width"]):
             # obtiene el elemento de la lista
             t = findData(mapData["tiles"], "id", mapData["data"][y][x])
             # pinta el tile del mapa correspondiente teniendo en cuenta la altura del bloque
-            tile = pygame.image.load(os.path.join(BASEPATH, "tiles/" + t["image"]))
+            tile = pygame.image.load(d(BASEPATH, "gfx/tiles/" + t["image"]))
             tileRect = tile.get_rect()
-            tileRect.topleft = (isoX, isoY - (t["imageheight"]-80))    
-            surface.blit(tile, tileRect)
-
-            # si en la coordenada actual está el jugador, lo pinta (por encima del mapa (-32))
-            if x == p1["mapX"] and y == p1["mapY"]:
-                p1["isoX"] = (x*32)-(y*32) + OFFSETX
-                p1["isoY"] = (y*16)+(x*16) + OFFSETY - 32
-                imgP1Rect.topleft = (p1["isoX"], p1["isoY"])
-                surface.blit(imgP1, imgP1Rect)
-
-
-
-
+            tileRect.topleft = (x*16, y*16)   
+            screen.blit(tile, tileRect)
 
 
 

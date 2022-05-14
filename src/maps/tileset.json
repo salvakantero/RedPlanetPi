@@ -14,193 +14,193 @@
  "tiles":[
         {
          "id":0,
-         "image":"..\/gfx\/tiles\/T0.png",
+         "image":"..\/images\/T0.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":1,
-         "image":"..\/gfx\/tiles\/T1.png",
+         "image":"..\/images\/T1.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":2,
-         "image":"..\/gfx\/tiles\/T2.png",
+         "image":"..\/images\/T2.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":3,
-         "image":"..\/gfx\/tiles\/T3.png",
+         "image":"..\/images\/T3.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":4,
-         "image":"..\/gfx\/tiles\/T4.png",
+         "image":"..\/images\/T4.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":5,
-         "image":"..\/gfx\/tiles\/T5.png",
+         "image":"..\/images\/T5.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":6,
-         "image":"..\/gfx\/tiles\/T6.png",
+         "image":"..\/images\/T6.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":7,
-         "image":"..\/gfx\/tiles\/T7.png",
+         "image":"..\/images\/T7.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":8,
-         "image":"..\/gfx\/tiles\/T8.png",
+         "image":"..\/images\/T8.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":9,
-         "image":"..\/gfx\/tiles\/T9.png",
+         "image":"..\/images\/T9.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":10,
-         "image":"..\/gfx\/tiles\/T10.png",
+         "image":"..\/images\/T10.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":11,
-         "image":"..\/gfx\/tiles\/T11.png",
+         "image":"..\/images\/T11.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":12,
-         "image":"..\/gfx\/tiles\/T12.png",
+         "image":"..\/images\/T12.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":13,
-         "image":"..\/gfx\/tiles\/T16.png",
+         "image":"..\/images\/T16.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":14,
-         "image":"..\/gfx\/tiles\/T17.png",
+         "image":"..\/images\/T17.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":15,
-         "image":"..\/gfx\/tiles\/T18.png",
+         "image":"..\/images\/T18.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":16,
-         "image":"..\/gfx\/tiles\/T19.png",
+         "image":"..\/images\/T19.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":17,
-         "image":"..\/gfx\/tiles\/T20.png",
+         "image":"..\/images\/T20.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":18,
-         "image":"..\/gfx\/tiles\/T21.png",
+         "image":"..\/images\/T21.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":19,
-         "image":"..\/gfx\/tiles\/T22.png",
+         "image":"..\/images\/T22.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":20,
-         "image":"..\/gfx\/tiles\/T23.png",
+         "image":"..\/images\/T23.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":21,
-         "image":"..\/gfx\/tiles\/T24.png",
+         "image":"..\/images\/T24.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":22,
-         "image":"..\/gfx\/tiles\/T25.png",
+         "image":"..\/images\/T25.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":23,
-         "image":"..\/gfx\/tiles\/T26.png",
+         "image":"..\/images\/T26.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":24,
-         "image":"..\/gfx\/tiles\/T27.png",
+         "image":"..\/images\/T27.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":25,
-         "image":"..\/gfx\/tiles\/T28.png",
+         "image":"..\/images\/T28.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":26,
-         "image":"..\/gfx\/tiles\/T40.png",
+         "image":"..\/images\/T40.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":27,
-         "image":"..\/gfx\/tiles\/T50.png",
+         "image":"..\/images\/T50.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":28,
-         "image":"..\/gfx\/tiles\/T51.png",
+         "image":"..\/images\/T51.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":29,
-         "image":"..\/gfx\/tiles\/T52.png",
+         "image":"..\/images\/T52.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":30,
-         "image":"..\/gfx\/tiles\/T53.png",
+         "image":"..\/images\/T53.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
          "id":31,
-         "image":"..\/gfx\/tiles\/T60.png",
+         "image":"..\/images\/T60.png",
          "imageheight":16,
          "imagewidth":16
         }],
