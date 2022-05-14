@@ -32,7 +32,7 @@ mapNumber = 0 # current map number
 
 def loadMap(mapNumber): # loads the map into memory
     global mapData
-    mapData = processMap(d(BASEPATH, "map/map" + str(mapNumber) + ".json"))
+    mapData = processMap(d(BASEPATH, "maps/map" + str(mapNumber) + ".json"))
     drawMap()
 
 
@@ -60,7 +60,7 @@ def processMap(mapFile):
 
     tileset = dataReaded["tilesets"][0]["source"].replace(".tsx",".json")
 
-    with open(d(BASEPATH,"map/" + tileset)) as json_data:
+    with open(d(BASEPATH,"maps/" + tileset)) as json_data:
         t = json.load(json_data)
 
     data["tiles"] = t["tiles"]
@@ -80,10 +80,11 @@ def drawMap():
             # obtiene el elemento de la lista
             t = findData(mapData["tiles"], "id", mapData["data"][y][x])
             # pinta el tile del mapa correspondiente teniendo en cuenta la altura del bloque
-            tile = pygame.image.load(d(BASEPATH, "gfx/tiles/" + t["image"]))
+            tile = pygame.image.load(d(BASEPATH, "images/" + t["image"])).convert()
             tileRect = tile.get_rect()
             tileRect.topleft = (x*16, y*16)   
             screen.blit(tile, tileRect)
+            #screen.blit(pygame.transform.scale(display, base_screen_size), ((screen.get_width() - base_screen_size[0]) // 2, (screen.get_height() - base_screen_size[1]) // 2))
 
 
 

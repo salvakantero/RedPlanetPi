@@ -3,12 +3,11 @@ RASPBERRY-RED PLANET
 
 HECHO
 =====
-
+14/05/22 - Cargar mapa de TILED 
+14/05/22 - Pintar los tiles de la pantalla a partir de las tuplas del mapa
 
 POR HACER
 =========
-- Cargar mapa de TILED 
-- Pintar los tiles de la pantalla a partir de las tuplas del mapa
 - Cargar música de tacha; wyz -> ogg
 - Navegador de mapeado
 
