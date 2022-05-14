@@ -17,6 +17,8 @@ from pygame.constants import (QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT)
 # Global vars
 #===============================================================================
 
+# ruta del ejecutable (+ "/" en VS Code)
+BASEPATH = os.path.dirname(__file__) + "/"
 mapNumber = 0 # current map number
 
 
@@ -24,6 +26,11 @@ mapNumber = 0 # current map number
 #===============================================================================
 # Map functions
 #===============================================================================
+
+def loadMap(mapNumber): # loads the map into memory
+    mapData = processMap(os.path.join(BASEPATH, "map/map" + str(mapNumber) + ".json"))
+
+
 
 # dump tiled map into 'mapdata'.
 def processMap(mapFile):
@@ -40,7 +47,7 @@ def processMap(mapFile):
 
     tileset = dataReaded["tilesets"][0]["source"].replace(".tsx",".json")
 
-    with open(tileset) as json_data:
+    with open(os.path.join(BASEPATH,"map/" + tileset)) as json_data:
         t = json.load(json_data)
 
     data["tiles"] = t["tiles"]
@@ -53,9 +60,28 @@ def processMap(mapFile):
 
 
 
-def loadMap(mapNumber): # loads the map into memory
-    mapData = processMap("map" + str(mapNumber) + ".json")
-    print(mapData)
+def drawMap():
+    # recorre el mapa
+    for x in range(0, 15):
+        for y in range(0, 10):
+            # obtiene el elemento de la lista
+            t = findData(mapData["tiles"], "id", mapData["data"][y][x])
+            # pinta el tile del mapa correspondiente teniendo en cuenta la altura del bloque
+            tile = pygame.image.load(os.path.join(BASEPATH, "tiles/" + t["image"]))
+            tileRect = tile.get_rect()
+            tileRect.topleft = (isoX, isoY - (t["imageheight"]-80))    
+            surface.blit(tile, tileRect)
+
+            # si en la coordenada actual está el jugador, lo pinta (por encima del mapa (-32))
+            if x == p1["mapX"] and y == p1["mapY"]:
+                p1["isoX"] = (x*32)-(y*32) + OFFSETX
+                p1["isoY"] = (y*16)+(x*16) + OFFSETY - 32
+                imgP1Rect.topleft = (p1["isoX"], p1["isoY"])
+                surface.blit(imgP1, imgP1Rect)
+
+
+
+
 
 
 
