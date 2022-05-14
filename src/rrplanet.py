@@ -54,7 +54,7 @@ def processMap(mapFile):
 
 
 def loadMap(mapNumber): # loads the map into memory
-    mapData = processMap("map\\map" + str(mapNumber) + ".json")
+    mapData = processMap("map" + str(mapNumber) + ".json")
     print(mapData)
 
 
