@@ -5,10 +5,9 @@
 # ==============================================================================
 
 import pygame # pygame library functions
-#import sys 
 import os # file operations
 import json # json file management
-#from pygame.locals import *
+from pygame.locals import *
 from pygame.constants import (QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT) 
 
 
@@ -17,12 +16,10 @@ from pygame.constants import (QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT)
 # Global vars
 #===============================================================================
 
-# executable path (+ "/" when using VS Code)
-BASEPATH = os.path.dirname(__file__) + "/"
-d = os.path.join # forms the folder/file path
+bp = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
+jp = os.path.join # forms the folder/file path
 
-mapNumber = 0 # current map number
-
+map_number = 0 # current map number
 
 
 
@@ -30,14 +27,16 @@ mapNumber = 0 # current map number
 # Map functions
 #===============================================================================
 
-def loadMap(mapNumber): # loads the map into memory
-    global mapData
-    mapData = processMap(d(BASEPATH, "maps/map" + str(mapNumber) + ".json"))
-    drawMap()
+# loads the map into memory
+def LoadMap(map_number):
+    global map_data
+    map_data = ProcessMap(jp(bp, "maps/map" + str(map_number) + ".json"))
+    DrawMap()
 
 
 
-def findData(lst, key, value): # get a value from a dictionary
+# get a value from a dictionary
+def FindData(lst, key, value):
     for i, dic in enumerate(lst):
         if dic[key] == value:
             return dic
@@ -45,24 +44,26 @@ def findData(lst, key, value): # get a value from a dictionary
 
 
 
-# dump tiled map into 'mapdata'.
-def processMap(mapFile):
-    with open(mapFile) as json_data:
-        dataReaded = json.load(json_data)
-
-    data = {"width": dataReaded["width"], "height": dataReaded["height"]}
-    rawData = dataReaded["layers"][0]["data"]
+# dump tiled map into 'mapdata'
+def ProcessMap(map_file):
+    # reads the entire contents of the json
+    with open(map_file) as json_data:
+        data_readed = json.load(json_data)
+    # gets the map dimensions
+    data = {"width": data_readed["width"], "height": data_readed["height"]}
+    # gets a list of all tiles
+    raw_data = data_readed["layers"][0]["data"]
     data["data"] = []
-
+    # divides the list into tile lines, according to the map dimensions
     for x in range(0, data["height"]):
         st = x * data["width"]
-        data["data"].append(rawData[st: st + data["width"]])
-
-    tileset = dataReaded["tilesets"][0]["source"].replace(".tsx",".json")
-
-    with open(d(BASEPATH,"maps/" + tileset)) as json_data:
+        data["data"].append(raw_data[st: st + data["width"]])
+    # gets the name of the tile file
+    tileset = data_readed["tilesets"][0]["source"].replace(".tsx",".json")
+    # gets the data from the tile file
+    with open(jp(bp,"maps/" + tileset)) as json_data:
         t = json.load(json_data)
-
+    # removes the path to each image from the tile file
     data["tiles"] = t["tiles"]
     for tile in range(0, len(data["tiles"])):
         path = data["tiles"][tile]["image"]
@@ -73,16 +74,17 @@ def processMap(mapFile):
 
 
 
-def drawMap():
-    # recorre el mapa
-    for y in range(0, mapData["height"]):
-        for x in range(0, mapData["width"]):
-            # obtiene el elemento de la lista
-            t = findData(mapData["tiles"], "id", mapData["data"][y][x])
-            # pinta el tile del mapa correspondiente teniendo en cuenta la altura del bloque
-            tile = pygame.image.load(d(BASEPATH, "images/" + t["image"])).convert()
+# loads the tile map on screen
+def DrawMap():
+    # scroll through the map data
+    for y in range(0, map_data["height"]):
+        for x in range(0, map_data["width"]):
+            # gets the tile number from the list
+            t = FindData(map_data["tiles"], "id", map_data["data"][y][x])
+            # paints the selected tile
+            tile = pygame.image.load(jp(bp, "images/" + t["image"])).convert()
             tileRect = tile.get_rect()
-            tileRect.topleft = (x*16, y*16)   
+            tileRect.topleft = (x * t["imagewidth"], y * t["imageheight"])   
             screen.blit(tile, tileRect)
             #screen.blit(pygame.transform.scale(display, base_screen_size), ((screen.get_width() - base_screen_size[0]) // 2, (screen.get_height() - base_screen_size[1]) // 2))
 
@@ -99,7 +101,7 @@ pygame.display.set_caption(".:: Raspberry-Red Planet ::.")
 # clock to control the FPS
 clock = pygame.time.Clock()
 
-loadMap(mapNumber)
+LoadMap(map_number)
 
 
 #===============================================================================
