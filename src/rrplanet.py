@@ -7,8 +7,9 @@
 import pygame # pygame library functions
 import os # file operations
 import json # json file management
-from pygame.locals import *
-from pygame.constants import (QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT) 
+import sys # exit()
+from pygame.locals import * # allows constants without typing "pygame."
+from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT) 
 
 
 
@@ -18,8 +19,8 @@ from pygame.constants import (QUIT, K_UP, K_DOWN, K_LEFT, K_RIGHT)
 
 bp = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
 jp = os.path.join # forms the folder/file path
-
-map_number = 0 # current map number
+base_screen_size = [720, 480] # size of the main window
+map_number = last_map = 0 # current map number
 
 
 
@@ -69,7 +70,6 @@ def ProcessMap(map_file):
         path = data["tiles"][tile]["image"]
         data["tiles"][tile]["image"] = os.path.basename(path)
         data["tiles"][tile]["id"] = data["tiles"][tile]["id"] + 1
-
     return data
 
 
@@ -85,8 +85,7 @@ def DrawMap():
             tile = pygame.image.load(jp(bp, "images/" + t["image"])).convert()
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t["imagewidth"], y * t["imageheight"])   
-            screen.blit(tile, tileRect)
-            #screen.blit(pygame.transform.scale(display, base_screen_size), ((screen.get_width() - base_screen_size[0]) // 2, (screen.get_height() - base_screen_size[1]) // 2))
+            display.blit(tile, tileRect)
 
 
 
@@ -95,13 +94,14 @@ def DrawMap():
 #===============================================================================
 
 pygame.init()
-# generates a 640x480 window with title and 32-bit colour.
-screen = pygame.display.set_mode((640, 480), 0, 32)
+# generates a 720x480 window with title and 32-bit colour.
+screen = pygame.display.set_mode(base_screen_size, 0, 32)
 pygame.display.set_caption(".:: Raspberry-Red Planet ::.")
+# area covered by the map
+display = pygame.Surface((240, 160))
 # clock to control the FPS
 clock = pygame.time.Clock()
 
-LoadMap(map_number)
 
 
 #===============================================================================
@@ -111,8 +111,28 @@ LoadMap(map_number)
 while True:
     # event management
     for event in pygame.event.get():
-        if event.type == QUIT: # click on the X in the window
+        if event.type == QUIT: # exit when click on the X in the window
             exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE: # exit by pressing ESC key
+                pygame.quit()
+                sys.exit()
+
+    # ================================== TEMP
+            if event.key == K_RIGHT:
+                map_number = 1
+            elif event.key == K_LEFT:
+                map_number = 0
+
+    if (map_number != last_map):
+        LoadMap(map_number)
+        last_map = map_number
+    # ================================== TEMP
+
+    # scale x 3 the map and transfer to screen
+    screen.blit(pygame.transform.scale(display, base_screen_size), 
+    ((screen.get_width() - base_screen_size[0]) // 2, 
+    (screen.get_height() - base_screen_size[1]) // 2))
 
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS

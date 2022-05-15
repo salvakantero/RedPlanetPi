@@ -5,10 +5,11 @@ HECHO
 =====
 14/05/22 - Cargar mapa de TILED 
 14/05/22 - Pintar los tiles de la pantalla a partir de las tuplas del mapa
+15/05/22 - Navegador de mapeado
 
 POR HACER
 =========
+- Pantalla completa
 - Cargar música de tacha; wyz -> ogg
-- Navegador de mapeado
 
 
