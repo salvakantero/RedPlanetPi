@@ -106,7 +106,7 @@ def DrawMap():
 # Initialisation
 pygame.init()
 # generates a main window with title, icon, and 32-bit colour.
-screen = pygame.display.set_mode(base_screen_size, DOUBLEBUF, 32)
+screen = pygame.display.set_mode((800, 600), 0, 32)
 pygame.display.set_caption(".:: Raspberry-Red Planet ::.")
 icon = pygame.image.load(jp(bp, "images/icon.png")).convert_alpha()
 pygame.display.set_icon(icon)
@@ -114,6 +114,7 @@ pygame.display.set_icon(icon)
 display = pygame.Surface(map_size)
 # clock to control the FPS
 clock = pygame.time.Clock()
+
 # menu music
 pygame.mixer.music.load(jp(bp, "sounds/ingame.ogg"))
 pygame.mixer.music.play()
@@ -136,7 +137,7 @@ while True:
 
     # scale x 3 the map and transfer to screen
     screen.blit(pygame.transform.scale(display, base_screen_size), 
-    ((screen.get_width() - base_screen_size[0]) // 2, 
-    (screen.get_height() - base_screen_size[1]) // 2))
+    ((screen.get_width() - base_screen_size[0]) // 2, # horizontally centred
+    screen.get_height() - base_screen_size[1] - 20)) # room for the scoreboard
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS

@@ -9,5 +9,6 @@ HECHO
 
 POR HACER
 =========
+- Menu con imagen de fondo
 - Gestión de pantalla completa (probar en raspberry)
 - Comprobación de video acelerado por hardware para compilación condicional
