@@ -4,12 +4,10 @@ RASPBERRY-RED PLANET
 HECHO
 =====
 14/05/22 - Cargar mapa de TILED 
-14/05/22 - Pintar los tiles de la pantalla a partir de las tuplas del mapa
-15/05/22 - Navegador de mapeado
+14/05/22 - Pintar los tiles de la pantalla a partir de las listas del mapa
+16/05/22 - Cargar música (wav->ogg https://audio.online-convert.com/convert-to-ogg)
 
 POR HACER
 =========
-- Pantalla completa
-- Cargar música de tacha; wyz -> ogg
-
-
+- Gestión de pantalla completa (probar en raspberry)
+- Comprobación de video acelerado por hardware para compilación condicional

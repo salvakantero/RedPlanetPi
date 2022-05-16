@@ -1,5 +1,5 @@
-Resumen tutorial PYGAME
-=======================
+Resumen tutorial PYGAME rev.2
+=============================
 
 Para instalar pygame, basta con abrir una consola de comandos en un sistema con
 Python 3 y teclear: "pip install pygame".

@@ -1,5 +1,5 @@
-Resumen tutorial Python 3 v1.1
-==============================
+Resumen tutorial Python 3 rev.2
+===============================
 
 INTRODUCCIÓN
 ============
