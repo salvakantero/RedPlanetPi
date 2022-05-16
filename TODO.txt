@@ -7,8 +7,42 @@ HECHO
 14/05/22 - Pintar los tiles de la pantalla a partir de las listas del mapa
 16/05/22 - Cargar música (wav->ogg https://audio.online-convert.com/convert-to-ogg)
 
+EN PROCESO
+==========
+- Mapeado completo
+- Navegador temporal de mapeado con carga de malotes y objetos
+- Adaptar colores de tiles y sprites
+
 POR HACER
 =========
-- Menu con imagen de fondo
+- Gestión de textos con FONT.PNG
+- Menu inicial con imagen de fondo de MasterKlown
+- Marcador
+- Nombres de pantalla
+- Colocación de malotes y objetos a partir de ENEMS.H
+- Movimiento lineal de malotes
+- Movimiento diagonal de malotes
+- Movimiento flotante de malotes
+- Sprite plataforma móvil
+- Convertir navegador de mapeado en la opción TOUR-DEMO
+- Gestión de teclado (redefinible)
+- Teclas especiales; Pause y Mute
+- Gestión de Keko; movimiento y saltos
+- Tiles pasables, bloqueantes, matantes, y plataformas
+- Colisiones entre Keko y malotes
+- Keko es invencible los primeros 5 segundos (parpadea)
+- Adaptar las músicas definitivas de tacha a OGG e implementar
+- Adaptar los SFX a WAV e implementar
+- Gestión de objetos de tipo TARJETA (abrir puertas)
+- Gestión de objetos de tipo EXPLOSIVO
+- Gestión de disparos de Keko
+- Gestión de objetos de tipo MUNICIÓN
+- Gestión de tiempo de oxígeno
+- Gestión de objetos de tipo OXÍGENO
+- Usar sistema de partículas para explosiones
+- Puntos en pantalla de juego
+- Bucle de juego, gameover y final
+- Pantalla final
 - Gestión de pantalla completa (probar en raspberry)
 - Comprobación de video acelerado por hardware para compilación condicional
+- Revisar, simplificar, organizar y comentar el código fuente final
