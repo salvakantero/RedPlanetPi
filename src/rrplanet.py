@@ -129,9 +129,17 @@ while True:
             if event.key == K_ESCAPE: # exit by pressing ESC key
                 pygame.quit()
                 sys.exit()
+            # ========================== temporal code
+            if event.key == K_RIGHT:
+                if map_number < 9:
+                    map_number += 1
+            if event.key == K_LEFT:
+                if map_number > 0:
+                    map_number -= 1
+            # ==========================
 
     # change map if neccessary
-    if (map_number != last_map):
+    if map_number != last_map:
         LoadMap(map_number)
         last_map = map_number
 
