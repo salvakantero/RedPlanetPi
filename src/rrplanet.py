@@ -146,6 +146,7 @@ def DrawMapTitle(map_number):
 
 # Initialisation
 pygame.init()
+pygame.mixer.init()
 # generates a main window with title, icon, and 32-bit colour.
 screen = pygame.display.set_mode((800, 600), 0, 32)
 pygame.display.set_caption(".:: Raspberry-Red Planet ::.")
