@@ -26,6 +26,40 @@ map_size = 240, 160 # map size (unscaled)
 map_number = 0 # required map number
 last_map = -1 # last map loaded
 
+# map names
+map_names = {
+    0  : "!!!!!!!_CONTROL_CENTRE_!!!!!!!",
+	1  : "!!!!!!!_SUPPLY_DEPOT_1_!!!!!!!",
+	2  : "!!!!_CENTRAL_HALL_LEVEL_0_!!!!",
+	3  : "!!!_TOXIC_WASTE_STORAGE_1A_!!!",
+    4  : "!!!_TOXIC_WASTE_STORAGE_1B_!!!",
+	5  : "!!!_WEST_PASSAGE__LEVEL_-1_!!!",
+	6  : "!!_ACCESS_TO_WEST_PASSAGES_!!!",
+	7  : "!!!_CENTRAL_HALL__LEVEL_-1_!!!",
+	8  : "!!!!!_ACCESS_TO_DUNGEONS_!!!!!",
+	9  : "!!!!!!!!!!_DUNGEONS_!!!!!!!!!!",
+	10 : "!!!_WEST_PASSAGE__LEVEL_-2_!!!",
+	11 : "!!!!!!!_SUPPLY_DEPOT_2_!!!!!!!",
+	12 : "!!!_CENTRAL_HALL__LEVEL_-2_!!!",
+	13 : "!!_ACCESS_TO_SOUTHEAST_EXIT_!!",
+	14 : "!!!!_EXIT_TO_UNDERGROUND_!!!!!",
+	15 : "!!!!!!!_PELUSOIDS_LAIR_!!!!!!!",
+	16 : "!!!!!_ALVARITOS_GROTTO_2_!!!!!",
+	17 : "!!!!!_ALVARITOS_GROTTO_1_!!!!!",
+	18 : "!!!_TOXIC_WASTE_STORAGE_2A_!!!",
+	19 : "!!!!!_UNDERGROUND_TUNNEL_!!!!!",
+	20 : "!!!!!_SIDE_HALL_LEVEL_-4_!!!!!",
+	21 : "!!!!!_ARACHNOVIRUS_LAIR_!!!!!!",
+	22 : "!!!!_UNSTABLE_CORRIDORS_1_!!!!",
+	23 : "!!!!_UNSTABLE_CORRIDORS_2_!!!!",
+	24 : "!!!_TOXIC_WASTE_STORAGE_2B_!!!",
+	25 : "!!!!!_SIDE_HALL_LEVEL_-5_!!!!!",
+	26 : "!!!!!!_ABANDONED_MINE_1_!!!!!!",
+	27 : "!!!!!!_ABANDONED_MINE_2_!!!!!!",
+	28 : "!!!!!!_ABANDONED_MINE_3_!!!!!!",
+	29 : "!!!!_EXPLOSIVES_STOCKPILE_!!!!",
+    30 : "!!!_BACK_TO_CONTROL_CENTER_!!!",
+}
 
 
 #===============================================================================
@@ -50,6 +84,7 @@ def LoadMap(map_number):
     global map_data
     map_data = ProcessMap(jp(bp, "maps/map" + str(map_number) + ".json"))
     DrawMap()
+    DrawMapTitle(map_number)
 
 
 
@@ -99,6 +134,12 @@ def DrawMap():
 
 
 
+# print the screen title at the top of the screen
+def DrawMapTitle(map_number):
+    pass
+
+
+
 #===============================================================================
 # Main
 #===============================================================================
@@ -129,9 +170,10 @@ while True:
             if event.key == K_ESCAPE: # exit by pressing ESC key
                 pygame.quit()
                 sys.exit()
+
             # ========================== temporal code
             if event.key == K_RIGHT:
-                if map_number < 9:
+                if map_number < 14:
                     map_number += 1
             if event.key == K_LEFT:
                 if map_number > 0:

@@ -6,16 +6,17 @@ HECHO
 14/05/22 - Cargar mapa de TILED 
 14/05/22 - Pintar los tiles de la pantalla a partir de las listas del mapa
 16/05/22 - Cargar música (wav->ogg https://audio.online-convert.com/convert-to-ogg)
+21/05/22 - Mapeado 1ª parte superficie
 
 EN PROCESO
 ==========
-- Mapeado completo
+- Mapeado 2ª parte subsuelo
 - Navegador temporal de mapeado con carga de malotes y objetos
 - Adaptar colores de tiles y sprites
 
 POR HACER
 =========
-- Gestión de textos con FONT.PNG
+- Gestión de textos con gráfico FONT.PNG
 - Menu inicial con imagen de fondo de MasterKlown
 - Marcador
 - Nombres de pantalla
