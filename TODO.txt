@@ -10,12 +10,12 @@ HECHO
 
 EN PROCESO
 ==========
-- Mapeado 2ª parte subsuelo
 - Navegador temporal de mapeado con carga de malotes y objetos
 - Adaptar colores de tiles y sprites
 
 POR HACER
 =========
+- Mapeado 2ª parte subsuelo
 - Gestión de textos con gráfico FONT.PNG
 - Menu inicial con imagen de fondo de MasterKlown
 - Marcador
