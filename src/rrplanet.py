@@ -152,8 +152,8 @@ map_display = pygame.Surface(map_unscaled_size)
 clock = pygame.time.Clock()
 
 # menu music
-pygame.mixer.music.load(jp(bp, "sounds/ingame.ogg"))
-pygame.mixer.music.play()
+# pygame.mixer.music.load(jp(bp, "sounds/ingame.ogg"))
+# pygame.mixer.music.play()
 
 # Main loop
 while True:
