@@ -8,7 +8,7 @@
  "margin":0,
  "name":"tileset",
  "spacing":0,
- "tilecount":32,
+ "tilecount":33,
  "tiledversion":"1.8.4",
  "tileheight":16,
  "tiles":[
@@ -201,6 +201,12 @@
         {
          "id":31,
          "image":"..\/images\/T60.png",
+         "imageheight":16,
+         "imagewidth":16
+        }, 
+        {
+         "id":32,
+         "image":"..\/images\/T13.png",
          "imageheight":16,
          "imagewidth":16
         }],
