@@ -15,6 +15,7 @@ EN PROCESO
 
 POR HACER
 =========
+- Filtro Scanlines rápido
 - Mapeado 2ª parte subsuelo
 - Gestión de textos con gráfico FONT.PNG
 - Menu inicial con imagen de fondo de MasterKlown

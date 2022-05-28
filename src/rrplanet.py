@@ -143,7 +143,7 @@ pygame.init()
 pygame.mixer.init()
 # generates a main window with title, icon, and 32-bit colour.
 screen = pygame.display.set_mode(win_size, 0, 32)
-pygame.display.set_caption(".:: Raspberry-Red Planet ::.")
+pygame.display.set_caption(".:: Raspi-Red Planet ::.")
 icon = pygame.image.load(jp(bp, "images/icon.png")).convert_alpha()
 pygame.display.set_icon(icon)
 # area covered by the map
@@ -184,5 +184,12 @@ while True:
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), 
     ((screen.get_width() - map_scaled_size[0]) // 2, # horizontally centred
     screen.get_height() - map_scaled_size[1] - 20)) # room for the scoreboard
+
+    # scanlines
+    j = 0
+    for i in range(192):
+        j+=3
+        pygame.draw.line(screen, (15,15,15), (40,j), (760, j))
+
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
