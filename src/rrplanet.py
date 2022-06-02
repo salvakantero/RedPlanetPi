@@ -4,7 +4,6 @@
 # salvaKantero 2022
 # ==============================================================================
 
-from turtle import window_height
 import pygame # pygame library functions
 import os # file operations
 import json # json file management
@@ -22,13 +21,14 @@ bp = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
 jp = os.path.join # forms the folder/file path
 
 win_size = 800, 600 # main window size
-map_scaled_size = 720, 480 # map size (scaled)
+map_scaled_size = 720, 480 # map size (scaled x3)
 map_unscaled_size = 240, 160 # map size (unscaled)
-
-map_number = 0 # required map number
+sb_scaled_size = 720, 60 # scoreboard size (scaled x3)
+sb_unscaled_size = 240, 20 # scoreboard size (unscaled)
+map_number = 0 # current map number
 last_map = -1 # last map loaded
 
-# map names
+# screen names
 map_names = {
     0  : "!!!!!!!_CONTROL_CENTRE_!!!!!!!",
 	1  : "!!!!!!!_SUPPLY_DEPOT_1_!!!!!!!",
@@ -78,6 +78,7 @@ def FindData(lst, key, value):
 
 
 
+# returns a part of the surface
 def clip(surf,x,y,x_size,y_size):
     handle_surf = surf.copy()
     clipR = pygame.Rect(x,y,x_size,y_size)
@@ -87,7 +88,7 @@ def clip(surf,x,y,x_size,y_size):
 
 
 
-# cambia el color transparente de una imagen
+# change one colour for another
 def swap_color(img,old_c,new_c):
     global e_colorkey
     img.set_colorkey(old_c)
@@ -160,39 +161,47 @@ def DrawMap():
 # Font functions
 #===============================================================================
 
-# carga las letras de la imagen de fuente
-def load_font_img(path, font_color):
-    fg_color = (255, 0, 0) # rojo
-    bg_color = (0, 0, 0) # negro
-    font_img = pygame.image.load(jp(bp,path)).convert() # carga la imagen de fuente
-    font_img = swap_color(font_img, fg_color, font_color) # aplica el color de fuente solicitado
+# loads the letters of the font image
+def load_font_img(path, font_color, transparent):
+    fg_color = (255, 0, 0) # red
+    bg_color = (0, 0, 0) # black
+    font_img = pygame.image.load(jp(bp,path)).convert() # load font image
+    font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
     last_x = 0
     letters = []
     letter_spacing = []
-    for x in range(font_img.get_width()): # para todo el ancho de la imagen
-        if font_img.get_at((x, 0))[0] == 127: # separador rojo
-            # guarda en el array la porción de imagen con la letra que nos interesa
+    for x in range(font_img.get_width()): # for the entire width of the image
+        if font_img.get_at((x, 0))[0] == 127: # red separator
+            # saves in the array the portion of the image with the letter we are interested in.
             letters.append(clip(font_img, last_x, 0, x - last_x, font_img.get_height()))
-            # guarda el ancho de la letra
+            # saves the width of the letter
             letter_spacing.append(x - last_x)
             last_x = x + 1
         x += 1
-    for letter in letters:
-        letter.set_colorkey(bg_color)  # aplica color de fondo a cada letra del array
+
+    if transparent:
+        # applies background colour to each letter in the array
+        for letter in letters:
+            letter.set_colorkey(bg_color) 
+
     return letters, letter_spacing, font_img.get_height()
 
 
 
-# crea una fuente nueva a partir de una ruta de imagen y un color
+# creates a new font from an image path and a colour
 class Font():
-    def __init__(self, path, color):
-        self.letters, self.letter_spacing, self.line_height = load_font_img(path, color)
-        self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','.','-',',',':','+','\'','!','?','0','1','2','3','4','5','6','7','8','9','(',')','/','_','=','\\','[',']','*','"','<','>',';']
+    def __init__(self, path, color, transparent):
+        self.letters, self.letter_spacing, self.line_height = load_font_img(path, color, transparent)
+        self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
+        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e',
+        'f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w',
+        'x','y','z','.','-',',',':','+','\'','!','?','0','1','2','3','4','5',
+        '6','7','8','9','(',')','/','_','=','\\','[',']','*','"','<','>',';']
         self.space_width = self.letter_spacing[0]
         self.base_spacing = 1
         self.line_spacing = 2
 
-    # retorna ancho de un texto
+    # returns the width in pixels of the text
     def width(self, text):
         text_width = 0
         for char in text:
@@ -202,7 +211,7 @@ class Font():
                 text_width += self.letter_spacing[self.font_order.index(char)] + self.base_spacing
         return text_width
 
-    # pinta texto
+    # draw the text
     def render(self, text, surf, loc, line_width=0):
         x_offset = 0
         y_offset = 0
@@ -225,18 +234,18 @@ class Font():
                         text = text[:spaces[i - 1][1]] + '\n' + text[spaces[i - 1][1] + 1:]
         for char in text:
             if char not in ['\n', ' ']:
-                # pinta la letra y suma el ancho
+                # draw the letter and add the width
                 surf.blit(self.letters[self.font_order.index(char)], (loc[0] + x_offset, loc[1] + y_offset))
                 x_offset += self.letter_spacing[self.font_order.index(char)] + self.base_spacing
             elif char == ' ':
                 x_offset += self.space_width + self.base_spacing
-            else: # salto de línea
+            else: # line feed
                 y_offset += self.line_spacing + self.line_height
                 x_offset = 0
     
 
 
-# pinta texto con borde
+# draws text with border
 def outlined_text(bg_font, fg_font, t, surf, pos):
     bg_font.render(t, surf, [pos[0] - 1, pos[1]])
     bg_font.render(t, surf, [pos[0] + 1, pos[1]])
@@ -253,9 +262,9 @@ def outlined_text(bg_font, fg_font, t, surf, pos):
 # scanlines
 def ApplyFilter():
     j = 0
-    while j < win_size[0]:
+    while j < win_size[1] - 22:
         j+=3
-        pygame.draw.line(screen, (15,15,15), (40,j), (760, j))
+        pygame.draw.line(screen, (15, 15, 15), (40, j), (760, j))
 
 
 
@@ -266,16 +275,24 @@ def ApplyFilter():
 # Initialisation
 pygame.init()
 pygame.mixer.init()
+
 # generates a main window with title, icon, and 32-bit colour.
 screen = pygame.display.set_mode(win_size, 0, 32)
 pygame.display.set_caption(".:: Raspi-Red Planet ::.")
 icon = pygame.image.load(jp(bp, "images/icon.png")).convert_alpha()
 pygame.display.set_icon(icon)
-# fonts
-main_font = Font('images/small_font.png', (168, 217, 227)) # texto celeste
-bg_font = Font('images/small_font.png', (28, 17, 24)) # texto casi negro
+
 # area covered by the map
 map_display = pygame.Surface(map_unscaled_size)
+# area covered by the scoreboard
+sb_display = pygame.Surface(sb_unscaled_size)
+
+# fonts
+main_font = Font('images/small_font.png', (255, 255, 255), False) # white
+bg_font = Font('images/small_font.png', (28, 17, 24), False) # almost black
+main_font_L = Font('images/large_font.png', (50, 255, 50), True) # green
+bg_font_L = Font('images/large_font.png', (28, 17, 24), True) # almost black
+
 # clock to control the FPS
 clock = pygame.time.Clock()
 
@@ -309,17 +326,17 @@ while True:
         last_map = map_number
 
     # test 1
-    outlined_text(bg_font, main_font, 'Level - ' + str(map_number), map_display, (8, 5))
-    bg_font.render('Thanks for playing!', map_display, (200 - 1, map_display.get_height() // 3))
-    bg_font.render('Thanks for playing!', map_display, (200 + 1, map_display.get_height() // 3))
-    bg_font.render('Thanks for playing!', map_display, (200, map_display.get_height() // 3 - 1))
-    bg_font.render('Thanks for playing!', map_display, (200, map_display.get_height() // 3 + 1))
-    main_font.render('Thanks for playing!', map_display, (200, map_display.get_height() // 3))
+    outlined_text(bg_font, main_font, 'Level - ' + str(map_number), sb_display, (0, 0))
+    bg_font_L.render('Thanks for playing!', sb_display, (52, 1))
+    main_font_L.render('Thanks for playing!', sb_display, (50, 0))
 
     # scale x 3 the map and transfer to screen
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), 
     ((screen.get_width() - map_scaled_size[0]) // 2, # horizontally centred
     screen.get_height() - map_scaled_size[1] - 20)) # room for the scoreboard
+    # scale x 3 the scoreboard and transfer to screen
+    screen.blit(pygame.transform.scale(sb_display, sb_scaled_size), 
+    ((screen.get_width() - sb_scaled_size[0]) // 2, 0)) # horizontally centred
 
     ApplyFilter() # scanlines
 
