@@ -30,37 +30,37 @@ last_map = -1 # last map loaded
 
 # screen names
 map_names = {
-    0  : "!!!!!!!_CONTROL_CENTRE_!!!!!!!",
-	1  : "!!!!!!!_SUPPLY_DEPOT_1_!!!!!!!",
-	2  : "!!!!_CENTRAL_HALL_LEVEL_0_!!!!",
-	3  : "!!!_TOXIC_WASTE_STORAGE_1A_!!!",
-    4  : "!!!_TOXIC_WASTE_STORAGE_1B_!!!",
-	5  : "!!!_WEST_PASSAGE__LEVEL_-1_!!!",
-	6  : "!!_ACCESS_TO_WEST_PASSAGES_!!!",
-	7  : "!!!_CENTRAL_HALL__LEVEL_-1_!!!",
-	8  : "!!!!!_ACCESS_TO_DUNGEONS_!!!!!",
-	9  : "!!!!!!!!!!_DUNGEONS_!!!!!!!!!!",
-	10 : "!!!_WEST_PASSAGE__LEVEL_-2_!!!",
-	11 : "!!!!!!!_SUPPLY_DEPOT_2_!!!!!!!",
-	12 : "!!!_CENTRAL_HALL__LEVEL_-2_!!!",
-	13 : "!!_ACCESS_TO_SOUTHEAST_EXIT_!!",
-	14 : "!!!!_EXIT_TO_UNDERGROUND_!!!!!",
-	15 : "!!!!!!!_PELUSOIDS_LAIR_!!!!!!!",
-	16 : "!!!!!_ALVARITOS_GROTTO_2_!!!!!",
-	17 : "!!!!!_ALVARITOS_GROTTO_1_!!!!!",
-	18 : "!!!_TOXIC_WASTE_STORAGE_2A_!!!",
-	19 : "!!!!!_UNDERGROUND_TUNNEL_!!!!!",
-	20 : "!!!!!_SIDE_HALL_LEVEL_-4_!!!!!",
-	21 : "!!!!!_ARACHNOVIRUS_LAIR_!!!!!!",
-	22 : "!!!!_UNSTABLE_CORRIDORS_1_!!!!",
-	23 : "!!!!_UNSTABLE_CORRIDORS_2_!!!!",
-	24 : "!!!_TOXIC_WASTE_STORAGE_2B_!!!",
-	25 : "!!!!!_SIDE_HALL_LEVEL_-5_!!!!!",
-	26 : "!!!!!!_ABANDONED_MINE_1_!!!!!!",
-	27 : "!!!!!!_ABANDONED_MINE_2_!!!!!!",
-	28 : "!!!!!!_ABANDONED_MINE_3_!!!!!!",
-	29 : "!!!!_EXPLOSIVES_STOCKPILE_!!!!",
-    30 : "!!!_BACK_TO_CONTROL_CENTER_!!!",
+    0  : ":: Control Centre ::",
+	1  : ":: Supply Depot 1 ::",
+	2  : "CENTRAL HALL LEVEL 0",
+	3  : "TOXIC WASTE STORAGE 1A",
+    4  : "TOXIC WASTE STORAGE 1B",
+	5  : "WEST PASSAGE LEVEL -1",
+	6  : "ACCESS TO WEST PASSAGES",
+	7  : "CENTRAL HALL LEVEL -1",
+	8  : "ACCESS TO DUNGEONS",
+	9  : "DUNGEONS",
+	10 : "WEST PASSAGE LEVEL -2",
+	11 : "SUPPLY DEPOT 2",
+	12 : "CENTRAL HALL LEVEL -2",
+	13 : "ACCESS TO SOUTHEAST EXIT",
+	14 : "EXIT TO UNDERGROUND",
+	15 : "PELUSOIDS LAIR",
+	16 : "ALVARITOS GROTTO 2",
+	17 : "ALVARITOS GROTTO 1",
+	18 : "TOXIC WASTE STORAGE 2A",
+	19 : "UNDERGROUND TUNNEL",
+	20 : "SIDE HALL LEVEL -4",
+	21 : "ARACHNOVIRUS LAIR",
+	22 : "UNSTABLE CORRIDORS 1",
+	23 : "UNSTABLE CORRIDORS 2",
+	24 : "TOXIC WASTE STORAGE 2B",
+	25 : "SIDE HALL LEVEL -5",
+	26 : "ABANDONED MINE 1",
+	27 : "ABANDONED MINE 2",
+	28 : "ABANDONED MINE 3",
+	29 : "EXPLOSIVES STOCKPILE",
+    30 : "BACK TO CONTROL CENTER",
 }
 
 
@@ -108,6 +108,7 @@ def LoadMap(map_number):
     global map_data
     map_data = ProcessMap(jp(bp, "maps/map" + str(map_number) + ".json"))
     DrawMap()
+    DrawMapName()
 
 
 
@@ -142,7 +143,7 @@ def ProcessMap(map_file):
 
 
 
-# loads the tile map on screen
+# draws the tile map on the screen
 def DrawMap():
     # scroll through the map data
     for y in range(0, map_data["height"]):
@@ -157,6 +158,13 @@ def DrawMap():
 
 
 
+# draws the name of the map at the top
+def DrawMapName():
+    #bg_font_L.render(map_names[map_number], sb_display, (2, 1))
+    main_font_L.render(map_names[map_number], sb_display, (0, 0))
+
+
+
 #===============================================================================
 # Font functions
 #===============================================================================
@@ -166,7 +174,8 @@ def load_font_img(path, font_color, transparent):
     fg_color = (255, 0, 0) # red
     bg_color = (0, 0, 0) # black
     font_img = pygame.image.load(jp(bp,path)).convert() # load font image
-    font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
+    if font_color != None:
+        font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
     last_x = 0
     letters = []
     letter_spacing = []
@@ -290,8 +299,8 @@ sb_display = pygame.Surface(sb_unscaled_size)
 # fonts
 main_font = Font('images/small_font.png', (255, 255, 255), False) # white
 bg_font = Font('images/small_font.png', (28, 17, 24), False) # almost black
-main_font_L = Font('images/large_font.png', (50, 255, 50), True) # green
-bg_font_L = Font('images/large_font.png', (28, 17, 24), True) # almost black
+main_font_L = Font('images/large_font.png', None, False) # green
+bg_font_L = Font('images/large_font.png', None, False) # dark green
 
 # clock to control the FPS
 clock = pygame.time.Clock()
@@ -326,9 +335,7 @@ while True:
         last_map = map_number
 
     # test 1
-    outlined_text(bg_font, main_font, 'Level - ' + str(map_number), sb_display, (0, 0))
-    bg_font_L.render('Thanks for playing!', sb_display, (52, 1))
-    main_font_L.render('Thanks for playing!', sb_display, (50, 0))
+    #outlined_text(bg_font, main_font, 'Level - ' + str(map_number), sb_display, (0, 0))
 
     # scale x 3 the map and transfer to screen
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), 
