@@ -160,8 +160,8 @@ def DrawMap():
 
 # draws the name of the map at the top
 def DrawMapName():
-    #bg_font_L.render(map_names[map_number], sb_display, (2, 1))
-    main_font_L.render(map_names[map_number], sb_display, (0, 0))
+    bg_font_L.render(map_names[map_number], sb_display, (2, 1))
+    fg_font_L.render(map_names[map_number], sb_display, (0, 0))
 
 
 
@@ -174,8 +174,7 @@ def load_font_img(path, font_color, transparent):
     fg_color = (255, 0, 0) # red
     bg_color = (0, 0, 0) # black
     font_img = pygame.image.load(jp(bp,path)).convert() # load font image
-    if font_color != None:
-        font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
+    font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
     last_x = 0
     letters = []
     letter_spacing = []
@@ -297,10 +296,10 @@ map_display = pygame.Surface(map_unscaled_size)
 sb_display = pygame.Surface(sb_unscaled_size)
 
 # fonts
-main_font = Font('images/small_font.png', (255, 255, 255), False) # white
-bg_font = Font('images/small_font.png', (28, 17, 24), False) # almost black
-main_font_L = Font('images/large_font.png', None, False) # green
-bg_font_L = Font('images/large_font.png', None, False) # dark green
+#main_font = Font('images/small_font.png', None, False) # original colour (white)
+#bg_font = Font('images/small_font.png', (28, 17, 24), False) # almost black
+fg_font_L = Font('images/large_font.png', (255, 255, 255), True) # white
+bg_font_L = Font('images/large_font.png', (80, 80, 80), False) # dark gray
 
 # clock to control the FPS
 clock = pygame.time.Clock()
