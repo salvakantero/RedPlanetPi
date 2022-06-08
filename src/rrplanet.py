@@ -23,8 +23,8 @@ jp = os.path.join # forms the folder/file path
 win_size = 800, 600 # main window size
 map_scaled_size = 720, 480 # map size (scaled x3)
 map_unscaled_size = 240, 160 # map size (unscaled)
-sboard_scaled_size = 720, 60 # scoreboard size (scaled x3)
-sboard_unscaled_size = 240, 20 # scoreboard size (unscaled)
+sboard_scaled_size = 720, 102 # scoreboard size (scaled x3)
+sboard_unscaled_size = 240, 34 # scoreboard size (unscaled)
 map_number = 0 # current map number
 last_map = -1 # last map loaded
 
@@ -158,13 +158,17 @@ def DrawMap():
 
 # draws the name of the map at the top
 def DrawMapName():
-    x = 0
-    y = sboard_display.get_height()-10
-    sboard_display.fill((40,40,40)) # delete previous text
-    bg_font_L.render(map_names[map_number], sboard_display, (x+2, y+1)) # shadow
-    fg_font_L.render(map_names[map_number], sboard_display, (x, y))
+    name_x = 0
+    name_y = sboard_display.get_height()-14
+    progress_x = sboard_unscaled_size[0] - 20
+    progress_y = name_y
 
+    sboard_display.fill((0,0,0)) # delete previous text
 
+    bg_font_L.render(map_names[map_number], sboard_display, (name_x+2, name_y+1)) # shadow
+    fg_font_L.render(map_names[map_number], sboard_display, (name_x, name_y))
+    bg_font_S.render(str(map_number+1) + '/30', sboard_display, (progress_x+2, progress_y+2))
+    fg_font_S.render(str(map_number+1) + '/30', sboard_display, (progress_x, progress_y))
 
 #===============================================================================
 # Font functions
@@ -270,7 +274,7 @@ def outlined_text(bg_font, fg_font, t, surf, pos):
 # scanlines
 def ApplyFilter():
     j = 0
-    while j < win_size[1] - 22:
+    while j < win_size[1] - 18:
         j+=3
         pygame.draw.line(screen, (15, 15, 15), (40, j), (760, j))
 
@@ -296,8 +300,8 @@ map_display = pygame.Surface(map_unscaled_size)
 sboard_display = pygame.Surface(sboard_unscaled_size)
 
 # fonts
-#main_font = Font('images/small_font.png', None, False) # original colour (white)
-#bg_font = Font('images/small_font.png', (28, 17, 24), False) # almost black
+fg_font_S = Font('images/small_font.png', (0, 255, 0), False) # green
+bg_font_S = Font('images/small_font.png', (0, 80, 0), False) # dark green
 fg_font_L = Font('images/large_font.png', (255, 255, 255), True) # white
 bg_font_L = Font('images/large_font.png', (80, 80, 80), False) # dark gray
 
@@ -339,7 +343,7 @@ while True:
     # scale x 3 the map and transfer to screen
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), 
     ((screen.get_width() - map_scaled_size[0]) // 2, # horizontally centred
-    screen.get_height() - map_scaled_size[1] - 20)) # room for the scoreboard
+    screen.get_height() - map_scaled_size[1] - 14)) # room for the scoreboard
     # scale x 3 the scoreboard and transfer to screen
     screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), 
     ((screen.get_width() - sboard_scaled_size[0]) // 2, 0)) # horizontally centred
