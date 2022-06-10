@@ -8,19 +8,19 @@ HECHO
 16/05/22 - Cargar música (wav->ogg https://audio.online-convert.com/convert-to-ogg)
 21/05/22 - Mapeado 1ª parte; superficie
 03/06/22 - Filtro Scanlines rápido
+09/06/22 - Gestión de textos con gráficos PNG
+09/06/22 - Nombres de pantalla
 
 EN PROCESO
 ==========
 - Navegador temporal de mapeado con carga de malotes y objetos
 - Adaptar colores de tiles y sprites
-- Gestión de textos con gráfico FONT.PNG
 
 POR HACER
 =========
 - Mapeado 2ª parte; subsuelo
 - Menu inicial con imagen de fondo de MasterKlown
 - Marcador
-- Nombres de pantalla
 - Colocación de malotes y objetos a partir de ENEMS.H
 - Movimiento lineal de malotes
 - Movimiento diagonal de malotes

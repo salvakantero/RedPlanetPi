@@ -27,6 +27,7 @@ sboard_scaled_size = 720, 102 # scoreboard size (scaled x3)
 sboard_unscaled_size = 240, 34 # scoreboard size (unscaled)
 map_number = 0 # current map number
 last_map = -1 # last map loaded
+game_percent = 0 # % of gameplay completed
 
 # screen names
 map_names = {
@@ -167,8 +168,10 @@ def DrawMapName():
 
     bg_font_L.render(map_names[map_number], sboard_display, (name_x+2, name_y+1)) # shadow
     fg_font_L.render(map_names[map_number], sboard_display, (name_x, name_y))
-    bg_font_S.render(str(map_number+1) + '/30', sboard_display, (progress_x+2, progress_y+2))
+    bg_font_S.render(str(map_number+1) + '/30', sboard_display, (progress_x+1, progress_y+1))
     fg_font_S.render(str(map_number+1) + '/30', sboard_display, (progress_x, progress_y))
+    bg_font_S.render(str(game_percent) + ';', sboard_display, (progress_x+1, progress_y+8))
+    fg_font_S.render(str(game_percent) + ';', sboard_display, (progress_x, progress_y+7))
 
 #===============================================================================
 # Font functions
@@ -300,7 +303,7 @@ map_display = pygame.Surface(map_unscaled_size)
 sboard_display = pygame.Surface(sboard_unscaled_size)
 
 # fonts
-fg_font_S = Font('images/small_font.png', (0, 255, 0), False) # green
+fg_font_S = Font('images/small_font.png', (0, 255, 0), True) # green
 bg_font_S = Font('images/small_font.png', (0, 80, 0), False) # dark green
 fg_font_L = Font('images/large_font.png', (255, 255, 255), True) # white
 bg_font_L = Font('images/large_font.png', (80, 80, 80), False) # dark gray
