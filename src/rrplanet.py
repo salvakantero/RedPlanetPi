@@ -29,6 +29,24 @@ map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
 
+# colour palette (Pico8)
+BLACK = (0, 0, 0)
+DARK_BLUE = (35, 50, 90)
+PURPLE = (126, 37, 83)
+DARK_GREEN = (0, 135, 81)
+BROWN = (171, 82, 54)
+DARK_GRAY = (95, 87, 79)
+GRAY = (194, 195, 199)
+WHITE = (255, 241, 232)
+RED = (255, 0, 77)
+ORANGE = (255, 163, 0)
+YELLOW = (255, 236, 39)
+GREEN = (0, 228, 54)
+CYAN = (41, 173, 255)
+MALVA = (131, 118, 156)
+PINK = (255, 119, 168)
+SAND = (255, 204, 170)
+
 # screen names
 map_names = {
     0  : "CONTROL CENTRE",
@@ -159,19 +177,20 @@ def DrawMap():
 
 # draws the name of the map at the top
 def DrawMapName():
-    name_x = 0
-    name_y = sboard_display.get_height()-14
-    progress_x = sboard_unscaled_size[0] - 20
-    progress_y = name_y
+    x = 0
+    y = sboard_display.get_height()-15
+    progress_x = sboard_unscaled_size[0] - 60
+    text_1 = 'SCREEN:   ' +str(map_number+1) + '/30'
+    text_2 = 'COMPLETED: ' + str(game_percent) + ';'
 
     sboard_display.fill((0,0,0)) # delete previous text
 
-    bg_font_L.render(map_names[map_number], sboard_display, (name_x+2, name_y+1)) # shadow
-    fg_font_L.render(map_names[map_number], sboard_display, (name_x, name_y))
-    bg_font_S.render(str(map_number+1) + '/30', sboard_display, (progress_x+1, progress_y+1))
-    fg_font_S.render(str(map_number+1) + '/30', sboard_display, (progress_x, progress_y))
-    bg_font_S.render(str(game_percent) + ';', sboard_display, (progress_x+1, progress_y+8))
-    fg_font_S.render(str(game_percent) + ';', sboard_display, (progress_x, progress_y+7))
+    bg_font_L.render(map_names[map_number], sboard_display, (x+2, y+2)) # shadow
+    fg_font_L.render(map_names[map_number], sboard_display, (x, y+1))
+    bg_font_S.render(text_1, sboard_display, (progress_x+1, y+1)) # shadow
+    fg_font_S.render(text_1, sboard_display, (progress_x, y))
+    bg_font_S.render(text_2, sboard_display, (progress_x+1, y+9)) # shadow
+    fg_font_S.render(text_2, sboard_display, (progress_x, y+8))
 
 #===============================================================================
 # Font functions
@@ -303,10 +322,10 @@ map_display = pygame.Surface(map_unscaled_size)
 sboard_display = pygame.Surface(sboard_unscaled_size)
 
 # fonts
-fg_font_S = Font('images/small_font.png', (0, 255, 0), True) # green
-bg_font_S = Font('images/small_font.png', (0, 80, 0), False) # dark green
-fg_font_L = Font('images/large_font.png', (255, 255, 255), True) # white
-bg_font_L = Font('images/large_font.png', (80, 80, 80), False) # dark gray
+fg_font_S = Font('images/small_font.png', GREEN, True)
+bg_font_S = Font('images/small_font.png', DARK_GREEN, False)
+fg_font_L = Font('images/large_font.png', WHITE, True)
+bg_font_L = Font('images/large_font.png', DARK_GRAY, False)
 
 # clock to control the FPS
 clock = pygame.time.Clock()
