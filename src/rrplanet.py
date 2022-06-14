@@ -108,7 +108,6 @@ def Clip(surf,x,y,x_size,y_size):
 
 # change one colour for another
 def SwapColor(img,old_c,new_c):
-    #global e_colorkey
     img.set_colorkey(old_c)
     surf = img.copy()
     surf.fill(new_c)
@@ -135,7 +134,6 @@ def ProcessMap(map_file):
     # reads the entire contents of the json
     with open(map_file) as json_data:
         data_readed = json.load(json_data)
-
     # gets the map dimensions
     data = {"width": data_readed["width"], "height": data_readed["height"]}
     # gets a list of all tiles
@@ -178,8 +176,9 @@ def DrawMap():
 # draws the name of the map at the top
 def DrawMapName():
     x = 0
-    y = sboard_display.get_height()-15
+    y = sboard_display.get_height()-bg_font_L.line_height+1
     progress_x = sboard_unscaled_size[0] - 60
+
     text_1 = 'SCREEN:   ' +str(map_number+1) + '/30'
     text_2 = 'COMPLETED: ' + str(game_percent) + ';'
 
@@ -192,14 +191,14 @@ def DrawMapName():
     bg_font_S.render(text_1, sboard_display, (progress_x+1, y+1)) # shadow
     fg_font_S.render(text_1, sboard_display, (progress_x, y))
     # game percentage
-    bg_font_S.render(text_2, sboard_display, (progress_x+1, y+9)) # shadow
-    fg_font_S.render(text_2, sboard_display, (progress_x, y+8))
+    bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
+    fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
 
 #===============================================================================
 # Font functions
 #===============================================================================
 
-# loads the letters of the font image
+# generates the letters (and letter spacing) from the font image
 def load_font_img(path, font_color, is_transparent):
     fg_color = (255, 0, 0) # original red
     bg_color = (0, 0, 0) # black
@@ -238,37 +237,10 @@ class Font():
         self.base_spacing = 1
         self.line_spacing = 2
 
-    # returns the width in pixels of the text
-    def width(self, text):
-        text_width = 0
-        for char in text:
-            if char == ' ':
-                text_width += self.space_width + self.base_spacing
-            else:
-                text_width += self.letter_spacing[self.font_order.index(char)] + self.base_spacing
-        return text_width
-
     # draw the text
-    def render(self, text, surf, loc, line_width=0):
+    def render(self, text, surf, loc):
         x_offset = 0
         y_offset = 0
-        if line_width != 0:
-            spaces = []
-            x = 0
-            # ?
-            for i, char in enumerate(text):
-                if char == ' ':
-                    spaces.append((x, i))
-                    x += self.space_width + self.base_spacing
-                else:
-                    x += self.letter_spacing[self.font_order.index(char)] + self.base_spacing
-            line_offset = 0
-            # ?
-            for i, space in enumerate(spaces):
-                if (space[0] - line_offset) > line_width:
-                    line_offset += spaces[i - 1][0] - line_offset
-                    if i != 0:
-                        text = text[:spaces[i - 1][1]] + '\n' + text[spaces[i - 1][1] + 1:]
         for char in text:
             if char not in ['\n', ' ']:
                 # draw the letter and add the width
