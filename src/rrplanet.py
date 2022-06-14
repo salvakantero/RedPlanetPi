@@ -27,7 +27,7 @@ sboard_scaled_size = 720, 102 # scoreboard size (scaled x3)
 sboard_unscaled_size = 240, 34 # scoreboard size (unscaled)
 map_number = 0 # current map number
 last_map = -1 # last map loaded
-game_percent = 0 # % of gameplay completed
+game_percent = 30 # % of gameplay completed
 
 # colour palette (Pico8)
 BLACK = (0, 0, 0)
@@ -185,10 +185,13 @@ def DrawMapName():
 
     sboard_display.fill((0,0,0)) # delete previous text
 
+    # map name
     bg_font_L.render(map_names[map_number], sboard_display, (x+2, y+2)) # shadow
     fg_font_L.render(map_names[map_number], sboard_display, (x, y+1))
+    # map number
     bg_font_S.render(text_1, sboard_display, (progress_x+1, y+1)) # shadow
     fg_font_S.render(text_1, sboard_display, (progress_x, y))
+    # game percentage
     bg_font_S.render(text_2, sboard_display, (progress_x+1, y+9)) # shadow
     fg_font_S.render(text_2, sboard_display, (progress_x, y+8))
 
