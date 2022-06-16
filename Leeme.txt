@@ -1,7 +1,7 @@
 
-====================
-RASPBERRY-RED PLANET
-====================
+================
+RASPI-RED PLANET
+================
 © 2015/2022
 
 Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.

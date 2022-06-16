@@ -1,7 +1,7 @@
 
-====================
-RASPBERRY-RED PLANET
-====================
+================
+RASPI-RED PLANET
+================
 © 2015/2022
 
 Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.

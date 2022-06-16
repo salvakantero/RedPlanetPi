@@ -1,5 +1,5 @@
-RASPBERRY-RED PLANET
-====================
+RASPI-RED PLANET
+================
 
 HECHO
 =====
