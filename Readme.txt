@@ -63,5 +63,4 @@ RASPBERRY-RED PLANET
 salvaKantero:   Program, GFX, SFX
 tacha:          Music
 Masterklown:    Cover
-Blackmores:     Betatesting
 
