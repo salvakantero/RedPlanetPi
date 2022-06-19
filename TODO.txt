@@ -14,11 +14,12 @@ HECHO
 EN PROCESO
 ==========
 - Navegador temporal de mapeado con carga de malotes y objetos
-- Adaptar colores de tiles y sprites
+- Adaptar colores de tiles
 
 POR HACER
 =========
 - Mapeado 2ª parte; subsuelo
+- Adaptar colores de sprites
 - Menu inicial con imagen de fondo de MasterKlown
 - Marcador
 - Colocación de malotes y objetos a partir de ENEMS.H
