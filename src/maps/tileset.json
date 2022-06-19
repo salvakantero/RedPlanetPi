@@ -8,7 +8,7 @@
  "margin":0,
  "name":"tileset",
  "spacing":0,
- "tilecount":32,
+ "tilecount":33,
  "tiledversion":"1.8.2",
  "tileheight":16,
  "tiles":[
@@ -91,115 +91,121 @@
          "imagewidth":16
         }, 
         {
-         "id":13,
+         "id":16,
          "image":"..\/images\/T16.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":14,
+         "id":17,
          "image":"..\/images\/T17.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":15,
+         "id":18,
          "image":"..\/images\/T18.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":16,
+         "id":19,
          "image":"..\/images\/T19.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":17,
+         "id":20,
          "image":"..\/images\/T20.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":18,
+         "id":21,
          "image":"..\/images\/T21.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":19,
+         "id":22,
          "image":"..\/images\/T22.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":20,
+         "id":23,
          "image":"..\/images\/T23.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":21,
+         "id":24,
          "image":"..\/images\/T24.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":22,
+         "id":25,
          "image":"..\/images\/T25.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":23,
+         "id":26,
          "image":"..\/images\/T26.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":24,
+         "id":27,
          "image":"..\/images\/T27.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":25,
+         "id":28,
          "image":"..\/images\/T28.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":26,
+         "id":29,
+         "image":"..\/images\/T29.png",
+         "imageheight":16,
+         "imagewidth":16
+        },
+        {
+         "id":40,
          "image":"..\/images\/T40.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":27,
+         "id":50,
          "image":"..\/images\/T50.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":28,
+         "id":51,
          "image":"..\/images\/T51.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":29,
+         "id":52,
          "image":"..\/images\/T52.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":30,
+         "id":53,
          "image":"..\/images\/T53.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":31,
+         "id":60,
          "image":"..\/images\/T60.png",
          "imageheight":16,
          "imagewidth":16

@@ -27,7 +27,7 @@ sboard_scaled_size = 720, 102 # scoreboard size (scaled x3)
 sboard_unscaled_size = 240, 34 # scoreboard size (unscaled)
 map_number = 0 # current map number
 last_map = -1 # last map loaded
-game_percent = 30 # % of gameplay completed
+game_percent = 0 # % of gameplay completed
 
 # colour palette (Pico8)
 BLACK = (0, 0, 0)
@@ -173,14 +173,23 @@ def DrawMap():
 
 
 
-# draws the name of the map at the top
+# draws the name of the map and other data at the top
 def DrawMapName():
     x = 0
     y = sboard_display.get_height()-bg_font_L.line_height+1
-    progress_x = sboard_unscaled_size[0] - 60
-
-    text_1 = 'SCREEN:   ' +str(map_number+1) + '/30'
-    text_2 = 'COMPLETED: ' + str(game_percent) + ';'
+    progress_x = sboard_unscaled_size[0] - 55
+    
+    if map_number < 9:
+        text_1 = 'SCREEN.......'
+    else:
+        text_1 = 'SCREEN.....'
+    if game_percent < 10:
+        text_2 = 'COMPLETED....'
+    else:
+        text_2 = 'COMPLETED..'
+    
+    text_1 += str(map_number+1) + '/30'
+    text_2 += str(game_percent) + ';'
 
     sboard_display.fill((0,0,0)) # delete previous text
 
@@ -193,6 +202,20 @@ def DrawMapName():
     # game percentage
     bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
     fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
+
+
+
+#===============================================================================
+# Scoreboard functions
+#===============================================================================
+
+def InitScoreboard():
+    pass
+
+
+
+def UpdateScoreboard():
+    pass
 
 #===============================================================================
 # Font functions
