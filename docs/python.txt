@@ -77,6 +77,16 @@ False: El valor false del tipo bool.
 True: El valor true del tipo bool.
 None: El valor del tipo NoneType. (ausencia de valor de una variable)
 
+Para dividir un programa largo en partes, lo ideal es agrupar las funciones con
+propósitos comunes en archivos propios *.py dentro de la misma carpeta, y cargar
+dichas funciones con parámetros. Las referencias a los módulos y variables se
+harían de la siguiente manera:
+
+from time import asctime
+from generic import *
+
+import globalvars
+globalvars.text1 = "Esta variable es global";
 
 
 VARIABLES

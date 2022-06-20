@@ -15,10 +15,10 @@ EN PROCESO
 ==========
 - Navegador temporal de mapeado con carga de malotes y objetos
 - Adaptar colores de tiles
+- Mapeado 2ª parte; subsuelo
 
 POR HACER
 =========
-- Mapeado 2ª parte; subsuelo
 - Adaptar colores de sprites
 - Menu inicial con imagen de fondo de MasterKlown
 - Marcador

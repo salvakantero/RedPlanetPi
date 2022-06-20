@@ -6,19 +6,19 @@
 
 import pygame # pygame library functions
 import os # file operations
-import json # json file management
 import sys # exit()
+
 from pygame.locals import * # allows constants without typing "pygame."
 from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT) 
+
+from maps import load_map # map functions
+from texts import Font # text and fonts functions
 
 
 
 #===============================================================================
 # Global vars
 #===============================================================================
-
-p = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
-jp = os.path.join # forms the folder/file path
 
 win_size = 800, 600 # main window size
 map_scaled_size = 720, 480 # map size (scaled x3)
@@ -85,96 +85,11 @@ map_names = {
 
 
 #===============================================================================
-# Generic functions
+# Scoreboard functions
 #===============================================================================
-
-# get a value from a dictionary
-def FindData(lst, key, value):
-    for i, dic in enumerate(lst):
-        if dic[key] == value:
-            return dic
-    return -1
-
-
-
-# returns a part of the surface
-def Clip(surf,x,y,x_size,y_size):
-    handle_surf = surf.copy()
-    handle_surf.set_clip(pygame.Rect(x,y,x_size,y_size))
-    image = surf.subsurface(handle_surf.get_clip())
-    return image.copy()
-
-
-
-# change one colour for another
-def SwapColor(img,old_c,new_c):
-    img.set_colorkey(old_c)
-    surf = img.copy()
-    surf.fill(new_c)
-    surf.blit(img,(0,0))
-    return surf
-
-
-
-#===============================================================================
-# Map functions
-#===============================================================================
-
-# loads a map and draws it on screen
-def LoadMap(map_number):
-    global map_data
-    map_data = ProcessMap(jp(p, "maps/map" + str(map_number) + ".json"))
-    DrawMap() # draws the tile map on the screen
-    DrawMapName() # draws the name of the map at the top
-
-
-
-# dump tiled map into 'mapdata'
-def ProcessMap(map_file):
-    # reads the entire contents of the json
-    with open(map_file) as json_data:
-        data_readed = json.load(json_data)
-    # gets the map dimensions
-    data = {"width": data_readed["width"], "height": data_readed["height"]}
-    # gets a list of all tiles
-    raw_data = data_readed["layers"][0]["data"]
-    data["data"] = []
-    # divides the list into tile lines, according to the map dimensions
-    for x in range(0, data["height"]):
-        st = x * data["width"]
-        data["data"].append(raw_data[st: st + data["width"]])
-    # gets the name of the tile file
-    tileset = data_readed["tilesets"][0]["source"].replace(".tsx",".json")
-    # gets the data from the tile file
-    with open(jp(p,"maps/" + tileset)) as json_data:
-        t = json.load(json_data)
-    # removes the path to each image from the tile file
-    data["tiles"] = t["tiles"]
-    for tile in range(0, len(data["tiles"])):
-        path = data["tiles"][tile]["image"]
-        data["tiles"][tile]["image"] = os.path.basename(path)
-        data["tiles"][tile]["id"] = data["tiles"][tile]["id"] + 1
-    return data
-
-
-
-# draws the tile map on the screen
-def DrawMap():
-    # scroll through the map data
-    for y in range(0, map_data["height"]):
-        for x in range(0, map_data["width"]):
-            # gets the tile number from the list
-            t = FindData(map_data["tiles"], "id", map_data["data"][y][x])
-            # draws the selected tile
-            tile = pygame.image.load(jp(p, "images/" + t["image"])).convert()
-            tileRect = tile.get_rect()
-            tileRect.topleft = (x * t["imagewidth"], y * t["imageheight"])   
-            map_display.blit(tile, tileRect)
-
-
 
 # draws the name of the map and other data at the top
-def DrawMapName():
+def draw_map_info():
     x = 0
     y = sboard_display.get_height()-bg_font_L.line_height+1
     progress_x = sboard_unscaled_size[0] - 55
@@ -205,85 +120,13 @@ def DrawMapName():
 
 
 
-#===============================================================================
-# Scoreboard functions
-#===============================================================================
-
-def InitScoreboard():
+def init_scoreboard():
     pass
 
 
 
-def UpdateScoreboard():
+def update_scoreboard():
     pass
-
-#===============================================================================
-# Font functions
-#===============================================================================
-
-# generates the letters (and letter spacing) from the font image
-def load_font_img(path, font_color, is_transparent):
-    fg_color = (255, 0, 0) # original red
-    bg_color = (0, 0, 0) # black
-    font_img = pygame.image.load(jp(p,path)).convert() # load font image
-    font_img = SwapColor(font_img, fg_color, font_color) # apply the requested font colour
-    last_x = 0
-    letters = []
-    letter_spacing = []
-    for x in range(font_img.get_width()): # for the entire width of the image
-        if font_img.get_at((x, 0))[0] == 127: # gray separator
-            # saves in the array the portion of the image with the letter we are interested in.
-            letters.append(Clip(font_img, last_x, 0, x - last_x, font_img.get_height()))
-            # saves the width of the letter
-            letter_spacing.append(x - last_x)
-            last_x = x + 1
-        x += 1
-    if is_transparent:
-        # erases the background colour of each letter in the array
-        for letter in letters:
-            letter.set_colorkey(bg_color) 
-
-    return letters, letter_spacing, font_img.get_height()
-
-
-
-# creates a new font from an image path and a colour
-class Font():
-    def __init__(self, path, color, transparent):
-        self.letters, self.letter_spacing, self.line_height = load_font_img(path, color, transparent)
-        self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
-        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e',
-        'f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w',
-        'x','y','z','.','-',',',':','+','\'','!','?','0','1','2','3','4','5',
-        '6','7','8','9','(',')','/','_','=','\\','[',']','*','"','<','>',';']
-        self.space_width = self.letter_spacing[0]
-        self.base_spacing = 1
-        self.line_spacing = 2
-
-    # draw the text
-    def render(self, text, surf, loc):
-        x_offset = 0
-        y_offset = 0
-        for char in text:
-            if char not in ['\n', ' ']:
-                # draw the letter and add the width
-                surf.blit(self.letters[self.font_order.index(char)], (loc[0] + x_offset, loc[1] + y_offset))
-                x_offset += self.letter_spacing[self.font_order.index(char)] + self.base_spacing
-            elif char == ' ':
-                x_offset += self.space_width + self.base_spacing
-            else: # line feed
-                y_offset += self.line_spacing + self.line_height
-                x_offset = 0
-    
-
-
-# draws text with border
-def outlined_text(bg_font, fg_font, t, surf, pos):
-    bg_font.render(t, surf, [pos[0] - 1, pos[1]])
-    bg_font.render(t, surf, [pos[0] + 1, pos[1]])
-    bg_font.render(t, surf, [pos[0], pos[1] - 1])
-    bg_font.render(t, surf, [pos[0], pos[1] + 1])
-    fg_font.render(t, surf, [pos[0], pos[1]])
 
 
 
@@ -292,7 +135,7 @@ def outlined_text(bg_font, fg_font, t, surf, pos):
 #===============================================================================
 
 # scanlines
-def ApplyFilter():
+def apply_filter():
     j = 0
     while j < win_size[1] - 18:
         j+=3
@@ -311,7 +154,8 @@ pygame.mixer.init()
 # generates a main window with title, icon, and 32-bit colour.
 screen = pygame.display.set_mode(win_size, 0, 32)
 pygame.display.set_caption(".:: Raspi-Red Planet ::.")
-icon = pygame.image.load(jp(p, "images/icon.png")).convert_alpha()
+icon = pygame.image.load(
+    os.path.join(os.path.dirname(__file__) + "/", "images/icon.png")).convert_alpha()
 pygame.display.set_icon(icon)
 
 # area covered by the map
@@ -354,7 +198,8 @@ while True:
 
     # change map if neccessary
     if map_number != last_map:
-        LoadMap(map_number)
+        load_map(map_number, map_display)
+        draw_map_info()
         last_map = map_number
 
     # test 1
@@ -368,7 +213,7 @@ while True:
     screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), 
     ((screen.get_width() - sboard_scaled_size[0]) // 2, 0)) # horizontally centred
 
-    ApplyFilter() # scanlines
+    apply_filter() # scanlines
 
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
