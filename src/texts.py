@@ -21,7 +21,8 @@ def outlined_text(bg_font, fg_font, t, surf, pos):
 def load_font_img(path, font_color, is_transparent):
     fg_color = (255, 0, 0) # original red
     bg_color = (0, 0, 0) # black
-    font_img = pygame.image.load(os.path.join(os.path.dirname(__file__) + "/",path)).convert() # load font image
+    font_img = pygame.image.load(
+        os.path.join(os.path.dirname(__file__) + "/",path)).convert() # load font image
     font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
     last_x = 0
     letters = []
