@@ -1,0 +1,41 @@
+{ "compressionlevel":-1,
+ "height":10,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[23, 22, 23, 22, 22, 23, 23, 22, 22, 23, 22, 23, 22, 22, 22,
+            1, 23, 1, 23, 23, 3, 1, 23, 23, 1, 23, 3, 23, 23, 22,
+            1, 1, 1, 1, 1, 1, 41, 1, 1, 1, 1, 1, 1, 1, 22,
+            1, 1, 1, 1, 1, 41, 3, 1, 1, 1, 1, 1, 1, 1, 22,
+            1, 1, 1, 41, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 22,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 24,
+            1, 1, 1, 1, 41, 1, 1, 1, 1, 21, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 22, 1, 1, 1, 19, 19,
+            21, 2, 2, 2, 2, 2, 2, 21, 2, 22, 2, 21, 2, 2, 20,
+            22, 30, 30, 30, 30, 30, 30, 22, 30, 22, 30, 22, 30, 30, 19],
+         "height":10,
+         "id":1,
+         "name":"Capa de patrones 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":15,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.8.4",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"tileset.json"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":"1.8",
+ "width":15
+}
