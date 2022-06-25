@@ -189,7 +189,7 @@ while True:
 
             # ========================== temporal code
             if event.key == K_RIGHT:
-                if map_number < 27:
+                if map_number < 29:
                     map_number += 1
             if event.key == K_LEFT:
                 if map_number > 0:
