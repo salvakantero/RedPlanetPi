@@ -10,12 +10,13 @@ HECHO
 03/06/22 - Filtro Scanlines rápido
 09/06/22 - Gestión de textos con gráficos PNG
 09/06/22 - Nombres de pantalla
+25/06/22 - Mapeado 2ª parte; subsuelo
 
 EN PROCESO
 ==========
 - Navegador temporal de mapeado con carga de malotes y objetos
 - Adaptar colores de tiles
-- Mapeado 2ª parte; subsuelo
+
 
 POR HACER
 =========
