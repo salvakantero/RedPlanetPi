@@ -11,16 +11,15 @@ HECHO
 09/06/22 - Gestión de textos con gráficos PNG
 09/06/22 - Nombres de pantalla
 25/06/22 - Mapeado 2ª parte; subsuelo
+26/06/22 - Adaptar colores de tiles
 
 EN PROCESO
 ==========
 - Navegador temporal de mapeado con carga de malotes y objetos
-- Adaptar colores de tiles
 
 
 POR HACER
 =========
-- Adaptar colores de sprites
 - Menu inicial con imagen de fondo de MasterKlown
 - Marcador
 - Colocación de malotes y objetos a partir de ENEMS.H
