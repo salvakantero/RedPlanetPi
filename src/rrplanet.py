@@ -137,7 +137,7 @@ def update_scoreboard():
 # scanlines
 def apply_filter():
     j = 0
-    while j < win_size[1] - 18:
+    while j < win_size[1] - 17:
         j+=3
         pygame.draw.line(screen, (15, 15, 15), (40, j), (760, j))
 
