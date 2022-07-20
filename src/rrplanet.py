@@ -20,6 +20,9 @@ from texts import Font # text and fonts functions
 # Global vars
 #===============================================================================
 
+p = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
+jp = os.path.join # forms the folder/file path
+
 win_size = 800, 600 # main window size
 map_scaled_size = 720, 480 # map size (scaled x3)
 map_unscaled_size = 240, 160 # map size (unscaled)
@@ -118,10 +121,29 @@ def draw_map_info():
     bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
     fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
 
+    init_scoreboard()
+
 
 
 def init_scoreboard():
-    pass
+    live = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
+    oxigen = pygame.image.load(jp(p, "images/T53.png")).convert_alpha()
+    gun = pygame.image.load(jp(p, "images/T52.png")).convert_alpha()
+    key = pygame.image.load(jp(p, "images/T51.png")).convert_alpha()
+    explosive = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
+    
+    y = 2
+    live_x = 18
+    oxigen_x =66
+    gun_x = 114
+    key_x = 162
+    explosive_x = 210
+
+    sboard_display.blit(live, (live_x - 18, y))
+    sboard_display.blit(oxigen, (oxigen_x - 18, y))
+    sboard_display.blit(gun, (gun_x - 18, y))
+    sboard_display.blit(key, (key_x - 18, y))
+    sboard_display.blit(explosive, (explosive_x - 18, y))
 
 
 
