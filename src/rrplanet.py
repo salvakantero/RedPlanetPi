@@ -4,6 +4,7 @@
 # salvaKantero 2022
 # ==============================================================================
 
+from ctypes.wintypes import SC_HANDLE
 import pygame # pygame library functions
 import os # file operations
 import sys # exit()
@@ -132,30 +133,30 @@ def draw_map_info():
 
 
 def init_scoreboard():
-    lives_icon = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
-    oxigen_icon = pygame.image.load(jp(p, "images/T53.png")).convert_alpha()
-    ammo_icon = pygame.image.load(jp(p, "images/T52.png")).convert_alpha()
-    keys_icon = pygame.image.load(jp(p, "images/T51.png")).convert_alpha()
-    explosives_icon = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
+    lives_icon = pygame.image.load(jp(p, "images/lives.png")).convert()
+    oxigen_icon = pygame.image.load(jp(p, "images/T53.png")).convert()
+    ammo_icon = pygame.image.load(jp(p, "images/T52.png")).convert()
+    keys_icon = pygame.image.load(jp(p, "images/T51.png")).convert()
+    explosives_icon = pygame.image.load(jp(p, "images/T50.png")).convert()
     
-    y = 2
+    y = 5
     lives_x = 18
     oxigen_x =66
     ammo_x = 114
     keys_x = 162
     explosives_x = 210
 
-    sboard_display.blit(lives_icon, (lives_x - 18, y))
-    sboard_display.blit(oxigen_icon, (oxigen_x - 18, y))
-    sboard_display.blit(ammo_icon, (ammo_x - 18, y))
-    sboard_display.blit(keys_icon, (keys_x - 18, y))
-    sboard_display.blit(explosives_icon, (explosives_x - 18, y))
+    sboard_display.blit(lives_icon, (lives_x-18, y-4))
+    sboard_display.blit(oxigen_icon, (oxigen_x-18, y-4))
+    sboard_display.blit(ammo_icon, (ammo_x-18, y-4))
+    sboard_display.blit(keys_icon, (keys_x-18, y-4))
+    sboard_display.blit(explosives_icon, (explosives_x-18, y-4))
 
-    fg_font_L.render(lives, sboard_display, (lives_x, y))
-    fg_font_L.render(oxigen, sboard_display, (oxigen_x, y))
-    fg_font_L.render(ammo, sboard_display, (ammo_x, y))
-    fg_font_L.render(keys, sboard_display, (keys_x, y))
-    fg_font_L.render(explosives + "/10", sboard_display, (explosives_x, y))
+    fg_font_L.render(str(lives), sboard_display, (lives_x, y))
+    fg_font_L.render(str(oxigen), sboard_display, (oxigen_x, y))
+    fg_font_L.render(str(ammo), sboard_display, (ammo_x, y))
+    fg_font_L.render(str(keys), sboard_display, (keys_x, y))
+    fg_font_L.render(str(explosives) + "-10", sboard_display, (explosives_x, y))
 
 
 def update_scoreboard():
