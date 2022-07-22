@@ -32,6 +32,12 @@ map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
 
+lives = 10 # remaining player lives
+oxigen = 99 # remaining player oxigen
+ammo = 5 # bullets available in the gun
+keys = 0 # unused keys collected
+explosives = 0 # explosives collected
+
 # colour palette (Pico8)
 BLACK = (0, 0, 0)
 DARK_BLUE = (35, 50, 90)
@@ -126,25 +132,30 @@ def draw_map_info():
 
 
 def init_scoreboard():
-    live = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
-    oxigen = pygame.image.load(jp(p, "images/T53.png")).convert_alpha()
-    gun = pygame.image.load(jp(p, "images/T52.png")).convert_alpha()
-    key = pygame.image.load(jp(p, "images/T51.png")).convert_alpha()
-    explosive = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
+    lives_icon = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
+    oxigen_icon = pygame.image.load(jp(p, "images/T53.png")).convert_alpha()
+    ammo_icon = pygame.image.load(jp(p, "images/T52.png")).convert_alpha()
+    keys_icon = pygame.image.load(jp(p, "images/T51.png")).convert_alpha()
+    explosives_icon = pygame.image.load(jp(p, "images/T50.png")).convert_alpha()
     
     y = 2
-    live_x = 18
+    lives_x = 18
     oxigen_x =66
-    gun_x = 114
-    key_x = 162
-    explosive_x = 210
+    ammo_x = 114
+    keys_x = 162
+    explosives_x = 210
 
-    sboard_display.blit(live, (live_x - 18, y))
-    sboard_display.blit(oxigen, (oxigen_x - 18, y))
-    sboard_display.blit(gun, (gun_x - 18, y))
-    sboard_display.blit(key, (key_x - 18, y))
-    sboard_display.blit(explosive, (explosive_x - 18, y))
+    sboard_display.blit(lives_icon, (lives_x - 18, y))
+    sboard_display.blit(oxigen_icon, (oxigen_x - 18, y))
+    sboard_display.blit(ammo_icon, (ammo_x - 18, y))
+    sboard_display.blit(keys_icon, (keys_x - 18, y))
+    sboard_display.blit(explosives_icon, (explosives_x - 18, y))
 
+    fg_font_L.render(lives, sboard_display, (lives_x, y))
+    fg_font_L.render(oxigen, sboard_display, (oxigen_x, y))
+    fg_font_L.render(ammo, sboard_display, (ammo_x, y))
+    fg_font_L.render(keys, sboard_display, (keys_x, y))
+    fg_font_L.render(explosives + "/10", sboard_display, (explosives_x, y))
 
 
 def update_scoreboard():
