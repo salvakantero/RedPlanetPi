@@ -4,7 +4,6 @@
 # salvaKantero 2022
 # ==============================================================================
 
-from ctypes.wintypes import SC_HANDLE
 import pygame # pygame library functions
 import os # file operations
 import sys # exit()
@@ -27,12 +26,11 @@ jp = os.path.join # forms the folder/file path
 win_size = 800, 600 # main window size
 map_scaled_size = 720, 480 # map size (scaled x3)
 map_unscaled_size = 240, 160 # map size (unscaled)
-sboard_scaled_size = 720, 102 # scoreboard size (scaled x3)
-sboard_unscaled_size = 240, 34 # scoreboard size (unscaled)
+sboard_scaled_size = 720, 108 # scoreboard size (scaled x3)
+sboard_unscaled_size = 240, 36 # scoreboard size (unscaled)
 map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
-
 lives = 10 # remaining player lives
 oxigen = 99 # remaining player oxigen
 ammo = 5 # bullets available in the gun
@@ -101,7 +99,7 @@ map_names = {
 # draws the name of the map and other data at the top
 def draw_map_info():
     x = 0
-    y = sboard_display.get_height()-bg_font_L.line_height+1
+    y = 21
     progress_x = sboard_unscaled_size[0] - 55
     
     if map_number < 9:
@@ -114,9 +112,9 @@ def draw_map_info():
         text_2 = 'COMPLETED..'
     
     text_1 += str(map_number+1) + '/30'
-    text_2 += str(game_percent) + ';'
+    text_2 += str(game_percent) + ';' # %
 
-    sboard_display.fill((0,0,0)) # delete previous text
+    sboard_display.fill((50,50,50)) # delete previous text
 
     # map name
     bg_font_L.render(map_names[map_number], sboard_display, (x+2, y+2)) # shadow
@@ -133,6 +131,7 @@ def draw_map_info():
 
 
 def init_scoreboard():
+    # icon images
     lives_icon = pygame.image.load(jp(p, "images/lives.png")).convert()
     oxigen_icon = pygame.image.load(jp(p, "images/T53.png")).convert()
     ammo_icon = pygame.image.load(jp(p, "images/T52.png")).convert()
@@ -141,22 +140,29 @@ def init_scoreboard():
     
     y = 5
     lives_x = 18
-    oxigen_x =66
-    ammo_x = 114
-    keys_x = 162
-    explosives_x = 210
+    oxigen_x =60
+    ammo_x = 102
+    keys_x = 164
+    explosives_x = 204
 
+    # icons
     sboard_display.blit(lives_icon, (lives_x-18, y-4))
     sboard_display.blit(oxigen_icon, (oxigen_x-18, y-4))
-    sboard_display.blit(ammo_icon, (ammo_x-18, y-4))
-    sboard_display.blit(keys_icon, (keys_x-18, y-4))
+    sboard_display.blit(ammo_icon, (ammo_x-18, y-3))
+    sboard_display.blit(keys_icon, (keys_x-18, y-3))
     sboard_display.blit(explosives_icon, (explosives_x-18, y-4))
 
-    fg_font_L.render(str(lives), sboard_display, (lives_x, y))
-    fg_font_L.render(str(oxigen), sboard_display, (oxigen_x, y))
-    fg_font_L.render(str(ammo), sboard_display, (ammo_x, y))
-    fg_font_L.render(str(keys), sboard_display, (keys_x, y))
-    fg_font_L.render(str(explosives) + "-10", sboard_display, (explosives_x, y))
+    # values
+    bg_font_L.render("10", sboard_display, (lives_x+2, y))
+    fg_font_L.render("10", sboard_display, (lives_x, y))
+    bg_font_L.render("99", sboard_display, (oxigen_x+2, y))
+    fg_font_L.render("99", sboard_display, (oxigen_x, y))
+    bg_font_L.render("05+50", sboard_display, (ammo_x+2, y))
+    fg_font_L.render("05+50", sboard_display, (ammo_x, y))
+    bg_font_L.render("00", sboard_display, (keys_x+2, y))
+    fg_font_L.render("00", sboard_display, (keys_x, y))
+    bg_font_L.render("00+10", sboard_display, (explosives_x+2, y))
+    fg_font_L.render("00+10", sboard_display, (explosives_x, y))
 
 
 def update_scoreboard():
@@ -242,7 +248,7 @@ while True:
     # scale x 3 the map and transfer to screen
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), 
     ((screen.get_width() - map_scaled_size[0]) // 2, # horizontally centred
-    screen.get_height() - map_scaled_size[1] - 14)) # room for the scoreboard
+    screen.get_height() - map_scaled_size[1] - 8)) # room for the scoreboard
     # scale x 3 the scoreboard and transfer to screen
     screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), 
     ((screen.get_width() - sboard_scaled_size[0]) // 2, 0)) # horizontally centred
