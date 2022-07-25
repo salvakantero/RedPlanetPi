@@ -13,6 +13,7 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT)
 
 from maps import load_map # map functions
 from texts import Font # text and fonts functions
+from generic import apply_scanlines # crt screen filter
 
 
 
@@ -38,22 +39,24 @@ keys = 0 # unused keys collected
 explosives = 0 # explosives collected
 
 # colour palette (Pico8)
-BLACK = (0, 0, 0)
-DARK_BLUE = (35, 50, 90)
-PURPLE = (126, 37, 83)
-DARK_GREEN = (0, 135, 81)
-BROWN = (171, 82, 54)
-DARK_GRAY = (95, 87, 79)
-GRAY = (194, 195, 199)
-WHITE = (255, 241, 232)
-RED = (255, 0, 77)
-ORANGE = (255, 163, 0)
-YELLOW = (255, 236, 39)
-GREEN = (0, 228, 54)
-CYAN = (41, 173, 255)
-MALVA = (131, 118, 156)
-PINK = (255, 119, 168)
-SAND = (255, 204, 170)
+pal = {
+    "BLACK":(0, 0, 0),
+    "DARK_BLUE" : (35, 50, 90),
+    "PURPLE" : (126, 37, 83),
+    "DARK_GREEN" : (0, 135, 81),
+    "BROWN" : (171, 82, 54),
+    "DARK_GRAY" : (95, 87, 79),
+    "GRAY" : (194, 195, 199),
+    "WHITE" : (255, 241, 232),
+    "RED" : (255, 0, 77),
+    "ORANGE" : (255, 163, 0),
+    "YELLOW" : (255, 236, 39),
+    "GREEN" : (0, 228, 54),
+    "CYAN" : (41, 173, 255),
+    "MALVA" : (131, 118, 156),
+    "PINK" : (255, 119, 168),
+    "SAND" : (255, 204, 170) 
+}
 
 # screen names
 map_names = {
@@ -136,9 +139,9 @@ def init_scoreboard():
     sboard_display.blit(explosives_icon, (186, 1))
     # fixed texts
     bg_font_L.render("+50", sboard_display, (116, 5))
-    fg_font_L.render("+50", sboard_display, (114, 4))
+    fg_font_L.render("+50", sboard_display, (114, 3))
     bg_font_L.render("+10", sboard_display, (220, 5))
-    fg_font_L.render("+10", sboard_display, (218, 4))
+    fg_font_L.render("+10", sboard_display, (218, 3))
 
 
 def update_scoreboard():
@@ -153,19 +156,6 @@ def update_scoreboard():
     fg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (164, 3))
     bg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (206, 5))
     fg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (204, 3))
-
-
-
-#===============================================================================
-# Auxiliar functions
-#===============================================================================
-
-# scanlines
-def apply_filter():
-    j = 0
-    while j < win_size[1] - 17:
-        j+=3
-        pygame.draw.line(screen, (15, 15, 15), (40, j), (760, j))
 
 
 
@@ -186,14 +176,15 @@ pygame.display.set_icon(icon)
 
 # area covered by the map
 map_display = pygame.Surface(map_unscaled_size)
+
 # area covered by the scoreboard
 sboard_display = pygame.Surface(sboard_unscaled_size)
 
 # fonts
-fg_font_S = Font('images/small_font.png', GREEN, True)
-bg_font_S = Font('images/small_font.png', DARK_GREEN, False)
-fg_font_L = Font('images/large_font.png', WHITE, True)
-bg_font_L = Font('images/large_font.png', DARK_GRAY, False)
+fg_font_S = Font('images/small_font.png', pal["GREEN"], True)
+bg_font_S = Font('images/small_font.png', pal["DARK_GREEN"], False)
+fg_font_L = Font('images/large_font.png', pal["WHITE"], True)
+bg_font_L = Font('images/large_font.png', pal["DARK_GRAY"], False)
 
 # scoreboard icons
 lives_icon = pygame.image.load(jp(p, "images/lives.png")).convert()
@@ -244,11 +235,12 @@ while True:
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), 
     ((screen.get_width() - map_scaled_size[0]) // 2, # horizontally centred
     screen.get_height() - map_scaled_size[1] - 8)) # room for the scoreboard
+
     # scale x 3 the scoreboard and transfer to screen
     screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), 
     ((screen.get_width() - sboard_scaled_size[0]) // 2, 0)) # horizontally centred
 
-    apply_filter() # scanlines
+    apply_scanlines(screen, win_size[1]-15) # scanlines
 
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS

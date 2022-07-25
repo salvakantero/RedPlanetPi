@@ -31,3 +31,12 @@ def swap_color(img,old_c,new_c):
     surf.fill(new_c)
     surf.blit(img,(0,0))
     return surf
+
+
+
+# scanlines
+def apply_scanlines(screen, height):
+    j = 0
+    while j < height:
+        j+=3
+        pygame.draw.line(screen, (15, 15, 15), (40, j), (760, j))

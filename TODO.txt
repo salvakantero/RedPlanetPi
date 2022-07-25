@@ -12,16 +12,20 @@ HECHO
 09/06/22 - Nombres de pantalla
 25/06/22 - Mapeado 2ª parte; subsuelo
 26/06/22 - Adaptar colores de tiles
+25/07/22 - Marcador
+
 
 EN PROCESO
 ==========
+- Sprites de malotes
+- Adaptar las músicas definitivas de tacha a OGG e implementar
+- Adaptar los SFX a WAV e implementar
 - Navegador temporal de mapeado con carga de malotes y objetos
 
 
 POR HACER
 =========
 - Menu inicial con imagen de fondo de MasterKlown
-- Marcador
 - Colocación de malotes y objetos a partir de ENEMS.H
 - Movimiento lineal de malotes
 - Movimiento diagonal de malotes
@@ -34,8 +38,6 @@ POR HACER
 - Tiles pasables, bloqueantes, matantes, y plataformas
 - Colisiones entre Keko y malotes
 - Keko es invencible los primeros 5 segundos (parpadea)
-- Adaptar las músicas definitivas de tacha a OGG e implementar
-- Adaptar los SFX a WAV e implementar
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de disparos de Keko
