@@ -4,6 +4,7 @@
 # salvaKantero 2022
 # ==============================================================================
 
+from curses import initscr
 import pygame # pygame library functions
 import os # file operations
 import sys # exit()
@@ -36,6 +37,14 @@ oxigen = 99 # remaining player oxigen
 ammo = 5 # bullets available in the gun
 keys = 0 # unused keys collected
 explosives = 0 # explosives collected
+
+# scoreboard coordinates
+sboard_y = 5
+sboard_lives_x = 18
+sboard_oxigen_x =60
+sboard_ammo_x = 100
+sboard_keys_x = 164
+sboard_explosives_x = 204
 
 # colour palette (Pico8)
 BLACK = (0, 0, 0)
@@ -114,11 +123,11 @@ def draw_map_info():
     text_1 += str(map_number+1) + '/30'
     text_2 += str(game_percent) + ';' # %
 
-    sboard_display.fill((50,50,50)) # delete previous text
+    sboard_display.fill((0,0,0)) # delete previous text
 
     # map name
     bg_font_L.render(map_names[map_number], sboard_display, (x+2, y+2)) # shadow
-    fg_font_L.render(map_names[map_number], sboard_display, (x, y+1))
+    fg_font_L.render(map_names[map_number], sboard_display, (x, y))
     # map number
     bg_font_S.render(text_1, sboard_display, (progress_x+1, y+1)) # shadow
     fg_font_S.render(text_1, sboard_display, (progress_x, y))
@@ -126,48 +135,33 @@ def draw_map_info():
     bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
     fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
 
-    init_scoreboard()
-
-
 
 def init_scoreboard():
-    # icon images
-    lives_icon = pygame.image.load(jp(p, "images/lives.png")).convert()
-    oxigen_icon = pygame.image.load(jp(p, "images/T53.png")).convert()
-    ammo_icon = pygame.image.load(jp(p, "images/T52.png")).convert()
-    keys_icon = pygame.image.load(jp(p, "images/T51.png")).convert()
-    explosives_icon = pygame.image.load(jp(p, "images/T50.png")).convert()
-    
-    y = 5
-    lives_x = 18
-    oxigen_x =60
-    ammo_x = 102
-    keys_x = 164
-    explosives_x = 204
-
     # icons
-    sboard_display.blit(lives_icon, (lives_x-18, y-4))
-    sboard_display.blit(oxigen_icon, (oxigen_x-18, y-4))
-    sboard_display.blit(ammo_icon, (ammo_x-18, y-3))
-    sboard_display.blit(keys_icon, (keys_x-18, y-3))
-    sboard_display.blit(explosives_icon, (explosives_x-18, y-4))
-
-    # values
-    bg_font_L.render("10", sboard_display, (lives_x+2, y))
-    fg_font_L.render("10", sboard_display, (lives_x, y))
-    bg_font_L.render("99", sboard_display, (oxigen_x+2, y))
-    fg_font_L.render("99", sboard_display, (oxigen_x, y))
-    bg_font_L.render("05+50", sboard_display, (ammo_x+2, y))
-    fg_font_L.render("05+50", sboard_display, (ammo_x, y))
-    bg_font_L.render("00", sboard_display, (keys_x+2, y))
-    fg_font_L.render("00", sboard_display, (keys_x, y))
-    bg_font_L.render("00+10", sboard_display, (explosives_x+2, y))
-    fg_font_L.render("00+10", sboard_display, (explosives_x, y))
+    sboard_display.blit(lives_icon, (sboard_lives_x-18, sboard_y-4))
+    sboard_display.blit(oxigen_icon, (sboard_oxigen_x-18, sboard_y-4))
+    sboard_display.blit(ammo_icon, (sboard_ammo_x-18, sboard_y-4))
+    sboard_display.blit(keys_icon, (sboard_keys_x-19, sboard_y-4))
+    sboard_display.blit(explosives_icon, (sboard_explosives_x-18, sboard_y-4))
+    # fixed texts
+    bg_font_L.render("+50", sboard_display, (sboard_ammo_x+16, sboard_y))
+    fg_font_L.render("+50", sboard_display, (sboard_ammo_x+14, sboard_y-1))
+    bg_font_L.render("+10", sboard_display, (sboard_explosives_x+16, sboard_y))
+    fg_font_L.render("+10", sboard_display, (sboard_explosives_x+14, sboard_y-2))
 
 
 def update_scoreboard():
-    pass
-
+    # values
+    bg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (sboard_lives_x+2, sboard_y))
+    fg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (sboard_lives_x, sboard_y-2))
+    bg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (sboard_oxigen_x+2, sboard_y))
+    fg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (sboard_oxigen_x, sboard_y-2))
+    bg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (sboard_ammo_x+2, sboard_y))
+    fg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (sboard_ammo_x, sboard_y-2))
+    bg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (sboard_keys_x+2, sboard_y))
+    fg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (sboard_keys_x, sboard_y-2))
+    bg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (sboard_explosives_x+2, sboard_y))
+    fg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (sboard_explosives_x, sboard_y-2))
 
 
 #===============================================================================
@@ -209,12 +203,22 @@ bg_font_S = Font('images/small_font.png', DARK_GREEN, False)
 fg_font_L = Font('images/large_font.png', WHITE, True)
 bg_font_L = Font('images/large_font.png', DARK_GRAY, False)
 
+# scoreboard icons
+lives_icon = pygame.image.load(jp(p, "images/lives.png")).convert()
+oxigen_icon = pygame.image.load(jp(p, "images/T53.png")).convert()
+ammo_icon = pygame.image.load(jp(p, "images/T52.png")).convert()
+keys_icon = pygame.image.load(jp(p, "images/T51.png")).convert()
+explosives_icon = pygame.image.load(jp(p, "images/T50.png")).convert()
+
 # clock to control the FPS
 clock = pygame.time.Clock()
 
 # menu music
 # pygame.mixer.music.load(jp(bp, "sounds/ingame.ogg"))
 # pygame.mixer.music.play()
+
+init_scoreboard()
+update_scoreboard()
 
 # Main loop
 while True:
