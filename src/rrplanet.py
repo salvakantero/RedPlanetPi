@@ -4,7 +4,6 @@
 # salvaKantero 2022
 # ==============================================================================
 
-from curses import initscr
 import pygame # pygame library functions
 import os # file operations
 import sys # exit()
@@ -37,14 +36,6 @@ oxigen = 99 # remaining player oxigen
 ammo = 5 # bullets available in the gun
 keys = 0 # unused keys collected
 explosives = 0 # explosives collected
-
-# scoreboard coordinates
-sboard_y = 5
-sboard_lives_x = 18
-sboard_oxigen_x =60
-sboard_ammo_x = 100
-sboard_keys_x = 164
-sboard_explosives_x = 204
 
 # colour palette (Pico8)
 BLACK = (0, 0, 0)
@@ -138,30 +129,31 @@ def draw_map_info():
 
 def init_scoreboard():
     # icons
-    sboard_display.blit(lives_icon, (sboard_lives_x-18, sboard_y-4))
-    sboard_display.blit(oxigen_icon, (sboard_oxigen_x-18, sboard_y-4))
-    sboard_display.blit(ammo_icon, (sboard_ammo_x-18, sboard_y-4))
-    sboard_display.blit(keys_icon, (sboard_keys_x-19, sboard_y-4))
-    sboard_display.blit(explosives_icon, (sboard_explosives_x-18, sboard_y-4))
+    sboard_display.blit(lives_icon, (0, 1))
+    sboard_display.blit(oxigen_icon, (42, 1))
+    sboard_display.blit(ammo_icon, (82, 1))
+    sboard_display.blit(keys_icon, (145, 1))
+    sboard_display.blit(explosives_icon, (186, 1))
     # fixed texts
-    bg_font_L.render("+50", sboard_display, (sboard_ammo_x+16, sboard_y))
-    fg_font_L.render("+50", sboard_display, (sboard_ammo_x+14, sboard_y-1))
-    bg_font_L.render("+10", sboard_display, (sboard_explosives_x+16, sboard_y))
-    fg_font_L.render("+10", sboard_display, (sboard_explosives_x+14, sboard_y-2))
+    bg_font_L.render("+50", sboard_display, (116, 5))
+    fg_font_L.render("+50", sboard_display, (114, 4))
+    bg_font_L.render("+10", sboard_display, (220, 5))
+    fg_font_L.render("+10", sboard_display, (218, 4))
 
 
 def update_scoreboard():
     # values
-    bg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (sboard_lives_x+2, sboard_y))
-    fg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (sboard_lives_x, sboard_y-2))
-    bg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (sboard_oxigen_x+2, sboard_y))
-    fg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (sboard_oxigen_x, sboard_y-2))
-    bg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (sboard_ammo_x+2, sboard_y))
-    fg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (sboard_ammo_x, sboard_y-2))
-    bg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (sboard_keys_x+2, sboard_y))
-    fg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (sboard_keys_x, sboard_y-2))
-    bg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (sboard_explosives_x+2, sboard_y))
-    fg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (sboard_explosives_x, sboard_y-2))
+    bg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (20, 5))
+    fg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (18, 3))
+    bg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (62, 5))
+    fg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (60, 3))
+    bg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (102, 5))
+    fg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (100, 3))
+    bg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (166, 5))
+    fg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (164, 3))
+    bg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (206, 5))
+    fg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (204, 3))
+
 
 
 #===============================================================================
@@ -217,9 +209,6 @@ clock = pygame.time.Clock()
 # pygame.mixer.music.load(jp(bp, "sounds/ingame.ogg"))
 # pygame.mixer.music.play()
 
-init_scoreboard()
-update_scoreboard()
-
 # Main loop
 while True:
     # event management
@@ -244,6 +233,8 @@ while True:
     if map_number != last_map:
         load_map(map_number, map_display)
         draw_map_info()
+        init_scoreboard()
+        update_scoreboard()
         last_map = map_number
 
     # test 1
