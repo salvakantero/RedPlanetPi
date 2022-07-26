@@ -171,7 +171,7 @@ pygame.mixer.init()
 screen = pygame.display.set_mode(win_size, 0, 32)
 pygame.display.set_caption(".:: Raspi-Red Planet ::.")
 icon = pygame.image.load(
-    os.path.join(os.path.dirname(__file__) + "/", "images/icon.png")).convert_alpha()
+    os.path.join(os.path.dirname(__file__) + "/", "images/assets/icon.png")).convert_alpha()
 pygame.display.set_icon(icon)
 
 # area covered by the map
@@ -181,17 +181,17 @@ map_display = pygame.Surface(map_unscaled_size)
 sboard_display = pygame.Surface(sboard_unscaled_size)
 
 # fonts
-fg_font_S = Font('images/small_font.png', pal["GREEN"], True)
-bg_font_S = Font('images/small_font.png', pal["DARK_GREEN"], False)
-fg_font_L = Font('images/large_font.png', pal["WHITE"], True)
-bg_font_L = Font('images/large_font.png', pal["DARK_GRAY"], False)
+fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
+bg_font_S = Font('images/fonts/small_font.png', pal["DARK_GREEN"], False)
+fg_font_L = Font('images/fonts/large_font.png', pal["WHITE"], True)
+bg_font_L = Font('images/fonts/large_font.png', pal["DARK_GRAY"], False)
 
 # scoreboard icons
-lives_icon = pygame.image.load(jp(p, "images/lives.png")).convert()
-oxigen_icon = pygame.image.load(jp(p, "images/T53.png")).convert()
-ammo_icon = pygame.image.load(jp(p, "images/T52.png")).convert()
-keys_icon = pygame.image.load(jp(p, "images/T51.png")).convert()
-explosives_icon = pygame.image.load(jp(p, "images/T50.png")).convert()
+lives_icon = pygame.image.load(jp(p, "images/assets/lives.png")).convert()
+oxigen_icon = pygame.image.load(jp(p, "images/tiles/T53.png")).convert()
+ammo_icon = pygame.image.load(jp(p, "images/tiles/T52.png")).convert()
+keys_icon = pygame.image.load(jp(p, "images/tiles/T51.png")).convert()
+explosives_icon = pygame.image.load(jp(p, "images/tiles/T50.png")).convert()
 
 # clock to control the FPS
 clock = pygame.time.Clock()

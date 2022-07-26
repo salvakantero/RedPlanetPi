@@ -55,7 +55,7 @@ def draw_map(map_display):
             # gets the tile number from the list
             t = find_data(map_data["tiles"], "id", map_data["data"][y][x])
             # draws the selected tile
-            tile = pygame.image.load(jp(p, "images/" + t["image"])).convert()
+            tile = pygame.image.load(jp(p, "images/tiles/" + t["image"])).convert()
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t["imagewidth"], y * t["imageheight"])   
             map_display.blit(tile, tileRect)
