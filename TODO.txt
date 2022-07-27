@@ -13,12 +13,12 @@ HECHO
 25/06/22 - Mapeado 2ª parte; subsuelo
 26/06/22 - Adaptar colores de tiles
 25/07/22 - Marcador
+27/07/22 - Adaptar las músicas definitivas de tacha a OGG e implementar
 
 
 EN PROCESO
 ==========
 - Sprites de malotes
-- Adaptar las músicas definitivas de tacha a OGG e implementar
 - Adaptar los SFX a WAV e implementar
 - Navegador temporal de mapeado con carga de malotes y objetos
 

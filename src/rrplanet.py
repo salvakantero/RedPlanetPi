@@ -193,12 +193,20 @@ ammo_icon = pygame.image.load(jp(p, "images/tiles/T52.png")).convert()
 keys_icon = pygame.image.load(jp(p, "images/tiles/T51.png")).convert()
 explosives_icon = pygame.image.load(jp(p, "images/tiles/T50.png")).convert()
 
+# enemy sprites
+infected_0 = pygame.image.load(jp(p, "images/sprites/infected0.png")).convert()
+infected_1 = pygame.image.load(jp(p, "images/sprites/infected1.png")).convert()
+pelusoid_0 = pygame.image.load(jp(p, "images/sprites/pelusoid0.png")).convert()
+pelusoid_1 = pygame.image.load(jp(p, "images/sprites/pelusoid1.png")).convert()
+avirus_0 = pygame.image.load(jp(p, "images/sprites/avirus0.png")).convert()
+avirus_1 = pygame.image.load(jp(p, "images/sprites/avirus1.png")).convert()
+
 # clock to control the FPS
 clock = pygame.time.Clock()
 
-# menu music
-# pygame.mixer.music.load(jp(bp, "sounds/ingame.ogg"))
-# pygame.mixer.music.play()
+# ingame music
+pygame.mixer.music.load(jp(p, "sounds/ingame.ogg"))
+pygame.mixer.music.play(-1)
 
 # Main loop
 while True:
