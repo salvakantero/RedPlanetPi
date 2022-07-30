@@ -38,6 +38,9 @@ ammo = 5 # bullets available in the gun
 keys = 0 # unused keys collected
 explosives = 0 # explosives collected
 
+# configuration values
+cfg_scanlines_type = 2  # 0 = none, 1 = low quality, 2 = high quality
+
 # colour palette (Pico8)
 pal = {
     "BLACK":(0, 0, 0),
@@ -180,6 +183,10 @@ map_display = pygame.Surface(map_unscaled_size)
 # area covered by the scoreboard
 sboard_display = pygame.Surface(sboard_unscaled_size)
 
+# surface for high quality scanlines
+screen_sl = pygame.Surface(win_size)
+screen_sl.set_alpha(40)
+
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
 bg_font_S = Font('images/fonts/small_font.png', pal["DARK_GREEN"], False)
@@ -205,8 +212,8 @@ avirus_1 = pygame.image.load(jp(p, "images/sprites/avirus1.png")).convert()
 clock = pygame.time.Clock()
 
 # ingame music
-pygame.mixer.music.load(jp(p, "sounds/ingame.ogg"))
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.load(jp(p, "sounds/ingame.ogg"))
+#pygame.mixer.music.play(-1)
 
 # Main loop
 while True:
@@ -248,7 +255,12 @@ while True:
     screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), 
     ((screen.get_width() - sboard_scaled_size[0]) // 2, 0)) # horizontally centred
 
-    apply_scanlines(screen, win_size[1]-15) # scanlines
+    # scanlines
+    if cfg_scanlines_type == 2: # high quality
+        apply_scanlines(screen_sl, win_size[1], 220)
+        screen.blit(screen_sl, (0, 0))
+    elif cfg_scanlines_type == 1: # low quality
+        apply_scanlines(screen, win_size[1], 15)
 
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS

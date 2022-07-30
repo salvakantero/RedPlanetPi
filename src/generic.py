@@ -35,8 +35,8 @@ def swap_color(img,old_c,new_c):
 
 
 # scanlines
-def apply_scanlines(screen, height):
+def apply_scanlines(screen, height, rgb):
     j = 0
     while j < height:
         j+=3
-        pygame.draw.line(screen, (15, 15, 15), (40, j), (760, j))
+        pygame.draw.line(screen, (rgb, rgb, rgb), (40, j), (760, j))
