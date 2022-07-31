@@ -39,7 +39,7 @@ keys = 0 # unused keys collected
 explosives = 0 # explosives collected
 
 # configuration values
-cfg_scanlines_type = 2  # 0 = none, 1 = low quality, 2 = high quality
+cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
 # colour palette (Pico8)
 pal = {
@@ -105,7 +105,7 @@ map_names = {
 # draws the name of the map and other data at the top
 def draw_map_info():
     x = 0
-    y = 21
+    y = 22
     progress_x = sboard_unscaled_size[0] - 55
     
     if map_number < 9:
@@ -135,30 +135,30 @@ def draw_map_info():
 
 def init_scoreboard():
     # icons
-    sboard_display.blit(lives_icon, (0, 1))
-    sboard_display.blit(oxigen_icon, (42, 1))
-    sboard_display.blit(ammo_icon, (82, 1))
-    sboard_display.blit(keys_icon, (145, 1))
-    sboard_display.blit(explosives_icon, (186, 1))
+    sboard_display.blit(lives_icon, (0, 2))
+    sboard_display.blit(oxigen_icon, (42, 2))
+    sboard_display.blit(ammo_icon, (82, 2))
+    sboard_display.blit(keys_icon, (145, 2))
+    sboard_display.blit(explosives_icon, (186, 2))
     # fixed texts
-    bg_font_L.render("+50", sboard_display, (116, 5))
-    fg_font_L.render("+50", sboard_display, (114, 3))
-    bg_font_L.render("+10", sboard_display, (220, 5))
-    fg_font_L.render("+10", sboard_display, (218, 3))
+    bg_font_L.render("+50", sboard_display, (116, 6))
+    fg_font_L.render("+50", sboard_display, (114, 4))
+    bg_font_L.render("+10", sboard_display, (220, 6))
+    fg_font_L.render("+10", sboard_display, (218, 4))
 
 
 def update_scoreboard():
     # values
-    bg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (20, 5))
-    fg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (18, 3))
-    bg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (62, 5))
-    fg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (60, 3))
-    bg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (102, 5))
-    fg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (100, 3))
-    bg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (166, 5))
-    fg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (164, 3))
-    bg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (206, 5))
-    fg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (204, 3))
+    bg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (20, 6))
+    fg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (18, 4))
+    bg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (62, 6))
+    fg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (60, 4))
+    bg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (102, 6))
+    fg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (100, 4))
+    bg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (166, 6))
+    fg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (164, 4))
+    bg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (206, 6))
+    fg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (204, 4))
 
 
 
@@ -183,9 +183,9 @@ map_display = pygame.Surface(map_unscaled_size)
 # area covered by the scoreboard
 sboard_display = pygame.Surface(sboard_unscaled_size)
 
-# surface for high quality scanlines
+# surface for HQ scanlines
 screen_sl = pygame.Surface(win_size)
-screen_sl.set_alpha(40)
+screen_sl.set_alpha(35)
 
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
@@ -256,11 +256,11 @@ while True:
     ((screen.get_width() - sboard_scaled_size[0]) // 2, 0)) # horizontally centred
 
     # scanlines
-    if cfg_scanlines_type == 2: # high quality
-        apply_scanlines(screen_sl, win_size[1], 220)
+    if cfg_scanlines_type == 2: # HQ
+        apply_scanlines(screen_sl, win_size[1]-9, 40, 759, 220)
         screen.blit(screen_sl, (0, 0))
-    elif cfg_scanlines_type == 1: # low quality
-        apply_scanlines(screen, win_size[1], 15)
+    elif cfg_scanlines_type == 1: # fast
+        apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS

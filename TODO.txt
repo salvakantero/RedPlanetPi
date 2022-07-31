@@ -14,7 +14,7 @@ HECHO
 26/06/22 - Adaptar colores de tiles
 25/07/22 - Marcador
 27/07/22 - Adaptar las músicas definitivas de tacha a OGG e implementar
-
+31/07/22 - Filtro Scanlines HQ
 
 EN PROCESO
 ==========
