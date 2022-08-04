@@ -13,7 +13,7 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT)
 
 from maps import load_map # map functions
 from texts import Font # text and fonts functions
-from generic import apply_scanlines # crt screen filter
+from support import apply_scanlines # crt screen filter
 
 
 

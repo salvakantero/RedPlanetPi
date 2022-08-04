@@ -19,9 +19,8 @@ HECHO
 EN PROCESO
 ==========
 - Sprites de malotes
-- Adaptar los SFX a WAV e implementar
+- Obtener SFX de opengameart.com
 - Navegador temporal de mapeado con carga de malotes y objetos
-
 
 POR HACER
 =========

@@ -3,7 +3,7 @@
 #===============================================================================
 
 import os
-from generic import *
+from support import *
 
 
 

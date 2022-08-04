@@ -84,8 +84,8 @@ harían de la siguiente manera:
 
 from time import asctime
 from generic import *
+from globalvars import *
 
-import globalvars
 globalvars.text1 = "Esta variable es global";
 
 

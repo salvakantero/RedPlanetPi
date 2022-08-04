@@ -3,7 +3,7 @@
 #===============================================================================
 
 import pygame, os, json
-from generic import *
+from support import *
 
 p = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
 jp = os.path.join # forms the folder/file path
