@@ -16,6 +16,28 @@ from texts import Font # text and fonts functions
 from support import apply_scanlines # crt screen filter
 
 
+class MySprite(pygame.sprite.Sprite):
+    def __init__(self):
+        super(MySprite, self).__init__()
+ 
+        self.images = []
+        self.images.append(pygame.image.load(jp(dp, "images/sprites/infected0.png")).convert())
+        self.images.append(pygame.image.load(jp(dp, "images/sprites/infected1.png")).convert())
+        self.index = 0
+ 
+        self.image = self.images[self.index]
+ 
+        self.rect = pygame.Rect(40, 112, 150, 198)
+ 
+    def update(self):
+        self.index += 1
+ 
+        if self.index >= len(self.images):
+            self.index = 0
+        
+        self.image = self.images[self.index]
+
+
 #===============================================================================
 # Scoreboard functions
 #===============================================================================
@@ -104,6 +126,10 @@ sboard_display = pygame.Surface(sboard_unscaled_size)
 screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(35)
 
+# sprites
+my_sprite = MySprite()
+my_group = pygame.sprite.Group(my_sprite)
+
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
 bg_font_S = Font('images/fonts/small_font.png', pal["DARK_GREEN"], False)
@@ -116,14 +142,6 @@ oxigen_icon = pygame.image.load(jp(dp, "images/tiles/T53.png")).convert()
 ammo_icon = pygame.image.load(jp(dp, "images/tiles/T52.png")).convert()
 keys_icon = pygame.image.load(jp(dp, "images/tiles/T51.png")).convert()
 explosives_icon = pygame.image.load(jp(dp, "images/tiles/T50.png")).convert()
-
-# enemy sprites
-infected_0 = pygame.image.load(jp(dp, "images/sprites/infected0.png")).convert()
-infected_1 = pygame.image.load(jp(dp, "images/sprites/infected1.png")).convert()
-pelusoid_0 = pygame.image.load(jp(dp, "images/sprites/pelusoid0.png")).convert()
-pelusoid_1 = pygame.image.load(jp(dp, "images/sprites/pelusoid1.png")).convert()
-avirus_0 = pygame.image.load(jp(dp, "images/sprites/avirus0.png")).convert()
-avirus_1 = pygame.image.load(jp(dp, "images/sprites/avirus1.png")).convert()
 
 # clock to control the FPS
 clock = pygame.time.Clock()
@@ -159,6 +177,9 @@ while True:
         init_scoreboard()
         update_scoreboard()
         last_map = map_number
+
+    my_group.update()
+    my_group.draw(map_display)
 
     # test 1
     #outlined_text(bg_font, main_font, 'Level - ' + str(map_number), sb_display, (0, 0))
