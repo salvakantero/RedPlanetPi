@@ -2,9 +2,9 @@
 # Font functions
 #===============================================================================
 
-import os
-from support import *
-
+import pygame
+from globalvars import jp, dp
+from support import swap_color, clip
 
 
 # draws text with border
@@ -16,13 +16,11 @@ def outlined_text(bg_font, fg_font, t, surf, pos):
     fg_font.render(t, surf, [pos[0], pos[1]])
 
 
-
 # generates the letters (and letter spacing) from the font image
 def load_font_img(path, font_color, is_transparent):
     fg_color = (255, 0, 0) # original red
     bg_color = (0, 0, 0) # black
-    font_img = pygame.image.load(
-        os.path.join(os.path.dirname(__file__) + "/",path)).convert() # load font image
+    font_img = pygame.image.load(jp(dp,path)).convert() # load font image
     font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
     last_x = 0
     letters = []
@@ -41,7 +39,6 @@ def load_font_img(path, font_color, is_transparent):
             letter.set_colorkey(bg_color) 
 
     return letters, letter_spacing, font_img.get_height()
-
 
 
 # creates a new font from an image path and a colour

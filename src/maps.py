@@ -3,19 +3,15 @@
 #===============================================================================
 
 import pygame, os, json
-from support import *
-
-p = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
-jp = os.path.join # forms the folder/file path
-
+from globalvars import jp, dp
+from support import find_data
 
 
 # loads a map and draws it on screen
 def load_map(map_number, map_display):
     global map_data
-    map_data = process_map(jp(p, "maps/map" + str(map_number) + ".json"))
+    map_data = process_map(jp(dp, "maps/map" + str(map_number) + ".json"))
     draw_map(map_display) # draws the tile map on the screen
-
 
 
 # dump tiled map into 'mapdata'
@@ -35,7 +31,7 @@ def process_map(map_file):
     # gets the name of the tile file
     tileset = data_readed["tilesets"][0]["source"].replace(".tsx",".json")
     # gets the data from the tile file
-    with open(jp(p,"maps/" + tileset)) as json_data:
+    with open(jp(dp,"maps/" + tileset)) as json_data:
         t = json.load(json_data)
     # removes the path to each image from the tile file
     data["tiles"] = t["tiles"]
@@ -46,7 +42,6 @@ def process_map(map_file):
     return data
 
 
-
 # draws the tile map on the screen
 def draw_map(map_display):
     # scroll through the map data
@@ -55,7 +50,7 @@ def draw_map(map_display):
             # gets the tile number from the list
             t = find_data(map_data["tiles"], "id", map_data["data"][y][x])
             # draws the selected tile
-            tile = pygame.image.load(jp(p, "images/tiles/" + t["image"])).convert()
+            tile = pygame.image.load(jp(dp, "images/tiles/" + t["image"])).convert()
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t["imagewidth"], y * t["imageheight"])   
             map_display.blit(tile, tileRect)
