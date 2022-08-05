@@ -13,8 +13,14 @@ map_scaled_size = 720, 480 # map size (scaled x3)
 map_unscaled_size = 240, 160 # map size (unscaled)
 sboard_scaled_size = 720, 114 # scoreboard size (scaled x3)
 sboard_unscaled_size = 240, 38 # scoreboard size (unscaled)
+
+# tile size in pixels
+tile_width = 16
+tile_height = 16
+
 map_number = 0 # current map number
 last_map = -1 # last map loaded
+
 game_percent = 0 # % of gameplay completed
 lives = 10 # remaining player lives
 oxigen = 99 # remaining player oxigen
@@ -24,6 +30,30 @@ explosives = 0 # explosives collected
 
 # configuration values
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
+
+#enemy types
+spr_type = {
+	"player": 0,
+	"infected": 1,
+	"pelusoid": 2,
+	"avirus": 3
+}
+
+# directions
+dir = {
+	"up": 0, 
+	"down": 1,
+	"left": 2,
+	"right": 3
+}
+
+# movements
+mov = {
+	"lin_x": 0, 
+	"lin_y": 1,
+	"lin_xy": 2,
+	"fanty": 3
+}
 
 # colour palette (Pico8)
 pal = {

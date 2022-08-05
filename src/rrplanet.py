@@ -16,26 +16,31 @@ from texts import Font # text and fonts functions
 from support import apply_scanlines # crt screen filter
 
 
-class MySprite(pygame.sprite.Sprite):
-    def __init__(self):
-        super(MySprite, self).__init__()
+class EnemySprite(pygame.sprite.Sprite):
+    def __init__(self, enemy_type):
+        super(EnemySprite, self).__init__()
  
         self.images = []
-        self.images.append(pygame.image.load(jp(dp, "images/sprites/infected0.png")).convert())
-        self.images.append(pygame.image.load(jp(dp, "images/sprites/infected1.png")).convert())
+        if enemy_type == spr_type["infected"]:
+            self.images.append(pygame.image.load(jp(dp, "images/sprites/infected0.png")).convert())
+            self.images.append(pygame.image.load(jp(dp, "images/sprites/infected1.png")).convert())
+        elif enemy_type == spr_type["pelusoid"]:
+            self.images.append(pygame.image.load(jp(dp, "images/sprites/pelusoid0.png")).convert())
+            self.images.append(pygame.image.load(jp(dp, "images/sprites/pelusoid1.png")).convert())
+        elif enemy_type == spr_type["avirus"]:
+            self.images.append(pygame.image.load(jp(dp, "images/sprites/avirus0.png")).convert())
+            self.images.append(pygame.image.load(jp(dp, "images/sprites/avirus1.png")).convert())
+        
         self.index = 0
- 
+        self.animation_speed = 0.08
         self.image = self.images[self.index]
- 
         self.rect = pygame.Rect(40, 112, 150, 198)
  
     def update(self):
-        self.index += 1
- 
+        self.index += self.animation_speed
         if self.index >= len(self.images):
             self.index = 0
-        
-        self.image = self.images[self.index]
+        self.image = self.images[int(self.index)]
 
 
 #===============================================================================
@@ -127,8 +132,8 @@ screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(35)
 
 # sprites
-my_sprite = MySprite()
-my_group = pygame.sprite.Group(my_sprite)
+enemy_sprite = EnemySprite(spr_type["pelusoid"])
+enemy_group = pygame.sprite.Group(enemy_sprite)
 
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
@@ -178,20 +183,14 @@ while True:
         update_scoreboard()
         last_map = map_number
 
-    my_group.update()
-    my_group.draw(map_display)
-
-    # test 1
-    #outlined_text(bg_font, main_font, 'Level - ' + str(map_number), sb_display, (0, 0))
+    # update enemies
+    enemy_group.update()
+    enemy_group.draw(map_display)
 
     # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_display, map_scaled_size), 
-    ((screen.get_width() - map_scaled_size[0]) // 2, # horizontally centred
-    screen.get_height() - map_scaled_size[1] - 8)) # room for the scoreboard
-
+    screen.blit(pygame.transform.scale(map_display, map_scaled_size), (40, 112))
     # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), 
-    ((screen.get_width() - sboard_scaled_size[0]) // 2, 0)) # horizontally centred
+    screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), (40, 0))
 
     # scanlines
     if cfg_scanlines_type == 2: # HQ
