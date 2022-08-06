@@ -21,16 +21,13 @@ class EnemySprite(pygame.sprite.Sprite):
         super(EnemySprite, self).__init__()
  
         self.images = []
-        if enemy_type == spr_type["infected"]:
-            self.images.append(pygame.image.load(jp(dp, "images/sprites/infected0.png")).convert())
-            self.images.append(pygame.image.load(jp(dp, "images/sprites/infected1.png")).convert())
-        elif enemy_type == spr_type["pelusoid"]:
-            self.images.append(pygame.image.load(jp(dp, "images/sprites/pelusoid0.png")).convert())
-            self.images.append(pygame.image.load(jp(dp, "images/sprites/pelusoid1.png")).convert())
-        elif enemy_type == spr_type["avirus"]:
-            self.images.append(pygame.image.load(jp(dp, "images/sprites/avirus0.png")).convert())
-            self.images.append(pygame.image.load(jp(dp, "images/sprites/avirus1.png")).convert())
-        
+        # frame 1
+        self.images.append(pygame.image.load(
+            jp(dp, "images/sprites/" + enemy_type.name + "0.png")).convert())
+        # frame 2
+        self.images.append(pygame.image.load(
+            jp(dp, "images/sprites/" + enemy_type.name + "1.png")).convert())
+  
         self.index = 0
         self.animation_speed = 0.08
         self.image = self.images[self.index]
@@ -132,7 +129,7 @@ screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(35)
 
 # sprites
-enemy_sprite = EnemySprite(spr_type["pelusoid"])
+enemy_sprite = EnemySprite(SprType.infected)
 enemy_group = pygame.sprite.Group(enemy_sprite)
 
 # fonts

@@ -3,6 +3,7 @@
 #===============================================================================
 
 import os
+from enum import Enum
 
 
 dp = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
@@ -31,29 +32,26 @@ explosives = 0 # explosives collected
 # configuration values
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
-#enemy types
-spr_type = {
-	"player": 0,
-	"infected": 1,
-	"pelusoid": 2,
-	"avirus": 3
-}
+# types of sprites
+class SprType(Enum):
+	player = 0
+	infected = 1
+	pelusoid = 2
+	avirus = 3
 
 # directions
-dir = {
-	"up": 0, 
-	"down": 1,
-	"left": 2,
-	"right": 3
-}
+class Dir(Enum):
+	up = 0
+	down = 1
+	left = 2
+	right = 3
 
 # movements
-mov = {
-	"lin_x": 0, 
-	"lin_y": 1,
-	"lin_xy": 2,
-	"fanty": 3
-}
+class Mov(Enum):
+	lin_x = 0 
+	lin_y = 1
+	lin_xy = 2
+	fanty = 3
 
 # colour palette (Pico8)
 pal = {
