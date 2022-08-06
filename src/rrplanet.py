@@ -13,31 +13,8 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT)
 from globalvars import *
 from maps import load_map # map functions
 from texts import Font # text and fonts functions
+from enemies import Enemy # enemy sprites and mobile platform
 from support import apply_scanlines # crt screen filter
-
-
-class EnemySprite(pygame.sprite.Sprite):
-    def __init__(self, enemy_type):
-        super(EnemySprite, self).__init__()
- 
-        self.images = []
-        # frame 1
-        self.images.append(pygame.image.load(
-            jp(dp, "images/sprites/" + enemy_type.name + "0.png")).convert())
-        # frame 2
-        self.images.append(pygame.image.load(
-            jp(dp, "images/sprites/" + enemy_type.name + "1.png")).convert())
-  
-        self.index = 0
-        self.animation_speed = 0.08
-        self.image = self.images[self.index]
-        self.rect = pygame.Rect(40, 112, 150, 198)
- 
-    def update(self):
-        self.index += self.animation_speed
-        if self.index >= len(self.images):
-            self.index = 0
-        self.image = self.images[int(self.index)]
 
 
 #===============================================================================
@@ -129,8 +106,9 @@ screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(35)
 
 # sprites
-enemy_sprite = EnemySprite(SprType.infected)
-enemy_group = pygame.sprite.Group(enemy_sprite)
+enemy_sprite1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), (2,7))
+enemy_sprite2 = Enemy(SprType.pelusoid, Mov.lin_xy, Dir.left, (1,1), (14,3))
+enemy_group = pygame.sprite.Group(enemy_sprite1, enemy_sprite2)
 
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)

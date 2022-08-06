@@ -19,13 +19,13 @@ HECHO
 EN PROCESO
 ==========
 - Sprites de malotes
+- Colocación de malotes
 - Obtener SFX de opengameart.com
 - Navegador temporal de mapeado con carga de malotes y objetos
 
 POR HACER
 =========
 - Menu inicial con imagen de fondo de MasterKlown
-- Colocación de malotes y objetos a partir de ENEMS.H
 - Movimiento lineal de malotes
 - Movimiento diagonal de malotes
 - Movimiento flotante de malotes

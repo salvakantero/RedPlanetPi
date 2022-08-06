@@ -55,7 +55,7 @@ class Mov(Enum):
 
 # colour palette (Pico8)
 pal = {
-    "BLACK":(0, 0, 0),
+    "BLACK": (0, 0, 0),
     "DARK_BLUE" : (35, 50, 90),
     "PURPLE" : (126, 37, 83),
     "DARK_GREEN" : (0, 135, 81),
