@@ -107,7 +107,7 @@ screen_sl.set_alpha(35)
 
 # sprites
 enemy_sprite1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), (2,7))
-enemy_sprite2 = Enemy(SprType.pelusoid, Mov.lin_xy, Dir.left, (1,1), (14,3))
+enemy_sprite2 = Enemy(SprType.avirus, Mov.lin_xy, Dir.left, (1,1), (14,3))
 enemy_group = pygame.sprite.Group(enemy_sprite1, enemy_sprite2)
 
 # fonts
