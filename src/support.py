@@ -1,5 +1,6 @@
+
 #===============================================================================
-# Auxiliar functions
+# Auxiliar and generic functions
 #===============================================================================
 
 import pygame # pygame library functions

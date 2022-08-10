@@ -1,4 +1,8 @@
 
+#===============================================================================
+# Enemy class and functions
+#===============================================================================
+
 import pygame
 from globalvars import jp, dp, tile_width, tile_height
 
@@ -24,7 +28,11 @@ class Enemy(pygame.sprite.Sprite):
             pos[0]*tile_width, pos[1]*tile_height, tile_width, tile_height)
  
     def update(self):
+        # animation
         self.index += self.animation_speed
         if self.index >= len(self.images):
             self.index = 0
         self.image = self.images[int(self.index)]
+        
+        # movement
+

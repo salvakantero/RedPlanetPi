@@ -82,6 +82,17 @@ def update_scoreboard():
 
 
 #===============================================================================
+# Levels
+#===============================================================================
+
+def load_enemies(map_number):
+    enemy_sprite1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), (2,7))
+    enemy_sprite2 = Enemy(SprType.avirus, Mov.lin_xy, Dir.left, (1,1), (14,3))
+    enemy_group = pygame.sprite.Group(enemy_sprite1, enemy_sprite2)
+
+
+
+#===============================================================================
 # Main
 #===============================================================================
 
@@ -106,9 +117,7 @@ screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(35)
 
 # sprites
-enemy_sprite1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), (2,7))
-enemy_sprite2 = Enemy(SprType.avirus, Mov.lin_xy, Dir.left, (1,1), (14,3))
-enemy_group = pygame.sprite.Group(enemy_sprite1, enemy_sprite2)
+
 
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
@@ -156,6 +165,7 @@ while True:
         draw_map_info()
         init_scoreboard()
         update_scoreboard()
+        load_enemies(map_number)
         last_map = map_number
 
     # update enemies
@@ -174,5 +184,5 @@ while True:
     elif cfg_scanlines_type == 1: # fast
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
-    pygame.display.update() # refreshes the screen
+    #pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
