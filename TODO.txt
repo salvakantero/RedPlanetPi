@@ -15,10 +15,10 @@ HECHO
 25/07/22 - Marcador
 27/07/22 - Adaptar las músicas definitivas de tacha a OGG e implementar
 31/07/22 - Filtro Scanlines HQ
+08/08/22 - Sprites de malotes
 
 EN PROCESO
 ==========
-- Sprites de malotes
 - Colocación de malotes
 - Obtener SFX de opengameart.com
 - Navegador temporal de mapeado con carga de malotes y objetos
