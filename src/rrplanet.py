@@ -407,7 +407,7 @@ sboard_display = pygame.Surface(sboard_unscaled_size)
 
 # surface for HQ scanlines
 screen_sl = pygame.Surface(win_size)
-screen_sl.set_alpha(35)
+screen_sl.set_alpha(40)
 
 # sprites
 
@@ -475,7 +475,7 @@ while True:
 
     # scanlines
     if cfg_scanlines_type == 2: # HQ
-        apply_scanlines(screen_sl, win_size[1]-9, 40, 759, 220)
+        apply_scanlines(screen_sl, win_size[1]-9, 40, 759, 200)
         screen.blit(screen_sl, (0, 0))
     elif cfg_scanlines_type == 1: # fast
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
