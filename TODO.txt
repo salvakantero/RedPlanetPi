@@ -20,11 +20,11 @@ HECHO
 EN PROCESO
 ==========
 - Colocación de malotes
-- Obtener SFX de opengameart.com
 - Navegador temporal de mapeado con carga de malotes y objetos
 
 POR HACER
 =========
+- Obtener SFX de opengameart.com
 - Menu inicial con imagen de fondo de MasterKlown
 - Movimiento lineal de malotes
 - Movimiento diagonal de malotes

@@ -66,6 +66,12 @@ class Mov(Enum):
 	lin_xy = 2
 	fanty = 3
 
+# speed
+class Speed(Enum):
+	slow = 0 
+	normal = 1
+	fast = 2
+
 # colour palette (Pico8)
 pal = {
     "BLACK": (0, 0, 0),
@@ -353,7 +359,7 @@ def update_scoreboard():
 #===============================================================================
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_type, mov, dir, pos, limit):
+    def __init__(self, enemy_type, mov, dir, pos, limit, speed):
         super(Enemy, self).__init__()
  
         self.images = []
@@ -362,13 +368,14 @@ class Enemy(pygame.sprite.Sprite):
             jp(dp, "images/sprites/" + enemy_type.name + "0.png")).convert())
         # frame 2
         self.images.append(pygame.image.load(
-            jp(dp, "images/sprites/" + enemy_type.name + "1.png")).convert())
-  
-        self.index = 0
+            jp(dp, "images/sprites/" + enemy_type.name + "1.png")).convert())  
+        self.animation_index = 0
         self.animation_speed = 0.08
-        self.image = self.images[self.index]
+        self.image = self.images[self.animation_index]
+
         self.mov = mov
         self.dir = dir
+        self.speed = speed
         self.rect = pygame.Rect(
             pos[0]*tile_width, pos[1]*tile_height, tile_width, tile_height)
  
@@ -380,6 +387,21 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.images[int(self.index)]
         
         # movement
+
+        # linear motion on the X axis
+		if self.dir == Mov.lin_x:
+            if self.dir == Dir.right:
+                # if it has not exceeded the maximum X, moves the sprite to the right
+                if self.pos[0] < self.limit[0]: 
+                    self.mov[0] += self.speed
+                else # if there is no place change the direction
+                    self.dir = Dir.left
+            else
+                # if it has not exceeded the minimum X, moves the sprite to the left
+                if pSpr->x > pSpr->print_minV:
+                    pSpr->x = pSpr->x - pSpr->lives_speed
+                else # if there is no place change the direction
+                    self.dir = Dir.right 			
 
 
 
@@ -460,8 +482,8 @@ while True:
         update_scoreboard()
         last_map = map_number        
         # load enemies
-        enemy_sprite1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), (2,7))
-        enemy_sprite2 = Enemy(SprType.avirus, Mov.lin_xy, Dir.left, (1,1), (14,3))
+        enemy_sprite1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), (2,7), 1)
+        enemy_sprite2 = Enemy(SprType.avirus, Mov.lin_xy, Dir.left, (1,1), (14,3), 1)
         enemy_group = pygame.sprite.Group(enemy_sprite1, enemy_sprite2)
 
     # update enemies
