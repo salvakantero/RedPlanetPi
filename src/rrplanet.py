@@ -375,33 +375,37 @@ class Enemy(pygame.sprite.Sprite):
 
         self.mov = mov
         self.dir = dir
+        self.x = pos[0] * tile_width
+        self.y = pos[1] * tile_height
+        self.limit_x = limit[0] * tile_width
+        self.limit_y = limit[1] * tile_height
         self.speed = speed
-        self.rect = pygame.Rect(
-            pos[0]*tile_width, pos[1]*tile_height, tile_width, tile_height)
+        self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
  
     def update(self):
         # animation
-        self.index += self.animation_speed
-        if self.index >= len(self.images):
-            self.index = 0
-        self.image = self.images[int(self.index)]
+        self.animation_index += self.animation_speed
+        if self.animation_index >= len(self.images):
+            self.animation_index = 0
+        self.image = self.images[int(self.animation_index)]
         
         # movement
 
-        # linear motion on the X axis
-		if self.dir == Mov.lin_x:
+        # # linear motion on the X axis
+        if self.mov == Mov.lin_x:
             if self.dir == Dir.right:
                 # if it has not exceeded the maximum X, moves the sprite to the right
-                if self.pos[0] < self.limit[0]: 
-                    self.mov[0] += self.speed
-                else # if there is no place change the direction
+                if self.x < self.limit_x:
+                    self.x += self.speed
+                else: # if there is no place change the direction
                     self.dir = Dir.left
-            else
+            else:
                 # if it has not exceeded the minimum X, moves the sprite to the left
-                if pSpr->x > pSpr->print_minV:
-                    pSpr->x = pSpr->x - pSpr->lives_speed
-                else # if there is no place change the direction
-                    self.dir = Dir.right 			
+                if self.x > self.limit_x:
+                    self.x -= self.speed
+                else: # if there is no place change the direction
+                    self.dir = Dir.right
+
 
 
 
