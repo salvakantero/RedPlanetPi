@@ -359,7 +359,7 @@ def update_scoreboard():
 #===============================================================================
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_type, mov, dir, pos, limit, speed):
+    def __init__(self, enemy_type, mov, dir, pos, max, min, speed):
         super(Enemy, self).__init__()
  
         self.images = []
@@ -372,16 +372,17 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_index = 0
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]
-
+    
         self.mov = mov
         self.dir = dir
+        self.speed = speed
+        # position
         self.x = pos[0] * tile_width
         self.y = pos[1] * tile_height
-        self.limit_x = limit[0] * tile_width
-        self.limit_y = limit[1] * tile_height
-        self.speed = speed
-        self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
- 
+        # limits of the movement
+        self.max = max * tile_height
+        self.min = min * tile_height
+
     def update(self):
         # animation
         self.animation_index += self.animation_speed
@@ -390,21 +391,35 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.images[int(self.animation_index)]
         
         # movement
-
-        # # linear motion on the X axis
-        if self.mov == Mov.lin_x:
+        if self.mov == Mov.lin_x: # linear motion on the X axis
             if self.dir == Dir.right:
                 # if it has not exceeded the maximum X, moves the sprite to the right
-                if self.x < self.limit_x:
+                if self.x < self.max:
                     self.x += self.speed
                 else: # if there is no place change the direction
                     self.dir = Dir.left
             else:
                 # if it has not exceeded the minimum X, moves the sprite to the left
-                if self.x > self.limit_x:
+                if self.x > self.min:
                     self.x -= self.speed
                 else: # if there is no place change the direction
                     self.dir = Dir.right
+        
+        elif self.mov == Mov.lin_y: # linear motion on the Y axis
+            if self.dir == Dir.down:
+                # if it has not exceeded the maximum Y, move the sprite down
+                if self.y < self.max:
+                    self.y += self.speed
+                else: # if there is no place change the direction
+                    self.dir = Dir.up
+            else:
+                # if it has not exceeded the minimum Y, move the sprite up
+                if self.y > self.min:
+                    self.y -= self.speed
+                else: # if there is no place change the direction
+                    self.dir = Dir.down
+
+        self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
 
 
 
@@ -427,6 +442,7 @@ pygame.display.set_icon(icon)
 
 # area covered by the map
 map_display = pygame.Surface(map_unscaled_size)
+map_display_backup = pygame.Surface(map_unscaled_size)
 
 # area covered by the scoreboard
 sboard_display = pygame.Surface(sboard_unscaled_size)
@@ -434,9 +450,6 @@ sboard_display = pygame.Surface(sboard_unscaled_size)
 # surface for HQ scanlines
 screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(40)
-
-# sprites
-
 
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
@@ -450,6 +463,9 @@ oxigen_icon = pygame.image.load(jp(dp, "images/tiles/T53.png")).convert()
 ammo_icon = pygame.image.load(jp(dp, "images/tiles/T52.png")).convert()
 keys_icon = pygame.image.load(jp(dp, "images/tiles/T51.png")).convert()
 explosives_icon = pygame.image.load(jp(dp, "images/tiles/T50.png")).convert()
+
+# enemy sprites control
+enemy_group = pygame.sprite.Group()
 
 # clock to control the FPS
 clock = pygame.time.Clock()
@@ -481,14 +497,16 @@ while True:
     # change map if neccessary
     if map_number != last_map:
         load_map(map_number, map_display)
+        #map_display_backup.blit(map_display, (0,0))
         draw_map_info()
         init_scoreboard()
         update_scoreboard()
         last_map = map_number        
-        # load enemies
-        enemy_sprite1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), (2,7), 1)
-        enemy_sprite2 = Enemy(SprType.avirus, Mov.lin_xy, Dir.left, (1,1), (14,3), 1)
-        enemy_group = pygame.sprite.Group(enemy_sprite1, enemy_sprite2)
+        # load enemies for the map
+        # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed
+        enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
+        enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1)
+        enemy_group.add(enemy_1, enemy_2)
 
     # update enemies
     enemy_group.update()
