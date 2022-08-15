@@ -21,6 +21,7 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT)
 
 dp = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
 jp = os.path.join # forms the folder/file path
+time_elapsed = 0 # count seconds
 
 win_size = 800, 600 # main window size
 map_scaled_size = 720, 480 # map size (scaled x3)
@@ -513,8 +514,11 @@ while True:
     enemy_group.draw(map_display)
 
     # FPS counter
-    fps = str(int(clock.get_fps()))
-    bg_font_S.render(fps + "-FPS-", sboard_display, (140, 30))
+    dt += clock.tick()
+    if dt > 1000:
+        dt = 0
+        fps = str(int(clock.get_fps()))
+        bg_font_S.render(fps + " FPS", sboard_display, (140, 30))
 
     # scale x 3 the map
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), (40, 112))
