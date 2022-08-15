@@ -512,6 +512,10 @@ while True:
     enemy_group.update()
     enemy_group.draw(map_display)
 
+    # FPS counter
+    fps = str(int(clock.get_fps()))
+    bg_font_S.render(fps + "-FPS-", sboard_display, (140, 30))
+
     # scale x 3 the map
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), (40, 112))
     # scale x 3 the scoreboard
@@ -525,4 +529,5 @@ while True:
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    clock.tick() # 60 FPS
+
