@@ -74,7 +74,7 @@ class Speed(Enum):
 	fast = 2
 
 # colour palette (Pico8)
-pal = {
+palette = {
     "BLACK": (0, 0, 0),
     "DARK_BLUE" : (35, 50, 90),
     "PURPLE" : (126, 37, 83),
@@ -392,7 +392,8 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.images[int(self.animation_index)]
         
         # movement
-        if self.mov == Mov.lin_x: # linear motion on the X axis
+        #=================== linear motion on the X axis =======================
+        if self.mov == Mov.lin_x: 
             if self.dir == Dir.right:
                 # if it has not exceeded the maximum X, moves the sprite to the right
                 if self.x < self.max:
@@ -406,7 +407,8 @@ class Enemy(pygame.sprite.Sprite):
                 else: # if there is no place change the direction
                     self.dir = Dir.right
         
-        elif self.mov == Mov.lin_y: # linear motion on the Y axis
+        #=================== linear motion on the Y axis =======================
+        elif self.mov == Mov.lin_y: 
             if self.dir == Dir.down:
                 # if it has not exceeded the maximum Y, move the sprite down
                 if self.y < self.max:
@@ -453,10 +455,11 @@ screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(40)
 
 # fonts
-fg_font_S = Font('images/fonts/small_font.png', pal["GREEN"], True)
-bg_font_S = Font('images/fonts/small_font.png', pal["DARK_GREEN"], False)
-fg_font_L = Font('images/fonts/large_font.png', pal["WHITE"], True)
-bg_font_L = Font('images/fonts/large_font.png', pal["DARK_GRAY"], False)
+fg_font_S = Font('images/fonts/small_font.png', palette["GREEN"], True)
+bg_font_S = Font('images/fonts/small_font.png', palette["DARK_GREEN"], False)
+fg_font_L = Font('images/fonts/large_font.png', palette["WHITE"], True)
+bg_font_L = Font('images/fonts/large_font.png', palette["DARK_GRAY"], False)
+aux_font_L = Font('images/fonts/large_font.png', palette['YELLOW'], True)
 
 # scoreboard icons
 lives_icon = pygame.image.load(jp(dp, "images/assets/lives.png")).convert()
@@ -486,7 +489,7 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-            # ========================== temporal code
+            # temp code ================
             if event.key == K_RIGHT:
                 if map_number < 29:
                     map_number += 1
@@ -507,18 +510,20 @@ while True:
         # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed
         enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
         enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1)
+        enemy_group.remove
         enemy_group.add(enemy_1, enemy_2)
 
     # update enemies
     enemy_group.update()
     enemy_group.draw(map_display)
 
-    # FPS counter
-    dt += clock.tick()
-    if dt > 1000:
-        dt = 0
+    # FPS counter using the clock
+    time_elapsed += clock.tick()    
+    if time_elapsed > 1000: # refreshes every second
+        time_elapsed = 0
         fps = str(int(clock.get_fps()))
-        bg_font_S.render(fps + " FPS", sboard_display, (140, 30))
+        pygame.draw.rect(sboard_display,palette['BLACK'],(130,25,50,12))
+        aux_font_L.render(fps + " FPS", sboard_display, (130, 25))
 
     # scale x 3 the map
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), (40, 112))
@@ -532,6 +537,6 @@ while True:
     elif cfg_scanlines_type == 1: # fast
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
-    pygame.display.update() # refreshes the screen
+    #pygame.display.update() # refreshes the screen
     clock.tick() # 60 FPS
 
