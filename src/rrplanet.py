@@ -21,7 +21,6 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT)
 
 dp = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
 jp = os.path.join # forms the folder/file path
-time_elapsed = 0 # count seconds
 
 win_size = 800, 600 # main window size
 map_scaled_size = 720, 480 # map size (scaled x3)
@@ -90,7 +89,8 @@ palette = {
     "CYAN" : (41, 173, 255),
     "MALVA" : (131, 118, 156),
     "PINK" : (255, 119, 168),
-    "SAND" : (255, 204, 170) 
+    "SAND" : (255, 204, 170),
+    "KEY" : (255, 0, 255) # Mask colour
 }
 
 # screen names
@@ -367,9 +367,12 @@ class Enemy(pygame.sprite.Sprite):
         # frame 1
         self.images.append(pygame.image.load(
             jp(dp, "images/sprites/" + enemy_type.name + "0.png")).convert())
+        self.images[0].set_colorkey((255, 0, 255)) # apply mask
         # frame 2
         self.images.append(pygame.image.load(
             jp(dp, "images/sprites/" + enemy_type.name + "1.png")).convert())  
+        self.images[1].set_colorkey((255, 0, 255)) # apply mask
+
         self.animation_index = 0
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]
@@ -445,11 +448,10 @@ pygame.display.set_icon(icon)
 
 # area covered by the map
 map_display = pygame.Surface(map_unscaled_size)
+# surface to save the generated map without sprites
 map_display_backup = pygame.Surface(map_unscaled_size)
-
 # area covered by the scoreboard
 sboard_display = pygame.Surface(sboard_unscaled_size)
-
 # surface for HQ scanlines
 screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(40)
@@ -501,7 +503,7 @@ while True:
     # change map if neccessary
     if map_number != last_map:
         load_map(map_number, map_display)
-        #map_display_backup.blit(map_display, (0,0))
+        map_display_backup.blit(map_display, (0,0))
         draw_map_info()
         init_scoreboard()
         update_scoreboard()
@@ -513,17 +515,16 @@ while True:
         enemy_group.remove
         enemy_group.add(enemy_1, enemy_2)
 
+    # paint the map free of sprites to clean it up
+    map_display.blit(map_display_backup, (0,0))
+
     # update enemies
     enemy_group.update()
     enemy_group.draw(map_display)
 
-    # FPS counter using the clock
-    time_elapsed += clock.tick()    
-    if time_elapsed > 1000: # refreshes every second
-        time_elapsed = 0
-        fps = str(int(clock.get_fps()))
-        pygame.draw.rect(sboard_display,palette['BLACK'],(130,25,50,12))
-        aux_font_L.render(fps + " FPS", sboard_display, (130, 25))
+    # FPS counter using the clock   
+    pygame.draw.rect(sboard_display,palette['BLACK'],(124,22,50,12))
+    aux_font_L.render(str(int(clock.get_fps())) + " FPS", sboard_display, (124, 22))
 
     # scale x 3 the map
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), (40, 112))
@@ -537,6 +538,6 @@ while True:
     elif cfg_scanlines_type == 1: # fast
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
-    #pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    pygame.display.update() # refreshes the screen
+    clock.tick(60) # 60 FPS
 

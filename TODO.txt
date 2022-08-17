@@ -18,10 +18,10 @@ HECHO
 31/07/22 - Filtro Scanlines HQ
 08/08/22 - Sprites de malotes
 14/08/22 - Movimiento lineal X Y de malotes
+17/08/22 - Transparencia de sprites
 
 EN PROCESO
 ==========
-- Transparencia de sprites
 - Colocación de malotes
 
 POR HACER
