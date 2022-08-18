@@ -428,6 +428,8 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
 
 def load_enemies():
+    # deletes existing sprites
+
     # CONTROL CENTRE
     if map_number == 0:
         # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
