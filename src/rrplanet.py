@@ -47,30 +47,32 @@ cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
 # types of sprites
 class SprType(Enum):
-	player = 0
-	infected = 1
-	pelusoid = 2
-	avirus = 3
+    player = 0
+    infected = 1
+    pelusoid = 2
+    avirus = 3
+    platform = 4
+    none = 5
 
 # directions
 class Dir(Enum):
-	up = 0
-	down = 1
-	left = 2
-	right = 3
+    up = 0
+    down = 1
+    left = 2
+    right = 3
 
 # movements
 class Mov(Enum):
-	lin_x = 0 
-	lin_y = 1
-	lin_xy = 2
-	fanty = 3
+    lin_x = 0 
+    lin_y = 1
+    lin_xy = 2
+    fanty = 3
 
 # speed
 class Speed(Enum):
-	slow = 0 
-	normal = 1
-	fast = 2
+    slow = 0 
+    normal = 1
+    fast = 2
 
 # colour palette (Pico8)
 palette = {
@@ -96,35 +98,35 @@ palette = {
 # screen names
 map_names = {
     0  : "CONTROL CENTRE",
-	1  : "SUPPLY DEPOT 1",
-	2  : "CENTRAL HALL LEVEL 0",
-	3  : "TOXIC WASTE STORAGE 1A",
+    1  : "SUPPLY DEPOT 1",
+    2  : "CENTRAL HALL LEVEL 0",
+    3  : "TOXIC WASTE STORAGE 1A",
     4  : "TOXIC WASTE STORAGE 1B",
-	5  : "WEST PASSAGE LEVEL -1",
-	6  : "ACCESS TO WEST PASSAGES",
-	7  : "CENTRAL HALL LEVEL -1",
-	8  : "ACCESS TO DUNGEONS",
-	9  : "DUNGEONS",
-	10 : "WEST PASSAGE LEVEL -2",
-	11 : "SUPPLY DEPOT 2",
-	12 : "CENTRAL HALL LEVEL -2",
-	13 : "ACCESS TO SOUTHEAST EXIT",
-	14 : "EXIT TO UNDERGROUND",
-	15 : "PELUSOIDS LAIR",
-	16 : "ALVARITOS GROTTO 2",
-	17 : "ALVARITOS GROTTO 1",
-	18 : "TOXIC WASTE STORAGE 2A",
-	19 : "UNDERGROUND TUNNEL",
-	20 : "SIDE HALL LEVEL -4",
-	21 : "ARACHNOVIRUS LAIR",
-	22 : "UNSTABLE CORRIDORS 1",
-	23 : "UNSTABLE CORRIDORS 2",
-	24 : "TOXIC WASTE STORAGE 2B",
-	25 : "SIDE HALL LEVEL -5",
-	26 : "ABANDONED MINE 1",
-	27 : "ABANDONED MINE 2",
-	28 : "ABANDONED MINE 3",
-	29 : "EXPLOSIVES STOCKPILE",
+    5  : "WEST PASSAGE LEVEL -1",
+    6  : "ACCESS TO WEST PASSAGES",
+    7  : "CENTRAL HALL LEVEL -1",
+    8  : "ACCESS TO DUNGEONS",
+    9  : "DUNGEONS",
+    10 : "WEST PASSAGE LEVEL -2",
+    11 : "SUPPLY DEPOT 2",
+    12 : "CENTRAL HALL LEVEL -2",
+    13 : "ACCESS TO SOUTHEAST EXIT",
+    14 : "EXIT TO UNDERGROUND",
+    15 : "PELUSOIDS LAIR",
+    16 : "ALVARITOS GROTTO 2",
+    17 : "ALVARITOS GROTTO 1",
+    18 : "TOXIC WASTE STORAGE 2A",
+    19 : "UNDERGROUND TUNNEL",
+    20 : "SIDE HALL LEVEL -4",
+    21 : "ARACHNOVIRUS LAIR",
+    22 : "UNSTABLE CORRIDORS 1",
+    23 : "UNSTABLE CORRIDORS 2",
+    24 : "TOXIC WASTE STORAGE 2B",
+    25 : "SIDE HALL LEVEL -5",
+    26 : "ABANDONED MINE 1",
+    27 : "ABANDONED MINE 2",
+    28 : "ABANDONED MINE 3",
+    29 : "EXPLOSIVES STOCKPILE",
     30 : "BACK TO CONTROL CENTER",
 }
 
@@ -362,16 +364,14 @@ def update_scoreboard():
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_type, mov, dir, pos, max, min, speed):
         super(Enemy, self).__init__()
- 
+        num_frames = 2
         self.images = []
-        # frame 1
-        self.images.append(pygame.image.load(
-            jp(dp, "images/sprites/" + enemy_type.name + "0.png")).convert())
-        self.images[0].set_colorkey((255, 0, 255)) # apply mask
-        # frame 2
-        self.images.append(pygame.image.load(
-            jp(dp, "images/sprites/" + enemy_type.name + "1.png")).convert())  
-        self.images[1].set_colorkey((255, 0, 255)) # apply mask
+        for i in range(num_frames):
+            # image for the frame
+            self.images.append(pygame.image.load(
+                jp(dp, "images/sprites/" + enemy_type.name + str(i) + ".png")).convert())
+            # mask
+            self.images[i].set_colorkey((255, 0, 255))
 
         self.animation_index = 0
         self.animation_speed = 0.08
@@ -427,6 +427,48 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
 
+def load_enemies():
+    # CONTROL CENTRE
+    if map_number == 0:
+        # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
+        enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
+        enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1) 
+        enemy_group.add(enemy_1, enemy_2)      
+    # SUPPLY DEPOT 1        
+    elif map_number == 1:
+        enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
+        enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1) 
+        enemy_group.add(enemy_1, enemy_2)     
+    # CENTRAL HALL LEVEL 0
+    # TOXIC WASTE STORAGE 1A
+    # TOXIC WASTE STORAGE 1B
+    # WEST PASSAGE LEVEL -1
+    # ACCESS TO WEST PASSAGES
+    # CENTRAL HALL LEVEL -1
+    # ACCESS TO DUNGEONS
+    # DUNGEONS
+    # WEST PASSAGE LEVEL -2
+    # SUPPLY DEPOT 2
+    # CENTRAL HALL LEVEL -2
+    # ACCESS TO SOUTHEAST EXIT
+    # EXIT TO UNDERGROUND
+    # PELUSOIDS LAIR
+    # ALVARITOS GROTTO 2
+    # ALVARITOS GROTTO 1
+    # TOXIC WASTE STORAGE 2A
+    # UNDERGROUND TUNNEL
+    # SIDE HALL LEVEL -4
+    # ARACHNOVIRUS LAIR
+    # UNSTABLE CORRIDORS 1
+    # UNSTABLE CORRIDORS 2
+    # TOXIC WASTE STORAGE 2B
+    # SIDE HALL LEVEL -5
+    # ABANDONED MINE 1
+    # ABANDONED MINE 2
+    # ABANDONED MINE 3
+    # EXPLOSIVES STOCKPILE
+    # BACK TO CONTROL CENTER
+    
 
 
 
@@ -507,13 +549,8 @@ while True:
         draw_map_info()
         init_scoreboard()
         update_scoreboard()
+        load_enemies()
         last_map = map_number        
-        # load enemies for the map
-        # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed
-        enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
-        enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1)
-        enemy_group.remove
-        enemy_group.add(enemy_1, enemy_2)
 
     # paint the map free of sprites to clean it up
     map_display.blit(map_display_backup, (0,0))
@@ -540,4 +577,5 @@ while True:
 
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
+
 
