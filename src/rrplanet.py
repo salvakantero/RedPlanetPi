@@ -130,155 +130,99 @@ map_names = {
     30 : "BACK TO CONTROL CENTER",
 }
 
-# enemies (enems.h)
+# enemy layout per screen (enems.h)
 enemies = {
+        #  X    Y   X1   Y1  X2   Y2  mX mY  t
     0: ({128, 112, 128, 112, 32, 112, -2, 0, 1},	
         {16, 16, 16, 16, 224, 48, 2, 2, 2},
+ 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
+    1: ({192, 112, 192, 112, 32, 112, -4, 0, 1},
+ 	    {208, 16, 208, 16, 144, 64, -1, 1, 2},
+ 	    {80, 64, 80, 64, 80, 16, 0, -2, 3}),
+    2: ({112, 144, 112, 144, 112, 32, 0, -2, 4},
+ 	    {208, 112, 208, 112, 16, 80, -2, -2, 2},
+ 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
+    3: ({160, 48, 160, 48, 32, 48, -4, 0, 1},
+ 	    {16, 80, 16, 80, 208, 112, 4, 4, 3},
+ 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
+    4: ({64, 80, 64, 80, 64, 16, 0, -2, 3},
+ 	    {144, 16, 144, 16, 144, 128, 0, 2, 3},
+ 	    {208, 112, 208, 112, 208, 96, 0, -2, 6}),
+    5: ({32, 48, 32, 48, 192, 48, 2, 0, 1},
+ 	    {192, 80, 192, 80, 32, 80, -2, 0, 1},
+ 	    {144, 128, 144, 128, 160, 128, 2, 0, 6}),
+    6: ({96, 48, 96, 48, 48, 16, -2, -2, 3},
+ 	    {144, 80, 144, 80, 144, 16, 0, -2, 3},
+ 	    {16, 112, 16, 112, 16, 96, 0, -2, 6}),
+    7: ({112, 144, 112, 144, 112, 16, 0, -2, 4},
+ 	    {208, 96, 208, 96, 16, 96, -2, 0, 3},
+ 	    {16, 32, 16, 32, 192, 64, 1, 1, 2}),
+    8: ({208, 64, 208, 64, 192, 64, -2, 0, 6},
+ 	    {64, 64, 64, 64, 64, 32, 0, -1, 3},
+ 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
+    9: ({144, 128, 144, 128, 144, 16, 0, -4, 3},
+ 	    {80, 16, 80, 16, 80, 128, 0, 4, 3},
+ 	    {192, 128, 192, 128, 208, 128, 2, 0, 6}),
+    10:({128, 128, 128, 128, 144, 128, 2, 0, 6},
+ 	    {176, 64, 176, 64, 160, 16, -2, -2, 3},
+ 	    {32, 16, 32, 16, 16, 64, -2, 2, 3}),
+    11:({192, 80, 192, 80, 32, 80, -4, 0, 1},
+ 	    {32, 48, 32, 48, 192, 48, 4, 0, 1},
+ 	    {192, 16, 192, 16, 32, 16, -4, 0, 1}),
+    12:({112, 128, 112, 128, 112, 16, 0, -2, 4},
+ 	    {208, 112, 208, 112, 32, 112, -2, 0, 2},
+ 	    {16, 48, 16, 48, 208, 48, 2, 0, 2}),
+    13:({128, 112, 128, 112, 144, 112, 2, 0, 6},
+ 	    {144, 128, 144, 128, 208, 128, 2, 0, 1},
+ 	    {16, 80, 16, 80, 48, 16, 2, -2, 2}),
+    14:({112, 128, 112, 128, 112, 16, 0, -4, 3},
+ 	    {48, 16, 48, 16, 48, 128, 0, 4, 3},
+ 	    {96, 16, 96, 16, 96, 128, 0, 2, 3}),
+    15:({96, 128, 96, 128, 80, 128, -2, 0, 6},
+ 	    {112, 112, 112, 112, 144, 112, 2, 0, 2},
+ 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
+    16:({192, 64, 192, 64, 32, 32, -2, -2, 2},
+ 	    {48, 128, 48, 128, 224, 112, 2, -2, 2},
+ 	    {16, 64, 16, 64, 32, 64, 2, 0, 6}),
+    17:({160, 128, 160, 128, 160, 16, 0, -4, 3},
+ 	    {112, 32, 112, 32, 112, 128, 0, 4, 3},
+ 	    {64, 128, 64, 128, 16, 16, -4, -4, 2}),
+    18:({192, 96, 192, 96, 32, 96, -4, 0, 1},
+ 	    {32, 64, 32, 64, 192, 64, 2, 0, 1},
+ 	    {192, 32, 192, 32, 32, 32, -4, 0, 1}),
+    19:({64, 16, 64, 16, 64, 128, 0, 4, 3},
+ 	    {112, 128, 112, 128, 112, 16, 0, -4, 3},
+ 	    {16, 112, 16, 112, 16, 16, 0, -4, 3}),
+    20:({112, 144, 112, 144, 112, 32, 0, -2, 4},
+ 	    {208, 144, 208, 144, 16, 48, -1, -1, 3},
+ 	    {128, 16, 128, 16, 128, 144, 0, 4, 3}),
+    21:({160, 128, 160, 128, 96, 128, -2, 0, 3},
+ 	    {208, 128, 208, 128, 208, 96, 0, -1, 3},
+ 	    {80, 112, 80, 112, 128, 112, 1, 0, 0}),
+    22:({64, 128, 64, 128, 48, 32, -2, -2, 2},
+ 	    {208, 128, 208, 128, 208, 32, 0, -4, 3},
+ 	    {128, 32, 128, 32, 160, 128, 2, 2, 2}),
+    23:({16, 32, 16, 32, 32, 128, 2, 2, 2},
+ 	    {128, 128, 128, 128, 128, 32, 0, -4, 3},
+ 	    {160, 32, 160, 32, 160, 128, 0, 4, 3}),
+    24:({48, 32, 48, 32, 192, 64, 4, 4, 2},
+ 	    {48, 128, 48, 128, 192, 128, 4, 0, 1},
+ 	    {192, 96, 192, 96, 64, 96, -2, 0, 1}),
+    25:({112, 128, 112, 128, 112, 16, 0, -2, 4},
+ 	    {208, 48, 208, 48, 16, 48, -2, 0, 3},
+ 	    {16, 112, 16, 112, 208, 112, 4, 0, 3}),
+    26:({192, 128, 192, 128, 32, 128, -4, 0, 1},
+ 	    {80, 32, 80, 32, 192, 32, 4, 0, 1},
+ 	    {16, 32, 16, 32, 32, 32, 2, 0, 6}),
+    27:({160, 32, 160, 32, 160, 128, 0, 4, 3},
+ 	    {192, 128, 192, 128, 96, 128, -1, 0, 1},
+ 	    {112, 32, 112, 32, 112, 128, 0, 2, 0}),
+    28:({112, 128, 112, 128, 128, 128, 2, 0, 6},
+ 	    {32, 32, 32, 32, 32, 128, 0, 2, 3},
+ 	    {96, 48, 96, 48, 176, 48, 4, 0, 1}),
+    29:({128, 32, 128, 32, 128, 48, 0, 2, 6},
+ 	    {0, 0, 0, 0, 0, 0, 0, 0, 0},
  	    {0, 0, 0, 0, 0, 0, 0, 0, 0})
-
-    {192, 112, 192, 112, 32, 112, -4, 0, 1},
- 	{208, 16, 208, 16, 144, 64, -1, 1, 2},
- 	{80, 64, 80, 64, 80, 16, 0, -2, 3},
-
-	// Pantalla 2
- 	{112, 144, 112, 144, 112, 32, 0, -2, 4},
- 	{208, 112, 208, 112, 16, 80, -2, -2, 2},
- 	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-	// Pantalla 3
- 	{160, 48, 160, 48, 32, 48, -4, 0, 1},
- 	{16, 80, 16, 80, 208, 112, 4, 4, 3},
- 	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-	// Pantalla 4
- 	{64, 80, 64, 80, 64, 16, 0, -2, 3},
- 	{144, 16, 144, 16, 144, 128, 0, 2, 3},
- 	{208, 112, 208, 112, 208, 96, 0, -2, 6},
-
-	// Pantalla 5
- 	{32, 48, 32, 48, 192, 48, 2, 0, 1},
- 	{192, 80, 192, 80, 32, 80, -2, 0, 1},
- 	{144, 128, 144, 128, 160, 128, 2, 0, 6},
-
-	// Pantalla 6
- 	{96, 48, 96, 48, 48, 16, -2, -2, 3},
- 	{144, 80, 144, 80, 144, 16, 0, -2, 3},
- 	{16, 112, 16, 112, 16, 96, 0, -2, 6},
-
-	// Pantalla 7
- 	{112, 144, 112, 144, 112, 16, 0, -2, 4},
- 	{208, 96, 208, 96, 16, 96, -2, 0, 3},
- 	{16, 32, 16, 32, 192, 64, 1, 1, 2},
-
-	// Pantalla 8
- 	{208, 64, 208, 64, 192, 64, -2, 0, 6},
- 	{64, 64, 64, 64, 64, 32, 0, -1, 3},
- 	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-	// Pantalla 9
- 	{144, 128, 144, 128, 144, 16, 0, -4, 3},
- 	{80, 16, 80, 16, 80, 128, 0, 4, 3},
- 	{192, 128, 192, 128, 208, 128, 2, 0, 6},
-
-	// Pantalla 10
- 	{128, 128, 128, 128, 144, 128, 2, 0, 6},
- 	{176, 64, 176, 64, 160, 16, -2, -2, 3},
- 	{32, 16, 32, 16, 16, 64, -2, 2, 3},
-
-	// Pantalla 11
- 	{192, 80, 192, 80, 32, 80, -4, 0, 1},
- 	{32, 48, 32, 48, 192, 48, 4, 0, 1},
- 	{192, 16, 192, 16, 32, 16, -4, 0, 1},
-
-	// Pantalla 12
- 	{112, 128, 112, 128, 112, 16, 0, -2, 4},
- 	{208, 112, 208, 112, 32, 112, -2, 0, 2},
- 	{16, 48, 16, 48, 208, 48, 2, 0, 2},
-
-	// Pantalla 13
- 	{128, 112, 128, 112, 144, 112, 2, 0, 6},
- 	{144, 128, 144, 128, 208, 128, 2, 0, 1},
- 	{16, 80, 16, 80, 48, 16, 2, -2, 2},
-
-	// Pantalla 14
- 	{112, 128, 112, 128, 112, 16, 0, -4, 3},
- 	{48, 16, 48, 16, 48, 128, 0, 4, 3},
- 	{96, 16, 96, 16, 96, 128, 0, 2, 3},
-
-	// Pantalla 15
- 	{96, 128, 96, 128, 80, 128, -2, 0, 6},
- 	{112, 112, 112, 112, 144, 112, 2, 0, 2},
- 	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-	// Pantalla 16
- 	{192, 64, 192, 64, 32, 32, -2, -2, 2},
- 	{48, 128, 48, 128, 224, 112, 2, -2, 2},
- 	{16, 64, 16, 64, 32, 64, 2, 0, 6},
-
-	// Pantalla 17
- 	{160, 128, 160, 128, 160, 16, 0, -4, 3},
- 	{112, 32, 112, 32, 112, 128, 0, 4, 3},
- 	{64, 128, 64, 128, 16, 16, -4, -4, 2},
-
-	// Pantalla 18
- 	{192, 96, 192, 96, 32, 96, -4, 0, 1},
- 	{32, 64, 32, 64, 192, 64, 2, 0, 1},
- 	{192, 32, 192, 32, 32, 32, -4, 0, 1},
-
-	// Pantalla 19
- 	{64, 16, 64, 16, 64, 128, 0, 4, 3},
- 	{112, 128, 112, 128, 112, 16, 0, -4, 3},
- 	{16, 112, 16, 112, 16, 16, 0, -4, 3},
-
-	// Pantalla 20
- 	{112, 144, 112, 144, 112, 32, 0, -2, 4},
- 	{208, 144, 208, 144, 16, 48, -1, -1, 3},
- 	{128, 16, 128, 16, 128, 144, 0, 4, 3},
-
-	// Pantalla 21
- 	{160, 128, 160, 128, 96, 128, -2, 0, 3},
- 	{208, 128, 208, 128, 208, 96, 0, -1, 3},
- 	{80, 112, 80, 112, 128, 112, 1, 0, 0},
-
-	// Pantalla 22
- 	{64, 128, 64, 128, 48, 32, -2, -2, 2},
- 	{208, 128, 208, 128, 208, 32, 0, -4, 3},
- 	{128, 32, 128, 32, 160, 128, 2, 2, 2},
-
-	// Pantalla 23
- 	{16, 32, 16, 32, 32, 128, 2, 2, 2},
- 	{128, 128, 128, 128, 128, 32, 0, -4, 3},
- 	{160, 32, 160, 32, 160, 128, 0, 4, 3},
-
-	// Pantalla 24
- 	{48, 32, 48, 32, 192, 64, 4, 4, 2},
- 	{48, 128, 48, 128, 192, 128, 4, 0, 1},
- 	{192, 96, 192, 96, 64, 96, -2, 0, 1},
-
-	// Pantalla 25
- 	{112, 128, 112, 128, 112, 16, 0, -2, 4},
- 	{208, 48, 208, 48, 16, 48, -2, 0, 3},
- 	{16, 112, 16, 112, 208, 112, 4, 0, 3},
-
-	// Pantalla 26
- 	{192, 128, 192, 128, 32, 128, -4, 0, 1},
- 	{80, 32, 80, 32, 192, 32, 4, 0, 1},
- 	{16, 32, 16, 32, 32, 32, 2, 0, 6},
-
-	// Pantalla 27
- 	{160, 32, 160, 32, 160, 128, 0, 4, 3},
- 	{192, 128, 192, 128, 96, 128, -1, 0, 1},
- 	{112, 32, 112, 32, 112, 128, 0, 2, 0},
-
-	// Pantalla 28
- 	{112, 128, 112, 128, 128, 128, 2, 0, 6},
- 	{32, 32, 32, 32, 32, 128, 0, 2, 3},
- 	{96, 48, 96, 48, 176, 48, 4, 0, 1},
-
-	// Pantalla 29
- 	{128, 32, 128, 32, 128, 48, 0, 2, 6},
- 	{0, 0, 0, 0, 0, 0, 0, 0, 0},
- 	{0, 0, 0, 0, 0, 0, 0, 0, 0}
 }
 
 
@@ -659,73 +603,77 @@ while True:
         update_scoreboard()
         last_map = map_number
 
-        # load enemies
+        # load enemies {X, Y, X1, Y1, X2, Y2, mX, mY, t}
         enemy_group.empty()
-        if map_number == 0: # CONTROL CENTRE
-            # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
-            enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
-            enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1) 
-            enemy_group.add(enemy_1, enemy_2)           
-        elif map_number == 1: # SUPPLY DEPOT 1   
-            enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
-            enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1) 
-            enemy_group.add(enemy_1, enemy_2)     
-        elif map_number == 2: # CENTRAL HALL LEVEL 0
-            pass
-        elif map_number == 3: # TOXIC WASTE STORAGE 1A
-            pass
-        elif map_number == 4: # TOXIC WASTE STORAGE 1B
-            pass
-        elif map_number == 5: # WEST PASSAGE LEVEL -1
-            pass
-        elif map_number == 6: # ACCESS TO WEST PASSAGES
-            pass
-        elif map_number == 7: # CENTRAL HALL LEVEL -1
-            pass
-        elif map_number == 8: # ACCESS TO DUNGEONS
-            pass
-        elif map_number == 9: # DUNGEONS
-            pass
-        elif map_number == 10: # WEST PASSAGE LEVEL -2
-            pass
-        elif map_number == 11: # SUPPLY DEPOT 2
-            pass
-        elif map_number == 12: # CENTRAL HALL LEVEL -2
-            pass
-        elif map_number == 13: # ACCESS TO SOUTHEAST EXIT
-            pass
-        elif map_number == 14: # EXIT TO UNDERGROUND
-            pass
-        elif map_number == 15: # PELUSOIDS LAIR
-            pass
-        elif map_number == 16: # ALVARITOS GROTTO 2
-            pass
-        elif map_number == 17: # ALVARITOS GROTTO 1
-            pass
-        elif map_number == 18: # TOXIC WASTE STORAGE 2A
-            pass
-        elif map_number == 19: # UNDERGROUND TUNNEL
-            pass
-        elif map_number == 20: # SIDE HALL LEVEL -4
-            pass
-        elif map_number == 21: # ARACHNOVIRUS LAIR
-            pass
-        elif map_number == 22: # UNSTABLE CORRIDORS 1
-            pass
-        elif map_number == 23: # UNSTABLE CORRIDORS 2
-            pass
-        elif map_number == 24: # TOXIC WASTE STORAGE 2B
-            pass
-        elif map_number == 25: # SIDE HALL LEVEL -5
-            pass
-        elif map_number == 26: # ABANDONED MINE 1
-            pass
-        elif map_number == 27: # ABANDONED MINE 2
-            pass
-        elif map_number == 28: # ABANDONED MINE 3
-            pass
-        elif map_number == 29: # EXPLOSIVES STOCKPILE
-            pass
+        for i in range[3]:
+            enemy[i] = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
+            enemy_group.add(enemy[i])
+            
+        # if map_number == 0: # CONTROL CENTRE
+        #     # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
+        #     enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
+        #     enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1) 
+        #     enemy_group.add(enemy_1, enemy_2)           
+        # elif map_number == 1: # SUPPLY DEPOT 1   
+        #     enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
+        #     enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1) 
+        #     enemy_group.add(enemy_1, enemy_2)     
+        # elif map_number == 2: # CENTRAL HALL LEVEL 0
+        #     pass
+        # elif map_number == 3: # TOXIC WASTE STORAGE 1A
+        #     pass
+        # elif map_number == 4: # TOXIC WASTE STORAGE 1B
+        #     pass
+        # elif map_number == 5: # WEST PASSAGE LEVEL -1
+        #     pass
+        # elif map_number == 6: # ACCESS TO WEST PASSAGES
+        #     pass
+        # elif map_number == 7: # CENTRAL HALL LEVEL -1
+        #     pass
+        # elif map_number == 8: # ACCESS TO DUNGEONS
+        #     pass
+        # elif map_number == 9: # DUNGEONS
+        #     pass
+        # elif map_number == 10: # WEST PASSAGE LEVEL -2
+        #     pass
+        # elif map_number == 11: # SUPPLY DEPOT 2
+        #     pass
+        # elif map_number == 12: # CENTRAL HALL LEVEL -2
+        #     pass
+        # elif map_number == 13: # ACCESS TO SOUTHEAST EXIT
+        #     pass
+        # elif map_number == 14: # EXIT TO UNDERGROUND
+        #     pass
+        # elif map_number == 15: # PELUSOIDS LAIR
+        #     pass
+        # elif map_number == 16: # ALVARITOS GROTTO 2
+        #     pass
+        # elif map_number == 17: # ALVARITOS GROTTO 1
+        #     pass
+        # elif map_number == 18: # TOXIC WASTE STORAGE 2A
+        #     pass
+        # elif map_number == 19: # UNDERGROUND TUNNEL
+        #     pass
+        # elif map_number == 20: # SIDE HALL LEVEL -4
+        #     pass
+        # elif map_number == 21: # ARACHNOVIRUS LAIR
+        #     pass
+        # elif map_number == 22: # UNSTABLE CORRIDORS 1
+        #     pass
+        # elif map_number == 23: # UNSTABLE CORRIDORS 2
+        #     pass
+        # elif map_number == 24: # TOXIC WASTE STORAGE 2B
+        #     pass
+        # elif map_number == 25: # SIDE HALL LEVEL -5
+        #     pass
+        # elif map_number == 26: # ABANDONED MINE 1
+        #     pass
+        # elif map_number == 27: # ABANDONED MINE 2
+        #     pass
+        # elif map_number == 28: # ABANDONED MINE 3
+        #     pass
+        # elif map_number == 29: # EXPLOSIVES STOCKPILE
+        #     pass
 
     # paint the map free of sprites to clean it up
     map_display.blit(map_display_backup, (0,0))
