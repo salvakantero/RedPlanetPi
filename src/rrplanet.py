@@ -427,51 +427,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
 
-def load_enemies():
-    # deletes existing sprites
-
-    # CONTROL CENTRE
-    if map_number == 0:
-        # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
-        enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
-        enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1) 
-        enemy_group.add(enemy_1, enemy_2)      
-    # SUPPLY DEPOT 1        
-    elif map_number == 1:
-        enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
-        enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1) 
-        enemy_group.add(enemy_1, enemy_2)     
-    # CENTRAL HALL LEVEL 0
-    # TOXIC WASTE STORAGE 1A
-    # TOXIC WASTE STORAGE 1B
-    # WEST PASSAGE LEVEL -1
-    # ACCESS TO WEST PASSAGES
-    # CENTRAL HALL LEVEL -1
-    # ACCESS TO DUNGEONS
-    # DUNGEONS
-    # WEST PASSAGE LEVEL -2
-    # SUPPLY DEPOT 2
-    # CENTRAL HALL LEVEL -2
-    # ACCESS TO SOUTHEAST EXIT
-    # EXIT TO UNDERGROUND
-    # PELUSOIDS LAIR
-    # ALVARITOS GROTTO 2
-    # ALVARITOS GROTTO 1
-    # TOXIC WASTE STORAGE 2A
-    # UNDERGROUND TUNNEL
-    # SIDE HALL LEVEL -4
-    # ARACHNOVIRUS LAIR
-    # UNSTABLE CORRIDORS 1
-    # UNSTABLE CORRIDORS 2
-    # TOXIC WASTE STORAGE 2B
-    # SIDE HALL LEVEL -5
-    # ABANDONED MINE 1
-    # ABANDONED MINE 2
-    # ABANDONED MINE 3
-    # EXPLOSIVES STOCKPILE
-    # BACK TO CONTROL CENTER
-    
-
 
 
 
@@ -551,8 +506,75 @@ while True:
         draw_map_info()
         init_scoreboard()
         update_scoreboard()
-        load_enemies()
-        last_map = map_number        
+        last_map = map_number
+
+        # load enemies
+        enemy_group.empty()
+        if map_number == 0: # CONTROL CENTRE
+            # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
+            enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
+            enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1) 
+            enemy_group.add(enemy_1, enemy_2)           
+        elif map_number == 1: # SUPPLY DEPOT 1   
+            enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
+            enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1) 
+            enemy_group.add(enemy_1, enemy_2)     
+        elif map_number == 2: # CENTRAL HALL LEVEL 0
+            pass
+        elif map_number == 3: # TOXIC WASTE STORAGE 1A
+            pass
+        elif map_number == 4: # TOXIC WASTE STORAGE 1B
+            pass
+        elif map_number == 5: # WEST PASSAGE LEVEL -1
+            pass
+        elif map_number == 6: # ACCESS TO WEST PASSAGES
+            pass
+        elif map_number == 7: # CENTRAL HALL LEVEL -1
+            pass
+        elif map_number == 8: # ACCESS TO DUNGEONS
+            pass
+        elif map_number == 9: # DUNGEONS
+            pass
+        elif map_number == 10: # WEST PASSAGE LEVEL -2
+            pass
+        elif map_number == 11: # SUPPLY DEPOT 2
+            pass
+        elif map_number == 12: # CENTRAL HALL LEVEL -2
+            pass
+        elif map_number == 13: # ACCESS TO SOUTHEAST EXIT
+            pass
+        elif map_number == 14: # EXIT TO UNDERGROUND
+            pass
+        elif map_number == 15: # PELUSOIDS LAIR
+            pass
+        elif map_number == 16: # ALVARITOS GROTTO 2
+            pass
+        elif map_number == 17: # ALVARITOS GROTTO 1
+            pass
+        elif map_number == 18: # TOXIC WASTE STORAGE 2A
+            pass
+        elif map_number == 19: # UNDERGROUND TUNNEL
+            pass
+        elif map_number == 20: # SIDE HALL LEVEL -4
+            pass
+        elif map_number == 21: # ARACHNOVIRUS LAIR
+            pass
+        elif map_number == 22: # UNSTABLE CORRIDORS 1
+            pass
+        elif map_number == 23: # UNSTABLE CORRIDORS 2
+            pass
+        elif map_number == 24: # TOXIC WASTE STORAGE 2B
+            pass
+        elif map_number == 25: # SIDE HALL LEVEL -5
+            pass
+        elif map_number == 26: # ABANDONED MINE 1
+            pass
+        elif map_number == 27: # ABANDONED MINE 2
+            pass
+        elif map_number == 28: # ABANDONED MINE 3
+            pass
+        elif map_number == 29: # EXPLOSIVES STOCKPILE
+            pass
 
     # paint the map free of sprites to clean it up
     map_display.blit(map_display_backup, (0,0))
