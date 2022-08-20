@@ -46,8 +46,8 @@ explosives = 0 # explosives collected
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
 # types of enemy sprites
-class EnemyType(Enum):
-    none = 0
+class SprType(Enum):
+    player = 0
     infected = 1
     pelusoid = 2
     avirus = 3
@@ -66,12 +66,6 @@ class Mov(Enum):
     lin_y = 1
     lin_xy = 2
     fanty = 3
-
-# speed
-class Speed(Enum):
-    slow = 0 
-    normal = 1
-    fast = 2
 
 # colour palette (Pico8)
 palette = {
@@ -127,101 +121,6 @@ map_names = {
     28 : "ABANDONED MINE 3",
     29 : "EXPLOSIVES STOCKPILE",
     30 : "BACK TO CONTROL CENTER",
-}
-
-# enemy layout per screen (enems.h)
-enemies = {
-        #  X    Y  X2   Y2  mX mY  t
-    0: ({128, 112, 32, 112, -2, 0, 1},	
-        {16, 16, 224, 48, 2, 2, 2},
- 	    {0, 0, 0, 0, 0, 0, 0}),
-    1: ({192, 112, 32, 112, -4, 0, 1},
- 	    {208, 16, 144, 64, -1, 1, 2},
- 	    {80, 64, 80, 16, 0, -2, 3}),
-    2: ({112, 144, 112, 32, 0, -2, 4},
- 	    {208, 112, 16, 80, -2, -2, 2},
- 	    {0, 0, 0, 0, 0, 0, 0}),
-    3: ({160, 48, 32, 48, -4, 0, 1},
- 	    {16, 80, 208, 112, 4, 4, 3},
- 	    {0, 0, 0, 0, 0, 0, 0}),
-    4: ({64, 80, 64, 16, 0, -2, 3},
- 	    {144, 16, 144, 128, 0, 2, 3},
- 	    {208, 112, 208, 96, 0, -2, 6}),
-    5: ({32, 48, 192, 48, 2, 0, 1},
- 	    {192, 80, 32, 80, -2, 0, 1},
- 	    {144, 128, 160, 128, 2, 0, 6}),
-    6: ({96, 48, 48, 16, -2, -2, 3},
- 	    {144, 80, 144, 16, 0, -2, 3},
- 	    {16, 112, 16, 96, 0, -2, 6}),
-    7: ({112, 144, 112, 16, 0, -2, 4},
- 	    {208, 96, 16, 96, -2, 0, 3},
- 	    {16, 32, 192, 64, 1, 1, 2}),
-    8: ({208, 64, 192, 64, -2, 0, 6},
- 	    {64, 64, 64, 32, 0, -1, 3},
- 	    {0, 0, 0, 0, 0, 0, 0}),
-    9: ({144, 128, 144, 128, 144, 16, 0, -4, 3},
- 	    {80, 16, 80, 16, 80, 128, 0, 4, 3},
- 	    {192, 128, 192, 128, 208, 128, 2, 0, 6}),
-    10:({128, 128, 128, 128, 144, 128, 2, 0, 6},
- 	    {176, 64, 176, 64, 160, 16, -2, -2, 3},
- 	    {32, 16, 32, 16, 16, 64, -2, 2, 3}),
-    11:({192, 80, 192, 80, 32, 80, -4, 0, 1},
- 	    {32, 48, 32, 48, 192, 48, 4, 0, 1},
- 	    {192, 16, 192, 16, 32, 16, -4, 0, 1}),
-    12:({112, 128, 112, 128, 112, 16, 0, -2, 4},
- 	    {208, 112, 208, 112, 32, 112, -2, 0, 2},
- 	    {16, 48, 16, 48, 208, 48, 2, 0, 2}),
-    13:({128, 112, 128, 112, 144, 112, 2, 0, 6},
- 	    {144, 128, 144, 128, 208, 128, 2, 0, 1},
- 	    {16, 80, 16, 80, 48, 16, 2, -2, 2}),
-    14:({112, 128, 112, 128, 112, 16, 0, -4, 3},
- 	    {48, 16, 48, 16, 48, 128, 0, 4, 3},
- 	    {96, 16, 96, 16, 96, 128, 0, 2, 3}),
-    15:({96, 128, 96, 128, 80, 128, -2, 0, 6},
- 	    {112, 112, 112, 112, 144, 112, 2, 0, 2},
- 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
-    16:({192, 64, 192, 64, 32, 32, -2, -2, 2},
- 	    {48, 128, 48, 128, 224, 112, 2, -2, 2},
- 	    {16, 64, 16, 64, 32, 64, 2, 0, 6}),
-    17:({160, 128, 160, 128, 160, 16, 0, -4, 3},
- 	    {112, 32, 112, 32, 112, 128, 0, 4, 3},
- 	    {64, 128, 64, 128, 16, 16, -4, -4, 2}),
-    18:({192, 96, 192, 96, 32, 96, -4, 0, 1},
- 	    {32, 64, 32, 64, 192, 64, 2, 0, 1},
- 	    {192, 32, 192, 32, 32, 32, -4, 0, 1}),
-    19:({64, 16, 64, 16, 64, 128, 0, 4, 3},
- 	    {112, 128, 112, 128, 112, 16, 0, -4, 3},
- 	    {16, 112, 16, 112, 16, 16, 0, -4, 3}),
-    20:({112, 144, 112, 144, 112, 32, 0, -2, 4},
- 	    {208, 144, 208, 144, 16, 48, -1, -1, 3},
- 	    {128, 16, 128, 16, 128, 144, 0, 4, 3}),
-    21:({160, 128, 160, 128, 96, 128, -2, 0, 3},
- 	    {208, 128, 208, 128, 208, 96, 0, -1, 3},
- 	    {80, 112, 80, 112, 128, 112, 1, 0, 0}),
-    22:({64, 128, 64, 128, 48, 32, -2, -2, 2},
- 	    {208, 128, 208, 128, 208, 32, 0, -4, 3},
- 	    {128, 32, 128, 32, 160, 128, 2, 2, 2}),
-    23:({16, 32, 16, 32, 32, 128, 2, 2, 2},
- 	    {128, 128, 128, 128, 128, 32, 0, -4, 3},
- 	    {160, 32, 160, 32, 160, 128, 0, 4, 3}),
-    24:({48, 32, 48, 32, 192, 64, 4, 4, 2},
- 	    {48, 128, 48, 128, 192, 128, 4, 0, 1},
- 	    {192, 96, 192, 96, 64, 96, -2, 0, 1}),
-    25:({112, 128, 112, 128, 112, 16, 0, -2, 4},
- 	    {208, 48, 208, 48, 16, 48, -2, 0, 3},
- 	    {16, 112, 16, 112, 208, 112, 4, 0, 3}),
-    26:({192, 128, 192, 128, 32, 128, -4, 0, 1},
- 	    {80, 32, 80, 32, 192, 32, 4, 0, 1},
- 	    {16, 32, 16, 32, 32, 32, 2, 0, 6}),
-    27:({160, 32, 160, 32, 160, 128, 0, 4, 3},
- 	    {192, 128, 192, 128, 96, 128, -1, 0, 1},
- 	    {112, 32, 112, 32, 112, 128, 0, 2, 0}),
-    28:({112, 128, 112, 128, 128, 128, 2, 0, 6},
- 	    {32, 32, 32, 32, 32, 128, 0, 2, 3},
- 	    {96, 48, 96, 48, 176, 48, 4, 0, 1}),
-    29:({128, 32, 128, 32, 128, 48, 0, 2, 6},
- 	    {0, 0, 0, 0, 0, 0, 0, 0, 0},
- 	    {0, 0, 0, 0, 0, 0, 0, 0, 0})
 }
 
 
@@ -475,11 +374,11 @@ def update_scoreboard():
 #         self.dir = dir
 #         self.speed = speed
 #         # position
-#         self.x = pos[0] * tile_width
-#         self.y = pos[1] * tile_height
+#         self.x = pos[0]
+#         self.y = pos[1]
 #         # limits of the movement
-#         self.max = max * tile_height
-#         self.min = min * tile_height
+#         self.max = max
+#         self.min = min
 
 #     def update(self):
 #         # animation
@@ -523,57 +422,14 @@ def update_scoreboard():
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enems_data):
+    def __init__(self, x, y, x2, y2, mx, my, enemy_type):
         super(Enemy, self).__init__()
-
-        # parse enems.h {X, Y, X2, Y2, mX, mY, type}
-
-        # position / from XY
-        self.x = self.x1 = enems_data(0)
-        self.y = self.y1 = enems_data(1)
-        # to XY
-        self.x2 = enems_data(2)
-        self.y2 = enems_data(3)
-
-        # movement type
-        if enems_data(4) == 0: # mx
-            self.mov = Mov.lin_y
-        elif enems_data(5) == 0: # my
-            self.mov = Mov.lin_x
-        else:
-            self.mov = Mov.lin_xy 
-
-        # direction and speed
-        if self.mov == Mov.lin_x or self.mov == Mov.lin_xy:
-            if self.enems_data(4) > 0: # mx
-                self.dir = Dir.right
-            else:
-                self.dir = Dir.left
-            if abs(enems_data(4)) == 1:
-                self.speed = Speed.slow
-        elif self.mov == Mov.lin_y:
-            if self.enems_data(5) > 0: # my
-                self.dir = Dir.down
-            else:
-                self.dir = Dir.up
-
-        # enemy type
-        self.type = EnemyType.none
-        if enems_data(8) == 1:
-            self.type = EnemyType.infected
-        elif enems_data(8) == 2:
-            self.type = EnemyType.pelusoid
-        elif enems_data(8) == 3:
-            self.type = EnemyType.avirus
-        elif enems_data(8) == 4:
-            self.type = EnemyType.platform
-
         num_frames = 2
         self.images = []
         for i in range(num_frames):
             # image for the frame
             self.images.append(pygame.image.load(
-                jp(dp, "images/sprites/" + self.type.name + str(i) + ".png")).convert())
+                jp(dp, "images/sprites/" + enemy_type.name + str(i) + ".png")).convert())
             # mask
             self.images[i].set_colorkey((255, 0, 255))
 
@@ -581,7 +437,14 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]
     
-        self.speed = speed
+        # max/min xy values
+        self.x = self.x1 = x
+        self.y = self.y1 = y
+        self.x2 = x2
+        self.y2 = y2
+        # movement
+        self.mx = mx
+        self.my = my
 
     def update(self):
         # animation
@@ -589,41 +452,15 @@ class Enemy(pygame.sprite.Sprite):
         if self.animation_index >= len(self.images):
             self.animation_index = 0
         self.image = self.images[int(self.animation_index)]
-        
         # movement
-        #=================== linear motion on the X axis =======================
-        if self.mov == Mov.lin_x: 
-            if self.dir == Dir.right:
-                # if it has not exceeded the maximum X, moves the sprite to the right
-                if self.x < self.max:
-                    self.x += self.speed
-                else: # if there is no place change the direction
-                    self.dir = Dir.left
-            else:
-                # if it has not exceeded the minimum X, moves the sprite to the left
-                if self.x > self.min:
-                    self.x -= self.speed
-                else: # if there is no place change the direction
-                    self.dir = Dir.right
-        
-        #=================== linear motion on the Y axis =======================
-        elif self.mov == Mov.lin_y: 
-            if self.dir == Dir.down:
-                # if it has not exceeded the maximum Y, move the sprite down
-                if self.y < self.max:
-                    self.y += self.speed
-                else: # if there is no place change the direction
-                    self.dir = Dir.up
-            else:
-                # if it has not exceeded the minimum Y, move the sprite up
-                if self.y > self.min:
-                    self.y -= self.speed
-                else: # if there is no place change the direction
-                    self.dir = Dir.down
+        self.x += self.mx
+        self.y += self.my
+        if self.x == self.x1 or self.x == self.x2:
+            self.mx = -self.mx
+        if self.y == self.y1 or self.y == self.y2:
+            self.my = -self.my
 
         self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
-
-
 
 
 
@@ -698,82 +535,227 @@ while True:
     # change map if neccessary
     if map_number != last_map:
         load_map(map_number, map_display)
+        # save the empty background
         map_display_backup.blit(map_display, (0,0))
         draw_map_info()
         init_scoreboard()
         update_scoreboard()
         last_map = map_number
+
+
+# 	// Pantalla 2
+#  	{112, 144, 112, 144, 112, 32, 0, -2, 4},
+#  	{208, 112, 208, 112, 16, 80, -2, -2, 2},
+#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
+
+# 	// Pantalla 3
+#  	{160, 48, 160, 48, 32, 48, -4, 0, 1},
+#  	{16, 80, 16, 80, 208, 112, 4, 4, 3},
+#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
+
+# 	// Pantalla 4
+#  	{64, 80, 64, 80, 64, 16, 0, -2, 3},
+#  	{144, 16, 144, 16, 144, 128, 0, 2, 3},
+#  	{208, 112, 208, 112, 208, 96, 0, -2, 6},
+
+# 	// Pantalla 5
+#  	{32, 48, 32, 48, 192, 48, 2, 0, 1},
+#  	{192, 80, 192, 80, 32, 80, -2, 0, 1},
+#  	{144, 128, 144, 128, 160, 128, 2, 0, 6},
+
+# 	// Pantalla 6
+#  	{96, 48, 96, 48, 48, 16, -2, -2, 3},
+#  	{144, 80, 144, 80, 144, 16, 0, -2, 3},
+#  	{16, 112, 16, 112, 16, 96, 0, -2, 6},
+
+# 	// Pantalla 7
+#  	{112, 144, 112, 144, 112, 16, 0, -2, 4},
+#  	{208, 96, 208, 96, 16, 96, -2, 0, 3},
+#  	{16, 32, 16, 32, 192, 64, 1, 1, 2},
+
+# 	// Pantalla 8
+#  	{208, 64, 208, 64, 192, 64, -2, 0, 6},
+#  	{64, 64, 64, 64, 64, 32, 0, -1, 3},
+#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
+
+# 	// Pantalla 9
+#  	{144, 128, 144, 128, 144, 16, 0, -4, 3},
+#  	{80, 16, 80, 16, 80, 128, 0, 4, 3},
+#  	{192, 128, 192, 128, 208, 128, 2, 0, 6},
+
+# 	// Pantalla 10
+#  	{128, 128, 128, 128, 144, 128, 2, 0, 6},
+#  	{176, 64, 176, 64, 160, 16, -2, -2, 3},
+#  	{32, 16, 32, 16, 16, 64, -2, 2, 3},
+
+# 	// Pantalla 11
+#  	{192, 80, 192, 80, 32, 80, -4, 0, 1},
+#  	{32, 48, 32, 48, 192, 48, 4, 0, 1},
+#  	{192, 16, 192, 16, 32, 16, -4, 0, 1},
+
+# 	// Pantalla 12
+#  	{112, 128, 112, 128, 112, 16, 0, -2, 4},
+#  	{208, 112, 208, 112, 32, 112, -2, 0, 2},
+#  	{16, 48, 16, 48, 208, 48, 2, 0, 2},
+
+# 	// Pantalla 13
+#  	{128, 112, 128, 112, 144, 112, 2, 0, 6},
+#  	{144, 128, 144, 128, 208, 128, 2, 0, 1},
+#  	{16, 80, 16, 80, 48, 16, 2, -2, 2},
+
+# 	// Pantalla 14
+#  	{112, 128, 112, 128, 112, 16, 0, -4, 3},
+#  	{48, 16, 48, 16, 48, 128, 0, 4, 3},
+#  	{96, 16, 96, 16, 96, 128, 0, 2, 3},
+
+# 	// Pantalla 15
+#  	{96, 128, 96, 128, 80, 128, -2, 0, 6},
+#  	{112, 112, 112, 112, 144, 112, 2, 0, 2},
+#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
+
+# 	// Pantalla 16
+#  	{192, 64, 192, 64, 32, 32, -2, -2, 2},
+#  	{48, 128, 48, 128, 224, 112, 2, -2, 2},
+#  	{16, 64, 16, 64, 32, 64, 2, 0, 6},
+
+# 	// Pantalla 17
+#  	{160, 128, 160, 128, 160, 16, 0, -4, 3},
+#  	{112, 32, 112, 32, 112, 128, 0, 4, 3},
+#  	{64, 128, 64, 128, 16, 16, -4, -4, 2},
+
+# 	// Pantalla 18
+#  	{192, 96, 192, 96, 32, 96, -4, 0, 1},
+#  	{32, 64, 32, 64, 192, 64, 2, 0, 1},
+#  	{192, 32, 192, 32, 32, 32, -4, 0, 1},
+
+# 	// Pantalla 19
+#  	{64, 16, 64, 16, 64, 128, 0, 4, 3},
+#  	{112, 128, 112, 128, 112, 16, 0, -4, 3},
+#  	{16, 112, 16, 112, 16, 16, 0, -4, 3},
+
+# 	// Pantalla 20
+#  	{112, 144, 112, 144, 112, 32, 0, -2, 4},
+#  	{208, 144, 208, 144, 16, 48, -1, -1, 3},
+#  	{128, 16, 128, 16, 128, 144, 0, 4, 3},
+
+# 	// Pantalla 21
+#  	{160, 128, 160, 128, 96, 128, -2, 0, 3},
+#  	{208, 128, 208, 128, 208, 96, 0, -1, 3},
+#  	{80, 112, 80, 112, 128, 112, 1, 0, 0},
+
+# 	// Pantalla 22
+#  	{64, 128, 64, 128, 48, 32, -2, -2, 2},
+#  	{208, 128, 208, 128, 208, 32, 0, -4, 3},
+#  	{128, 32, 128, 32, 160, 128, 2, 2, 2},
+
+# 	// Pantalla 23
+#  	{16, 32, 16, 32, 32, 128, 2, 2, 2},
+#  	{128, 128, 128, 128, 128, 32, 0, -4, 3},
+#  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
+
+# 	// Pantalla 24
+#  	{48, 32, 48, 32, 192, 64, 4, 4, 2},
+#  	{48, 128, 48, 128, 192, 128, 4, 0, 1},
+#  	{192, 96, 192, 96, 64, 96, -2, 0, 1},
+
+# 	// Pantalla 25
+#  	{112, 128, 112, 128, 112, 16, 0, -2, 4},
+#  	{208, 48, 208, 48, 16, 48, -2, 0, 3},
+#  	{16, 112, 16, 112, 208, 112, 4, 0, 3},
+
+# 	// Pantalla 26
+#  	{192, 128, 192, 128, 32, 128, -4, 0, 1},
+#  	{80, 32, 80, 32, 192, 32, 4, 0, 1},
+#  	{16, 32, 16, 32, 32, 32, 2, 0, 6},
+
+# 	// Pantalla 27
+#  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
+#  	{192, 128, 192, 128, 96, 128, -1, 0, 1},
+#  	{112, 32, 112, 32, 112, 128, 0, 2, 0},
+
+# 	// Pantalla 28
+#  	{112, 128, 112, 128, 128, 128, 2, 0, 6},
+#  	{32, 32, 32, 32, 32, 128, 0, 2, 3},
+#  	{96, 48, 96, 48, 176, 48, 4, 0, 1},
+
+# 	// Pantalla 29
+#  	{128, 32, 128, 32, 128, 48, 0, 2, 6},
+#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
+#  	{0, 0, 0, 0, 0, 0, 0, 0, 0}
+
         # load enemies for the map
+        # parameters: Enemy_Type , Movement , Direction , (Position) , Max, Min , Speed
         enemy_group.empty()
-        for i in range(3):
-            enemy = Enemy(enemies[map_number][i])
-            enemy_group.add(enemy)
-            
-        # if map_number == 0: # CONTROL CENTRE
-        #     # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
-        #     enemy_1 = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
-        #     enemy_2 = Enemy(SprType.avirus, Mov.lin_y, Dir.down, (1,1), 5, 1, 1) 
-        #     enemy_group.add(enemy_1, enemy_2)           
-        # elif map_number == 1: # SUPPLY DEPOT 1   
-        #     enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
-        #     enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1) 
-        #     enemy_group.add(enemy_1, enemy_2)     
-        # elif map_number == 2: # CENTRAL HALL LEVEL 0
-        #     pass
-        # elif map_number == 3: # TOXIC WASTE STORAGE 1A
-        #     pass
-        # elif map_number == 4: # TOXIC WASTE STORAGE 1B
-        #     pass
-        # elif map_number == 5: # WEST PASSAGE LEVEL -1
-        #     pass
-        # elif map_number == 6: # ACCESS TO WEST PASSAGES
-        #     pass
-        # elif map_number == 7: # CENTRAL HALL LEVEL -1
-        #     pass
-        # elif map_number == 8: # ACCESS TO DUNGEONS
-        #     pass
-        # elif map_number == 9: # DUNGEONS
-        #     pass
-        # elif map_number == 10: # WEST PASSAGE LEVEL -2
-        #     pass
-        # elif map_number == 11: # SUPPLY DEPOT 2
-        #     pass
-        # elif map_number == 12: # CENTRAL HALL LEVEL -2
-        #     pass
-        # elif map_number == 13: # ACCESS TO SOUTHEAST EXIT
-        #     pass
-        # elif map_number == 14: # EXIT TO UNDERGROUND
-        #     pass
-        # elif map_number == 15: # PELUSOIDS LAIR
-        #     pass
-        # elif map_number == 16: # ALVARITOS GROTTO 2
-        #     pass
-        # elif map_number == 17: # ALVARITOS GROTTO 1
-        #     pass
-        # elif map_number == 18: # TOXIC WASTE STORAGE 2A
-        #     pass
-        # elif map_number == 19: # UNDERGROUND TUNNEL
-        #     pass
-        # elif map_number == 20: # SIDE HALL LEVEL -4
-        #     pass
-        # elif map_number == 21: # ARACHNOVIRUS LAIR
-        #     pass
-        # elif map_number == 22: # UNSTABLE CORRIDORS 1
-        #     pass
-        # elif map_number == 23: # UNSTABLE CORRIDORS 2
-        #     pass
-        # elif map_number == 24: # TOXIC WASTE STORAGE 2B
-        #     pass
-        # elif map_number == 25: # SIDE HALL LEVEL -5
-        #     pass
-        # elif map_number == 26: # ABANDONED MINE 1
-        #     pass
-        # elif map_number == 27: # ABANDONED MINE 2
-        #     pass
-        # elif map_number == 28: # ABANDONED MINE 3
-        #     pass
-        # elif map_number == 29: # EXPLOSIVES STOCKPILE
-        #     pass
+        # CONTROL CENTRE
+        if map_number == 0: 
+            enemy_1 = Enemy(128, 112, 32, 112, -2, 0, SprType.infected)
+            enemy_2 = Enemy(16, 16, 224, 48, 2, 2, SprType.pelusoid)
+            enemy_group.add(enemy_1, enemy_2)
+        # SUPPLY DEPOT 1
+        elif map_number == 1:
+            #  	{192, 112, 192, 112, 32, 112, -4, 0, 1}
+            enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
+            #  	{208, 16, 208, 16, 144, 64, -1, 1, 2}
+            enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1)
+            #  	{80, 64, 80, 64, 80, 16, 0, -2, 3}
+            enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1)
+            enemy_group.add(enemy_1, enemy_2)     
+        elif map_number == 2: # CENTRAL HALL LEVEL 0
+            pass
+        elif map_number == 3: # TOXIC WASTE STORAGE 1A
+            pass
+        elif map_number == 4: # TOXIC WASTE STORAGE 1B
+            pass
+        elif map_number == 5: # WEST PASSAGE LEVEL -1
+            pass
+        elif map_number == 6: # ACCESS TO WEST PASSAGES
+            pass
+        elif map_number == 7: # CENTRAL HALL LEVEL -1
+            pass
+        elif map_number == 8: # ACCESS TO DUNGEONS
+            pass
+        elif map_number == 9: # DUNGEONS
+            pass
+        elif map_number == 10: # WEST PASSAGE LEVEL -2
+            pass
+        elif map_number == 11: # SUPPLY DEPOT 2
+            pass
+        elif map_number == 12: # CENTRAL HALL LEVEL -2
+            pass
+        elif map_number == 13: # ACCESS TO SOUTHEAST EXIT
+            pass
+        elif map_number == 14: # EXIT TO UNDERGROUND
+            pass
+        elif map_number == 15: # PELUSOIDS LAIR
+            pass
+        elif map_number == 16: # ALVARITOS GROTTO 2
+            pass
+        elif map_number == 17: # ALVARITOS GROTTO 1
+            pass
+        elif map_number == 18: # TOXIC WASTE STORAGE 2A
+            pass
+        elif map_number == 19: # UNDERGROUND TUNNEL
+            pass
+        elif map_number == 20: # SIDE HALL LEVEL -4
+            pass
+        elif map_number == 21: # ARACHNOVIRUS LAIR
+            pass
+        elif map_number == 22: # UNSTABLE CORRIDORS 1
+            pass
+        elif map_number == 23: # UNSTABLE CORRIDORS 2
+            pass
+        elif map_number == 24: # TOXIC WASTE STORAGE 2B
+            pass
+        elif map_number == 25: # SIDE HALL LEVEL -5
+            pass
+        elif map_number == 26: # ABANDONED MINE 1
+            pass
+        elif map_number == 27: # ABANDONED MINE 2
+            pass
+        elif map_number == 28: # ABANDONED MINE 3
+            pass
+        elif map_number == 29: # EXPLOSIVES STOCKPILE
+            pass
 
     # paint the map free of sprites to clean it up
     map_display.blit(map_display_backup, (0,0))
