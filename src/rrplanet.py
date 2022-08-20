@@ -45,14 +45,13 @@ explosives = 0 # explosives collected
 # configuration values
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
-# types of sprites
-class SprType(Enum):
-    player = 0
+# types of enemy sprites
+class EnemyType(Enum):
+    none = 0
     infected = 1
     pelusoid = 2
     avirus = 3
     platform = 4
-    none = 5
 
 # directions
 class Dir(Enum):
@@ -132,34 +131,34 @@ map_names = {
 
 # enemy layout per screen (enems.h)
 enemies = {
-        #  X    Y   X1   Y1  X2   Y2  mX mY  t
-    0: ({128, 112, 128, 112, 32, 112, -2, 0, 1},	
-        {16, 16, 16, 16, 224, 48, 2, 2, 2},
- 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
-    1: ({192, 112, 192, 112, 32, 112, -4, 0, 1},
- 	    {208, 16, 208, 16, 144, 64, -1, 1, 2},
- 	    {80, 64, 80, 64, 80, 16, 0, -2, 3}),
-    2: ({112, 144, 112, 144, 112, 32, 0, -2, 4},
- 	    {208, 112, 208, 112, 16, 80, -2, -2, 2},
- 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
-    3: ({160, 48, 160, 48, 32, 48, -4, 0, 1},
- 	    {16, 80, 16, 80, 208, 112, 4, 4, 3},
- 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
-    4: ({64, 80, 64, 80, 64, 16, 0, -2, 3},
- 	    {144, 16, 144, 16, 144, 128, 0, 2, 3},
- 	    {208, 112, 208, 112, 208, 96, 0, -2, 6}),
-    5: ({32, 48, 32, 48, 192, 48, 2, 0, 1},
- 	    {192, 80, 192, 80, 32, 80, -2, 0, 1},
- 	    {144, 128, 144, 128, 160, 128, 2, 0, 6}),
-    6: ({96, 48, 96, 48, 48, 16, -2, -2, 3},
- 	    {144, 80, 144, 80, 144, 16, 0, -2, 3},
- 	    {16, 112, 16, 112, 16, 96, 0, -2, 6}),
-    7: ({112, 144, 112, 144, 112, 16, 0, -2, 4},
- 	    {208, 96, 208, 96, 16, 96, -2, 0, 3},
- 	    {16, 32, 16, 32, 192, 64, 1, 1, 2}),
-    8: ({208, 64, 208, 64, 192, 64, -2, 0, 6},
- 	    {64, 64, 64, 64, 64, 32, 0, -1, 3},
- 	    {0, 0, 0, 0, 0, 0, 0, 0, 0}),
+        #  X    Y  X2   Y2  mX mY  t
+    0: ({128, 112, 32, 112, -2, 0, 1},	
+        {16, 16, 224, 48, 2, 2, 2},
+ 	    {0, 0, 0, 0, 0, 0, 0}),
+    1: ({192, 112, 32, 112, -4, 0, 1},
+ 	    {208, 16, 144, 64, -1, 1, 2},
+ 	    {80, 64, 80, 16, 0, -2, 3}),
+    2: ({112, 144, 112, 32, 0, -2, 4},
+ 	    {208, 112, 16, 80, -2, -2, 2},
+ 	    {0, 0, 0, 0, 0, 0, 0}),
+    3: ({160, 48, 32, 48, -4, 0, 1},
+ 	    {16, 80, 208, 112, 4, 4, 3},
+ 	    {0, 0, 0, 0, 0, 0, 0}),
+    4: ({64, 80, 64, 16, 0, -2, 3},
+ 	    {144, 16, 144, 128, 0, 2, 3},
+ 	    {208, 112, 208, 96, 0, -2, 6}),
+    5: ({32, 48, 192, 48, 2, 0, 1},
+ 	    {192, 80, 32, 80, -2, 0, 1},
+ 	    {144, 128, 160, 128, 2, 0, 6}),
+    6: ({96, 48, 48, 16, -2, -2, 3},
+ 	    {144, 80, 144, 16, 0, -2, 3},
+ 	    {16, 112, 16, 96, 0, -2, 6}),
+    7: ({112, 144, 112, 16, 0, -2, 4},
+ 	    {208, 96, 16, 96, -2, 0, 3},
+ 	    {16, 32, 192, 64, 1, 1, 2}),
+    8: ({208, 64, 192, 64, -2, 0, 6},
+ 	    {64, 64, 64, 32, 0, -1, 3},
+ 	    {0, 0, 0, 0, 0, 0, 0}),
     9: ({144, 128, 144, 128, 144, 16, 0, -4, 3},
  	    {80, 16, 80, 16, 80, 128, 0, 4, 3},
  	    {192, 128, 192, 128, 208, 128, 2, 0, 6}),
@@ -456,15 +455,125 @@ def update_scoreboard():
 # Enemy class and functions
 #===============================================================================
 
+# class Enemy(pygame.sprite.Sprite):
+#     def __init__(self, enemy_type, mov, dir, pos, max, min, speed):
+#         super(Enemy, self).__init__()
+#         num_frames = 2
+#         self.images = []
+#         for i in range(num_frames):
+#             # image for the frame
+#             self.images.append(pygame.image.load(
+#                 jp(dp, "images/sprites/" + enemy_type.name + str(i) + ".png")).convert())
+#             # mask
+#             self.images[i].set_colorkey((255, 0, 255))
+
+#         self.animation_index = 0
+#         self.animation_speed = 0.08
+#         self.image = self.images[self.animation_index]
+    
+#         self.mov = mov
+#         self.dir = dir
+#         self.speed = speed
+#         # position
+#         self.x = pos[0] * tile_width
+#         self.y = pos[1] * tile_height
+#         # limits of the movement
+#         self.max = max * tile_height
+#         self.min = min * tile_height
+
+#     def update(self):
+#         # animation
+#         self.animation_index += self.animation_speed
+#         if self.animation_index >= len(self.images):
+#             self.animation_index = 0
+#         self.image = self.images[int(self.animation_index)]
+        
+#         # movement
+#         #=================== linear motion on the X axis =======================
+#         if self.mov == Mov.lin_x: 
+#             if self.dir == Dir.right:
+#                 # if it has not exceeded the maximum X, moves the sprite to the right
+#                 if self.x < self.max:
+#                     self.x += self.speed
+#                 else: # if there is no place change the direction
+#                     self.dir = Dir.left
+#             else:
+#                 # if it has not exceeded the minimum X, moves the sprite to the left
+#                 if self.x > self.min:
+#                     self.x -= self.speed
+#                 else: # if there is no place change the direction
+#                     self.dir = Dir.right
+        
+#         #=================== linear motion on the Y axis =======================
+#         elif self.mov == Mov.lin_y: 
+#             if self.dir == Dir.down:
+#                 # if it has not exceeded the maximum Y, move the sprite down
+#                 if self.y < self.max:
+#                     self.y += self.speed
+#                 else: # if there is no place change the direction
+#                     self.dir = Dir.up
+#             else:
+#                 # if it has not exceeded the minimum Y, move the sprite up
+#                 if self.y > self.min:
+#                     self.y -= self.speed
+#                 else: # if there is no place change the direction
+#                     self.dir = Dir.down
+
+#         self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
+
+
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_type, mov, dir, pos, max, min, speed):
+    def __init__(self, enems_data):
         super(Enemy, self).__init__()
+
+        # parse enems.h {X, Y, X2, Y2, mX, mY, type}
+
+        # position / from XY
+        self.x = self.x1 = enems_data(0)
+        self.y = self.y1 = enems_data(1)
+        # to XY
+        self.x2 = enems_data(2)
+        self.y2 = enems_data(3)
+
+        # movement type
+        if enems_data(4) == 0: # mx
+            self.mov = Mov.lin_y
+        elif enems_data(5) == 0: # my
+            self.mov = Mov.lin_x
+        else:
+            self.mov = Mov.lin_xy 
+
+        # direction and speed
+        if self.mov == Mov.lin_x or self.mov == Mov.lin_xy:
+            if self.enems_data(4) > 0: # mx
+                self.dir = Dir.right
+            else:
+                self.dir = Dir.left
+            if abs(enems_data(4)) == 1:
+                self.speed = Speed.slow
+        elif self.mov == Mov.lin_y:
+            if self.enems_data(5) > 0: # my
+                self.dir = Dir.down
+            else:
+                self.dir = Dir.up
+
+        # enemy type
+        self.type = EnemyType.none
+        if enems_data(8) == 1:
+            self.type = EnemyType.infected
+        elif enems_data(8) == 2:
+            self.type = EnemyType.pelusoid
+        elif enems_data(8) == 3:
+            self.type = EnemyType.avirus
+        elif enems_data(8) == 4:
+            self.type = EnemyType.platform
+
         num_frames = 2
         self.images = []
         for i in range(num_frames):
             # image for the frame
             self.images.append(pygame.image.load(
-                jp(dp, "images/sprites/" + enemy_type.name + str(i) + ".png")).convert())
+                jp(dp, "images/sprites/" + self.type.name + str(i) + ".png")).convert())
             # mask
             self.images[i].set_colorkey((255, 0, 255))
 
@@ -472,15 +581,7 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]
     
-        self.mov = mov
-        self.dir = dir
         self.speed = speed
-        # position
-        self.x = pos[0] * tile_width
-        self.y = pos[1] * tile_height
-        # limits of the movement
-        self.max = max * tile_height
-        self.min = min * tile_height
 
     def update(self):
         # animation
@@ -602,12 +703,11 @@ while True:
         init_scoreboard()
         update_scoreboard()
         last_map = map_number
-
-        # load enemies {X, Y, X1, Y1, X2, Y2, mX, mY, t}
+        # load enemies for the map
         enemy_group.empty()
-        for i in range[3]:
-            enemy[i] = Enemy(SprType.infected, Mov.lin_x, Dir.left, (8,7), 8, 2, 1)
-            enemy_group.add(enemy[i])
+        for i in range(3):
+            enemy = Enemy(enemies[map_number][i])
+            enemy_group.add(enemy)
             
         # if map_number == 0: # CONTROL CENTRE
         #     # parameters: Enemy_Type , Movement , Direction , Position , Max, Min , Speed    
