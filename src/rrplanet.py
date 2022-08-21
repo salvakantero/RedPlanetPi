@@ -45,30 +45,6 @@ explosives = 0 # explosives collected
 # configuration values
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
-# types of enemy sprites
-class SprType(Enum):
-    player = 0
-    infected = 1
-    pelusoid = 2
-    avirus = 3
-    platform = 4
-    # ----------
-    fanty = 6
-
-# directions
-class Dir(Enum):
-    up = 0
-    down = 1
-    left = 2
-    right = 3
-
-# movements
-class Mov(Enum):
-    lin_x = 0 
-    lin_y = 1
-    lin_xy = 2
-    fanty = 3
-
 # colour palette (Pico8)
 palette = {
     "BLACK": (0, 0, 0),
@@ -356,97 +332,40 @@ def update_scoreboard():
 # Enemy class and functions
 #===============================================================================
 
-# class Enemy(pygame.sprite.Sprite):
-#     def __init__(self, enemy_type, mov, dir, pos, max, min, speed):
-#         super(Enemy, self).__init__()
-#         num_frames = 2
-#         self.images = []
-#         for i in range(num_frames):
-#             # image for the frame
-#             self.images.append(pygame.image.load(
-#                 jp(dp, "images/sprites/" + enemy_type.name + str(i) + ".png")).convert())
-#             # mask
-#             self.images[i].set_colorkey((255, 0, 255))
-
-#         self.animation_index = 0
-#         self.animation_speed = 0.08
-#         self.image = self.images[self.animation_index]
-    
-#         self.mov = mov
-#         self.dir = dir
-#         self.speed = speed
-#         # position
-#         self.x = pos[0]
-#         self.y = pos[1]
-#         # limits of the movement
-#         self.max = max
-#         self.min = min
-
-#     def update(self):
-#         # animation
-#         self.animation_index += self.animation_speed
-#         if self.animation_index >= len(self.images):
-#             self.animation_index = 0
-#         self.image = self.images[int(self.animation_index)]
-        
-#         # movement
-#         #=================== linear motion on the X axis =======================
-#         if self.mov == Mov.lin_x: 
-#             if self.dir == Dir.right:
-#                 # if it has not exceeded the maximum X, moves the sprite to the right
-#                 if self.x < self.max:
-#                     self.x += self.speed
-#                 else: # if there is no place change the direction
-#                     self.dir = Dir.left
-#             else:
-#                 # if it has not exceeded the minimum X, moves the sprite to the left
-#                 if self.x > self.min:
-#                     self.x -= self.speed
-#                 else: # if there is no place change the direction
-#                     self.dir = Dir.right
-        
-#         #=================== linear motion on the Y axis =======================
-#         elif self.mov == Mov.lin_y: 
-#             if self.dir == Dir.down:
-#                 # if it has not exceeded the maximum Y, move the sprite down
-#                 if self.y < self.max:
-#                     self.y += self.speed
-#                 else: # if there is no place change the direction
-#                     self.dir = Dir.up
-#             else:
-#                 # if it has not exceeded the minimum Y, move the sprite up
-#                 if self.y > self.min:
-#                     self.y -= self.speed
-#                 else: # if there is no place change the direction
-#                     self.dir = Dir.down
-
-#         self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
-
-
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, x2, y2, mx, my, enemy_type):
+    def __init__(self, x1, y1, x2, y2, mx, my, type):
         super(Enemy, self).__init__()
-        num_frames = 2
-        self.images = []
-        for i in range(num_frames):
-            # image for the frame
-            self.images.append(pygame.image.load(
-                jp(dp, "images/sprites/" + enemy_type.name + str(i) + ".png")).convert())
-            # mask
-            self.images[i].set_colorkey((255, 0, 255))
-
-        self.animation_index = 0
-        self.animation_speed = 0.08
-        self.image = self.images[self.animation_index]
-    
         # max/min xy values
-        self.x = self.x1 = x
-        self.y = self.y1 = y
+        self.x = self.x1 = x1
+        self.y = self.y1 = y1
         self.x2 = x2
         self.y2 = y2
         # movement
         self.mx = mx / 2
         self.my = my / 2
+        # enemy type
+        if type == 1:
+            enemy_name = "infected"
+        elif type == 2:
+            enemy_name = "pelusoid"
+        elif type == 3:
+            enemy_name = "avirus"
+        elif type == 4:
+            enemy_name = "platform"
+        elif type == 6:
+            enemy_name = "fanty"
+        # images
+        num_frames = 2
+        self.images = []
+        for i in range(num_frames):
+            # image for the frame
+            self.images.append(pygame.image.load(
+                jp(dp, "images/sprites/" + enemy_name + str(i) + ".png")).convert())
+            # mask
+            self.images[i].set_colorkey((255, 0, 255))
+        self.animation_index = 0
+        self.animation_speed = 0.08
+        self.image = self.images[self.animation_index]
 
     def update(self):
         # animation
@@ -544,221 +463,181 @@ while True:
         update_scoreboard()
         last_map = map_number
 
-# 	// Pantalla 6
-#  	{96, 48, 96, 48, 48, 16, -2, -2, 3},
-#  	{144, 80, 144, 80, 144, 16, 0, -2, 3},
-#  	{16, 112, 16, 112, 16, 96, 0, -2, 6},
-
-# 	// Pantalla 7
-#  	{112, 144, 112, 144, 112, 16, 0, -2, 4},
-#  	{208, 96, 208, 96, 16, 96, -2, 0, 3},
-#  	{16, 32, 16, 32, 192, 64, 1, 1, 2},
-
-# 	// Pantalla 8
-#  	{208, 64, 208, 64, 192, 64, -2, 0, 6},
-#  	{64, 64, 64, 64, 64, 32, 0, -1, 3},
-#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-# 	// Pantalla 9
-#  	{144, 128, 144, 128, 144, 16, 0, -4, 3},
-#  	{80, 16, 80, 16, 80, 128, 0, 4, 3},
-#  	{192, 128, 192, 128, 208, 128, 2, 0, 6},
-
-# 	// Pantalla 10
-#  	{128, 128, 128, 128, 144, 128, 2, 0, 6},
-#  	{176, 64, 176, 64, 160, 16, -2, -2, 3},
-#  	{32, 16, 32, 16, 16, 64, -2, 2, 3},
-
-# 	// Pantalla 11
-#  	{192, 80, 192, 80, 32, 80, -4, 0, 1},
-#  	{32, 48, 32, 48, 192, 48, 4, 0, 1},
-#  	{192, 16, 192, 16, 32, 16, -4, 0, 1},
-
-# 	// Pantalla 12
-#  	{112, 128, 112, 128, 112, 16, 0, -2, 4},
-#  	{208, 112, 208, 112, 32, 112, -2, 0, 2},
-#  	{16, 48, 16, 48, 208, 48, 2, 0, 2},
-
-# 	// Pantalla 13
-#  	{128, 112, 128, 112, 144, 112, 2, 0, 6},
-#  	{144, 128, 144, 128, 208, 128, 2, 0, 1},
-#  	{16, 80, 16, 80, 48, 16, 2, -2, 2},
-
-# 	// Pantalla 14
-#  	{112, 128, 112, 128, 112, 16, 0, -4, 3},
-#  	{48, 16, 48, 16, 48, 128, 0, 4, 3},
-#  	{96, 16, 96, 16, 96, 128, 0, 2, 3},
-
-# 	// Pantalla 15
-#  	{96, 128, 96, 128, 80, 128, -2, 0, 6},
-#  	{112, 112, 112, 112, 144, 112, 2, 0, 2},
-#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-# 	// Pantalla 16
-#  	{192, 64, 192, 64, 32, 32, -2, -2, 2},
-#  	{48, 128, 48, 128, 224, 112, 2, -2, 2},
-#  	{16, 64, 16, 64, 32, 64, 2, 0, 6},
-
-# 	// Pantalla 17
-#  	{160, 128, 160, 128, 160, 16, 0, -4, 3},
-#  	{112, 32, 112, 32, 112, 128, 0, 4, 3},
-#  	{64, 128, 64, 128, 16, 16, -4, -4, 2},
-
-# 	// Pantalla 18
-#  	{192, 96, 192, 96, 32, 96, -4, 0, 1},
-#  	{32, 64, 32, 64, 192, 64, 2, 0, 1},
-#  	{192, 32, 192, 32, 32, 32, -4, 0, 1},
-
-# 	// Pantalla 19
-#  	{64, 16, 64, 16, 64, 128, 0, 4, 3},
-#  	{112, 128, 112, 128, 112, 16, 0, -4, 3},
-#  	{16, 112, 16, 112, 16, 16, 0, -4, 3},
-
-# 	// Pantalla 20
-#  	{112, 144, 112, 144, 112, 32, 0, -2, 4},
-#  	{208, 144, 208, 144, 16, 48, -1, -1, 3},
-#  	{128, 16, 128, 16, 128, 144, 0, 4, 3},
-
-# 	// Pantalla 21
-#  	{160, 128, 160, 128, 96, 128, -2, 0, 3},
-#  	{208, 128, 208, 128, 208, 96, 0, -1, 3},
-#  	{80, 112, 80, 112, 128, 112, 1, 0, 0},
-
-# 	// Pantalla 22
-#  	{64, 128, 64, 128, 48, 32, -2, -2, 2},
-#  	{208, 128, 208, 128, 208, 32, 0, -4, 3},
-#  	{128, 32, 128, 32, 160, 128, 2, 2, 2},
-
-# 	// Pantalla 23
-#  	{16, 32, 16, 32, 32, 128, 2, 2, 2},
-#  	{128, 128, 128, 128, 128, 32, 0, -4, 3},
-#  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
-
-# 	// Pantalla 24
-#  	{48, 32, 48, 32, 192, 64, 4, 4, 2},
-#  	{48, 128, 48, 128, 192, 128, 4, 0, 1},
-#  	{192, 96, 192, 96, 64, 96, -2, 0, 1},
-
-# 	// Pantalla 25
-#  	{112, 128, 112, 128, 112, 16, 0, -2, 4},
-#  	{208, 48, 208, 48, 16, 48, -2, 0, 3},
-#  	{16, 112, 16, 112, 208, 112, 4, 0, 3},
-
-# 	// Pantalla 26
-#  	{192, 128, 192, 128, 32, 128, -4, 0, 1},
-#  	{80, 32, 80, 32, 192, 32, 4, 0, 1},
-#  	{16, 32, 16, 32, 32, 32, 2, 0, 6},
-
-# 	// Pantalla 27
-#  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
-#  	{192, 128, 192, 128, 96, 128, -1, 0, 1},
-#  	{112, 32, 112, 32, 112, 128, 0, 2, 0},
-
-# 	// Pantalla 28
-#  	{112, 128, 112, 128, 128, 128, 2, 0, 6},
-#  	{32, 32, 32, 32, 32, 128, 0, 2, 3},
-#  	{96, 48, 96, 48, 176, 48, 4, 0, 1},
-
-# 	// Pantalla 29
-#  	{128, 32, 128, 32, 128, 48, 0, 2, 6},
-#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-#  	{0, 0, 0, 0, 0, 0, 0, 0, 0}
-
-        # load enemies for the map
-        # parameters: Enemy_Type , Movement , Direction , (Position) , Max, Min , Speed
+        # load enemies for the map (enems.h)
         enemy_group.empty()
         # CONTROL CENTRE
         if map_number == 0: 
-            enemy_1 = Enemy(128, 112, 32, 112, -2, 0, SprType.infected)
-            enemy_2 = Enemy(16, 16, 224, 48, 2, 2, SprType.pelusoid)
+            # parameters:    X1   Y1  X2   Y2  mX mY  Type
+            enemy_1 = Enemy(128, 112, 32, 112, -2, 0, 1)
+            enemy_2 = Enemy(16, 16, 224, 48, 2, 2, 2)
             enemy_group.add(enemy_1, enemy_2)
         # SUPPLY DEPOT 1
         elif map_number == 1:
-            enemy_1 = Enemy(192, 112, 32, 112, -4, 0, SprType.infected)
-            enemy_2 = Enemy(208, 16, 144, 64, -1, 1, SprType.pelusoid)
-            enemy_3 = Enemy(80, 64, 80, 16, 0, -2, SprType.avirus)
+            enemy_1 = Enemy(192, 112, 32, 112, -4, 0, 1)
+            enemy_2 = Enemy(208, 16, 144, 64, -1, 1, 2)
+            enemy_3 = Enemy(80, 64, 80, 16, 0, -2, 3)
             enemy_group.add(enemy_1, enemy_2, enemy_3)   
         # CENTRAL HALL LEVEL 0  
         elif map_number == 2:
-            enemy_1 = Enemy(112, 144, 112, 32, 0, -2, SprType.platform)
-            enemy_2 = Enemy(208, 112, 16, 80, -2, -2, SprType.pelusoid)
+            enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
+            enemy_2 = Enemy(208, 112, 16, 80, -2, -2, 2)
             enemy_group.add(enemy_1, enemy_2)   
         # TOXIC WASTE STORAGE 1A
         elif map_number == 3:
-            enemy_1 = Enemy(160, 48, 32, 48, -4, 0, SprType.infected)
-            enemy_2 = Enemy(16, 80, 208, 112, 4, 4, SprType.avirus)
+            enemy_1 = Enemy(160, 48, 32, 48, -4, 0, 1)
+            enemy_2 = Enemy(16, 80, 208, 112, 4, 4, 3)
             enemy_group.add(enemy_1, enemy_2)   
         # TOXIC WASTE STORAGE 1B
         elif map_number == 4:
-            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, SprType.pelusoid)
-            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, SprType.pelusoid)
-            enemy_3 = Enemy(208, 112, 208, 96, 0, -2, SprType.fanty)
+            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 2)
+            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 2)
+            enemy_3 = Enemy(208, 112, 208, 96, 0, -2, 6)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # WEST PASSAGE LEVEL -1
         elif map_number == 5:
-            enemy_1 = Enemy(32, 48, 192, 48, 2, 0, SprType.infected)
-            enemy_2 = Enemy(192, 80, 32, 80, -2, 0, SprType.infected)
-            enemy_3 = Enemy(144, 128, 160, 128, 2, 0, SprType.fanty)
+            enemy_1 = Enemy(32, 48, 192, 48, 2, 0, 1)
+            enemy_2 = Enemy(192, 80, 32, 80, -2, 0, 1)
+            enemy_3 = Enemy(144, 128, 160, 128, 2, 0, 6)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ACCESS TO WEST PASSAGES
         elif map_number == 6:
-            enemy_1 = Enemy(96, 48, 48, 16, -2, -2, SprType.avirus)
-            enemy_2 = Enemy(144, 80, 144, 16, 0, -2, SprType.avirus)
-            enemy_3 = Enemy(16, 112, 16, 96, 0, -2, SprType.fanty)
+            enemy_1 = Enemy(96, 48, 48, 16, -2, -2, 3)
+            enemy_2 = Enemy(144, 80, 144, 16, 0, -2, 3)
+            enemy_3 = Enemy(16, 112, 16, 96, 0, -2, 6)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # CENTRAL HALL LEVEL -1
         elif map_number == 7:
-            pass
+            enemy_1 = Enemy(112, 144, 112, 16, 0, -2, 4)
+            enemy_2 = Enemy(208, 96, 16, 96, -2, 0, 3)
+            enemy_3 = Enemy(16, 32, 192, 64, 1, 1, 2)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ACCESS TO DUNGEONS
         elif map_number == 8:
-            pass
+            enemy_1 = Enemy(208, 64, 192, 64, -2, 0, 6)
+            enemy_2 = Enemy(64, 64, 64, 32, 0, -1, 3)
+            enemy_group.add(enemy_1, enemy_2)  
         # DUNGEONS
         elif map_number == 9:
-            pass
+            enemy_1 = Enemy(144, 128, 144, 16, 0, -4, 3)
+            enemy_2 = Enemy(80, 16, 80, 128, 0, 4, 3)
+            enemy_3 = Enemy(192, 128, 208, 128, 2, 0, 6)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # WEST PASSAGE LEVEL -2
         elif map_number == 10: 
-            pass
+            enemy_1 = Enemy(128, 128, 144, 128, 2, 0, 6)
+            enemy_2 = Enemy(176, 64, 160, 16, -2, -2, 3)
+            enemy_3 = Enemy(32, 16, 16, 64, -2, 2, 3)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # SUPPLY DEPOT 2
         elif map_number == 11:
-            pass
+            enemy_1 = Enemy(192, 80, 32, 80, -4, 0, 1)
+            enemy_2 = Enemy(32, 48, 192, 48, 4, 0, 1)
+            enemy_3 = Enemy(192, 16, 32, 16, -4, 0, 1)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # CENTRAL HALL LEVEL -2
         elif map_number == 12:
-            pass
+            enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
+            enemy_2 = Enemy(208, 112, 32, 112, -2, 0, 2)
+            enemy_3 = Enemy(16, 48, 208, 48, 2, 0, 2)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ACCESS TO SOUTHEAST EXIT
         elif map_number == 13:
-            pass
+            enemy_1 = Enemy(128, 112, 144, 112, 2, 0, 6)
+            enemy_2 = Enemy(144, 128, 208, 128, 2, 0, 1)
+            enemy_3 = Enemy(16, 80, 48, 16, 2, -2, 2)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # EXIT TO UNDERGROUND
         elif map_number == 14:
+            enemy_1 = Enemy(112, 128, 112, 16, 0, -4, 3)
+            enemy_2 = Enemy(48, 16, 48, 128, 0, 4, 3)
+            enemy_3 = Enemy(96, 16, 96, 128, 0, 2, 3)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
+        # PELUSOIDS LAIR
+        elif map_number == 15:
+            #  	{96, 128, 96, 128, 80, 128, -2, 0, 6},
+            #  	{112, 112, 112, 112, 144, 112, 2, 0, 2},
             pass
-        elif map_number == 15: # PELUSOIDS LAIR
+        # ALVARITOS GROTTO 2
+        elif map_number == 16:
+            #  	{192, 64, 192, 64, 32, 32, -2, -2, 2},
+            #  	{48, 128, 48, 128, 224, 112, 2, -2, 2},
+            #  	{16, 64, 16, 64, 32, 64, 2, 0, 6},
             pass
-        elif map_number == 16: # ALVARITOS GROTTO 2
+        # ALVARITOS GROTTO 1
+        elif map_number == 17:
+            #  	{160, 128, 160, 128, 160, 16, 0, -4, 3},
+            #  	{112, 32, 112, 32, 112, 128, 0, 4, 3},
+            #  	{64, 128, 64, 128, 16, 16, -4, -4, 2},
             pass
-        elif map_number == 17: # ALVARITOS GROTTO 1
+        # TOXIC WASTE STORAGE 2A
+        elif map_number == 18:
+            #  	{192, 96, 192, 96, 32, 96, -4, 0, 1},
+            #  	{32, 64, 32, 64, 192, 64, 2, 0, 1},
+            #  	{192, 32, 192, 32, 32, 32, -4, 0, 1},
             pass
-        elif map_number == 18: # TOXIC WASTE STORAGE 2A
+        # UNDERGROUND TUNNEL
+        elif map_number == 19:
+            #  	{64, 16, 64, 16, 64, 128, 0, 4, 3},
+            #  	{112, 128, 112, 128, 112, 16, 0, -4, 3},
+            #  	{16, 112, 16, 112, 16, 16, 0, -4, 3},
             pass
-        elif map_number == 19: # UNDERGROUND TUNNEL
+        # SIDE HALL LEVEL -4
+        elif map_number == 20:
+            #  	{112, 144, 112, 144, 112, 32, 0, -2, 4},
+            #  	{208, 144, 208, 144, 16, 48, -1, -1, 3},
+            #  	{128, 16, 128, 16, 128, 144, 0, 4, 3},
             pass
-        elif map_number == 20: # SIDE HALL LEVEL -4
+        # ARACHNOVIRUS LAIR
+        elif map_number == 21:
+            #  	{160, 128, 160, 128, 96, 128, -2, 0, 3},
+            #  	{208, 128, 208, 128, 208, 96, 0, -1, 3},
+            #  	{80, 112, 80, 112, 128, 112, 1, 0, 0},
             pass
-        elif map_number == 21: # ARACHNOVIRUS LAIR
+        # UNSTABLE CORRIDORS 1
+        elif map_number == 22:
+            #  	{64, 128, 64, 128, 48, 32, -2, -2, 2},
+            #  	{208, 128, 208, 128, 208, 32, 0, -4, 3},
+            #  	{128, 32, 128, 32, 160, 128, 2, 2, 2},
             pass
-        elif map_number == 22: # UNSTABLE CORRIDORS 1
+        # UNSTABLE CORRIDORS 2
+        elif map_number == 23:
+            #  	{16, 32, 16, 32, 32, 128, 2, 2, 2},
+            #  	{128, 128, 128, 128, 128, 32, 0, -4, 3},
+            #  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
             pass
-        elif map_number == 23: # UNSTABLE CORRIDORS 2
+        # TOXIC WASTE STORAGE 2B
+        elif map_number == 24:
+            #  	{48, 32, 48, 32, 192, 64, 4, 4, 2},
+            #  	{48, 128, 48, 128, 192, 128, 4, 0, 1},
+            #  	{192, 96, 192, 96, 64, 96, -2, 0, 1},
             pass
-        elif map_number == 24: # TOXIC WASTE STORAGE 2B
+        # SIDE HALL LEVEL -5
+        elif map_number == 25:
+            #  	{112, 128, 112, 128, 112, 16, 0, -2, 4},
+            #  	{208, 48, 208, 48, 16, 48, -2, 0, 3},
+            #  	{16, 112, 16, 112, 208, 112, 4, 0, 3},
             pass
-        elif map_number == 25: # SIDE HALL LEVEL -5
+        # ABANDONED MINE 1
+        elif map_number == 26:
+            #  	{192, 128, 192, 128, 32, 128, -4, 0, 1},
+            #  	{80, 32, 80, 32, 192, 32, 4, 0, 1},
+            #  	{16, 32, 16, 32, 32, 32, 2, 0, 6},
             pass
-        elif map_number == 26: # ABANDONED MINE 1
+        # ABANDONED MINE 2
+        elif map_number == 27:
+            #  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
+            #  	{192, 128, 192, 128, 96, 128, -1, 0, 1},
+            #  	{112, 32, 112, 32, 112, 128, 0, 2, 0},
             pass
-        elif map_number == 27: # ABANDONED MINE 2
+        # ABANDONED MINE 3
+        elif map_number == 28:
+            #  	{112, 128, 112, 128, 128, 128, 2, 0, 6},
+            #  	{32, 32, 32, 32, 32, 128, 0, 2, 3},
+            #  	{96, 48, 96, 48, 176, 48, 4, 0, 1},
             pass
-        elif map_number == 28: # ABANDONED MINE 3
-            pass
-        elif map_number == 29: # EXPLOSIVES STOCKPILE
+        # EXPLOSIVES STOCKPILE
+        elif map_number == 29:
+            #  	{128, 32, 128, 32, 128, 48, 0, 2, 6},
             pass
 
     # paint the map free of sprites to clean it up

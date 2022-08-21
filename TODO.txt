@@ -17,20 +17,22 @@ HECHO
 27/07/22 - Adaptar las músicas definitivas de tacha a OGG e implementar
 31/07/22 - Filtro Scanlines HQ
 08/08/22 - Sprites de malotes
-14/08/22 - Movimiento lineal X Y de malotes
+14/08/22 - Movimiento lineal XY de malotes
 17/08/22 - Transparencia de sprites
+21/08/22 - Movimiento diagonal de malotes
+21/08/22 - Sprite plataforma móvil
 
 EN PROCESO
 ==========
 - Colocación de malotes (ENEMS.h)
+- Existe sprite_3 ?
+- FPS sin borrar
 
 POR HACER
 =========
 - Obtener SFX de opengameart.com
 - Menu inicial con imagen de fondo de MasterKlown
-- Movimiento diagonal de malotes
-- Movimiento flotante de malotes
-- Sprite plataforma móvil
+- Movimiento fanty de malotes
 - Convertir navegador de mapeado en la opción TOUR-DEMO
 - Gestión de teclado (redefinible)
 - Teclas especiales; Pause y Mute
@@ -45,7 +47,7 @@ POR HACER
 - Gestión de tiempo de oxígeno
 - Gestión de objetos de tipo OXÍGENO
 - Usar sistema de partículas para explosiones
-- Puntos en pantalla de juego
+- Notas en pantalla de juego (+1) (+25)
 - Bucle de juego, gameover y final
 - Pantalla final
 - Gestión de pantalla completa (probar en raspberry)
