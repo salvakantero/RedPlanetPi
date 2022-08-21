@@ -52,6 +52,8 @@ class SprType(Enum):
     pelusoid = 2
     avirus = 3
     platform = 4
+    # ----------
+    fanty = 6
 
 # directions
 class Dir(Enum):
@@ -443,8 +445,8 @@ class Enemy(pygame.sprite.Sprite):
         self.x2 = x2
         self.y2 = y2
         # movement
-        self.mx = mx
-        self.my = my
+        self.mx = mx / 2
+        self.my = my / 2
 
     def update(self):
         # animation
@@ -542,21 +544,6 @@ while True:
         update_scoreboard()
         last_map = map_number
 
-
-# 	// Pantalla 2
-#  	{112, 144, 112, 144, 112, 32, 0, -2, 4},
-#  	{208, 112, 208, 112, 16, 80, -2, -2, 2},
-#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-# 	// Pantalla 3
-#  	{160, 48, 160, 48, 32, 48, -4, 0, 1},
-#  	{16, 80, 16, 80, 208, 112, 4, 4, 3},
-#  	{0, 0, 0, 0, 0, 0, 0, 0, 0},
-
-# 	// Pantalla 4
-#  	{64, 80, 64, 80, 64, 16, 0, -2, 3},
-#  	{144, 16, 144, 16, 144, 128, 0, 2, 3},
-#  	{208, 112, 208, 112, 208, 96, 0, -2, 6},
 
 # 	// Pantalla 5
 #  	{32, 48, 32, 48, 192, 48, 2, 0, 1},
@@ -693,38 +680,57 @@ while True:
             enemy_group.add(enemy_1, enemy_2)
         # SUPPLY DEPOT 1
         elif map_number == 1:
-            #  	{192, 112, 192, 112, 32, 112, -4, 0, 1}
-            enemy_1 = Enemy(SprType.pelusoid, Mov.lin_y, Dir.left, (8,7), 8, 2, 1)
-            #  	{208, 16, 208, 16, 144, 64, -1, 1, 2}
-            enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1)
-            #  	{80, 64, 80, 64, 80, 16, 0, -2, 3}
-            enemy_2 = Enemy(SprType.pelusoid, Mov.lin_x, Dir.down, (1,1), 5, 1, 1)
-            enemy_group.add(enemy_1, enemy_2)     
-        elif map_number == 2: # CENTRAL HALL LEVEL 0
+            enemy_1 = Enemy(192, 112, 32, 112, -4, 0, SprType.infected)
+            enemy_2 = Enemy(208, 16, 144, 64, -1, 1, SprType.pelusoid)
+            enemy_3 = Enemy(80, 64, 80, 16, 0, -2, SprType.avirus)
+            enemy_group.add(enemy_1, enemy_2, enemy_3)   
+        # CENTRAL HALL LEVEL 0  
+        elif map_number == 2:
+            enemy_1 = Enemy(112, 144, 112, 32, 0, -2, SprType.platform)
+            enemy_2 = Enemy(208, 112, 16, 80, -2, -2, SprType.pelusoid)
+            enemy_group.add(enemy_1, enemy_2)   
+        # TOXIC WASTE STORAGE 1A
+        elif map_number == 3:
+            enemy_1 = Enemy(160, 48, 32, 48, -4, 0, SprType.infected)
+            enemy_2 = Enemy(16, 80, 208, 112, 4, 4, SprType.avirus)
+            enemy_group.add(enemy_1, enemy_2)   
             pass
-        elif map_number == 3: # TOXIC WASTE STORAGE 1A
+        # TOXIC WASTE STORAGE 1B
+        elif map_number == 4:
+            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, SprType.pelusoid)
+            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, SprType.pelusoid)
+            enemy_3 = Enemy(208, 112, 208, 96, 0, -2, SprType.fanty)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
             pass
-        elif map_number == 4: # TOXIC WASTE STORAGE 1B
+        # WEST PASSAGE LEVEL -1
+        elif map_number == 5:
             pass
-        elif map_number == 5: # WEST PASSAGE LEVEL -1
+        # ACCESS TO WEST PASSAGES
+        elif map_number == 6:
             pass
-        elif map_number == 6: # ACCESS TO WEST PASSAGES
+        # CENTRAL HALL LEVEL -1
+        elif map_number == 7:
             pass
-        elif map_number == 7: # CENTRAL HALL LEVEL -1
+        # ACCESS TO DUNGEONS
+        elif map_number == 8:
             pass
-        elif map_number == 8: # ACCESS TO DUNGEONS
+        # DUNGEONS
+        elif map_number == 9:
             pass
-        elif map_number == 9: # DUNGEONS
+        # WEST PASSAGE LEVEL -2
+        elif map_number == 10: 
             pass
-        elif map_number == 10: # WEST PASSAGE LEVEL -2
+        # SUPPLY DEPOT 2
+        elif map_number == 11:
             pass
-        elif map_number == 11: # SUPPLY DEPOT 2
+        # CENTRAL HALL LEVEL -2
+        elif map_number == 12:
             pass
-        elif map_number == 12: # CENTRAL HALL LEVEL -2
+        # ACCESS TO SOUTHEAST EXIT
+        elif map_number == 13:
             pass
-        elif map_number == 13: # ACCESS TO SOUTHEAST EXIT
-            pass
-        elif map_number == 14: # EXIT TO UNDERGROUND
+        # EXIT TO UNDERGROUND
+        elif map_number == 14:
             pass
         elif map_number == 15: # PELUSOIDS LAIR
             pass
