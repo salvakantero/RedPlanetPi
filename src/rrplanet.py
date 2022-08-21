@@ -544,12 +544,6 @@ while True:
         update_scoreboard()
         last_map = map_number
 
-
-# 	// Pantalla 5
-#  	{32, 48, 32, 48, 192, 48, 2, 0, 1},
-#  	{192, 80, 192, 80, 32, 80, -2, 0, 1},
-#  	{144, 128, 144, 128, 160, 128, 2, 0, 6},
-
 # 	// Pantalla 6
 #  	{96, 48, 96, 48, 48, 16, -2, -2, 3},
 #  	{144, 80, 144, 80, 144, 16, 0, -2, 3},
@@ -694,20 +688,24 @@ while True:
             enemy_1 = Enemy(160, 48, 32, 48, -4, 0, SprType.infected)
             enemy_2 = Enemy(16, 80, 208, 112, 4, 4, SprType.avirus)
             enemy_group.add(enemy_1, enemy_2)   
-            pass
         # TOXIC WASTE STORAGE 1B
         elif map_number == 4:
             enemy_1 = Enemy(64, 80, 64, 16, 0, -2, SprType.pelusoid)
             enemy_2 = Enemy(144, 16, 144, 128, 0, 2, SprType.pelusoid)
             enemy_3 = Enemy(208, 112, 208, 96, 0, -2, SprType.fanty)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
-            pass
         # WEST PASSAGE LEVEL -1
         elif map_number == 5:
-            pass
+            enemy_1 = Enemy(32, 48, 192, 48, 2, 0, SprType.infected)
+            enemy_2 = Enemy(192, 80, 32, 80, -2, 0, SprType.infected)
+            enemy_3 = Enemy(144, 128, 160, 128, 2, 0, SprType.fanty)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ACCESS TO WEST PASSAGES
         elif map_number == 6:
-            pass
+            enemy_1 = Enemy(96, 48, 48, 16, -2, -2, SprType.avirus)
+            enemy_2 = Enemy(144, 80, 144, 16, 0, -2, SprType.avirus)
+            enemy_3 = Enemy(16, 112, 16, 96, 0, -2, SprType.fanty)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # CENTRAL HALL LEVEL -1
         elif map_number == 7:
             pass

@@ -22,7 +22,7 @@ HECHO
 
 EN PROCESO
 ==========
-- Colocación de malotes (usar ENEMS.h?)
+- Colocación de malotes (ENEMS.h)
 
 POR HACER
 =========
