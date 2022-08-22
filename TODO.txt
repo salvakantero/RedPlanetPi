@@ -25,13 +25,12 @@ HECHO
 
 EN PROCESO
 ==========
-- Existe sprite_3 ?
+- Movimiento fanty de malotes
 
 POR HACER
 =========
 - Obtener SFX de opengameart.com
 - Menu inicial con imagen de fondo de MasterKlown
-- Movimiento fanty de malotes
 - Convertir navegador de mapeado en la opción TOUR-DEMO
 - Gestión de teclado (redefinible)
 - Teclas especiales; Pause y Mute
