@@ -21,12 +21,11 @@ HECHO
 17/08/22 - Transparencia de sprites
 21/08/22 - Movimiento diagonal de malotes
 21/08/22 - Sprite plataforma móvil
+22/08/22 - Colocación de malotes (ENEMS.h)
 
 EN PROCESO
 ==========
-- Colocación de malotes (ENEMS.h)
 - Existe sprite_3 ?
-- FPS sin borrar
 
 POR HACER
 =========

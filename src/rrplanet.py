@@ -19,7 +19,7 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT)
 # Global variables
 #===============================================================================
 
-dp = os.path.dirname(__file__) + "/" # exec path (+ "/" when using VS Code)
+dp = os.path.dirname(__file__) + '/' # exec path (+ '/' when using VS Code)
 jp = os.path.join # forms the folder/file path
 
 win_size = 800, 600 # main window size
@@ -47,58 +47,58 @@ cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
 # colour palette (Pico8)
 palette = {
-    "BLACK": (0, 0, 0),
-    "DARK_BLUE" : (35, 50, 90),
-    "PURPLE" : (126, 37, 83),
-    "DARK_GREEN" : (0, 135, 81),
-    "BROWN" : (171, 82, 54),
-    "DARK_GRAY" : (95, 87, 79),
-    "GRAY" : (194, 195, 199),
-    "WHITE" : (255, 241, 232),
-    "RED" : (255, 0, 77),
-    "ORANGE" : (255, 163, 0),
-    "YELLOW" : (255, 236, 39),
-    "GREEN" : (0, 228, 54),
-    "CYAN" : (41, 173, 255),
-    "MALVA" : (131, 118, 156),
-    "PINK" : (255, 119, 168),
-    "SAND" : (255, 204, 170),
-    "KEY" : (255, 0, 255) # Mask colour
+    'BLACK': (0, 0, 0),
+    'DARK_BLUE' : (35, 50, 90),
+    'PURPLE' : (126, 37, 83),
+    'DARK_GREEN' : (0, 135, 81),
+    'BROWN' : (171, 82, 54),
+    'DARK_GRAY' : (95, 87, 79),
+    'GRAY' : (194, 195, 199),
+    'WHITE' : (255, 241, 232),
+    'RED' : (255, 0, 77),
+    'ORANGE' : (255, 163, 0),
+    'YELLOW' : (255, 236, 39),
+    'GREEN' : (0, 228, 54),
+    'CYAN' : (41, 173, 255),
+    'MALVA' : (131, 118, 156),
+    'PINK' : (255, 119, 168),
+    'SAND' : (255, 204, 170),
+    'KEY' : (255, 0, 255) # Mask colour
 }
 
 # screen names
 map_names = {
-    0  : "CONTROL CENTRE",
-    1  : "SUPPLY DEPOT 1",
-    2  : "CENTRAL HALL LEVEL 0",
-    3  : "TOXIC WASTE STORAGE 1A",
-    4  : "TOXIC WASTE STORAGE 1B",
-    5  : "WEST PASSAGE LEVEL -1",
-    6  : "ACCESS TO WEST PASSAGES",
-    7  : "CENTRAL HALL LEVEL -1",
-    8  : "ACCESS TO DUNGEONS",
-    9  : "DUNGEONS",
-    10 : "WEST PASSAGE LEVEL -2",
-    11 : "SUPPLY DEPOT 2",
-    12 : "CENTRAL HALL LEVEL -2",
-    13 : "ACCESS TO SOUTHEAST EXIT",
-    14 : "EXIT TO UNDERGROUND",
-    15 : "PELUSOIDS LAIR",
-    16 : "ALVARITOS GROTTO 2",
-    17 : "ALVARITOS GROTTO 1",
-    18 : "TOXIC WASTE STORAGE 2A",
-    19 : "UNDERGROUND TUNNEL",
-    20 : "SIDE HALL LEVEL -4",
-    21 : "ARACHNOVIRUS LAIR",
-    22 : "UNSTABLE CORRIDORS 1",
-    23 : "UNSTABLE CORRIDORS 2",
-    24 : "TOXIC WASTE STORAGE 2B",
-    25 : "SIDE HALL LEVEL -5",
-    26 : "ABANDONED MINE 1",
-    27 : "ABANDONED MINE 2",
-    28 : "ABANDONED MINE 3",
-    29 : "EXPLOSIVES STOCKPILE",
-    30 : "BACK TO CONTROL CENTER",
+    0  : 'CONTROL CENTRE',
+    1  : 'SUPPLY DEPOT 1',
+    2  : 'CENTRAL HALL LEVEL 0',
+    3  : 'TOXIC WASTE STORAGE 1A',
+    4  : 'TOXIC WASTE STORAGE 1B',
+    5  : 'WEST PASSAGE LEVEL -1',
+    6  : 'ACCESS TO WEST PASSAGES',
+    7  : 'CENTRAL HALL LEVEL -1',
+    8  : 'ACCESS TO DUNGEONS',
+    9  : 'DUNGEONS',
+    10 : 'WEST PASSAGE LEVEL -2',
+    11 : 'SUPPLY DEPOT 2',
+    12 : 'CENTRAL HALL LEVEL -2',
+    13 : 'ACCESS TO SOUTHEAST EXIT',
+    14 : 'EXIT TO UNDERGROUND',
+    15 : 'PELUSOIDS LAIR',
+    16 : 'ALVARITOS GROTTO 2',
+    17 : 'ALVARITOS GROTTO 1',
+    18 : 'TOXIC WASTE STORAGE 2A',
+    19 : 'UNDERGROUND TUNNEL',
+    20 : 'SIDE HALL LEVEL -4',
+    21 : 'ARACHNOVIRUS LAIR',
+    22 : 'UNSTABLE CORRIDORS 1',
+    23 : 'UNSTABLE CORRIDORS 2',
+    24 : 'TOXIC WASTE STORAGE 2B',
+    25 : 'SIDE HALL LEVEL -5',
+    26 : 'ABANDONED MINE 1',
+    27 : 'ABANDONED MINE 2',
+    28 : 'ABANDONED MINE 3',
+    29 : 'EXPLOSIVES STOCKPILE',
+    30 : 'BACK TO CONTROL CENTER',
 }
 
 
@@ -217,7 +217,7 @@ def outlined_text(bg_font, fg_font, t, surf, pos):
 # loads a map and draws it on screen
 def load_map(map_number, map_display):
     global map_data
-    map_data = process_map(jp(dp, "maps/map" + str(map_number) + ".json"))
+    map_data = process_map(jp(dp, 'maps/map' + str(map_number) + '.json'))
     draw_map(map_display) # draws the tile map on the screen
 
 # dump tiled map into 'mapdata'
@@ -226,38 +226,38 @@ def process_map(map_file):
     with open(map_file) as json_data:
         data_readed = json.load(json_data)
     # gets the map dimensions
-    data = {"width": data_readed["width"], "height": data_readed["height"]}
+    data = {'width': data_readed['width'], 'height': data_readed['height']}
     # gets a list of all tiles
-    raw_data = data_readed["layers"][0]["data"]
-    data["data"] = []
+    raw_data = data_readed['layers'][0]['data']
+    data['data'] = []
     # divides the list into tile lines, according to the map dimensions
-    for x in range(0, data["height"]):
-        st = x * data["width"]
-        data["data"].append(raw_data[st: st + data["width"]])
+    for x in range(0, data['height']):
+        st = x * data['width']
+        data['data'].append(raw_data[st: st + data['width']])
     # gets the name of the tile file
-    tileset = data_readed["tilesets"][0]["source"].replace(".tsx",".json")
+    tileset = data_readed['tilesets'][0]['source'].replace('.tsx','.json')
     # gets the data from the tile file
-    with open(jp(dp,"maps/" + tileset)) as json_data:
+    with open(jp(dp,'maps/' + tileset)) as json_data:
         t = json.load(json_data)
     # removes the path to each image from the tile file
-    data["tiles"] = t["tiles"]
-    for tile in range(0, len(data["tiles"])):
-        path = data["tiles"][tile]["image"]
-        data["tiles"][tile]["image"] = os.path.basename(path)
-        data["tiles"][tile]["id"] = data["tiles"][tile]["id"] + 1
+    data['tiles'] = t['tiles']
+    for tile in range(0, len(data['tiles'])):
+        path = data['tiles'][tile]['image']
+        data['tiles'][tile]['image'] = os.path.basename(path)
+        data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
     return data
 
 # draws the tile map on the screen
 def draw_map(map_display):
     # scroll through the map data
-    for y in range(0, map_data["height"]):
-        for x in range(0, map_data["width"]):
+    for y in range(0, map_data['height']):
+        for x in range(0, map_data['width']):
             # gets the tile number from the list
-            t = find_data(map_data["tiles"], "id", map_data["data"][y][x])
+            t = find_data(map_data['tiles'], 'id', map_data['data'][y][x])
             # draws the selected tile
-            tile = pygame.image.load(jp(dp, "images/tiles/" + t["image"])).convert()
+            tile = pygame.image.load(jp(dp, 'images/tiles/' + t['image'])).convert()
             tileRect = tile.get_rect()
-            tileRect.topleft = (x * t["imagewidth"], y * t["imageheight"])   
+            tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
 
 
@@ -306,10 +306,10 @@ def init_scoreboard():
     sboard_display.blit(keys_icon, (145, 2))
     sboard_display.blit(explosives_icon, (186, 2))
     # fixed texts
-    bg_font_L.render("+50", sboard_display, (116, 6))
-    fg_font_L.render("+50", sboard_display, (114, 4))
-    bg_font_L.render("+10", sboard_display, (220, 6))
-    fg_font_L.render("+10", sboard_display, (218, 4))
+    bg_font_L.render('+50', sboard_display, (116, 6))
+    fg_font_L.render('+50', sboard_display, (114, 4))
+    bg_font_L.render('+10', sboard_display, (220, 6))
+    fg_font_L.render('+10', sboard_display, (218, 4))
 
 def update_scoreboard():
     # values
@@ -345,22 +345,22 @@ class Enemy(pygame.sprite.Sprite):
         self.my = my / 2
         # enemy type
         if type == 1:
-            enemy_name = "infected"
+            enemy_name = 'infected'
         elif type == 2:
-            enemy_name = "pelusoid"
+            enemy_name = 'pelusoid'
         elif type == 3:
-            enemy_name = "avirus"
+            enemy_name = 'avirus'
         elif type == 4:
-            enemy_name = "platform"
+            enemy_name = 'platform'
         elif type == 6:
-            enemy_name = "fanty"
+            enemy_name = 'fanty'
         # images
         num_frames = 2
         self.images = []
         for i in range(num_frames):
             # image for the frame
             self.images.append(pygame.image.load(
-                jp(dp, "images/sprites/" + enemy_name + str(i) + ".png")).convert())
+                jp(dp, 'images/sprites/' + enemy_name + str(i) + '.png')).convert())
             # mask
             self.images[i].set_colorkey((255, 0, 255))
         self.animation_index = 0
@@ -395,8 +395,8 @@ pygame.mixer.init()
 
 # generates a main window with title, icon, and 32-bit colour.
 screen = pygame.display.set_mode(win_size, 0, 32)
-pygame.display.set_caption(".:: Raspi-Red Planet ::.")
-icon = pygame.image.load(jp(dp, "images/assets/icon.png")).convert_alpha()
+pygame.display.set_caption('.:: Raspi-Red Planet ::.')
+icon = pygame.image.load(jp(dp, 'images/assets/icon.png')).convert_alpha()
 pygame.display.set_icon(icon)
 
 # area covered by the map
@@ -410,18 +410,18 @@ screen_sl = pygame.Surface(win_size)
 screen_sl.set_alpha(40)
 
 # fonts
-fg_font_S = Font('images/fonts/small_font.png', palette["GREEN"], True)
-bg_font_S = Font('images/fonts/small_font.png', palette["DARK_GREEN"], False)
-fg_font_L = Font('images/fonts/large_font.png', palette["WHITE"], True)
-bg_font_L = Font('images/fonts/large_font.png', palette["DARK_GRAY"], False)
-aux_font_L = Font('images/fonts/large_font.png', palette['YELLOW'], True)
+fg_font_S = Font('images/fonts/small_font.png', palette['GREEN'], True)
+bg_font_S = Font('images/fonts/small_font.png', palette['DARK_GREEN'], False)
+fg_font_L = Font('images/fonts/large_font.png', palette['WHITE'], True)
+bg_font_L = Font('images/fonts/large_font.png', palette['DARK_GRAY'], False)
+aux_font_L = Font('images/fonts/large_font.png', palette['YELLOW'], False)
 
 # scoreboard icons
-lives_icon = pygame.image.load(jp(dp, "images/assets/lives.png")).convert()
-oxigen_icon = pygame.image.load(jp(dp, "images/tiles/T53.png")).convert()
-ammo_icon = pygame.image.load(jp(dp, "images/tiles/T52.png")).convert()
-keys_icon = pygame.image.load(jp(dp, "images/tiles/T51.png")).convert()
-explosives_icon = pygame.image.load(jp(dp, "images/tiles/T50.png")).convert()
+lives_icon = pygame.image.load(jp(dp, 'images/assets/lives.png')).convert()
+oxigen_icon = pygame.image.load(jp(dp, 'images/tiles/T53.png')).convert()
+ammo_icon = pygame.image.load(jp(dp, 'images/tiles/T52.png')).convert()
+keys_icon = pygame.image.load(jp(dp, 'images/tiles/T51.png')).convert()
+explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
 
 # enemy sprites control
 enemy_group = pygame.sprite.Group()
@@ -554,91 +554,89 @@ while True:
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # PELUSOIDS LAIR
         elif map_number == 15:
-            #  	{96, 128, 96, 128, 80, 128, -2, 0, 6},
-            #  	{112, 112, 112, 112, 144, 112, 2, 0, 2},
-            pass
+            enemy_1 = Enemy(96, 128, 80, 128, -2, 0, 6)
+            enemy_2 = Enemy(112, 112, 144, 112, 2, 0, 2)
+            enemy_group.add(enemy_1, enemy_2)  
         # ALVARITOS GROTTO 2
         elif map_number == 16:
-            #  	{192, 64, 192, 64, 32, 32, -2, -2, 2},
-            #  	{48, 128, 48, 128, 224, 112, 2, -2, 2},
-            #  	{16, 64, 16, 64, 32, 64, 2, 0, 6},
-            pass
+            enemy_1 = Enemy(192, 64, 32, 32, -2, -2, 2)
+            enemy_2 = Enemy(48, 128, 224, 112, 2, -2, 2)
+            enemy_3 = Enemy(16, 64, 32, 64, 2, 0, 6)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ALVARITOS GROTTO 1
         elif map_number == 17:
-            #  	{160, 128, 160, 128, 160, 16, 0, -4, 3},
-            #  	{112, 32, 112, 32, 112, 128, 0, 4, 3},
-            #  	{64, 128, 64, 128, 16, 16, -4, -4, 2},
-            pass
+            enemy_1 = Enemy(160, 128, 160, 16, 0, -4, 3)
+            enemy_2 = Enemy(112, 32, 112, 128, 0, 4, 3)
+            enemy_3 = Enemy(64, 128, 16, 16, -4, -4, 2)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # TOXIC WASTE STORAGE 2A
         elif map_number == 18:
-            #  	{192, 96, 192, 96, 32, 96, -4, 0, 1},
-            #  	{32, 64, 32, 64, 192, 64, 2, 0, 1},
-            #  	{192, 32, 192, 32, 32, 32, -4, 0, 1},
-            pass
+            enemy_1 = Enemy(192, 96, 32, 96, -4, 0, 1)
+            enemy_2 = Enemy(32, 64, 192, 64, 2, 0, 1)
+            enemy_3 = Enemy(192, 32, 32, 32, -4, 0, 1)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # UNDERGROUND TUNNEL
         elif map_number == 19:
-            #  	{64, 16, 64, 16, 64, 128, 0, 4, 3},
-            #  	{112, 128, 112, 128, 112, 16, 0, -4, 3},
-            #  	{16, 112, 16, 112, 16, 16, 0, -4, 3},
-            pass
+            enemy_1 = Enemy(64, 16, 64, 128, 0, 4, 3)
+            enemy_2 = Enemy(112, 128, 112, 16, 0, -4, 3)
+            enemy_3 = Enemy(16, 112, 16, 16, 0, -4, 3)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # SIDE HALL LEVEL -4
         elif map_number == 20:
-            #  	{112, 144, 112, 144, 112, 32, 0, -2, 4},
-            #  	{208, 144, 208, 144, 16, 48, -1, -1, 3},
-            #  	{128, 16, 128, 16, 128, 144, 0, 4, 3},
-            pass
+            enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
+            enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 3)
+            enemy_3 = Enemy(128, 16, 128, 144, 0, 4, 3)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ARACHNOVIRUS LAIR
         elif map_number == 21:
-            #  	{160, 128, 160, 128, 96, 128, -2, 0, 3},
-            #  	{208, 128, 208, 128, 208, 96, 0, -1, 3},
-            #  	{80, 112, 80, 112, 128, 112, 1, 0, 0},
-            pass
+            enemy_1 = Enemy(160, 128, 96, 128, -2, 0, 3)
+            enemy_2 = Enemy(208, 128, 208, 96, 0, -1, 3)
+            enemy_group.add(enemy_1, enemy_2) 
         # UNSTABLE CORRIDORS 1
         elif map_number == 22:
-            #  	{64, 128, 64, 128, 48, 32, -2, -2, 2},
-            #  	{208, 128, 208, 128, 208, 32, 0, -4, 3},
-            #  	{128, 32, 128, 32, 160, 128, 2, 2, 2},
-            pass
+            enemy_1 = Enemy(64, 128, 48, 32, -2, -2, 2)
+            enemy_2 = Enemy(208, 128, 208, 32, 0, -4, 3)
+            enemy_3 = Enemy(128, 32, 160, 128, 2, 2, 2)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # UNSTABLE CORRIDORS 2
         elif map_number == 23:
-            #  	{16, 32, 16, 32, 32, 128, 2, 2, 2},
-            #  	{128, 128, 128, 128, 128, 32, 0, -4, 3},
-            #  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
-            pass
+            enemy_1 = Enemy(16, 32, 32, 128, 2, 2, 2)
+            enemy_2 = Enemy(128, 128, 128, 32, 0, -4, 3)
+            enemy_3 = Enemy(160, 32, 160, 128, 0, 4, 3)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # TOXIC WASTE STORAGE 2B
         elif map_number == 24:
-            #  	{48, 32, 48, 32, 192, 64, 4, 4, 2},
-            #  	{48, 128, 48, 128, 192, 128, 4, 0, 1},
-            #  	{192, 96, 192, 96, 64, 96, -2, 0, 1},
-            pass
+            enemy_1 = Enemy(48, 32, 192, 64, 4, 4, 2)
+            enemy_2 = Enemy(48, 128, 192, 128, 4, 0, 1)
+            enemy_3 = Enemy(192, 96, 64, 96, -2, 0, 1)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # SIDE HALL LEVEL -5
         elif map_number == 25:
-            #  	{112, 128, 112, 128, 112, 16, 0, -2, 4},
-            #  	{208, 48, 208, 48, 16, 48, -2, 0, 3},
-            #  	{16, 112, 16, 112, 208, 112, 4, 0, 3},
-            pass
+            enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
+            enemy_2 = Enemy(208, 48, 16, 48, -2, 0, 3)
+            enemy_3 = Enemy(16, 112, 208, 112, 4, 0, 3)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ABANDONED MINE 1
         elif map_number == 26:
-            #  	{192, 128, 192, 128, 32, 128, -4, 0, 1},
-            #  	{80, 32, 80, 32, 192, 32, 4, 0, 1},
-            #  	{16, 32, 16, 32, 32, 32, 2, 0, 6},
-            pass
+            enemy_1 = Enemy(192, 128, 32, 128, -4, 0, 1)
+            enemy_2 = Enemy(80, 32, 192, 32, 4, 0, 1)
+            enemy_3 = Enemy(16, 32, 32, 32, 2, 0, 6)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ABANDONED MINE 2
         elif map_number == 27:
-            #  	{160, 32, 160, 32, 160, 128, 0, 4, 3},
-            #  	{192, 128, 192, 128, 96, 128, -1, 0, 1},
-            #  	{112, 32, 112, 32, 112, 128, 0, 2, 0},
-            pass
+            enemy_1 = Enemy(160, 32, 160, 128, 0, 4, 3)
+            enemy_2 = Enemy(192, 128, 96, 128, -1, 0, 1)
+            enemy_group.add(enemy_1, enemy_2) 
         # ABANDONED MINE 3
         elif map_number == 28:
-            #  	{112, 128, 112, 128, 128, 128, 2, 0, 6},
-            #  	{32, 32, 32, 32, 32, 128, 0, 2, 3},
-            #  	{96, 48, 96, 48, 176, 48, 4, 0, 1},
-            pass
+            enemy_1 = Enemy(112, 128, 128, 128, 2, 0, 6)
+            enemy_2 = Enemy(32, 32, 32, 128, 0, 2, 3)
+            enemy_3 = Enemy(96, 48, 176, 48, 4, 0, 1)
+            enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # EXPLOSIVES STOCKPILE
         elif map_number == 29:
-            #  	{128, 32, 128, 32, 128, 48, 0, 2, 6},
-            pass
+            enemy_1 = Enemy(128, 32, 128, 48, 0, 2, 6)
+            enemy_group.add(enemy_1) 
 
     # paint the map free of sprites to clean it up
     map_display.blit(map_display_backup, (0,0))
@@ -648,8 +646,7 @@ while True:
     enemy_group.draw(map_display)
 
     # FPS counter using the clock   
-    pygame.draw.rect(sboard_display,palette['BLACK'],(124,22,50,12))
-    aux_font_L.render(str(int(clock.get_fps())) + " FPS", sboard_display, (124, 22))
+    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
     # scale x 3 the map
     screen.blit(pygame.transform.scale(map_display, map_scaled_size), (40, 112))
@@ -664,6 +661,6 @@ while True:
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    clock.tick() # 60 FPS
 
 
