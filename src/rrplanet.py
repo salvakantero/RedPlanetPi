@@ -4,10 +4,10 @@
 # salvaKantero 2022
 # ==============================================================================
 
+from xmlrpc.server import DocXMLRPCRequestHandler
 import pygame # pygame library functions
 import os, sys, json # python generic functions
 
-from enum import Enum
 from pygame.locals import * # allows constants without typing "pygame."
 from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT) 
 
@@ -130,6 +130,23 @@ def swap_color(img,old_c,new_c):
     surf.fill(new_c)
     surf.blit(img,(0,0))
     return surf
+
+# calculates the distance between two points
+def distance (x1, y1, x2, y2):
+    dx = abs(x2-x1)
+    dy = abs(y2-y1)
+    if dx < dy:
+        mn = dx
+    else:
+        mn = dy
+    return(dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
+
+def limit(val, min, max):
+    if val < min:
+        return min
+    elif val > max:
+        return max
+    return val
 
 # scanlines
 def apply_scanlines(surface, height, from_x, to_x, rgb):
@@ -344,6 +361,7 @@ class Enemy(pygame.sprite.Sprite):
         self.mx = mx / 2
         self.my = my / 2
         # enemy type
+        self.type = type
         if type == 1:
             enemy_name = 'infected'
         elif type == 2:
@@ -354,6 +372,10 @@ class Enemy(pygame.sprite.Sprite):
             enemy_name = 'platform'
         elif type == 6:
             enemy_name = 'fanty'
+            self.state = 0 # 0=idle  1=pursuing  2=retreating
+            self.sight_distance = 64
+            self.acceleration = 16
+            self.max_speed = 256
         # images
         num_frames = 2
         self.images = []
@@ -374,14 +396,40 @@ class Enemy(pygame.sprite.Sprite):
             self.animation_index = 0
         self.image = self.images[int(self.animation_index)]
         # movement
-        self.x += self.mx
-        self.y += self.my
-        if self.x == self.x1 or self.x == self.x2:
-            self.mx = -self.mx
-        if self.y == self.y1 or self.y == self.y2:
-            self.my = -self.my
+        if self.type != 6: # no fanty  
+            self.x += self.mx
+            self.y += self.my
+            if self.x == self.x1 or self.x == self.x2:
+                self.mx = -self.mx
+            if self.y == self.y1 or self.y == self.y2:
+                self.my = -self.my
+        else: # fanty
+            if self.state == 0: # idle
+                if distance(0, 0, self.x, self.y) <= self.sight_distance:
+                    self.state = 1 # pursuing
+            elif self.state == 1: # pursuing
+                if distance(0, 0, self.x, self.y) > self.sight_distance:
+                    self.state = 2 # retreating
+                else:
+                    #en_an [gpit].vx = limit(en_an [gpit].vx + addsign (player.x - en_an [gpit].x, FANTY_A),-FANTY_MAX_V, FANTY_MAX_V)
+                    #en_an [gpit].vy = limit(en_an [gpit].vy + addsign (player.y - en_an [gpit].y, FANTY_A),-FANTY_MAX_V, FANTY_MAX_V)                        
+                    #en_an [gpit].x = limit(en_an [gpit].x + en_an [gpit].vx, 0, 14336)
+                    #en_an [gpit].y = limit(en_an [gpit].y + en_an [gpit].vy, 0, 9216) 
+                    pass               
+            else: # retreating
+                #en_an [gpit].x += addsign(malotes [enoffsmasi].x - gpen_cx, 64)
+                #en_an [gpit].y += addsign(malotes [enoffsmasi].y - gpen_cy, 64)                
+                if distance (0, 0, self.x, self.y) <= self.sight_distance:
+                    self.state = 1 # pursuing					
+                        				
+            #gpen_cx = en_an [gpit].x >> 6;
+            #gpen_cy = en_an [gpit].y >> 6;
+            if self.state == 2 and self.x == self.x1 and self.y == self.y1:
+                self.state = 0 # idle
 
         self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
+
+
 
 
 
