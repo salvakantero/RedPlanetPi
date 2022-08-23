@@ -4,7 +4,6 @@
 # salvaKantero 2022
 # ==============================================================================
 
-from xmlrpc.server import DocXMLRPCRequestHandler
 import pygame # pygame library functions
 import os, sys, json # python generic functions
 

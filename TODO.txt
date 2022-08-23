@@ -25,11 +25,10 @@ HECHO
 
 EN PROCESO
 ==========
-- Fuente galáctica (grande)
+- Tiles animados (computadoras, lava, cadaver)
 - Menu inicial con imagen de fondo de MasterKlown
 - Gestión de teclado (redefinible)
 - Teclas especiales; Pause y Mute
-- Movimiento fanty de malotes
 
 POR HACER
 =========
@@ -39,6 +38,7 @@ POR HACER
 - Obtener SFX de opengameart.com
 - Tiles pasables, bloqueantes, matantes, y plataformas
 - Gestión de Keko; movimiento y saltos
+- Movimiento fanty de malotes
 - Colisiones entre Keko y malotes
 - Keko es invencible los primeros 5 segundos (parpadea)
 - Gestión de objetos de tipo TARJETA (abrir puertas)
@@ -58,6 +58,7 @@ POR HACER
 GREETINGS
 =========
 
+Mojon Twins (MK1 engine)
 DaFluffyPotato (Font class)
-
+Mark Vanstone (Tiled functions)
 
