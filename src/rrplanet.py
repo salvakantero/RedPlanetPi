@@ -32,14 +32,14 @@ sboard_unscaled_size = 240, 38 # scoreboard size (unscaled)
 tile_width = 16
 tile_height = 16
 anim_tiles = {
-    # frame1    frame2
+    # frame_1   frame_2
     'T4.png' : 'T70.png',   # computer 1
     'T8.png' : 'T71.png',   # computer 2
     'T9.png' : 'T72.png',   # corpse
     'T25.png' : 'T73.png',  # toxic waste
     'T29.png' : 'T74.png'   # lava
 }
-anim_tiles_list = [] # (frame1, frame2, x, y)
+anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 
 map_number = 0 # current map number
 last_map = -1 # last map loaded
@@ -286,16 +286,27 @@ def draw_map(map_display):
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
-            # locate the animated tiles (frame1, frame2, x, y, turn)
+            # generates the information of the animated tiles
+            # (frame_1, frame_2, x, y, num_frame)
             if t['image'] in anim_tiles.keys():
-                anim_tiles_list.append((t['image'], anim_tiles[t['image']], 
-                tileRect.topleft[0], tileRect.topleft[1], 0))
+                anim_tiles_list.append([t['image'], anim_tiles[t['image']], 
+                tileRect.topleft[0], tileRect.topleft[1], 0])
 
 # select some of the animated tiles on the current map to change the frame
 def animate_tiles():
-    for tile in anim_tiles_list:    
-        if random.randint(0,5) == 0:
-            pass
+    for anim_tile in anim_tiles_list:    
+        if random.randint(0,20) == 0: # 5%
+            tile = pygame.image.load(jp(dp, 'images/tiles/' + 
+                anim_tile[0+anim_tile[4]])).convert()
+            tileRect = tile.get_rect()
+            tileRect.topleft = (anim_tile[2], anim_tile[3])  
+            map_display_backup.blit(tile, tileRect)
+            # update frame number
+            if anim_tile[4] == 1:
+                anim_tile[4] = 0
+            else:
+                anim_tile[4] = 1
+            
 
           
 
@@ -501,9 +512,9 @@ T25 = pygame.image.load(jp(dp, 'images/tiles/T25.png')).convert()
 T29 = pygame.image.load(jp(dp, 'images/tiles/T29.png')).convert()
 T70 = pygame.image.load(jp(dp, 'images/tiles/T70.png')).convert()
 T71 = pygame.image.load(jp(dp, 'images/tiles/T71.png')).convert()
-#T72 = pygame.image.load(jp(dp, 'images/tiles/T72.png')).convert()
-#T73 = pygame.image.load(jp(dp, 'images/tiles/T73.png')).convert()
-#T74 = pygame.image.load(jp(dp, 'images/tiles/T74.png')).convert()
+T72 = pygame.image.load(jp(dp, 'images/tiles/T72.png')).convert()
+T73 = pygame.image.load(jp(dp, 'images/tiles/T73.png')).convert()
+T74 = pygame.image.load(jp(dp, 'images/tiles/T74.png')).convert()
 
 # enemy sprites control
 enemy_group = pygame.sprite.Group()
@@ -744,6 +755,6 @@ while True:
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS
 
 
