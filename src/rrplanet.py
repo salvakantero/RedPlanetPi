@@ -275,7 +275,7 @@ def process_map(map_file):
 
 # draws the tile map on the screen
 def draw_map(map_display):
-    anim_tiles_list.clear
+    anim_tiles_list.clear()
     # scroll through the map data
     for y in range(0, map_data['height']):
         for x in range(0, map_data['width']):
@@ -286,26 +286,25 @@ def draw_map(map_display):
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
-            # generates the information of the animated tiles
+            # generates the data for the animated tiles
             # (frame_1, frame_2, x, y, num_frame)
-            if t['image'] in anim_tiles.keys():
-                anim_tiles_list.append([t['image'], anim_tiles[t['image']], 
-                tileRect.topleft[0], tileRect.topleft[1], 0])
+            if t['image'] in anim_tiles.keys():                
+                anim_tiles_list.append(
+                    [tile, pygame.image.load(jp(dp, 'images/tiles/' + anim_tiles[t['image']])).convert(), 
+                    tileRect.topleft[0], tileRect.topleft[1], 0])
 
 # select some of the animated tiles on the current map to change the frame
 def animate_tiles():
     for anim_tile in anim_tiles_list:    
         if random.randint(0,20) == 0: # 5%
-            tile = pygame.image.load(jp(dp, 'images/tiles/' + 
-                anim_tile[0+anim_tile[4]])).convert()
+            tile = anim_tile[0+anim_tile[4]]
             tileRect = tile.get_rect()
             tileRect.topleft = (anim_tile[2], anim_tile[3])  
             map_display_backup.blit(tile, tileRect)
             # update frame number
-            if anim_tile[4] == 1:
+            anim_tile[4] += 1
+            if anim_tile[4] > 1:
                 anim_tile[4] = 0
-            else:
-                anim_tile[4] = 1
             
 
           
@@ -503,18 +502,6 @@ oxigen_icon = pygame.image.load(jp(dp, 'images/tiles/T53.png')).convert()
 ammo_icon = pygame.image.load(jp(dp, 'images/tiles/T52.png')).convert()
 keys_icon = pygame.image.load(jp(dp, 'images/tiles/T51.png')).convert()
 explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
-
-# animated tiles
-T4 = pygame.image.load(jp(dp, 'images/tiles/T4.png')).convert()
-T8 = pygame.image.load(jp(dp, 'images/tiles/T8.png')).convert()
-T9 = pygame.image.load(jp(dp, 'images/tiles/T9.png')).convert()
-T25 = pygame.image.load(jp(dp, 'images/tiles/T25.png')).convert()
-T29 = pygame.image.load(jp(dp, 'images/tiles/T29.png')).convert()
-T70 = pygame.image.load(jp(dp, 'images/tiles/T70.png')).convert()
-T71 = pygame.image.load(jp(dp, 'images/tiles/T71.png')).convert()
-T72 = pygame.image.load(jp(dp, 'images/tiles/T72.png')).convert()
-T73 = pygame.image.load(jp(dp, 'images/tiles/T73.png')).convert()
-T74 = pygame.image.load(jp(dp, 'images/tiles/T74.png')).convert()
 
 # enemy sprites control
 enemy_group = pygame.sprite.Group()
@@ -733,6 +720,7 @@ while True:
 
     # paint the map free of sprites to clean it up
     map_display.blit(map_display_backup, (0,0))
+    # and change the frame of the animated tiles
     animate_tiles()
 
     # update enemies
