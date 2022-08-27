@@ -286,7 +286,7 @@ def draw_map(map_display):
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
-            # generates the data for the animated tiles
+            # generates the list of animated tiles of the current map
             # (frame_1, frame_2, x, y, num_frame)
             if t['image'] in anim_tiles.keys():                
                 anim_tiles_list.append(
@@ -295,12 +295,12 @@ def draw_map(map_display):
 
 # select some of the animated tiles on the current map to change the frame
 def animate_tiles():
-    for anim_tile in anim_tiles_list:    
-        if random.randint(0,20) == 0: # 5%
-            tile = anim_tile[0+anim_tile[4]]
+    for anim_tile in anim_tiles_list: # for each animated tile on the map
+        if random.randint(0,24) == 0: # 4% chance of changing frame
+            tile = anim_tile[0+anim_tile[4]] # select image according to frame number
             tileRect = tile.get_rect()
-            tileRect.topleft = (anim_tile[2], anim_tile[3])  
-            map_display_backup.blit(tile, tileRect)
+            tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
+            map_display_backup.blit(tile, tileRect) # draws on the background image
             # update frame number
             anim_tile[4] += 1
             if anim_tile[4] > 1:
