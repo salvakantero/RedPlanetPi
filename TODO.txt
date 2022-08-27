@@ -23,10 +23,10 @@ HECHO
 21/08/22 - Sprite plataforma móvil
 22/08/22 - Colocación de malotes (ENEMS.h)
 26/08/22 - Tiles animados (computadoras, lava, cadaver...)
+27/08/22 - Fondo para segunda parte del mapeado
 
 EN PROCESO
 ==========
-- Fondo para segunda parte del mapeado
 - Menu inicial con imagen de fondo de MasterKlown
 - Gestión de teclado (redefinible)
 - Teclas especiales; Pause y Mute
