@@ -569,8 +569,8 @@ while True:
             enemy_group.add(enemy_1, enemy_2)   
         # TOXIC WASTE STORAGE 1B
         elif map_number == 4:
-            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 2)
-            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 2)
+            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 3)
+            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 3)
             enemy_3 = Enemy(208, 112, 208, 96, 0, -2, 6)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # WEST PASSAGE LEVEL -1
@@ -664,7 +664,7 @@ while True:
         # SIDE HALL LEVEL -4
         elif map_number == 20:
             enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
-            enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 3)
+            enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 2)
             enemy_3 = Enemy(128, 16, 128, 144, 0, 4, 3)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ARACHNOVIRUS LAIR
@@ -743,6 +743,6 @@ while True:
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS
 
 
