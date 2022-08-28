@@ -510,8 +510,8 @@ enemy_group = pygame.sprite.Group()
 clock = pygame.time.Clock()
 
 # ingame music
-#pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
-#pygame.mixer.music.play(-1)
+pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
+pygame.mixer.music.play(-1)
 
 # Main loop
 while True:
