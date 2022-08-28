@@ -286,7 +286,7 @@ def draw_map(map_display):
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
-            # generates the data for the animated tiles
+            # generates the list of animated tiles of the current map
             # (frame_1, frame_2, x, y, num_frame)
             if t['image'] in anim_tiles.keys():                
                 anim_tiles_list.append(
@@ -295,12 +295,12 @@ def draw_map(map_display):
 
 # select some of the animated tiles on the current map to change the frame
 def animate_tiles():
-    for anim_tile in anim_tiles_list:    
-        if random.randint(0,20) == 0: # 5%
-            tile = anim_tile[0+anim_tile[4]]
+    for anim_tile in anim_tiles_list: # for each animated tile on the map
+        if random.randint(0,24) == 0: # 4% chance of changing frame
+            tile = anim_tile[0+anim_tile[4]] # select image according to frame number
             tileRect = tile.get_rect()
-            tileRect.topleft = (anim_tile[2], anim_tile[3])  
-            map_display_backup.blit(tile, tileRect)
+            tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
+            map_display_backup.blit(tile, tileRect) # draws on the background image
             # update frame number
             anim_tile[4] += 1
             if anim_tile[4] > 1:
@@ -569,8 +569,8 @@ while True:
             enemy_group.add(enemy_1, enemy_2)   
         # TOXIC WASTE STORAGE 1B
         elif map_number == 4:
-            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 2)
-            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 2)
+            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 3)
+            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 3)
             enemy_3 = Enemy(208, 112, 208, 96, 0, -2, 6)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # WEST PASSAGE LEVEL -1
@@ -664,7 +664,7 @@ while True:
         # SIDE HALL LEVEL -4
         elif map_number == 20:
             enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
-            enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 3)
+            enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 2)
             enemy_3 = Enemy(128, 16, 128, 144, 0, 4, 3)
             enemy_group.add(enemy_1, enemy_2, enemy_3) 
         # ARACHNOVIRUS LAIR
@@ -743,6 +743,6 @@ while True:
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS
 
 
