@@ -8,7 +8,7 @@ import pygame # pygame library functions
 import random, os, sys, json # python generic functions
 
 from pygame.locals import * # allows constants without typing "pygame."
-from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT) 
+from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_h, K_m) 
 
 
 
@@ -228,14 +228,6 @@ class Font():
             else: # line feed
                 y_offset += self.line_spacing + self.line_height
                 x_offset = 0
-
-# draws text with border
-def outlined_text(bg_font, fg_font, t, surf, pos):
-    bg_font.render(t, surf, [pos[0] - 1, pos[1]])
-    bg_font.render(t, surf, [pos[0] + 1, pos[1]])
-    bg_font.render(t, surf, [pos[0], pos[1] - 1])
-    bg_font.render(t, surf, [pos[0], pos[1] + 1])
-    fg_font.render(t, surf, [pos[0], pos[1]])
 
 
 
@@ -498,7 +490,7 @@ screen_sl.set_alpha(40)
 fg_font_S = Font('images/fonts/small_font.png', palette['GREEN'], True)
 bg_font_S = Font('images/fonts/small_font.png', palette['DARK_GREEN'], False)
 fg_font_L = Font('images/fonts/large_font.png', palette['WHITE'], True)
-bg_font_L = Font('images/fonts/large_font.png', palette['DARK_GRAY'], False)
+bg_font_L = Font('images/fonts/large_font.png', palette['DARK_GRAY'], True)
 aux_font_L = Font('images/fonts/large_font.png', palette['YELLOW'], False)
 
 # scoreboard icons
@@ -534,21 +526,22 @@ while True:
                 pygame.quit()
                 sys.exit()
             # pause main loop
-            if event.key == K_PAUSE:
+            if event.key == K_h:
                 if loop_status == RUNNING:
                     loop_status = PAUSED
-                    pygame.mixer.music.pause  
+                    pygame.mixer.music.fadeout(1200)
                 else:
                     loop_status = RUNNING
-                    pygame.mixer.music.unpause       
+                    pygame.mixer.music.play()
             # mute music
             if event.key == K_m :
                 if music_status == MUTED:
                     music_status = UNMUTED
-                    pygame.mixer.music.play
+                    pygame.mixer.music.play()
                 else:
                     music_status = MUTED
-                    pygame.mixer.music.stop       
+                    pygame.mixer.music.fadeout(1200)
+
             # temp code ================
             if event.key == K_RIGHT:
                 if map_number < 29:
@@ -748,9 +741,20 @@ while True:
     # and change the frame of the animated tiles
     animate_tiles()
 
-    # update enemies
-    enemy_group.update()
-    enemy_group.draw(map_display)
+    if loop_status == RUNNING:
+        # update enemies
+        enemy_group.update()
+        enemy_group.draw(map_display)
+    elif loop_status == PAUSED:
+        width = 96
+        height = 36
+        x = (map_unscaled_size[0]//2)-(width//2)
+        y = (map_unscaled_size[1]//2)-(height//2)
+        pygame.draw.rect(map_display, palette['BLACK'],(x, y, width, height))
+        bg_font_L.render('P A U S E', map_display, (x+18, y+7))
+        fg_font_L.render('P A U S E', map_display, (x+16, y+5))
+        bg_font_S.render('The massacre can wait', map_display, (x+6, y+24))
+        fg_font_S.render('The massacre can wait', map_display, (x+5, y+23))
 
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
@@ -768,4 +772,4 @@ while True:
         apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    clock.tick() # 60 FPS
