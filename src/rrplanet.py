@@ -7,7 +7,6 @@
 import pygame # pygame library functions
 import random, os, sys, json # python generic functions
 
-
 from pygame.locals import * # allows constants without typing "pygame."
 from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT) 
 
@@ -31,6 +30,7 @@ sboard_unscaled_size = 240, 38 # scoreboard size (unscaled)
 # map tiles
 tile_width = 16
 tile_height = 16
+anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 anim_tiles = {
     # frame_1   frame_2
     'T4.png' : 'T70.png',   # computer 1
@@ -39,7 +39,6 @@ anim_tiles = {
     'T25.png' : 'T73.png',  # toxic waste
     'T29.png' : 'T74.png'   # lava
 }
-anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 
 map_number = 0 # current map number
 last_map = -1 # last map loaded
@@ -50,6 +49,12 @@ oxigen = 99 # remaining player oxigen
 ammo = 5 # bullets available in the gun
 keys = 0 # unused keys collected
 explosives = 0 # explosives collected
+
+# main loop states
+RUNNING, PAUSED, FINISHED = 0, 1, 2
+
+# music states
+UNMUTED, MUTED = 0, 1
 
 # configuration values
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
@@ -513,17 +518,37 @@ clock = pygame.time.Clock()
 pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
 pygame.mixer.music.play(-1)
 
+loop_status = RUNNING
+music_status = UNMUTED 
+
 # Main loop
 while True:
     # event management
     for event in pygame.event.get():
-        if event.type == QUIT: # exit when click on the X in the window
+        # exit when click on the X in the window
+        if event.type == QUIT: 
             exit()
         if event.type == KEYDOWN:
-            if event.key == K_ESCAPE: # exit by pressing ESC key
+            # exit by pressing ESC key
+            if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit()
-
+            # pause main loop
+            if event.key == K_PAUSE:
+                if loop_status == RUNNING:
+                    loop_status = PAUSED
+                    pygame.mixer.music.pause  
+                else:
+                    loop_status = RUNNING
+                    pygame.mixer.music.unpause       
+            # mute music
+            if event.key == K_m :
+                if music_status == MUTED:
+                    music_status = UNMUTED
+                    pygame.mixer.music.play
+                else:
+                    music_status = MUTED
+                    pygame.mixer.music.stop       
             # temp code ================
             if event.key == K_RIGHT:
                 if map_number < 29:
@@ -744,5 +769,3 @@ while True:
 
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
-
-

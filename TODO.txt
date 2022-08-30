@@ -27,12 +27,12 @@ HECHO
 
 EN PROCESO
 ==========
-- Menu inicial con imagen de fondo de MasterKlown
 - Gestión de teclado (redefinible)
 - Teclas especiales; Pause y Mute
 
 POR HACER
 =========
+- Menu inicial con imagen de fondo de MasterKlown
 - Gestión de pantalla completa (probar en raspberry)
 - Comprobación de video acelerado por hardware para compilación condicional
 - Convertir navegador de mapeado en la opción TOUR-DEMO
