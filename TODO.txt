@@ -23,12 +23,12 @@ HECHO
 21/08/22 - Sprite plataforma móvil
 22/08/22 - Colocación de malotes (ENEMS.h)
 26/08/22 - Tiles animados (computadoras, lava, cadaver...)
-27/08/22 - Fondo para segunda parte del mapeado
+27/08/22 - Fondo para segunda parte del 
+31/08/22 - Teclas especiales; Pause y Mute
 
 EN PROCESO
 ==========
 - Gestión de teclado (redefinible)
-- Teclas especiales; Pause y Mute
 
 POR HACER
 =========
@@ -61,4 +61,5 @@ GREETINGS
 Mojon Twins (MK1 engine)
 DaFluffyPotato (Font class)
 Mark Vanstone (Tiled functions)
+Mundo Python (Youtube channel)
 
