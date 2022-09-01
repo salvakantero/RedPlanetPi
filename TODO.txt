@@ -35,7 +35,6 @@ POR HACER
 - Menu inicial con imagen de fondo de MasterKlown
 - Gestión de pantalla completa (probar en raspberry)
 - Comprobación de video acelerado por hardware para compilación condicional
-- Convertir navegador de mapeado en la opción TOUR-DEMO
 - Obtener SFX de opengameart.com
 - Tiles pasables, bloqueantes, matantes, y plataformas
 - Gestión de Keko; movimiento y saltos
@@ -54,6 +53,7 @@ POR HACER
 - Bucle de juego, gameover y final
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
+- Nivel nuevo intermedio de hielo?
 
 
 GREETINGS
