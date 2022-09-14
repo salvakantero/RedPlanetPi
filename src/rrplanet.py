@@ -30,6 +30,7 @@ sboard_unscaled_size = 240, 38 # scoreboard size (unscaled)
 # map tiles
 tile_width = 16
 tile_height = 16
+# animated tiles
 anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 anim_tiles = {
     # frame_1   frame_2
@@ -529,10 +530,12 @@ while True:
             if event.key == K_h:
                 if loop_status == RUNNING:
                     loop_status = PAUSED
-                    pygame.mixer.music.fadeout(1200)
+                    if music_status == UNMUTED:
+                        pygame.mixer.music.fadeout(1200)
                 else:
                     loop_status = RUNNING
-                    pygame.mixer.music.play()
+                    if music_status == UNMUTED:
+                        pygame.mixer.music.play()
             # mute music
             if event.key == K_m :
                 if music_status == MUTED:
@@ -751,10 +754,12 @@ while True:
         x = (map_unscaled_size[0]//2)-(width//2)
         y = (map_unscaled_size[1]//2)-(height//2)
         pygame.draw.rect(map_display, palette['BLACK'],(x, y, width, height))
-        bg_font_L.render('P A U S E', map_display, (x+18, y+7))
-        fg_font_L.render('P A U S E', map_display, (x+16, y+5))
-        bg_font_S.render('The massacre can wait', map_display, (x+6, y+24))
-        fg_font_S.render('The massacre can wait', map_display, (x+5, y+23))
+        text = 'P A U S E'
+        bg_font_L.render(text, map_display, (x+18, y+7))
+        fg_font_L.render(text, map_display, (x+16, y+5))
+        text = 'The massacre can wait'
+        bg_font_S.render(text, map_display, (x+6, y+24))
+        fg_font_S.render(text, map_display, (x+5, y+23))
 
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))

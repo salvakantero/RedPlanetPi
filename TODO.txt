@@ -49,11 +49,12 @@ POR HACER
 - Gestión de disparos de Keko
 - Usar sistema de partículas para explosiones
 - Notas en pantalla de juego (+1) (+25)
+- Nivel nuevo intermedio de hielo?
 - Linterna en pantallas oscuras
 - Bucle de juego, gameover y final
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
-- Nivel nuevo intermedio de hielo?
+- Recordatorio: Reactivar música
 
 
 GREETINGS
