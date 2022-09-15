@@ -175,7 +175,7 @@ def apply_scanlines(surface, height, from_x, to_x, rgb):
 
 
 #===============================================================================
-# Font class and functions
+# Font class
 #===============================================================================
 
 # generates the letters (and letter spacing) from the font image
@@ -376,7 +376,75 @@ def update_scoreboard():
 
 
 #===============================================================================
-# Enemy class and functions
+# Player class
+#===============================================================================
+
+class Player(pygame.sprite.Sprite):
+    def __init__(self, x, y, lives):
+        super(Player, self).__init__()
+        # properties
+        self.x = x
+        self.y = y
+        self.lives = lives
+        
+        num_frames = 2
+        self.images = []
+        for i in range(num_frames):
+            # image for the frame
+            self.images.append(pygame.image.load(
+                jp(dp, 'images/sprites/' + enemy_name + str(i) + '.png')).convert())
+            # mask
+            self.images[i].set_colorkey((255, 0, 255))
+        self.animation_index = 0
+        self.animation_speed = 0.08
+        self.image = self.images[self.animation_index]
+
+    def update(self):
+        # animation
+        self.animation_index += self.animation_speed
+        if self.animation_index >= len(self.images):
+            self.animation_index = 0
+        self.image = self.images[int(self.animation_index)]
+        # movement
+        if self.type != 6: # no fanty  
+            self.x += self.mx
+            self.y += self.my
+            if self.x == self.x1 or self.x == self.x2:
+                self.mx = -self.mx
+            if self.y == self.y1 or self.y == self.y2:
+                self.my = -self.my
+        else: # fanty
+            if self.state == 0: # idle
+                if distance(0, 0, self.x, self.y) <= self.sight_distance:
+                    self.state = 1 # pursuing
+            elif self.state == 1: # pursuing
+                if distance(0, 0, self.x, self.y) > self.sight_distance:
+                    self.state = 2 # retreating
+                else:
+                    #en_an [gpit].vx = limit(en_an [gpit].vx + addsign (player.x - en_an [gpit].x, FANTY_A),-FANTY_MAX_V, FANTY_MAX_V)
+                    #en_an [gpit].vy = limit(en_an [gpit].vy + addsign (player.y - en_an [gpit].y, FANTY_A),-FANTY_MAX_V, FANTY_MAX_V)                        
+                    #en_an [gpit].x = limit(en_an [gpit].x + en_an [gpit].vx, 0, 14336)
+                    #en_an [gpit].y = limit(en_an [gpit].y + en_an [gpit].vy, 0, 9216) 
+                    pass               
+            else: # retreating
+                #en_an [gpit].x += addsign(malotes [enoffsmasi].x - gpen_cx, 64)
+                #en_an [gpit].y += addsign(malotes [enoffsmasi].y - gpen_cy, 64)                
+                if distance (0, 0, self.x, self.y) <= self.sight_distance:
+                    self.state = 1 # pursuing					
+                        				
+            #gpen_cx = en_an [gpit].x >> 6;
+            #gpen_cy = en_an [gpit].y >> 6;
+            if self.state == 2 and self.x == self.x1 and self.y == self.y1:
+                self.state = 0 # idle
+
+        self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
+
+
+
+
+
+#===============================================================================
+# Enemy class
 #===============================================================================
 
 class Enemy(pygame.sprite.Sprite):
@@ -530,10 +598,12 @@ while True:
             if event.key == K_h:
                 if loop_status == RUNNING:
                     loop_status = PAUSED
+                    # mute the music if necessary
                     if music_status == UNMUTED:
                         pygame.mixer.music.fadeout(1200)
                 else:
                     loop_status = RUNNING
+                    # restore music if necessary
                     if music_status == UNMUTED:
                         pygame.mixer.music.play()
             # mute music
