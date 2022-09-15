@@ -64,3 +64,10 @@ DaFluffyPotato (Font class)
 Mark Vanstone (Tiled functions)
 Mundo Python (Youtube channel)
 
+
+COLOCADOR
+=========
+1) Objeto (explosivo)
+2) LLave
+4) Munición
+5) Aire
