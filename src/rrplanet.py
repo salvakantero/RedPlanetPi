@@ -21,18 +21,18 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_h, K_m
 dp = os.path.dirname(__file__) + '/' # exec path (+ '/' when using VS Code)
 jp = os.path.join # forms the folder/file path
 
-win_size = 800, 600 # main window size
-map_scaled_size = 720, 480 # map size (scaled x3)
-map_unscaled_size = 240, 160 # map size (unscaled)
-sboard_scaled_size = 720, 114 # scoreboard size (scaled x3)
-sboard_unscaled_size = 240, 38 # scoreboard size (unscaled)
+WIN_SIZE = 800, 600 # main window size
+MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)
+MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
+SBOARD_SCALED_SIZE = 720, 114 # scoreboard size (scaled x3)
+SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 
 # map tiles
-tile_width = 16
-tile_height = 16
+TILE_WIDTH = 16
+TILE_HEIGHT = 16
 # animated tiles
 anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
-anim_tiles = {
+ANIM_TILES = {
     # frame_1   frame_2
     'T4.png' : 'T70.png',   # computer 1
     'T8.png' : 'T71.png',   # computer 2
@@ -61,7 +61,7 @@ UNMUTED, MUTED = 0, 1
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
 
 # colour palette (Pico8)
-palette = {
+PALETTE = {
     'BLACK': (0, 0, 0),
     'DARK_BLUE' : (35, 50, 90),
     'PURPLE' : (126, 37, 83),
@@ -82,7 +82,7 @@ palette = {
 }
 
 # screen names
-map_names = {
+MAP_NAMES = {
     0  : 'CONTROL CENTRE',
     1  : 'SUPPLY DEPOT 1',
     2  : 'CENTRAL HALL LEVEL 0',
@@ -286,9 +286,9 @@ def draw_map(map_display):
             map_display.blit(tile, tileRect)
             # generates the list of animated tiles of the current map
             # (frame_1, frame_2, x, y, num_frame)
-            if t['image'] in anim_tiles.keys():                
+            if t['image'] in ANIM_TILES.keys():                
                 anim_tiles_list.append(
-                    [tile, pygame.image.load(jp(dp, 'images/tiles/' + anim_tiles[t['image']])).convert(), 
+                    [tile, pygame.image.load(jp(dp, 'images/tiles/' + ANIM_TILES[t['image']])).convert(), 
                     tileRect.topleft[0], tileRect.topleft[1], 0])
 
 # select some of the animated tiles on the current map to change the frame
@@ -304,10 +304,7 @@ def animate_tiles():
             if anim_tile[4] > 1:
                 anim_tile[4] = 0
             
-
           
-
-
 
 
 
@@ -319,7 +316,7 @@ def animate_tiles():
 def draw_map_info():
     x = 0
     y = 22
-    progress_x = sboard_unscaled_size[0] - 55
+    progress_x = SBOARD_UNSCALED_SIZE[0] - 55
     
     if map_number < 9:
         text_1 = 'SCREEN.......'
@@ -336,8 +333,8 @@ def draw_map_info():
     sboard_display.fill((0,0,0)) # delete previous text
 
     # map name
-    bg_font_L.render(map_names[map_number], sboard_display, (x+2, y+2)) # shadow
-    fg_font_L.render(map_names[map_number], sboard_display, (x, y))
+    bg_font_L.render(MAP_NAMES[map_number], sboard_display, (x+2, y+2)) # shadow
+    fg_font_L.render(MAP_NAMES[map_number], sboard_display, (x, y))
     # map number
     bg_font_S.render(text_1, sboard_display, (progress_x+1, y+1)) # shadow
     fg_font_S.render(text_1, sboard_display, (progress_x, y))
@@ -392,7 +389,7 @@ class Player(pygame.sprite.Sprite):
         for i in range(num_frames):
             # image for the frame
             self.images.append(pygame.image.load(
-                jp(dp, 'images/sprites/' + enemy_name + str(i) + '.png')).convert())
+                jp(dp, 'images/sprites/player' + str(i) + '.png')).convert())
             # mask
             self.images[i].set_colorkey((255, 0, 255))
         self.animation_index = 0
@@ -437,7 +434,7 @@ class Player(pygame.sprite.Sprite):
             if self.state == 2 and self.x == self.x1 and self.y == self.y1:
                 self.state = 0 # idle
 
-        self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
+        self.rect = pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
 
 
 
@@ -525,7 +522,7 @@ class Enemy(pygame.sprite.Sprite):
             if self.state == 2 and self.x == self.x1 and self.y == self.y1:
                 self.state = 0 # idle
 
-        self.rect = pygame.Rect(self.x, self.y, tile_width, tile_height)
+        self.rect = pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
 
 
 
@@ -540,27 +537,27 @@ pygame.init()
 pygame.mixer.init()
 
 # generates a main window with title, icon, and 32-bit colour.
-screen = pygame.display.set_mode(win_size, 0, 32)
+screen = pygame.display.set_mode(WIN_SIZE, 0, 32)
 pygame.display.set_caption('.:: Raspi-Red Planet ::.')
 icon = pygame.image.load(jp(dp, 'images/assets/icon.png')).convert_alpha()
 pygame.display.set_icon(icon)
 
 # area covered by the map
-map_display = pygame.Surface(map_unscaled_size)
+map_display = pygame.Surface(MAP_UNSCALED_SIZE)
 # surface to save the generated map without sprites
-map_display_backup = pygame.Surface(map_unscaled_size)
+map_display_backup = pygame.Surface(MAP_UNSCALED_SIZE)
 # area covered by the scoreboard
-sboard_display = pygame.Surface(sboard_unscaled_size)
+sboard_display = pygame.Surface(SBOARD_UNSCALED_SIZE)
 # surface for HQ scanlines
-screen_sl = pygame.Surface(win_size)
+screen_sl = pygame.Surface(WIN_SIZE)
 screen_sl.set_alpha(40)
 
 # fonts
-fg_font_S = Font('images/fonts/small_font.png', palette['GREEN'], True)
-bg_font_S = Font('images/fonts/small_font.png', palette['DARK_GREEN'], False)
-fg_font_L = Font('images/fonts/large_font.png', palette['WHITE'], True)
-bg_font_L = Font('images/fonts/large_font.png', palette['DARK_GRAY'], True)
-aux_font_L = Font('images/fonts/large_font.png', palette['YELLOW'], False)
+fg_font_S = Font('images/fonts/small_font.png', PALETTE['GREEN'], True)
+bg_font_S = Font('images/fonts/small_font.png', PALETTE['DARK_GREEN'], False)
+fg_font_L = Font('images/fonts/large_font.png', PALETTE['WHITE'], True)
+bg_font_L = Font('images/fonts/large_font.png', PALETTE['DARK_GRAY'], True)
+aux_font_L = Font('images/fonts/large_font.png', PALETTE['YELLOW'], False)
 
 # scoreboard icons
 lives_icon = pygame.image.load(jp(dp, 'images/assets/lives.png')).convert()
@@ -821,9 +818,9 @@ while True:
     elif loop_status == PAUSED:
         width = 96
         height = 36
-        x = (map_unscaled_size[0]//2)-(width//2)
-        y = (map_unscaled_size[1]//2)-(height//2)
-        pygame.draw.rect(map_display, palette['BLACK'],(x, y, width, height))
+        x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
+        y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
+        pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
         text = 'P A U S E'
         bg_font_L.render(text, map_display, (x+18, y+7))
         fg_font_L.render(text, map_display, (x+16, y+5))
@@ -835,16 +832,16 @@ while True:
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
     # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_display, map_scaled_size), (40, 112))
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (40, 112))
     # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_display, sboard_scaled_size), (40, 0))
+    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), (40, 0))
 
     # scanlines
     if cfg_scanlines_type == 2: # HQ
-        apply_scanlines(screen_sl, win_size[1]-9, 40, 759, 200)
+        apply_scanlines(screen_sl, WIN_SIZE[1]-9, 40, 759, 200)
         screen.blit(screen_sl, (0, 0))
     elif cfg_scanlines_type == 1: # fast
-        apply_scanlines(screen, win_size[1]-9, 40, 759, 15)
+        apply_scanlines(screen, WIN_SIZE[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
     clock.tick() # 60 FPS
