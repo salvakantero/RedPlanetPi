@@ -353,16 +353,16 @@ def init_scoreboard():
 
 def update_scoreboard():
     # values
-    bg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (20, 6))
-    fg_font_L.render(str(lives).rjust(2, '0'), sboard_display, (18, 4))
-    bg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (62, 6))
-    fg_font_L.render(str(oxigen).rjust(2, '0'), sboard_display, (60, 4))
-    bg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (102, 6))
-    fg_font_L.render(str(ammo).rjust(2, '0'), sboard_display, (100, 4))
-    bg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (166, 6))
-    fg_font_L.render(str(keys).rjust(2, '0'), sboard_display, (164, 4))
-    bg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (206, 6))
-    fg_font_L.render(str(explosives).rjust(2, '0'), sboard_display, (204, 4))
+    bg_font_L.render(str(player.lives).rjust(2, '0'), sboard_display, (20, 6))
+    fg_font_L.render(str(player.lives).rjust(2, '0'), sboard_display, (18, 4))
+    bg_font_L.render(str(player.oxigen).rjust(2, '0'), sboard_display, (62, 6))
+    fg_font_L.render(str(player.oxigen).rjust(2, '0'), sboard_display, (60, 4))
+    bg_font_L.render(str(player.ammo).rjust(2, '0'), sboard_display, (102, 6))
+    fg_font_L.render(str(player.ammo).rjust(2, '0'), sboard_display, (100, 4))
+    bg_font_L.render(str(player.keys).rjust(2, '0'), sboard_display, (166, 6))
+    fg_font_L.render(str(player.keys).rjust(2, '0'), sboard_display, (164, 4))
+    bg_font_L.render(str(player.explosives).rjust(2, '0'), sboard_display, (206, 6))
+    fg_font_L.render(str(player.explosives).rjust(2, '0'), sboard_display, (204, 4))
 
 
 
@@ -409,6 +409,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.images[int(self.animation_index)]
         # movement
         self.mx = 0
+        self.my = 0
         key_state = pygame.key.get_pressed()
         if key_state[pygame.K_o]:
             self.mx -= 1
@@ -551,6 +552,10 @@ explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
 
 # enemy sprites control
 enemy_group = pygame.sprite.Group()
+
+# create the player
+player = Player(32, 112, 10, 99, 5, 0, 0)
+enemy_group.add(player)
 
 # clock to control the FPS
 clock = pygame.time.Clock()

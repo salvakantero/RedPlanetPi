@@ -62,8 +62,7 @@ GREETINGS
 Mojon Twins (MK1 engine)
 DaFluffyPotato (Font class)
 Mark Vanstone (Tiled functions)
-Mundo Python (Youtube channel)
-
+César Gómez (Mundo Python)
 
 COLOCADOR
 =========
