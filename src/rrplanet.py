@@ -30,6 +30,7 @@ SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 # map tiles
 TILE_WIDTH = 16
 TILE_HEIGHT = 16
+
 # animated tiles
 anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 ANIM_TILES = {
@@ -43,13 +44,8 @@ ANIM_TILES = {
 
 map_number = 0 # current map number
 last_map = -1 # last map loaded
-
 game_percent = 0 # % of gameplay completed
-lives = 10 # remaining player lives
-oxigen = 99 # remaining player oxigen
-ammo = 5 # bullets available in the gun
-keys = 0 # unused keys collected
-explosives = 0 # explosives collected
+
 
 # main loop states
 RUNNING, PAUSED, FINISHED = 0, 1, 2
@@ -377,14 +373,23 @@ def update_scoreboard():
 #===============================================================================
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, lives):
+    # lives: remaining player lives (10)
+    # oxigen: remaining player oxigen (99)
+    # ammo: bullets available in the gun (5)
+    # keys: unused keys collected (0)
+    # explosives: explosives collected (0)
+    def __init__(self, x, y, lives, oxigen, ammo, keys, explosives):
         super(Player, self).__init__()
         # properties
         self.x = x
         self.y = y
         self.lives = lives
+        self.oxigen = oxigen
+        self.ammo = ammo
+        self.keys = keys
+        self.explosives = explosives
         
-        num_frames = 2
+        num_frames = 3
         self.images = []
         for i in range(num_frames):
             # image for the frame
@@ -403,37 +408,15 @@ class Player(pygame.sprite.Sprite):
             self.animation_index = 0
         self.image = self.images[int(self.animation_index)]
         # movement
-        if self.type != 6: # no fanty  
-            self.x += self.mx
-            self.y += self.my
-            if self.x == self.x1 or self.x == self.x2:
-                self.mx = -self.mx
-            if self.y == self.y1 or self.y == self.y2:
-                self.my = -self.my
-        else: # fanty
-            if self.state == 0: # idle
-                if distance(0, 0, self.x, self.y) <= self.sight_distance:
-                    self.state = 1 # pursuing
-            elif self.state == 1: # pursuing
-                if distance(0, 0, self.x, self.y) > self.sight_distance:
-                    self.state = 2 # retreating
-                else:
-                    #en_an [gpit].vx = limit(en_an [gpit].vx + addsign (player.x - en_an [gpit].x, FANTY_A),-FANTY_MAX_V, FANTY_MAX_V)
-                    #en_an [gpit].vy = limit(en_an [gpit].vy + addsign (player.y - en_an [gpit].y, FANTY_A),-FANTY_MAX_V, FANTY_MAX_V)                        
-                    #en_an [gpit].x = limit(en_an [gpit].x + en_an [gpit].vx, 0, 14336)
-                    #en_an [gpit].y = limit(en_an [gpit].y + en_an [gpit].vy, 0, 9216) 
-                    pass               
-            else: # retreating
-                #en_an [gpit].x += addsign(malotes [enoffsmasi].x - gpen_cx, 64)
-                #en_an [gpit].y += addsign(malotes [enoffsmasi].y - gpen_cy, 64)                
-                if distance (0, 0, self.x, self.y) <= self.sight_distance:
-                    self.state = 1 # pursuing					
-                        				
-            #gpen_cx = en_an [gpit].x >> 6;
-            #gpen_cy = en_an [gpit].y >> 6;
-            if self.state == 2 and self.x == self.x1 and self.y == self.y1:
-                self.state = 0 # idle
+        self.mx = 0
+        key_state = pygame.key.get_pressed()
+        if key_state[pygame.K_o]:
+            self.mx -= 1
+        if key_state[pygame.K_p]:
+            self.mx += 1
 
+        self.x += self.mx
+        self.y += self.my
         self.rect = pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
 
 
@@ -844,4 +827,4 @@ while True:
         apply_scanlines(screen, WIN_SIZE[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS
