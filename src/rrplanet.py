@@ -27,10 +27,6 @@ MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
 SBOARD_SCALED_SIZE = 720, 114 # scoreboard size (scaled x3)
 SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 
-# map tiles
-TILE_WIDTH = 16
-TILE_HEIGHT = 16
-
 # animated tiles
 anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 ANIM_TILES = {
@@ -400,6 +396,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_index = 0
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]
+        self.rect = self.image.get_rect()
 
     def update(self):
         # animation
@@ -416,9 +413,8 @@ class Player(pygame.sprite.Sprite):
         if key_state[pygame.K_p]:
             self.mx += 1
 
-        self.x += self.mx
-        self.y += self.my
-        self.rect = pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
+        self.rect.x += self.mx
+        self.rect.y += self.my
 
 
 
@@ -467,6 +463,7 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_index = 0
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]
+        self.rect = self.image.get_rect()
 
     def update(self):
         # animation
@@ -506,7 +503,8 @@ class Enemy(pygame.sprite.Sprite):
             if self.state == 2 and self.x == self.x1 and self.y == self.y1:
                 self.state = 0 # idle
 
-        self.rect = pygame.Rect(self.x, self.y, TILE_WIDTH, TILE_HEIGHT)
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 
 
@@ -832,4 +830,4 @@ while True:
         apply_scanlines(screen, WIN_SIZE[1]-9, 40, 759, 15)
 
     pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    clock.tick() # 60 FPS
