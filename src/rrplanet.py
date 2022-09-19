@@ -233,7 +233,7 @@ class Font():
 # loads a map and draws it on screen
 def load_map(map_number, map_display):
     global map_data
-    map_data = process_map(jp(dp, 'maps/map' + str(map_number) + '.json'))
+    map_data = process_map(jp(dp, 'maps/map{}.json'.format(map_number)))
     draw_map(map_display) # draws the tile map on the screen
 
 # dump tiled map into 'mapdata'
@@ -369,34 +369,30 @@ def update_scoreboard():
 #===============================================================================
 
 class Player(pygame.sprite.Sprite):
-    # lives: remaining player lives (10)
-    # oxigen: remaining player oxigen (99)
-    # ammo: bullets available in the gun (5)
-    # keys: unused keys collected (0)
-    # explosives: explosives collected (0)
-    def __init__(self, x, y, lives, oxigen, ammo, keys, explosives):
+    def __init__(self):
         super(Player, self).__init__()
         # properties
-        self.x = x
-        self.y = y
-        self.lives = lives
-        self.oxigen = oxigen
-        self.ammo = ammo
-        self.keys = keys
-        self.explosives = explosives
-        
+        self.lives = 10
+        self.oxigen = 99
+        self.ammo = 5
+        self.keys = 0
+        self.explosives = 0
+        # images
         num_frames = 3
         self.images = []
         for i in range(num_frames):
             # image for the frame
             self.images.append(pygame.image.load(
-                jp(dp, 'images/sprites/player' + str(i) + '.png')).convert())
+                jp(dp, 'images/sprites/player{}.png'.format(i))).convert())
             # mask
             self.images[i].set_colorkey((255, 0, 255))
         self.animation_index = 0
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]
+        # initial position
         self.rect = self.image.get_rect()
+        self.rect.x = 32
+        self.rect.y = 112
 
     def update(self):
         # animation
@@ -552,8 +548,7 @@ explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
 enemy_group = pygame.sprite.Group()
 
 # create the player
-player = Player(32, 112, 10, 99, 5, 0, 0)
-enemy_group.add(player)
+player = Player()
 
 # clock to control the FPS
 clock = pygame.time.Clock()
