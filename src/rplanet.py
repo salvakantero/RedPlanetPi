@@ -1,6 +1,6 @@
 
 # ==============================================================================
-# Raspi-Red Planet v1.0
+# Red Planet Pi v1.0
 # salvaKantero 2022
 # ==============================================================================
 
@@ -44,7 +44,7 @@ game_percent = 0 # % of gameplay completed
 
 
 # main loop states
-RUNNING, PAUSED, FINISHED = 0, 1, 2
+RUNNING, PAUSED, OVER = 0, 1, 2
 
 # music states
 UNMUTED, MUTED = 0, 1
@@ -516,7 +516,7 @@ pygame.mixer.init()
 
 # generates a main window with title, icon, and 32-bit colour.
 screen = pygame.display.set_mode(WIN_SIZE, 0, 32)
-pygame.display.set_caption('.:: Raspi-Red Planet ::.')
+pygame.display.set_caption('.:: Red Planet Pi ::.')
 icon = pygame.image.load(jp(dp, 'images/assets/icon.png')).convert_alpha()
 pygame.display.set_icon(icon)
 
@@ -544,11 +544,13 @@ ammo_icon = pygame.image.load(jp(dp, 'images/tiles/T52.png')).convert()
 keys_icon = pygame.image.load(jp(dp, 'images/tiles/T51.png')).convert()
 explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
 
-# enemy sprites control
+# sprites control
 enemy_group = pygame.sprite.Group()
+sprites_group = pygame.sprite.Group() 
 
 # create the player
 player = Player()
+sprites_group.add(player)
 
 # clock to control the FPS
 clock = pygame.time.Clock()
@@ -793,8 +795,11 @@ while True:
     animate_tiles()
 
     if loop_status == RUNNING:
-        # update enemies
+        # update sprites
+        sprites_group.update()
         enemy_group.update()
+        # print sprites
+        sprites_group.draw(map_display)
         enemy_group.draw(map_display)
     elif loop_status == PAUSED:
         width = 96
@@ -824,5 +829,5 @@ while True:
     elif cfg_scanlines_type == 1: # fast
         apply_scanlines(screen, WIN_SIZE[1]-9, 40, 759, 15)
 
-    pygame.display.update() # refreshes the screen
+    #pygame.display.update() # refreshes the screen
     clock.tick() # 60 FPS
