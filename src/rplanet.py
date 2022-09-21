@@ -42,8 +42,8 @@ map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
 
-
 # main loop states
+active_loop = True
 RUNNING, PAUSED, OVER = 0, 1, 2
 
 # music states
