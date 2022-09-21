@@ -42,8 +42,7 @@ map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
 
-# main loop states
-active_loop = True
+# game states
 RUNNING, PAUSED, OVER = 0, 1, 2
 
 # music states
@@ -545,12 +544,12 @@ keys_icon = pygame.image.load(jp(dp, 'images/tiles/T51.png')).convert()
 explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
 
 # sprites control
-enemy_group = pygame.sprite.Group()
-sprites_group = pygame.sprite.Group() 
+#enemy_group = pygame.sprite.Group()
+#sprites_group = pygame.sprite.Group() 
 
 # create the player
-player = Player()
-sprites_group.add(player)
+#player = Player()
+#sprites_group.add(player)
 
 # clock to control the FPS
 clock = pygame.time.Clock()
@@ -559,11 +558,24 @@ clock = pygame.time.Clock()
 pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
 pygame.mixer.music.play(-1)
 
-loop_status = RUNNING
+game_status = OVER
 music_status = UNMUTED 
 
 # Main loop
-while True:
+while True:    
+    if game_status == OVER: # game not running
+        # menú inicial, se queda aquí hasta pulsar una tecla
+        pass
+        game_status = RUNNING
+		# genera grupos de sprites  
+        # sprites control
+        all_sprites_group = pygame.sprite.Group() 
+        enemy_group = pygame.sprite.Group()      
+        # create the player
+        player = Player()
+        all_sprites_group.add(player)
+        # reset variables?
+
     # event management
     for event in pygame.event.get():
         # exit when click on the X in the window
@@ -576,13 +588,13 @@ while True:
                 sys.exit()
             # pause main loop
             if event.key == K_h:
-                if loop_status == RUNNING:
-                    loop_status = PAUSED
+                if game_status == RUNNING:
+                    game_status = PAUSED
                     # mute the music if necessary
                     if music_status == UNMUTED:
                         pygame.mixer.music.fadeout(1200)
                 else:
-                    loop_status = RUNNING
+                    game_status = RUNNING
                     # restore music if necessary
                     if music_status == UNMUTED:
                         pygame.mixer.music.play()
@@ -794,14 +806,14 @@ while True:
     # and change the frame of the animated tiles
     animate_tiles()
 
-    if loop_status == RUNNING:
+    if game_status == RUNNING:
         # update sprites
-        sprites_group.update()
+        all_sprites_group.update()
         enemy_group.update()
         # print sprites
-        sprites_group.draw(map_display)
+        all_sprites_group.draw(map_display)
         enemy_group.draw(map_display)
-    elif loop_status == PAUSED:
+    elif game_status == PAUSED:
         width = 96
         height = 36
         x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
