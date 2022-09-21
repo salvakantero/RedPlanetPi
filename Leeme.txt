@@ -54,8 +54,8 @@ ENTER:  Pausa.
 ESC:    Cancelar partida.
 
 
-RASPBERRY-RED PLANET
-====================
+RED PLANET PI
+==================================
 salvaKantero:   Programa, GFX, SFX
 tacha:          Música
 Masterklown:    Portada

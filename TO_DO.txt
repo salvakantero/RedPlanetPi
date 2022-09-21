@@ -28,6 +28,7 @@ HECHO
 
 EN PROCESO
 ==========
+- Bucle de juego, gameover y final
 - Gestión de Keko; movimiento y saltos
 
 POR HACER
@@ -50,7 +51,6 @@ POR HACER
 - Notas en pantalla de juego (+1) (+25)
 - Nivel nuevo intermedio de hielo?
 - Linterna en pantallas oscuras
-- Bucle de juego, gameover y final
 - Teclas redefinibles
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
