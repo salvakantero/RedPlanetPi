@@ -514,8 +514,25 @@ class Enemy(pygame.sprite.Sprite):
 
 # Main menu
 def main_menu():
-    pass
-
+    width = 96
+    height = 36
+    x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
+    y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
+    pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
+    text = 'RED PLANET Pi'
+    bg_font_L.render(text, map_display, (x+18, y+7))
+    fg_font_L.render(text, map_display, (x+16, y+5))
+    text = 'Press a key to continue'
+    bg_font_S.render(text, map_display, (x+6, y+24))
+    fg_font_S.render(text, map_display, (x+5, y+23))
+    waiting = True
+        while waiting:
+            clock.tick(60)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                if event.type == pygame.KEYUP:
+                    waiting = False
 
 
 
