@@ -110,6 +110,129 @@ MAP_NAMES = {
     30 : 'BACK TO CONTROL CENTER',
 }
 
+# enemies per map
+ENEMIES_DATA = [
+    [128, 112, 32, 112, -2, 0, 1],
+	[16, 16, 224, 48, 2, 2, 2],
+	[0, 0, 0, 0, 0, 0, 0],
+
+	[192, 112, 32, 112, -4, 0, 1],
+	[208, 16, 144, 64, -1, 1, 2],
+	[80, 64, 80, 16, 0, -2, 3],
+
+	[112, 144, 112, 32, 0, -2, 4],
+	[208, 112, 16, 80, -2, -2, 2],
+	[0, 0, 0, 0, 0, 0, 0],
+
+	[160, 48, 32, 48, -4, 0, 1],
+	[16, 80, 208, 112, 4, 4, 3],
+	[0, 0, 0, 0, 0, 0, 0],
+
+	[64, 80, 64, 16, 0, -2, 3],
+	[144, 16, 144, 128, 0, 2, 3],
+	[208, 112, 208, 96, 0, -2, 6],
+
+	[32, 48, 192, 48, 2, 0, 1],
+	[192, 80, 32, 80, -2, 0, 1],
+	[144, 128, 160, 128, 2, 0, 6],
+
+	[96, 48, 48, 16, -2, -2, 3],
+	[144, 80, 144, 16, 0, -2, 3],
+	[16, 112, 16, 96, 0, -2, 6],
+
+	[112, 144, 112, 16, 0, -2, 4],
+	[208, 96, 16, 96, -2, 0, 3],
+	[16, 32, 192, 64, 1, 1, 2],
+
+	[208, 64, 192, 64, -2, 0, 6],
+	[64, 64, 64, 32, 0, -1, 3],
+	[0, 0, 0, 0, 0, 0, 0],
+
+	[144, 128, 144, 16, 0, -4, 3],
+	[80, 16, 80, 128, 0, 4, 3],
+	[192, 128, 208, 128, 2, 0, 6],
+
+	[128, 128, 144, 128, 2, 0, 6],
+	[176, 64, 160, 16, -2, -2, 3],
+	[32, 16, 16, 64, -2, 2, 3],
+
+	[192, 80, 32, 80, -4, 0, 1],
+	[32, 48, 192, 48, 4, 0, 1],
+	[192, 16, 32, 16, -4, 0, 1],
+
+	[112, 128, 112, 16, 0, -2, 4],
+	[208, 112, 32, 112, -2, 0, 2],
+	[16, 48, 208, 48, 2, 0, 2],
+
+	[128, 112, 144, 112, 2, 0, 6],
+	[144, 128, 208, 128, 2, 0, 1],
+	[16, 80, 48, 16, 2, -2, 2],
+
+	[112, 128, 112, 16, 0, -4, 3],
+	[48, 16, 48, 128, 0, 4, 3],
+	[96, 16, 96, 128, 0, 2, 3],
+
+	[80, 128, 112, 128, 2, 0, 6],
+	[112, 112, 144, 112, 2, 0, 2],
+	[0, 0, 0, 0, 0, 0, 0],
+
+	[192, 64, 32, 32, -2, -2, 2],
+	[48, 128, 224, 112, 2, -2, 2],
+	[16, 64, 32, 64, 2, 0, 6],
+
+	[160, 128, 160, 16, 0, -4, 3],
+	[112, 32, 112, 128, 0, 4, 3],
+	[64, 128, 16, 16, -4, -4, 2],
+
+	[192, 96, 32, 96, -4, 0, 1],
+	[32, 64, 192, 64, 2, 0, 1],
+	[192, 32, 32, 32, -4, 0, 1],
+
+	[64, 16, 64, 128, 0, 4, 3],
+	[112, 128, 112, 16, 0, -4, 3],
+	[16, 112, 16, 16, 0, -4, 3],
+
+	[112, 144, 112, 16, 0, -2, 4],
+	[208, 144, 16, 48, -1, -1, 3],
+	[128, 16, 128, 144, 0, 4, 3],
+
+	[160, 128, 96, 128, -2, 0, 3],
+	[208, 128, 208, 96, 0, -1, 3],
+	[80, 112, 128, 112, 1, 0, 0],
+
+	[64, 128, 48, 32, -2, -2, 2],
+	[208, 128, 208, 32, 0, -4, 3],
+	[128, 32, 160, 128, 2, 2, 2],
+
+	[16, 32, 32, 128, 2, 2, 2],
+	[128, 128, 128, 32, 0, -4, 3],
+	[160, 32, 160, 128, 0, 4, 3],
+
+	[48, 32, 192, 64, 4, 4, 2],
+	[48, 128, 192, 128, 4, 0, 1],
+	[192, 96, 64, 96, -2, 0, 1],
+
+	[112, 128, 112, 16, 0, -2, 4],
+	[208, 48, 16, 48, -2, 0, 3],
+	[16, 112, 208, 112, 4, 0, 3],
+
+	[192, 128, 32, 128, -4, 0, 1],
+	[80, 32, 192, 32, 4, 0, 1],
+	[16, 32, 32, 32, 2, 0, 6],
+
+	[160, 32, 160, 128, 0, 4, 3],
+	[192, 128, 96, 128, -1, 0, 1],
+	[112, 32, 112, 128, 0, 2, 0],
+
+	[112, 128, 128, 128, 2, 0, 6],
+	[32, 32, 32, 128, 0, 2, 3],
+	[96, 48, 176, 48, 4, 0, 1],
+
+	[128, 32, 128, 48, 0, 2, 6],
+	[0, 0, 0, 0, 0, 0, 0],
+	[0, 0, 0, 0, 0, 0, 0]
+]
+
 
 
 
@@ -526,13 +649,13 @@ def main_menu():
     bg_font_S.render(text, map_display, (x+6, y+24))
     fg_font_S.render(text, map_display, (x+5, y+23))
     waiting = True
-        while waiting:
-            clock.tick(60)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                if event.type == pygame.KEYUP:
-                    waiting = False
+    while waiting:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYUP:
+                waiting = False
 
 
 
@@ -590,6 +713,7 @@ while True:
     if game_status == OVER: # game not running
         main_menu()
         game_status = RUNNING
+        enemy = []
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
         # create the player
@@ -647,180 +771,193 @@ while True:
         update_scoreboard()
         last_map = map_number
 
-        # load enemies for the map (enems.h)
-        enemy_group.empty()
+        # load enemies for the map (enems.h)       
+        for i in range(3):
+            enemy_data = ENEMIES_DATA[map_number*3 + i]
+            if enemy_data[6] != 0:
+                enemy = Enemy(
+                    enemy_data[0], 
+                    enemy_data[1], 
+                    enemy_data[2], 
+                    enemy_data[3], 
+                    enemy_data[4], 
+                    enemy_data[5],
+                    enemy_data[6])
+                all_sprites_group.add(enemy)
+
+        #enemy_group.empty()
         # CONTROL CENTRE
-        if map_number == 0: 
-            # parameters:    X1   Y1  X2   Y2  mX mY  Type
-            enemy_1 = Enemy(128, 112, 32, 112, -2, 0, 1)
-            enemy_2 = Enemy(16, 16, 224, 48, 2, 2, 2)
-            enemy_group.add(enemy_1, enemy_2)
-        # SUPPLY DEPOT 1
-        elif map_number == 1:
-            enemy_1 = Enemy(192, 112, 32, 112, -4, 0, 1)
-            enemy_2 = Enemy(208, 16, 144, 64, -1, 1, 2)
-            enemy_3 = Enemy(80, 64, 80, 16, 0, -2, 3)
-            enemy_group.add(enemy_1, enemy_2, enemy_3)   
+        # if map_number == 0: 
+        #     # parameters:    X1   Y1  X2   Y2  mX mY  Type
+        #     enemy_1 = Enemy(128, 112, 32, 112, -2, 0, 1)
+        #     enemy_2 = Enemy(16, 16, 224, 48, 2, 2, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2)
+        # # SUPPLY DEPOT 1
+        # elif map_number == 1:
+        #     enemy_1 = Enemy(192, 112, 32, 112, -4, 0, 1)
+        #     enemy_2 = Enemy(208, 16, 144, 64, -1, 1, 2)
+        #     enemy_3 = Enemy(80, 64, 80, 16, 0, -2, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3)   
         # CENTRAL HALL LEVEL 0  
-        elif map_number == 2:
-            enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
-            enemy_2 = Enemy(208, 112, 16, 80, -2, -2, 2)
-            enemy_group.add(enemy_1, enemy_2)   
-        # TOXIC WASTE STORAGE 1A
-        elif map_number == 3:
-            enemy_1 = Enemy(160, 48, 32, 48, -4, 0, 1)
-            enemy_2 = Enemy(16, 80, 208, 112, 4, 4, 3)
-            enemy_group.add(enemy_1, enemy_2)   
-        # TOXIC WASTE STORAGE 1B
-        elif map_number == 4:
-            enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 3)
-            enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 3)
-            enemy_3 = Enemy(208, 112, 208, 96, 0, -2, 6)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # WEST PASSAGE LEVEL -1
-        elif map_number == 5:
-            enemy_1 = Enemy(32, 48, 192, 48, 2, 0, 1)
-            enemy_2 = Enemy(192, 80, 32, 80, -2, 0, 1)
-            enemy_3 = Enemy(144, 128, 160, 128, 2, 0, 6)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # ACCESS TO WEST PASSAGES
-        elif map_number == 6:
-            enemy_1 = Enemy(96, 48, 48, 16, -2, -2, 3)
-            enemy_2 = Enemy(144, 80, 144, 16, 0, -2, 3)
-            enemy_3 = Enemy(16, 112, 16, 96, 0, -2, 6)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # CENTRAL HALL LEVEL -1
-        elif map_number == 7:
-            enemy_1 = Enemy(112, 144, 112, 16, 0, -2, 4)
-            enemy_2 = Enemy(208, 96, 16, 96, -2, 0, 3)
-            enemy_3 = Enemy(16, 32, 192, 64, 1, 1, 2)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # ACCESS TO DUNGEONS
-        elif map_number == 8:
-            enemy_1 = Enemy(208, 64, 192, 64, -2, 0, 6)
-            enemy_2 = Enemy(64, 64, 64, 32, 0, -1, 3)
-            enemy_group.add(enemy_1, enemy_2)  
-        # DUNGEONS
-        elif map_number == 9:
-            enemy_1 = Enemy(144, 128, 144, 16, 0, -4, 3)
-            enemy_2 = Enemy(80, 16, 80, 128, 0, 4, 3)
-            enemy_3 = Enemy(192, 128, 208, 128, 2, 0, 6)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # WEST PASSAGE LEVEL -2
-        elif map_number == 10: 
-            enemy_1 = Enemy(128, 128, 144, 128, 2, 0, 6)
-            enemy_2 = Enemy(176, 64, 160, 16, -2, -2, 3)
-            enemy_3 = Enemy(32, 16, 16, 64, -2, 2, 3)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # SUPPLY DEPOT 2
-        elif map_number == 11:
-            enemy_1 = Enemy(192, 80, 32, 80, -4, 0, 1)
-            enemy_2 = Enemy(32, 48, 192, 48, 4, 0, 1)
-            enemy_3 = Enemy(192, 16, 32, 16, -4, 0, 1)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # CENTRAL HALL LEVEL -2
-        elif map_number == 12:
-            enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
-            enemy_2 = Enemy(208, 112, 32, 112, -2, 0, 2)
-            enemy_3 = Enemy(16, 48, 208, 48, 2, 0, 2)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # ACCESS TO SOUTHEAST EXIT
-        elif map_number == 13:
-            enemy_1 = Enemy(128, 112, 144, 112, 2, 0, 6)
-            enemy_2 = Enemy(144, 128, 208, 128, 2, 0, 1)
-            enemy_3 = Enemy(16, 80, 48, 16, 2, -2, 2)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # EXIT TO UNDERGROUND
-        elif map_number == 14:
-            enemy_1 = Enemy(112, 128, 112, 16, 0, -4, 3)
-            enemy_2 = Enemy(48, 16, 48, 128, 0, 4, 3)
-            enemy_3 = Enemy(96, 16, 96, 128, 0, 2, 3)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # PELUSOIDS LAIR
-        elif map_number == 15:
-            enemy_1 = Enemy(96, 128, 80, 128, -2, 0, 6)
-            enemy_2 = Enemy(112, 112, 144, 112, 2, 0, 2)
-            enemy_group.add(enemy_1, enemy_2)  
-        # ALVARITOS GROTTO 2
-        elif map_number == 16:
-            enemy_1 = Enemy(192, 64, 32, 32, -2, -2, 2)
-            enemy_2 = Enemy(48, 128, 224, 112, 2, -2, 2)
-            enemy_3 = Enemy(16, 64, 32, 64, 2, 0, 6)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # ALVARITOS GROTTO 1
-        elif map_number == 17:
-            enemy_1 = Enemy(160, 128, 160, 16, 0, -4, 3)
-            enemy_2 = Enemy(112, 32, 112, 128, 0, 4, 3)
-            enemy_3 = Enemy(64, 128, 16, 16, -4, -4, 2)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # TOXIC WASTE STORAGE 2A
-        elif map_number == 18:
-            enemy_1 = Enemy(192, 96, 32, 96, -4, 0, 1)
-            enemy_2 = Enemy(32, 64, 192, 64, 2, 0, 1)
-            enemy_3 = Enemy(192, 32, 32, 32, -4, 0, 1)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # UNDERGROUND TUNNEL
-        elif map_number == 19:
-            enemy_1 = Enemy(64, 16, 64, 128, 0, 4, 3)
-            enemy_2 = Enemy(112, 128, 112, 16, 0, -4, 3)
-            enemy_3 = Enemy(16, 112, 16, 16, 0, -4, 3)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # SIDE HALL LEVEL -4
-        elif map_number == 20:
-            enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
-            enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 2)
-            enemy_3 = Enemy(128, 16, 128, 144, 0, 4, 3)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # ARACHNOVIRUS LAIR
-        elif map_number == 21:
-            enemy_1 = Enemy(160, 128, 96, 128, -2, 0, 3)
-            enemy_2 = Enemy(208, 128, 208, 96, 0, -1, 3)
-            enemy_group.add(enemy_1, enemy_2) 
-        # UNSTABLE CORRIDORS 1
-        elif map_number == 22:
-            enemy_1 = Enemy(64, 128, 48, 32, -2, -2, 2)
-            enemy_2 = Enemy(208, 128, 208, 32, 0, -4, 3)
-            enemy_3 = Enemy(128, 32, 160, 128, 2, 2, 2)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # UNSTABLE CORRIDORS 2
-        elif map_number == 23:
-            enemy_1 = Enemy(16, 32, 32, 128, 2, 2, 2)
-            enemy_2 = Enemy(128, 128, 128, 32, 0, -4, 3)
-            enemy_3 = Enemy(160, 32, 160, 128, 0, 4, 3)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # TOXIC WASTE STORAGE 2B
-        elif map_number == 24:
-            enemy_1 = Enemy(48, 32, 192, 64, 4, 4, 2)
-            enemy_2 = Enemy(48, 128, 192, 128, 4, 0, 1)
-            enemy_3 = Enemy(192, 96, 64, 96, -2, 0, 1)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # SIDE HALL LEVEL -5
-        elif map_number == 25:
-            enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
-            enemy_2 = Enemy(208, 48, 16, 48, -2, 0, 3)
-            enemy_3 = Enemy(16, 112, 208, 112, 4, 0, 3)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # ABANDONED MINE 1
-        elif map_number == 26:
-            enemy_1 = Enemy(192, 128, 32, 128, -4, 0, 1)
-            enemy_2 = Enemy(80, 32, 192, 32, 4, 0, 1)
-            enemy_3 = Enemy(16, 32, 32, 32, 2, 0, 6)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # ABANDONED MINE 2
-        elif map_number == 27:
-            enemy_1 = Enemy(160, 32, 160, 128, 0, 4, 3)
-            enemy_2 = Enemy(192, 128, 96, 128, -1, 0, 1)
-            enemy_group.add(enemy_1, enemy_2) 
-        # ABANDONED MINE 3
-        elif map_number == 28:
-            enemy_1 = Enemy(112, 128, 128, 128, 2, 0, 6)
-            enemy_2 = Enemy(32, 32, 32, 128, 0, 2, 3)
-            enemy_3 = Enemy(96, 48, 176, 48, 4, 0, 1)
-            enemy_group.add(enemy_1, enemy_2, enemy_3) 
-        # EXPLOSIVES STOCKPILE
-        elif map_number == 29:
-            enemy_1 = Enemy(128, 32, 128, 48, 0, 2, 6)
-            enemy_group.add(enemy_1) 
+        # if map_number == 2:
+        #     enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
+        #     enemy_2 = Enemy(208, 112, 16, 80, -2, -2, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2)   
+        # # TOXIC WASTE STORAGE 1A
+        # elif map_number == 3:
+        #     enemy_1 = Enemy(160, 48, 32, 48, -4, 0, 1)
+        #     enemy_2 = Enemy(16, 80, 208, 112, 4, 4, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2)   
+        # # TOXIC WASTE STORAGE 1B
+        # elif map_number == 4:
+        #     enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 3)
+        #     enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 3)
+        #     enemy_3 = Enemy(208, 112, 208, 96, 0, -2, 6)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # WEST PASSAGE LEVEL -1
+        # elif map_number == 5:
+        #     enemy_1 = Enemy(32, 48, 192, 48, 2, 0, 1)
+        #     enemy_2 = Enemy(192, 80, 32, 80, -2, 0, 1)
+        #     enemy_3 = Enemy(144, 128, 160, 128, 2, 0, 6)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # ACCESS TO WEST PASSAGES
+        # elif map_number == 6:
+        #     enemy_1 = Enemy(96, 48, 48, 16, -2, -2, 3)
+        #     enemy_2 = Enemy(144, 80, 144, 16, 0, -2, 3)
+        #     enemy_3 = Enemy(16, 112, 16, 96, 0, -2, 6)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # CENTRAL HALL LEVEL -1
+        # elif map_number == 7:
+        #     enemy_1 = Enemy(112, 144, 112, 16, 0, -2, 4)
+        #     enemy_2 = Enemy(208, 96, 16, 96, -2, 0, 3)
+        #     enemy_3 = Enemy(16, 32, 192, 64, 1, 1, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # ACCESS TO DUNGEONS
+        # elif map_number == 8:
+        #     enemy_1 = Enemy(208, 64, 192, 64, -2, 0, 6)
+        #     enemy_2 = Enemy(64, 64, 64, 32, 0, -1, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2)  
+        # # DUNGEONS
+        # elif map_number == 9:
+        #     enemy_1 = Enemy(144, 128, 144, 16, 0, -4, 3)
+        #     enemy_2 = Enemy(80, 16, 80, 128, 0, 4, 3)
+        #     enemy_3 = Enemy(192, 128, 208, 128, 2, 0, 6)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # WEST PASSAGE LEVEL -2
+        # elif map_number == 10: 
+        #     enemy_1 = Enemy(128, 128, 144, 128, 2, 0, 6)
+        #     enemy_2 = Enemy(176, 64, 160, 16, -2, -2, 3)
+        #     enemy_3 = Enemy(32, 16, 16, 64, -2, 2, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # SUPPLY DEPOT 2
+        # elif map_number == 11:
+        #     enemy_1 = Enemy(192, 80, 32, 80, -4, 0, 1)
+        #     enemy_2 = Enemy(32, 48, 192, 48, 4, 0, 1)
+        #     enemy_3 = Enemy(192, 16, 32, 16, -4, 0, 1)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # CENTRAL HALL LEVEL -2
+        # elif map_number == 12:
+        #     enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
+        #     enemy_2 = Enemy(208, 112, 32, 112, -2, 0, 2)
+        #     enemy_3 = Enemy(16, 48, 208, 48, 2, 0, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # ACCESS TO SOUTHEAST EXIT
+        # elif map_number == 13:
+        #     enemy_1 = Enemy(128, 112, 144, 112, 2, 0, 6)
+        #     enemy_2 = Enemy(144, 128, 208, 128, 2, 0, 1)
+        #     enemy_3 = Enemy(16, 80, 48, 16, 2, -2, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # EXIT TO UNDERGROUND
+        # elif map_number == 14:
+        #     enemy_1 = Enemy(112, 128, 112, 16, 0, -4, 3)
+        #     enemy_2 = Enemy(48, 16, 48, 128, 0, 4, 3)
+        #     enemy_3 = Enemy(96, 16, 96, 128, 0, 2, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # PELUSOIDS LAIR
+        # elif map_number == 15:
+        #     enemy_1 = Enemy(96, 128, 80, 128, -2, 0, 6)
+        #     enemy_2 = Enemy(112, 112, 144, 112, 2, 0, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2)  
+        # # ALVARITOS GROTTO 2
+        # elif map_number == 16:
+        #     enemy_1 = Enemy(192, 64, 32, 32, -2, -2, 2)
+        #     enemy_2 = Enemy(48, 128, 224, 112, 2, -2, 2)
+        #     enemy_3 = Enemy(16, 64, 32, 64, 2, 0, 6)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # ALVARITOS GROTTO 1
+        # elif map_number == 17:
+        #     enemy_1 = Enemy(160, 128, 160, 16, 0, -4, 3)
+        #     enemy_2 = Enemy(112, 32, 112, 128, 0, 4, 3)
+        #     enemy_3 = Enemy(64, 128, 16, 16, -4, -4, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # TOXIC WASTE STORAGE 2A
+        # elif map_number == 18:
+        #     enemy_1 = Enemy(192, 96, 32, 96, -4, 0, 1)
+        #     enemy_2 = Enemy(32, 64, 192, 64, 2, 0, 1)
+        #     enemy_3 = Enemy(192, 32, 32, 32, -4, 0, 1)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # UNDERGROUND TUNNEL
+        # elif map_number == 19:
+        #     enemy_1 = Enemy(64, 16, 64, 128, 0, 4, 3)
+        #     enemy_2 = Enemy(112, 128, 112, 16, 0, -4, 3)
+        #     enemy_3 = Enemy(16, 112, 16, 16, 0, -4, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # SIDE HALL LEVEL -4
+        # elif map_number == 20:
+        #     enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
+        #     enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 2)
+        #     enemy_3 = Enemy(128, 16, 128, 144, 0, 4, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # ARACHNOVIRUS LAIR
+        # elif map_number == 21:
+        #     enemy_1 = Enemy(160, 128, 96, 128, -2, 0, 3)
+        #     enemy_2 = Enemy(208, 128, 208, 96, 0, -1, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2) 
+        # # UNSTABLE CORRIDORS 1
+        # elif map_number == 22:
+        #     enemy_1 = Enemy(64, 128, 48, 32, -2, -2, 2)
+        #     enemy_2 = Enemy(208, 128, 208, 32, 0, -4, 3)
+        #     enemy_3 = Enemy(128, 32, 160, 128, 2, 2, 2)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # UNSTABLE CORRIDORS 2
+        # elif map_number == 23:
+        #     enemy_1 = Enemy(16, 32, 32, 128, 2, 2, 2)
+        #     enemy_2 = Enemy(128, 128, 128, 32, 0, -4, 3)
+        #     enemy_3 = Enemy(160, 32, 160, 128, 0, 4, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # TOXIC WASTE STORAGE 2B
+        # elif map_number == 24:
+        #     enemy_1 = Enemy(48, 32, 192, 64, 4, 4, 2)
+        #     enemy_2 = Enemy(48, 128, 192, 128, 4, 0, 1)
+        #     enemy_3 = Enemy(192, 96, 64, 96, -2, 0, 1)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # SIDE HALL LEVEL -5
+        # elif map_number == 25:
+        #     enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
+        #     enemy_2 = Enemy(208, 48, 16, 48, -2, 0, 3)
+        #     enemy_3 = Enemy(16, 112, 208, 112, 4, 0, 3)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # ABANDONED MINE 1
+        # elif map_number == 26:
+        #     enemy_1 = Enemy(192, 128, 32, 128, -4, 0, 1)
+        #     enemy_2 = Enemy(80, 32, 192, 32, 4, 0, 1)
+        #     enemy_3 = Enemy(16, 32, 32, 32, 2, 0, 6)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # ABANDONED MINE 2
+        # elif map_number == 27:
+        #     enemy_1 = Enemy(160, 32, 160, 128, 0, 4, 3)
+        #     enemy_2 = Enemy(192, 128, 96, 128, -1, 0, 1)
+        #     all_sprites_group.add(enemy_1, enemy_2) 
+        # # ABANDONED MINE 3
+        # elif map_number == 28:
+        #     enemy_1 = Enemy(112, 128, 128, 128, 2, 0, 6)
+        #     enemy_2 = Enemy(32, 32, 32, 128, 0, 2, 3)
+        #     enemy_3 = Enemy(96, 48, 176, 48, 4, 0, 1)
+        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
+        # # EXPLOSIVES STOCKPILE
+        # elif map_number == 29:
+        #     enemy_1 = Enemy(128, 32, 128, 48, 0, 2, 6)
+        #     all_sprites_group.add(enemy_1) 
 
     # paint the map free of sprites to clean it up
     #map_display.blit(map_display_backup, (0,0))

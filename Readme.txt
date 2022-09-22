@@ -1,6 +1,6 @@
 
 =============
-RED PLANET PI
+RED PLANET Pi
 =============
 © 2015/2022
 
@@ -58,7 +58,7 @@ ENTER:  Pause.
 ESC:    Cancel game.
 
 
-RED PLANET PI
+RED PLANET Pi
 =================================
 salvaKantero:   Program, GFX, SFX
 tacha:          Music
