@@ -24,11 +24,13 @@ from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_h, K_m
 dp = os.path.dirname(__file__) + '/' # exec path (+ '/' when using VS Code)
 jp = os.path.join # forms the folder/file path
 
-WIN_SIZE = 800, 600 # main window size
+WIN_SIZE = 800, 640 # main window size
 MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)
 MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
 SBOARD_SCALED_SIZE = 720, 114 # scoreboard size (scaled x3)
 SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
+H_MARGIN = 40 # horizontal distance between the edge and the playing area
+V_MARGIN = 20 # vertical distance between the edge and the playing area
 
 # animated tiles
 anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
@@ -112,122 +114,123 @@ MAP_NAMES = {
 
 # enemies per map
 ENEMIES_DATA = [
+    # CONTROL CENTRE
     [128, 112, 32, 112, -2, 0, 1],
 	[16, 16, 224, 48, 2, 2, 2],
 	[0, 0, 0, 0, 0, 0, 0],
-
+    # SUPPLY DEPOT 1
 	[192, 112, 32, 112, -4, 0, 1],
 	[208, 16, 144, 64, -1, 1, 2],
 	[80, 64, 80, 16, 0, -2, 3],
-
+    # CENTRAL HALL LEVEL 0  
 	[112, 144, 112, 32, 0, -2, 4],
 	[208, 112, 16, 80, -2, -2, 2],
 	[0, 0, 0, 0, 0, 0, 0],
-
+    # TOXIC WASTE STORAGE 1A
 	[160, 48, 32, 48, -4, 0, 1],
 	[16, 80, 208, 112, 4, 4, 3],
 	[0, 0, 0, 0, 0, 0, 0],
-
+    # TOXIC WASTE STORAGE 1B
 	[64, 80, 64, 16, 0, -2, 3],
 	[144, 16, 144, 128, 0, 2, 3],
 	[208, 112, 208, 96, 0, -2, 6],
-
+    # WEST PASSAGE LEVEL -1
 	[32, 48, 192, 48, 2, 0, 1],
 	[192, 80, 32, 80, -2, 0, 1],
 	[144, 128, 160, 128, 2, 0, 6],
-
+    # ACCESS TO WEST PASSAGES
 	[96, 48, 48, 16, -2, -2, 3],
 	[144, 80, 144, 16, 0, -2, 3],
 	[16, 112, 16, 96, 0, -2, 6],
-
+    # CENTRAL HALL LEVEL -1
 	[112, 144, 112, 16, 0, -2, 4],
 	[208, 96, 16, 96, -2, 0, 3],
 	[16, 32, 192, 64, 1, 1, 2],
-
+    # ACCESS TO DUNGEONS
 	[208, 64, 192, 64, -2, 0, 6],
 	[64, 64, 64, 32, 0, -1, 3],
 	[0, 0, 0, 0, 0, 0, 0],
-
+    # DUNGEONS
 	[144, 128, 144, 16, 0, -4, 3],
 	[80, 16, 80, 128, 0, 4, 3],
 	[192, 128, 208, 128, 2, 0, 6],
-
+    # WEST PASSAGE LEVEL -2
 	[128, 128, 144, 128, 2, 0, 6],
 	[176, 64, 160, 16, -2, -2, 3],
 	[32, 16, 16, 64, -2, 2, 3],
-
+    # SUPPLY DEPOT 2
 	[192, 80, 32, 80, -4, 0, 1],
 	[32, 48, 192, 48, 4, 0, 1],
 	[192, 16, 32, 16, -4, 0, 1],
-
+    # CENTRAL HALL LEVEL -2
 	[112, 128, 112, 16, 0, -2, 4],
 	[208, 112, 32, 112, -2, 0, 2],
 	[16, 48, 208, 48, 2, 0, 2],
-
+    # ACCESS TO SOUTHEAST EXIT
 	[128, 112, 144, 112, 2, 0, 6],
 	[144, 128, 208, 128, 2, 0, 1],
 	[16, 80, 48, 16, 2, -2, 2],
-
+    # EXIT TO UNDERGROUND
 	[112, 128, 112, 16, 0, -4, 3],
 	[48, 16, 48, 128, 0, 4, 3],
 	[96, 16, 96, 128, 0, 2, 3],
-
+    # PELUSOIDS LAIR
 	[80, 128, 112, 128, 2, 0, 6],
 	[112, 112, 144, 112, 2, 0, 2],
 	[0, 0, 0, 0, 0, 0, 0],
-
+    # ALVARITOS GROTTO 2
 	[192, 64, 32, 32, -2, -2, 2],
 	[48, 128, 224, 112, 2, -2, 2],
 	[16, 64, 32, 64, 2, 0, 6],
-
+    # ALVARITOS GROTTO 1
 	[160, 128, 160, 16, 0, -4, 3],
 	[112, 32, 112, 128, 0, 4, 3],
 	[64, 128, 16, 16, -4, -4, 2],
-
+    # TOXIC WASTE STORAGE 2A
 	[192, 96, 32, 96, -4, 0, 1],
 	[32, 64, 192, 64, 2, 0, 1],
 	[192, 32, 32, 32, -4, 0, 1],
-
+    # UNDERGROUND TUNNEL
 	[64, 16, 64, 128, 0, 4, 3],
 	[112, 128, 112, 16, 0, -4, 3],
 	[16, 112, 16, 16, 0, -4, 3],
-
+    # SIDE HALL LEVEL -4
 	[112, 144, 112, 16, 0, -2, 4],
 	[208, 144, 16, 48, -1, -1, 3],
 	[128, 16, 128, 144, 0, 4, 3],
-
+    # ARACHNOVIRUS LAIR
 	[160, 128, 96, 128, -2, 0, 3],
 	[208, 128, 208, 96, 0, -1, 3],
 	[80, 112, 128, 112, 1, 0, 0],
-
+    # UNSTABLE CORRIDORS 1
 	[64, 128, 48, 32, -2, -2, 2],
 	[208, 128, 208, 32, 0, -4, 3],
 	[128, 32, 160, 128, 2, 2, 2],
-
+    # UNSTABLE CORRIDORS 2
 	[16, 32, 32, 128, 2, 2, 2],
 	[128, 128, 128, 32, 0, -4, 3],
 	[160, 32, 160, 128, 0, 4, 3],
-
+    # TOXIC WASTE STORAGE 2B
 	[48, 32, 192, 64, 4, 4, 2],
 	[48, 128, 192, 128, 4, 0, 1],
 	[192, 96, 64, 96, -2, 0, 1],
-
+    # SIDE HALL LEVEL -5
 	[112, 128, 112, 16, 0, -2, 4],
 	[208, 48, 16, 48, -2, 0, 3],
 	[16, 112, 208, 112, 4, 0, 3],
-
+    # ABANDONED MINE 1
 	[192, 128, 32, 128, -4, 0, 1],
 	[80, 32, 192, 32, 4, 0, 1],
 	[16, 32, 32, 32, 2, 0, 6],
-
+    # ABANDONED MINE 2
 	[160, 32, 160, 128, 0, 4, 3],
 	[192, 128, 96, 128, -1, 0, 1],
 	[112, 32, 112, 128, 0, 2, 0],
-
+    # ABANDONED MINE 3
 	[112, 128, 128, 128, 2, 0, 6],
 	[32, 32, 32, 128, 0, 2, 3],
 	[96, 48, 176, 48, 4, 0, 1],
-
+    # EXPLOSIVES STOCKPILE
 	[128, 32, 128, 48, 0, 2, 6],
 	[0, 0, 0, 0, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0]
@@ -280,12 +283,20 @@ def limit(val, min, max):
         return max
     return val
 
-# scanlines
-def apply_scanlines(surface, height, from_x, to_x, rgb):
-    j = 0
+# draws scanlines
+def scanlines(surface, height, from_x, to_x, rgb):
+    j = V_MARGIN
     while j < height:
         j+=3
         pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, j), (to_x, j))
+
+# applies scanlines according to the configuration
+def make_scanlines():
+    if cfg_scanlines_type == 2: # HQ
+        scanlines(screen_sl, WIN_SIZE[1]-30, H_MARGIN, WIN_SIZE[0]-H_MARGIN-1, 200)
+        screen.blit(screen_sl, (0, 0))
+    elif cfg_scanlines_type == 1: # fast
+        scanlines(screen, WIN_SIZE[1]-30, H_MARGIN, WIN_SIZE[0]-H_MARGIN-1, 15)
 
 
 
@@ -546,27 +557,27 @@ class Player(pygame.sprite.Sprite):
 #===============================================================================
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x1, y1, x2, y2, mx, my, type):
+    def __init__(self, enemy_data): # x1, y1, x2, y2, mx, my, type
         super(Enemy, self).__init__()
         # max/min xy values
-        self.x = self.x1 = x1
-        self.y = self.y1 = y1
-        self.x2 = x2
-        self.y2 = y2
+        self.x = self.x1 = enemy_data[0]
+        self.y = self.y1 = enemy_data[1]
+        self.x2 = enemy_data[2]
+        self.y2 = enemy_data[3]
         # movement
-        self.mx = mx / 2
-        self.my = my / 2
+        self.mx = enemy_data[4] / 2
+        self.my = enemy_data[5] / 2
         # enemy type
-        self.type = type
-        if type == 1:
+        self.type = enemy_data[6]
+        if self.type == 1:
             enemy_name = 'infected'
-        elif type == 2:
+        elif self.type == 2:
             enemy_name = 'pelusoid'
-        elif type == 3:
+        elif self.type == 3:
             enemy_name = 'avirus'
-        elif type == 4:
+        elif self.type == 4:
             enemy_name = 'platform'
-        elif type == 6:
+        elif self.type == 6:
             enemy_name = 'fanty'
             self.state = 0 # 0=idle  1=pursuing  2=retreating
             self.sight_distance = 64
@@ -637,17 +648,19 @@ class Enemy(pygame.sprite.Sprite):
 
 # Main menu
 def main_menu():
-    width = 96
-    height = 36
-    x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
-    y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
-    pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
+    x = 65
+    y = 40
     text = 'RED PLANET Pi'
     bg_font_L.render(text, map_display, (x+18, y+7))
     fg_font_L.render(text, map_display, (x+16, y+5))
-    text = 'Press a key to continue'
+    text = 'WIP. Press a key to continue'
     bg_font_S.render(text, map_display, (x+6, y+24))
     fg_font_S.render(text, map_display, (x+5, y+23))
+    #---------------------------------------------------------------------------
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (40, 112))
+    make_scanlines()
+    pygame.display.update()
+    #---------------------------------------------------------------------------
     waiting = True
     while waiting:
         clock.tick(60)
@@ -701,10 +714,6 @@ explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
 # clock to control the FPS
 clock = pygame.time.Clock()
 
-# ingame music
-pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
-pygame.mixer.music.play(-1)
-
 game_status = OVER
 music_status = UNMUTED 
 
@@ -713,297 +722,116 @@ while True:
     if game_status == OVER: # game not running
         main_menu()
         game_status = RUNNING
-        enemy = []
+        # ingame music
+        pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
+        pygame.mixer.music.play(-1)
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
+        enemies_group = pygame.sprite.Group()
         # create the player
         player = Player()
-        all_sprites_group.add(player)
         # reset variables?
 
-    # event management
-    for event in pygame.event.get():
-        # exit when click on the X in the window
-        if event.type == QUIT: 
-            exit()
-        if event.type == KEYDOWN:
-            # exit by pressing ESC key
-            if event.key == K_ESCAPE:
-                pygame.quit()
-                sys.exit()
-            # pause main loop
-            if event.key == K_h:
-                if game_status == RUNNING:
-                    game_status = PAUSED
-                    # mute the music if necessary
-                    if music_status == UNMUTED:
-                        pygame.mixer.music.fadeout(1200)
-                else:
-                    game_status = RUNNING
-                    # restore music if necessary
-                    if music_status == UNMUTED:
+    else: # game running or paused
+        # event management
+        for event in pygame.event.get():
+            # exit when click on the X in the window
+            if event.type == QUIT: 
+                exit()
+            if event.type == KEYDOWN:
+                # exit by pressing ESC key
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                # pause main loop
+                if event.key == K_h:
+                    if game_status == RUNNING:
+                        game_status = PAUSED
+                        # mute the music if necessary
+                        if music_status == UNMUTED:
+                            pygame.mixer.music.fadeout(1200)
+                    else:
+                        game_status = RUNNING
+                        # restore music if necessary
+                        if music_status == UNMUTED:
+                            pygame.mixer.music.play()
+                # mute music
+                if event.key == K_m :
+                    if music_status == MUTED:
+                        music_status = UNMUTED
                         pygame.mixer.music.play()
-            # mute music
-            if event.key == K_m :
-                if music_status == MUTED:
-                    music_status = UNMUTED
-                    pygame.mixer.music.play()
-                else:
-                    music_status = MUTED
-                    pygame.mixer.music.fadeout(1200)
+                    else:
+                        music_status = MUTED
+                        pygame.mixer.music.fadeout(1200)
 
-            # temp code ================
-            if event.key == K_RIGHT:
-                if map_number < 29:
-                    map_number += 1
-            if event.key == K_LEFT:
-                if map_number > 0:
-                    map_number -= 1
-            # ==========================
+                # temp code ================
+                if event.key == K_RIGHT:
+                    if map_number < 29:
+                        map_number += 1
+                if event.key == K_LEFT:
+                    if map_number > 0:
+                        map_number -= 1
+                # ==========================
 
-    # change map if neccessary
-    if map_number != last_map:
-        load_map(map_number, map_display)
-        # save the empty background
-        map_display_backup.blit(map_display, (0,0))
-        draw_map_info()
-        init_scoreboard()
-        update_scoreboard()
-        last_map = map_number
+        # change map if neccessary
+        if map_number != last_map:
+            load_map(map_number, map_display)
+            # save the new empty background
+            map_display_backup.blit(map_display, (0,0))
+            draw_map_info()
+            init_scoreboard()
+            update_scoreboard()
+            last_map = map_number        
+            # reset the groups  
+            all_sprites_group.empty()
+            enemies_group.empty()
+            # add the player  
+            all_sprites_group.add(player)
+            # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
+            # (a maximum of three enemies per map)
+            for i in range(3):
+                enemy_data = ENEMIES_DATA[map_number*3 + i]
+                if enemy_data[6] != 0: # no enemy
+                    enemy = Enemy(enemy_data)
+                    all_sprites_group.add(enemy)
+                    enemies_group.add(enemy)
 
-        # load enemies for the map (enems.h)       
-        for i in range(3):
-            enemy_data = ENEMIES_DATA[map_number*3 + i]
-            if enemy_data[6] != 0:
-                enemy = Enemy(
-                    enemy_data[0], 
-                    enemy_data[1], 
-                    enemy_data[2], 
-                    enemy_data[3], 
-                    enemy_data[4], 
-                    enemy_data[5],
-                    enemy_data[6])
-                all_sprites_group.add(enemy)
-
-        #enemy_group.empty()
-        # CONTROL CENTRE
-        # if map_number == 0: 
-        #     # parameters:    X1   Y1  X2   Y2  mX mY  Type
-        #     enemy_1 = Enemy(128, 112, 32, 112, -2, 0, 1)
-        #     enemy_2 = Enemy(16, 16, 224, 48, 2, 2, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2)
-        # # SUPPLY DEPOT 1
-        # elif map_number == 1:
-        #     enemy_1 = Enemy(192, 112, 32, 112, -4, 0, 1)
-        #     enemy_2 = Enemy(208, 16, 144, 64, -1, 1, 2)
-        #     enemy_3 = Enemy(80, 64, 80, 16, 0, -2, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3)   
-        # CENTRAL HALL LEVEL 0  
-        # if map_number == 2:
-        #     enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
-        #     enemy_2 = Enemy(208, 112, 16, 80, -2, -2, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2)   
-        # # TOXIC WASTE STORAGE 1A
-        # elif map_number == 3:
-        #     enemy_1 = Enemy(160, 48, 32, 48, -4, 0, 1)
-        #     enemy_2 = Enemy(16, 80, 208, 112, 4, 4, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2)   
-        # # TOXIC WASTE STORAGE 1B
-        # elif map_number == 4:
-        #     enemy_1 = Enemy(64, 80, 64, 16, 0, -2, 3)
-        #     enemy_2 = Enemy(144, 16, 144, 128, 0, 2, 3)
-        #     enemy_3 = Enemy(208, 112, 208, 96, 0, -2, 6)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # WEST PASSAGE LEVEL -1
-        # elif map_number == 5:
-        #     enemy_1 = Enemy(32, 48, 192, 48, 2, 0, 1)
-        #     enemy_2 = Enemy(192, 80, 32, 80, -2, 0, 1)
-        #     enemy_3 = Enemy(144, 128, 160, 128, 2, 0, 6)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # ACCESS TO WEST PASSAGES
-        # elif map_number == 6:
-        #     enemy_1 = Enemy(96, 48, 48, 16, -2, -2, 3)
-        #     enemy_2 = Enemy(144, 80, 144, 16, 0, -2, 3)
-        #     enemy_3 = Enemy(16, 112, 16, 96, 0, -2, 6)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # CENTRAL HALL LEVEL -1
-        # elif map_number == 7:
-        #     enemy_1 = Enemy(112, 144, 112, 16, 0, -2, 4)
-        #     enemy_2 = Enemy(208, 96, 16, 96, -2, 0, 3)
-        #     enemy_3 = Enemy(16, 32, 192, 64, 1, 1, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # ACCESS TO DUNGEONS
-        # elif map_number == 8:
-        #     enemy_1 = Enemy(208, 64, 192, 64, -2, 0, 6)
-        #     enemy_2 = Enemy(64, 64, 64, 32, 0, -1, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2)  
-        # # DUNGEONS
-        # elif map_number == 9:
-        #     enemy_1 = Enemy(144, 128, 144, 16, 0, -4, 3)
-        #     enemy_2 = Enemy(80, 16, 80, 128, 0, 4, 3)
-        #     enemy_3 = Enemy(192, 128, 208, 128, 2, 0, 6)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # WEST PASSAGE LEVEL -2
-        # elif map_number == 10: 
-        #     enemy_1 = Enemy(128, 128, 144, 128, 2, 0, 6)
-        #     enemy_2 = Enemy(176, 64, 160, 16, -2, -2, 3)
-        #     enemy_3 = Enemy(32, 16, 16, 64, -2, 2, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # SUPPLY DEPOT 2
-        # elif map_number == 11:
-        #     enemy_1 = Enemy(192, 80, 32, 80, -4, 0, 1)
-        #     enemy_2 = Enemy(32, 48, 192, 48, 4, 0, 1)
-        #     enemy_3 = Enemy(192, 16, 32, 16, -4, 0, 1)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # CENTRAL HALL LEVEL -2
-        # elif map_number == 12:
-        #     enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
-        #     enemy_2 = Enemy(208, 112, 32, 112, -2, 0, 2)
-        #     enemy_3 = Enemy(16, 48, 208, 48, 2, 0, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # ACCESS TO SOUTHEAST EXIT
-        # elif map_number == 13:
-        #     enemy_1 = Enemy(128, 112, 144, 112, 2, 0, 6)
-        #     enemy_2 = Enemy(144, 128, 208, 128, 2, 0, 1)
-        #     enemy_3 = Enemy(16, 80, 48, 16, 2, -2, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # EXIT TO UNDERGROUND
-        # elif map_number == 14:
-        #     enemy_1 = Enemy(112, 128, 112, 16, 0, -4, 3)
-        #     enemy_2 = Enemy(48, 16, 48, 128, 0, 4, 3)
-        #     enemy_3 = Enemy(96, 16, 96, 128, 0, 2, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # PELUSOIDS LAIR
-        # elif map_number == 15:
-        #     enemy_1 = Enemy(96, 128, 80, 128, -2, 0, 6)
-        #     enemy_2 = Enemy(112, 112, 144, 112, 2, 0, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2)  
-        # # ALVARITOS GROTTO 2
-        # elif map_number == 16:
-        #     enemy_1 = Enemy(192, 64, 32, 32, -2, -2, 2)
-        #     enemy_2 = Enemy(48, 128, 224, 112, 2, -2, 2)
-        #     enemy_3 = Enemy(16, 64, 32, 64, 2, 0, 6)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # ALVARITOS GROTTO 1
-        # elif map_number == 17:
-        #     enemy_1 = Enemy(160, 128, 160, 16, 0, -4, 3)
-        #     enemy_2 = Enemy(112, 32, 112, 128, 0, 4, 3)
-        #     enemy_3 = Enemy(64, 128, 16, 16, -4, -4, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # TOXIC WASTE STORAGE 2A
-        # elif map_number == 18:
-        #     enemy_1 = Enemy(192, 96, 32, 96, -4, 0, 1)
-        #     enemy_2 = Enemy(32, 64, 192, 64, 2, 0, 1)
-        #     enemy_3 = Enemy(192, 32, 32, 32, -4, 0, 1)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # UNDERGROUND TUNNEL
-        # elif map_number == 19:
-        #     enemy_1 = Enemy(64, 16, 64, 128, 0, 4, 3)
-        #     enemy_2 = Enemy(112, 128, 112, 16, 0, -4, 3)
-        #     enemy_3 = Enemy(16, 112, 16, 16, 0, -4, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # SIDE HALL LEVEL -4
-        # elif map_number == 20:
-        #     enemy_1 = Enemy(112, 144, 112, 32, 0, -2, 4)
-        #     enemy_2 = Enemy(208, 144, 16, 48, -1, -1, 2)
-        #     enemy_3 = Enemy(128, 16, 128, 144, 0, 4, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # ARACHNOVIRUS LAIR
-        # elif map_number == 21:
-        #     enemy_1 = Enemy(160, 128, 96, 128, -2, 0, 3)
-        #     enemy_2 = Enemy(208, 128, 208, 96, 0, -1, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2) 
-        # # UNSTABLE CORRIDORS 1
-        # elif map_number == 22:
-        #     enemy_1 = Enemy(64, 128, 48, 32, -2, -2, 2)
-        #     enemy_2 = Enemy(208, 128, 208, 32, 0, -4, 3)
-        #     enemy_3 = Enemy(128, 32, 160, 128, 2, 2, 2)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # UNSTABLE CORRIDORS 2
-        # elif map_number == 23:
-        #     enemy_1 = Enemy(16, 32, 32, 128, 2, 2, 2)
-        #     enemy_2 = Enemy(128, 128, 128, 32, 0, -4, 3)
-        #     enemy_3 = Enemy(160, 32, 160, 128, 0, 4, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # TOXIC WASTE STORAGE 2B
-        # elif map_number == 24:
-        #     enemy_1 = Enemy(48, 32, 192, 64, 4, 4, 2)
-        #     enemy_2 = Enemy(48, 128, 192, 128, 4, 0, 1)
-        #     enemy_3 = Enemy(192, 96, 64, 96, -2, 0, 1)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # SIDE HALL LEVEL -5
-        # elif map_number == 25:
-        #     enemy_1 = Enemy(112, 128, 112, 16, 0, -2, 4)
-        #     enemy_2 = Enemy(208, 48, 16, 48, -2, 0, 3)
-        #     enemy_3 = Enemy(16, 112, 208, 112, 4, 0, 3)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # ABANDONED MINE 1
-        # elif map_number == 26:
-        #     enemy_1 = Enemy(192, 128, 32, 128, -4, 0, 1)
-        #     enemy_2 = Enemy(80, 32, 192, 32, 4, 0, 1)
-        #     enemy_3 = Enemy(16, 32, 32, 32, 2, 0, 6)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # ABANDONED MINE 2
-        # elif map_number == 27:
-        #     enemy_1 = Enemy(160, 32, 160, 128, 0, 4, 3)
-        #     enemy_2 = Enemy(192, 128, 96, 128, -1, 0, 1)
-        #     all_sprites_group.add(enemy_1, enemy_2) 
-        # # ABANDONED MINE 3
-        # elif map_number == 28:
-        #     enemy_1 = Enemy(112, 128, 128, 128, 2, 0, 6)
-        #     enemy_2 = Enemy(32, 32, 32, 128, 0, 2, 3)
-        #     enemy_3 = Enemy(96, 48, 176, 48, 4, 0, 1)
-        #     all_sprites_group.add(enemy_1, enemy_2, enemy_3) 
-        # # EXPLOSIVES STOCKPILE
-        # elif map_number == 29:
-        #     enemy_1 = Enemy(128, 32, 128, 48, 0, 2, 6)
-        #     all_sprites_group.add(enemy_1) 
-
-    # paint the map free of sprites to clean it up
-    #map_display.blit(map_display_backup, (0,0))
-    # and change the frame of the animated tiles
-    #animate_tiles()
-
-    if game_status == RUNNING:
-        # update sprites
-        all_sprites_group.update()
-        # collisions
-        if player.lives == 0:
-            # print game over message
-            game_status = OVER
-        # paint the map free of sprites to clean it up
-        map_display.blit(map_display_backup, (0,0))
-        # and change the frame of the animated tiles
-        animate_tiles()
-        # print sprites
-        all_sprites_group.draw(map_display)
-    elif game_status == PAUSED:
-        width = 96
-        height = 36
-        x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
-        y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
-        pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
-        text = 'P A U S E'
-        bg_font_L.render(text, map_display, (x+18, y+7))
-        fg_font_L.render(text, map_display, (x+16, y+5))
-        text = 'The massacre can wait'
-        bg_font_S.render(text, map_display, (x+6, y+24))
-        fg_font_S.render(text, map_display, (x+5, y+23))
+        if game_status == RUNNING:
+            # update sprites
+            all_sprites_group.update()
+            # collisions
+            if player.lives == 0:
+                # print game over message
+                game_status = OVER
+            # paint the map free of sprites to clean it up
+            map_display.blit(map_display_backup, (0,0))
+            # and change the frame of the animated tiles
+            animate_tiles()
+            # print sprites
+            all_sprites_group.draw(map_display)
+        else: # paused
+            width = 96
+            height = 36
+            x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
+            y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
+            pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
+            text = 'P A U S E'
+            bg_font_L.render(text, map_display, (x+18, y+7))
+            fg_font_L.render(text, map_display, (x+16, y+5))
+            text = 'The massacre can wait'
+            bg_font_S.render(text, map_display, (x+6, y+24))
+            fg_font_S.render(text, map_display, (x+5, y+23))
 
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
-    # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (40, 112))
     # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), (40, 0))
-
-    # scanlines
-    if cfg_scanlines_type == 2: # HQ
-        apply_scanlines(screen_sl, WIN_SIZE[1]-9, 40, 759, 200)
-        screen.blit(screen_sl, (0, 0))
-    elif cfg_scanlines_type == 1: # fast
-        apply_scanlines(screen, WIN_SIZE[1]-9, 40, 759, 15)
-
-    #pygame.display.update() # refreshes the screen
+    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), 
+        (H_MARGIN, V_MARGIN))
+    # scale x 3 the map
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), 
+        (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
+    
+    make_scanlines()
+    pygame.display.update() # refreshes the screen
     clock.tick() # 60 FPS

@@ -25,10 +25,10 @@ HECHO
 26/08/22 - Tiles animados (computadoras, lava, cadaver...)
 27/08/22 - Fondo para segunda parte del 
 31/08/22 - Teclas especiales; Pause y Mute
+24/09/22 - Simplificar la generación de enemigos por mapa
 
 EN PROCESO
 ==========
-- Simplificar la generación de enemigos por mapa
 - Bucle de juego, gameover y final
 - Gestión de Keko; movimiento y saltos
 - Nivel nuevo intermedio de hielo
