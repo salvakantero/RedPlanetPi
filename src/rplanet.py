@@ -4,6 +4,7 @@
 # salvaKantero 2022
 # ==============================================================================
 
+from email.errors import MissingHeaderBodySeparatorDefect
 import pygame # pygame library functions
 import random # random()
 import os # path()
@@ -297,6 +298,30 @@ def make_scanlines():
         screen.blit(screen_sl, (0, 0))
     elif cfg_scanlines_type == 1: # fast
         scanlines(screen, WIN_SIZE[1]-30, H_MARGIN, WIN_SIZE[0]-H_MARGIN-1, 15)
+
+# draws a centred message box erasing the background
+def message_box(message1, message2):
+    # calculates the dimensions of the box
+    height = 36
+    message1_len = len(message1) * 7
+    message2_len = len(message2) * 7
+    if message1_len > message2_len:
+        width = message1_len + 40
+    else:
+        width = message2_len + 40
+    # calculates the position of the box
+    x = (MAP_UNSCALED_SIZE[0]//2) - (width//2)
+    y = (MAP_UNSCALED_SIZE[1]//2) - (height//2)
+    pygame.draw.rect(map_display, PALETTE['DARK_BLUE'],(x, y, width, height))
+    # prints the text inside the box
+    text_x = (x + (width//2)) - (message1_len//2)
+    text_y = y + 5
+    bg_font_L.render(message1, map_display, (text_x, text_y))
+    fg_font_L.render(message1, map_display, (text_x - 2, text_y - 2))
+    text_x = (x + (width//2)) - (message2_len//2)
+    text_y = y + 24
+    bg_font_S.render(message2, map_display, (text_x, text_y))
+    fg_font_S.render(message2, map_display, (text_x - 1, text_y - 1))
 
 
 
@@ -646,11 +671,44 @@ class Enemy(pygame.sprite.Sprite):
 # Main functions
 #===============================================================================
 
+def confirm_exit():
+    # erases the background where the text will be printed
+    width = 200
+    height = 36
+    x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
+    y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
+    pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
+    # prints the text inside the rectangle
+    text = 'Leave the current game?'
+    bg_font_L.render(text, map_display, (x+20, y+5))
+    fg_font_L.render(text, map_display, (x+18, y+3))
+    text = 'PRESS Y / ENTER TO EXIT OR N TO CONTINUE'
+    bg_font_S.render(text, map_display, (x+21, y+24))
+    fg_font_S.render(text, map_display, (x+20, y+23))
+    #---------------------------------------------------------------------------
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (40, 112))
+    make_scanlines()
+    pygame.display.update()
+    #---------------------------------------------------------------------------
+    waiting = True
+    while waiting:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYUP:
+            # exit by pressing ESC key
+                if event.key == K_y:                    
+                    return True
+                elif event.key == K_n:  
+                    return False
+
 # Main menu
 def main_menu():
     x = 65
     y = 40
-    text = 'RED PLANET Pi'
+    map_display.fill(PALETTE['BLACK'])
+    text = 'Red Planet Pi'
     bg_font_L.render(text, map_display, (x+18, y+7))
     fg_font_L.render(text, map_display, (x+16, y+5))
     text = 'WIP. Press a key to continue'
@@ -669,6 +727,10 @@ def main_menu():
                 pygame.quit()
             if event.type == pygame.KEYUP:
                 waiting = False
+            # exit by pressing ESC key
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
 
 
 
@@ -720,8 +782,9 @@ music_status = UNMUTED
 # Main loop
 while True:    
     if game_status == OVER: # game not running
-        main_menu()
+        #main_menu()
         game_status = RUNNING
+        last_map = -1
         # ingame music
         pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
         pygame.mixer.music.play(-1)
@@ -741,8 +804,8 @@ while True:
             if event.type == KEYDOWN:
                 # exit by pressing ESC key
                 if event.key == K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                    if confirm_exit():
+                        game_status = OVER
                 # pause main loop
                 if event.key == K_h:
                     if game_status == RUNNING:
@@ -809,18 +872,19 @@ while True:
             animate_tiles()
             # print sprites
             all_sprites_group.draw(map_display)
-        else: # paused
-            width = 96
-            height = 36
-            x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
-            y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
-            pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
-            text = 'P A U S E'
-            bg_font_L.render(text, map_display, (x+18, y+7))
-            fg_font_L.render(text, map_display, (x+16, y+5))
-            text = 'The massacre can wait'
-            bg_font_S.render(text, map_display, (x+6, y+24))
-            fg_font_S.render(text, map_display, (x+5, y+23))
+        elif game_status == PAUSED:            
+            # width = 96
+            # height = 36
+            # x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
+            # y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
+            # pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
+            # text = 'P a u s e'
+            # bg_font_L.render(text, map_display, (x+18, y+7))
+            # fg_font_L.render(text, map_display, (x+16, y+5))
+            # text = 'THE MASSACRE CAN WAIT'
+            # bg_font_S.render(text, map_display, (x+6, y+24))
+            # fg_font_S.render(text, map_display, (x+5, y+23))
+            message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
