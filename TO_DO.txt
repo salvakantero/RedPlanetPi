@@ -26,10 +26,11 @@ HECHO
 27/08/22 - Fondo para segunda parte del 
 31/08/22 - Teclas especiales; Pause y Mute
 24/09/22 - Simplificar la generación de enemigos por mapa
+27/09/22 - MessageBox
+28/09/22 - Bucle de juego, gameover y final
 
 EN PROCESO
 ==========
-- Bucle de juego, gameover y final
 - Gestión de Keko; movimiento y saltos
 - Nivel nuevo intermedio de hielo
 

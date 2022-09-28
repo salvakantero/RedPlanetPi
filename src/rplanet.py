@@ -4,7 +4,6 @@
 # salvaKantero 2022
 # ==============================================================================
 
-from email.errors import MissingHeaderBodySeparatorDefect
 import pygame # pygame library functions
 import random # random()
 import os # path()
@@ -80,41 +79,60 @@ PALETTE = {
 
 # screen names
 MAP_NAMES = {
+    # level 1
     0  : 'CONTROL CENTRE',
     1  : 'SUPPLY DEPOT 1',
-    2  : 'CENTRAL HALL LEVEL 0',
+    2  : 'CENTRAL HALL',
     3  : 'TOXIC WASTE STORAGE 1A',
     4  : 'TOXIC WASTE STORAGE 1B',
-    5  : 'WEST PASSAGE LEVEL -1',
-    6  : 'ACCESS TO WEST PASSAGES',
-    7  : 'CENTRAL HALL LEVEL -1',
+    5  : 'WEST CORRIDOR',
+    6  : 'ACCESS TO THE WEST CORRIDORS',
+    7  : 'CENTRAL HALL',
     8  : 'ACCESS TO DUNGEONS',
     9  : 'DUNGEONS',
-    10 : 'WEST PASSAGE LEVEL -2',
+    10 : 'WEST CORRIDOR',
     11 : 'SUPPLY DEPOT 2',
-    12 : 'CENTRAL HALL LEVEL -2',
+    12 : 'CENTRAL HALL',
     13 : 'ACCESS TO SOUTHEAST EXIT',
     14 : 'EXIT TO UNDERGROUND',
-    15 : 'PELUSOIDS LAIR',
-    16 : 'ALVARITOS GROTTO 2',
-    17 : 'ALVARITOS GROTTO 1',
-    18 : 'TOXIC WASTE STORAGE 2A',
-    19 : 'UNDERGROUND TUNNEL',
-    20 : 'SIDE HALL LEVEL -4',
-    21 : 'ARACHNOVIRUS LAIR',
-    22 : 'UNSTABLE CORRIDORS 1',
-    23 : 'UNSTABLE CORRIDORS 2',
-    24 : 'TOXIC WASTE STORAGE 2B',
-    25 : 'SIDE HALL LEVEL -5',
-    26 : 'ABANDONED MINE 1',
-    27 : 'ABANDONED MINE 2',
-    28 : 'ABANDONED MINE 3',
-    29 : 'EXPLOSIVES STOCKPILE',
-    30 : 'BACK TO CONTROL CENTER',
+    # level 2
+    15 : 'WAREHOUSE ACCESS',
+    16 : 'CONVECTION CORRIDOR',
+    17 : 'SEWER MAINTENANCE',
+    18 : 'COLD ZONE ACCESS CORRIDOR',
+    19 : 'COLD ZONE ACCESS CORRIDOR',
+    20 : 'FROZEN WAREHOUSE 1',
+    21 : 'CONVECTION CORRIDOR',
+    22 : 'TOXIC SEWERS 1',
+    23 : 'ICE CAVE',
+    24 : 'ACCESS TO ICE CAVE',
+    25 : 'FROZEN WAREHOUSE 2',
+    26 : 'CONVECTION CORRIDOR',
+    27 : 'TOXIC SEWERS 1',
+    28 : 'ACCESS TO THE WARM ZONE',
+    29 : 'EXIT TO THE WARM ZONE',
+    # level 3
+    30 : 'PELUSOIDS LAIR',
+    31 : 'ALVARITOS GROTTO 2',
+    32 : 'ALVARITOS GROTTO 1',
+    33 : 'TOXIC WASTE STORAGE 2A',
+    34 : 'UNDERGROUND TUNNEL',
+    35 : 'SIDE HALL',
+    36 : 'ARACHNOVIRUS LAIR',
+    37 : 'UNSTABLE CORRIDORS 1',
+    38 : 'UNSTABLE CORRIDORS 2',
+    39 : 'TOXIC WASTE STORAGE 2B',
+    40 : 'SIDE HALL',
+    41 : 'ABANDONED MINE 1',
+    42 : 'ABANDONED MINE 2',
+    43 : 'ABANDONED MINE 3',
+    44 : 'EXPLOSIVES STOCKPILE',
+    45 : 'BACK TO CONTROL CENTER',
 }
 
 # enemies per map
 ENEMIES_DATA = [
+    #-----------LEVEL 1-------------
     # CONTROL CENTRE
     [128, 112, 32, 112, -2, 0, 1],
 	[16, 16, 224, 48, 2, 2, 2],
@@ -123,7 +141,7 @@ ENEMIES_DATA = [
 	[192, 112, 32, 112, -4, 0, 1],
 	[208, 16, 144, 64, -1, 1, 2],
 	[80, 64, 80, 16, 0, -2, 3],
-    # CENTRAL HALL LEVEL 0  
+    # CENTRAL HALL  
 	[112, 144, 112, 32, 0, -2, 4],
 	[208, 112, 16, 80, -2, -2, 2],
 	[0, 0, 0, 0, 0, 0, 0],
@@ -135,15 +153,15 @@ ENEMIES_DATA = [
 	[64, 80, 64, 16, 0, -2, 3],
 	[144, 16, 144, 128, 0, 2, 3],
 	[208, 112, 208, 96, 0, -2, 6],
-    # WEST PASSAGE LEVEL -1
+    # WEST CORRIDOR
 	[32, 48, 192, 48, 2, 0, 1],
 	[192, 80, 32, 80, -2, 0, 1],
 	[144, 128, 160, 128, 2, 0, 6],
-    # ACCESS TO WEST PASSAGES
+    # ACCESS TO THE WEST CORRIDORS
 	[96, 48, 48, 16, -2, -2, 3],
 	[144, 80, 144, 16, 0, -2, 3],
 	[16, 112, 16, 96, 0, -2, 6],
-    # CENTRAL HALL LEVEL -1
+    # CENTRAL HALL
 	[112, 144, 112, 16, 0, -2, 4],
 	[208, 96, 16, 96, -2, 0, 3],
 	[16, 32, 192, 64, 1, 1, 2],
@@ -155,7 +173,7 @@ ENEMIES_DATA = [
 	[144, 128, 144, 16, 0, -4, 3],
 	[80, 16, 80, 128, 0, 4, 3],
 	[192, 128, 208, 128, 2, 0, 6],
-    # WEST PASSAGE LEVEL -2
+    # WEST CORRIDOR
 	[128, 128, 144, 128, 2, 0, 6],
 	[176, 64, 160, 16, -2, -2, 3],
 	[32, 16, 16, 64, -2, 2, 3],
@@ -163,7 +181,7 @@ ENEMIES_DATA = [
 	[192, 80, 32, 80, -4, 0, 1],
 	[32, 48, 192, 48, 4, 0, 1],
 	[192, 16, 32, 16, -4, 0, 1],
-    # CENTRAL HALL LEVEL -2
+    # CENTRAL HALL
 	[112, 128, 112, 16, 0, -2, 4],
 	[208, 112, 32, 112, -2, 0, 2],
 	[16, 48, 208, 48, 2, 0, 2],
@@ -175,6 +193,70 @@ ENEMIES_DATA = [
 	[112, 128, 112, 16, 0, -4, 3],
 	[48, 16, 48, 128, 0, 4, 3],
 	[96, 16, 96, 128, 0, 2, 3],
+    
+    #-----------LEVEL 2-------------
+    # WAREHOUSE ACCESS
+    [32, 96, 32, 112, 0, 1, 6],
+	[192, 16, 128, 128, -2, 2, 2],
+	[0, 0, 0, 0, 0, 0, 0],
+    # CONVECTION CORRIDOR
+    [176, 48, 64, 48, -1, 0, 1],
+	[48, 128, 32, 16, -2, -2, 3],
+	[64, 48, 176, 48, 2, 0, 1],
+    # SEWER MAINTENANCE
+    [64, 16, 80, 128, 2, 2, 2],
+	[96, 32, 160, 32, 2, 0, 1],
+	[16, 96, 16, 16, 0, -2, 3],
+    # COLD ZONE ACCESS CORRIDOR
+    [48, 112, 208, 80, 2, -2, 2],
+	[192, 48, 48, 16, -2, -2, 2],
+	[16, 80, 16, 16, 0, -1, 3],
+    # COLD ZONE ACCESS CORRIDOR
+	[32, 48, 192, 48, 2, 0, 1],
+	[160, 112, 112, 112, -2, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0],
+    # FROZEN WAREHOUSE 1
+	[112, 48, 32, 48, -2, 0, 1],
+	[144, 128, 144, 80, 0, -2, 3],
+	[64, 128, 64, 80, 0, -2, 3], 
+    # CONVECTION CORRIDOR
+	[112, 112, 112, 16, 0, -4, 4],
+	[208, 128, 144, 16, -2, -2, 2],
+	[80, 16, 32, 128, -2, 2, 2],  
+    # TOXIC SEWERS 1
+	[48, 112, 48, 16, 0, -2, 4],
+	[144, 32, 192, 32, 2, 0, 1],
+	[80, 16, 80, 112, 0, 4, 3],
+    # ICE CAVE
+	[160, 112, 80, 32, -2, -2, 2],
+	[160, 32, 80, 112, -2, 2, 2],
+	[48, 48, 64, 96, 2, 2, 3],    
+    # ACCESS TO ICE CAVE
+	[144, 32, 144, 112, 0, 4, 3],
+	[80, 96, 80, 48, 0, -2, 3],
+	[176, 128, 176, 16, 0, -4, 3],
+    # FROZEN WAREHOUSE 2
+	[80, 32, 80, 16, 0, -1, 6],
+	[96, 128, 96, 96, 0, -2, 3],
+	[160, 64, 176, 16, 2, -2, 3],
+    # CONVECTION CORRIDOR
+	[48, 112, 176, 112, 2, 0, 4],
+	[32, 32, 208, 32, 4, 0, 3],
+	[192, 64, 48, 64, -4, 0, 3],
+    # TOXIC SEWERS 1
+	[144, 128, 144, 16, 0, -4, 3],
+	[80, 16, 80, 112, 0, 4, 3],
+	[96, 32, 128, 32, 1, 0, 1],
+    # ACCESS TO THE WARM ZONE
+	[160, 80, 208, 16, 2, -2, 2],
+	[144, 32, 80, 16, -2, -2, 3],
+	[64, 80, 32, 16, -2, -2, 2],
+    # EXIT TO THE WARM ZONE
+	[112, 16, 160, 128, 4, 4, 2],
+	[64, 32, 32, 128, -2, 2, 2],
+	[16, 48, 16, 16, 0, -1, 3],
+
+    #-----------LEVEL 3-------------
     # PELUSOIDS LAIR
 	[80, 128, 112, 128, 2, 0, 6],
 	[112, 112, 144, 112, 2, 0, 2],
@@ -195,7 +277,7 @@ ENEMIES_DATA = [
 	[64, 16, 64, 128, 0, 4, 3],
 	[112, 128, 112, 16, 0, -4, 3],
 	[16, 112, 16, 16, 0, -4, 3],
-    # SIDE HALL LEVEL -4
+    # SIDE HALL
 	[112, 144, 112, 16, 0, -2, 4],
 	[208, 144, 16, 48, -1, -1, 3],
 	[128, 16, 128, 144, 0, 4, 3],
@@ -215,7 +297,7 @@ ENEMIES_DATA = [
 	[48, 32, 192, 64, 4, 4, 2],
 	[48, 128, 192, 128, 4, 0, 1],
 	[192, 96, 64, 96, -2, 0, 1],
-    # SIDE HALL LEVEL -5
+    # SIDE HALL
 	[112, 128, 112, 16, 0, -2, 4],
 	[208, 48, 16, 48, -2, 0, 3],
 	[16, 112, 208, 112, 4, 0, 3],
@@ -303,17 +385,18 @@ def make_scanlines():
 def message_box(message1, message2):
     # calculates the dimensions of the box
     height = 36
-    message1_len = len(message1) * 7
-    message2_len = len(message2) * 7
+    message1_len = len(message1) * 7 # approximate length of text 1 in pixels
+    message2_len = len(message2) * 4 # approximate length of text 2 in pixels
+    # width = length of the longest text + margin
     if message1_len > message2_len:
-        width = message1_len + 40
+        width = message1_len + V_MARGIN
     else:
-        width = message2_len + 40
+        width = message2_len + V_MARGIN
     # calculates the position of the box
     x = (MAP_UNSCALED_SIZE[0]//2) - (width//2)
     y = (MAP_UNSCALED_SIZE[1]//2) - (height//2)
-    pygame.draw.rect(map_display, PALETTE['DARK_BLUE'],(x, y, width, height))
-    # prints the text inside the box
+    pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
+    # paints the text centred inside the box (Y positions are fixed)
     text_x = (x + (width//2)) - (message1_len//2)
     text_y = y + 5
     bg_font_L.render(message1, map_display, (text_x, text_y))
@@ -672,24 +755,11 @@ class Enemy(pygame.sprite.Sprite):
 #===============================================================================
 
 def confirm_exit():
-    # erases the background where the text will be printed
-    width = 200
-    height = 36
-    x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
-    y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
-    pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
-    # prints the text inside the rectangle
-    text = 'Leave the current game?'
-    bg_font_L.render(text, map_display, (x+20, y+5))
-    fg_font_L.render(text, map_display, (x+18, y+3))
-    text = 'PRESS Y / ENTER TO EXIT OR N TO CONTINUE'
-    bg_font_S.render(text, map_display, (x+21, y+24))
-    fg_font_S.render(text, map_display, (x+20, y+23))
-    #---------------------------------------------------------------------------
-    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (40, 112))
+    message_box('Leave the current game?', 'PRESS Y / ENTER TO EXIT OR N TO CONTINUE')
+    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), (H_MARGIN, V_MARGIN))        
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
     make_scanlines()
     pygame.display.update()
-    #---------------------------------------------------------------------------
     waiting = True
     while waiting:
         clock.tick(60)
@@ -705,20 +775,13 @@ def confirm_exit():
 
 # Main menu
 def main_menu():
-    x = 65
-    y = 40
     map_display.fill(PALETTE['BLACK'])
-    text = 'Red Planet Pi'
-    bg_font_L.render(text, map_display, (x+18, y+7))
-    fg_font_L.render(text, map_display, (x+16, y+5))
-    text = 'WIP. Press a key to continue'
-    bg_font_S.render(text, map_display, (x+6, y+24))
-    fg_font_S.render(text, map_display, (x+5, y+23))
-    #---------------------------------------------------------------------------
-    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (40, 112))
+    sboard_display.fill(PALETTE['BLACK'])
+    message_box('Red Planet Pi', 'WIP. Press a key to continue')
+    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), (H_MARGIN, V_MARGIN))     
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
     make_scanlines()
     pygame.display.update()
-    #---------------------------------------------------------------------------
     waiting = True
     while waiting:
         clock.tick(60)
@@ -731,6 +794,7 @@ def main_menu():
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+
 
 
 
@@ -782,19 +846,18 @@ music_status = UNMUTED
 # Main loop
 while True:    
     if game_status == OVER: # game not running
-        #main_menu()
-        game_status = RUNNING
-        last_map = -1
-        # ingame music
-        pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
-        pygame.mixer.music.play(-1)
+        main_menu()
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
         # create the player
         player = Player()
-        # reset variables?
-
+        # ingame music
+        pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
+        pygame.mixer.music.play(-1)
+        # reset variables
+        game_status = RUNNING
+        last_map = -1
     else: # game running or paused
         # event management
         for event in pygame.event.get():
@@ -805,7 +868,7 @@ while True:
                 # exit by pressing ESC key
                 if event.key == K_ESCAPE:
                     if confirm_exit():
-                        game_status = OVER
+                        game_status = OVER # go to the main menu
                 # pause main loop
                 if event.key == K_h:
                     if game_status == RUNNING:
@@ -873,17 +936,6 @@ while True:
             # print sprites
             all_sprites_group.draw(map_display)
         elif game_status == PAUSED:            
-            # width = 96
-            # height = 36
-            # x = (MAP_UNSCALED_SIZE[0]//2)-(width//2)
-            # y = (MAP_UNSCALED_SIZE[1]//2)-(height//2)
-            # pygame.draw.rect(map_display, PALETTE['BLACK'],(x, y, width, height))
-            # text = 'P a u s e'
-            # bg_font_L.render(text, map_display, (x+18, y+7))
-            # fg_font_L.render(text, map_display, (x+16, y+5))
-            # text = 'THE MASSACRE CAN WAIT'
-            # bg_font_S.render(text, map_display, (x+6, y+24))
-            # fg_font_S.render(text, map_display, (x+5, y+23))
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
     # FPS counter using the clock   
