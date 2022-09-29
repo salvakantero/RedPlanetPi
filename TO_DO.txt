@@ -32,6 +32,7 @@ HECHO
 EN PROCESO
 ==========
 - Gestión de Keko; movimiento y saltos
+- Tiles pasables, bloqueantes, matantes, y plataformas
 - Nivel nuevo intermedio de hielo
 
 POR HACER
@@ -40,7 +41,6 @@ POR HACER
 - Gestión de pantalla completa (probar en raspberry)
 - Comprobación de video acelerado por hardware para compilación condicional
 - Obtener SFX de opengameart.com
-- Tiles pasables, bloqueantes, matantes, y plataformas
 - Movimiento fanty de malotes
 - Colisiones entre Keko y malotes
 - Keko es invencible los primeros 5 segundos (parpadea)

@@ -55,6 +55,7 @@ UNMUTED, MUTED = 0, 1
 
 # configuration values
 cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
+cfg_full_screen = 0 # 0 = no, 1 = yes
 
 # colour palette (Pico8)
 PALETTE = {
