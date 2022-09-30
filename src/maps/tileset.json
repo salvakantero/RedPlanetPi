@@ -8,8 +8,8 @@
  "margin":0,
  "name":"tileset",
  "spacing":0,
- "tilecount":35,
- "tiledversion":"1.8.2",
+ "tilecount":40,
+ "tiledversion":"1.9.2",
  "tileheight":16,
  "tiles":[
         {
@@ -27,6 +27,12 @@
         {
          "id":2,
          "image":"..\/images\/tiles\/T2.png",
+         "imageheight":16,
+         "imagewidth":16
+        }, 
+        {
+         "id":64,
+         "image":"..\/images\/tiles\/T15.png",
          "imageheight":16,
          "imagewidth":16
         }, 
@@ -127,6 +133,18 @@
          "imagewidth":16
         }, 
         {
+         "id":65,
+         "image":"..\/images\/tiles\/T30.png",
+         "imageheight":16,
+         "imagewidth":16
+        }, 
+        {
+         "id":66,
+         "image":"..\/images\/tiles\/T31.png",
+         "imageheight":16,
+         "imagewidth":16
+        }, 
+        {
          "id":20,
          "image":"..\/images\/tiles\/T20.png",
          "imageheight":16,
@@ -153,6 +171,18 @@
         {
          "id":24,
          "image":"..\/images\/tiles\/T24.png",
+         "imageheight":16,
+         "imagewidth":16
+        }, 
+        {
+         "id":67,
+         "image":"..\/images\/tiles\/T32.png",
+         "imageheight":16,
+         "imagewidth":16
+        }, 
+        {
+         "id":68,
+         "image":"..\/images\/tiles\/T33.png",
          "imageheight":16,
          "imagewidth":16
         }, 
@@ -224,5 +254,5 @@
         }],
  "tilewidth":16,
  "type":"tileset",
- "version":"1.8"
+ "version":"1.9"
 }
