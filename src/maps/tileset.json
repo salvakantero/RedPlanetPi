@@ -9,7 +9,7 @@
  "name":"tileset",
  "spacing":0,
  "tilecount":40,
- "tiledversion":"1.9.2",
+ "tiledversion":"1.8.2",
  "tileheight":16,
  "tiles":[
         {
@@ -254,5 +254,5 @@
         }],
  "tilewidth":16,
  "type":"tileset",
- "version":"1.9"
+ "version":"1.8"
 }

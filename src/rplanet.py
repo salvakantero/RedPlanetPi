@@ -11,7 +11,8 @@ import sys # exit()
 import json # load()
 
 from pygame.locals import * # allows constants without typing "pygame."
-from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, K_h, K_m) 
+from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, 
+    K_h, K_m, K_y, K_n) 
 
 
 
