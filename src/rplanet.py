@@ -565,7 +565,7 @@ def draw_map_info():
     else:
         text_2 = 'COMPLETED..'
     
-    text_1 += str(map_number+1) + '/30'
+    text_1 += str(map_number+1) + '/45'
     text_2 += str(game_percent) + ';' # %
 
     sboard_display.fill((0,0,0)) # delete previous text
@@ -894,7 +894,7 @@ while True:
 
                 # temp code ================
                 if event.key == K_RIGHT:
-                    if map_number < 29:
+                    if map_number < 44:
                         map_number += 1
                 if event.key == K_LEFT:
                     if map_number > 0:
@@ -941,7 +941,7 @@ while True:
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
     # FPS counter using the clock   
-    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
+    # aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
     # scale x 3 the scoreboard
     screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), 
