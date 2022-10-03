@@ -34,11 +34,11 @@ EN PROCESO
 - Gestión de Keko; movimiento y saltos
 - Tiles pasables, bloqueantes, matantes, y plataformas
 - Nivel nuevo intermedio de hielo
+- Gestión de pantalla completa (probar en raspberry y PC)
 
 POR HACER
 =========
 - Menu inicial con imagen de fondo de MasterKlown
-- Gestión de pantalla completa (probar en raspberry)
 - Comprobación de video acelerado por hardware para compilación condicional
 - Obtener SFX de opengameart.com
 - Movimiento fanty de malotes
@@ -62,9 +62,10 @@ POR HACER
 GREETINGS
 =========
 Mojon Twins (MK1 engine)
-DaFluffyPotato (Font class)
+DaFluffyPotato (Font class, screen scaling)
 Mark Vanstone (Tiled functions)
 César Gómez (Mundo Python)
+Ryan Lambie (Raspberry Pi Press)
 
 COLOCADOR
 =========
