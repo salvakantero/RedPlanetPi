@@ -40,7 +40,6 @@ POR HACER
 =========
 - Menu inicial con imagen de fondo de MasterKlown
 - Guardar configuración en archivo
-- Comprobación de video acelerado por hardware para compilación condicional
 - Obtener SFX de opengameart.com
 - Movimiento fanty de malotes
 - Colisiones entre Keko y malotes
