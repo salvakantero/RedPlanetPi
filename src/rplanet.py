@@ -4,16 +4,16 @@
 # salvaKantero 2022
 # ==============================================================================
 
+from re import fullmatch
 import pygame # pygame library functions
 import random # random()
 import os # path()
 import sys # exit()
 import json # load()
 
-from pygame.locals import * # allows constants without typing "pygame."
-from pygame.constants import (QUIT, KEYDOWN, K_ESCAPE, K_LEFT, K_RIGHT, 
-    K_h, K_m, K_y, K_n) 
-
+# allows constants without typing "pygame."
+from pygame.locals import *
+from pygame.constants import *
 
 
 
@@ -88,7 +88,7 @@ MAP_NAMES = {
     3  : 'TOXIC WASTE STORAGE 1A',
     4  : 'TOXIC WASTE STORAGE 1B',
     5  : 'WEST CORRIDOR',
-    6  : 'ACCESS TO THE WEST CORRIDORS',
+    6  : 'ACCESS TO WEST CORRIDORS',
     7  : 'CENTRAL HALL',
     8  : 'ACCESS TO DUNGEONS',
     9  : 'DUNGEONS',
@@ -650,11 +650,14 @@ class Player(pygame.sprite.Sprite):
         self.mx = 0
         self.my = 0
         key_state = pygame.key.get_pressed()
-        if key_state[pygame.K_o]:
+        if key_state[K_o]:
             self.mx -= 1
-        if key_state[pygame.K_p]:
+        if key_state[K_p]:
             self.mx += 1
-
+        if key_state[K_q]:
+            self.my -= 1
+        if key_state[K_a]:
+            self.my += 1
         self.rect.x += self.mx
         self.rect.y += self.my
 
@@ -766,9 +769,9 @@ def confirm_exit():
     while waiting:
         clock.tick(60)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == QUIT:
                 pygame.quit()
-            if event.type == pygame.KEYUP:
+            if event.type == KEYUP:
             # exit by pressing ESC key
                 if event.key == K_y:                    
                     return True
@@ -788,9 +791,9 @@ def main_menu():
     while waiting:
         clock.tick(60)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == QUIT:
                 pygame.quit()
-            if event.type == pygame.KEYUP:
+            if event.type == KEYUP:
                 waiting = False
             # exit by pressing ESC key
                 if event.key == K_ESCAPE:
@@ -808,13 +811,15 @@ def main_menu():
 # Initialisation
 pygame.init()
 pygame.mixer.init()
-
-# generates a main window with title, icon, and 32-bit colour.
-screen = pygame.display.set_mode(WIN_SIZE, 0, 32)
+# generates a main window (or full screen) 
+# with title, icon, and 32-bit colour.
+flags = 0
+if cfg_full_screen:
+    flags = FULLSCREEN
+screen = pygame.display.set_mode(WIN_SIZE, flags, 32)
 pygame.display.set_caption('.:: Red Planet Pi ::.')
 icon = pygame.image.load(jp(dp, 'images/assets/icon.png')).convert_alpha()
-pygame.display.set_icon(icon)
-
+pygame.display.set_icon(icon)   
 # area covered by the map
 map_display = pygame.Surface(MAP_UNSCALED_SIZE)
 # surface to save the generated map without sprites
@@ -952,4 +957,4 @@ while True:
     
     make_scanlines()
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS

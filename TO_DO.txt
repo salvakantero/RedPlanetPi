@@ -39,6 +39,7 @@ EN PROCESO
 POR HACER
 =========
 - Menu inicial con imagen de fondo de MasterKlown
+- Guardar configuración en archivo
 - Comprobación de video acelerado por hardware para compilación condicional
 - Obtener SFX de opengameart.com
 - Movimiento fanty de malotes
@@ -53,6 +54,9 @@ POR HACER
 - Usar sistema de partículas para explosiones
 - Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
+- Score y High?
+- Tabla de mejores puntuaciones
+- Objetos para puntuar (diamantes, joyas, regalos)
 - Teclas redefinibles
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
