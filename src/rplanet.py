@@ -4,7 +4,6 @@
 # salvaKantero 2022
 # ==============================================================================
 
-from re import fullmatch
 import pygame # pygame library functions
 import random # random()
 import os # path()
