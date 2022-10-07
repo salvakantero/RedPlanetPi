@@ -8,7 +8,7 @@ import pygame # pygame library functions
 import random # random()
 import os # path()
 import sys # exit()
-import json # load()
+import json # load(), config file
 
 # allows constants without typing "pygame."
 from pygame.locals import *
@@ -54,8 +54,8 @@ RUNNING, PAUSED, OVER = 0, 1, 2
 UNMUTED, MUTED = 0, 1
 
 # configuration values
-cfg_scanlines_type = 2  # 0 = none, 1 = fast, 2 = HQ
-cfg_full_screen = 0 # 0 = no, 1 = yes
+cfg_scanlines_type = None  # 0 = none, 1 = fast, 2 = HQ
+cfg_full_screen = None # 0 = no, 1 = yes
 
 # colour palette (Pico8)
 PALETTE = {
@@ -589,8 +589,8 @@ def init_scoreboard():
     # fixed texts
     bg_font_L.render('+50', sboard_display, (116, 6))
     fg_font_L.render('+50', sboard_display, (114, 4))
-    bg_font_L.render('+10', sboard_display, (220, 6))
-    fg_font_L.render('+10', sboard_display, (218, 4))
+    bg_font_L.render('+15', sboard_display, (220, 6))
+    fg_font_L.render('+15', sboard_display, (218, 4))
 
 def update_scoreboard():
     # values
@@ -649,13 +649,13 @@ class Player(pygame.sprite.Sprite):
         self.mx = 0
         self.my = 0
         key_state = pygame.key.get_pressed()
-        if key_state[K_o]:
+        if key_state[pygame.K_o]:
             self.mx -= 1
-        if key_state[K_p]:
+        if key_state[pygame.K_p]:
             self.mx += 1
-        if key_state[K_q]:
+        if key_state[pygame.K_q]:
             self.my -= 1
-        if key_state[K_a]:
+        if key_state[pygame.K_a]:
             self.my += 1
         self.rect.x += self.mx
         self.rect.y += self.my
@@ -768,13 +768,13 @@ def confirm_exit():
     while waiting:
         clock.tick(60)
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.QUIT:
                 pygame.quit()
-            if event.type == KEYUP:
+            if event.type == pygame.KEYUP:
             # exit by pressing ESC key
-                if event.key == K_y:                    
+                if event.key == pygame.K_y:                    
                     return True
-                elif event.key == K_n:  
+                elif event.key == pygame.K_n:  
                     return False
 
 # Main menu
@@ -790,12 +790,12 @@ def main_menu():
     while waiting:
         clock.tick(60)
         for event in pygame.event.get():
-            if event.type == QUIT:
+            if event.type == pygame.QUIT:
                 pygame.quit()
-            if event.type == KEYUP:
+            if event.type == pygame.KEYUP:
                 waiting = False
             # exit by pressing ESC key
-                if event.key == K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
 
@@ -807,18 +807,26 @@ def main_menu():
 # Main loop
 #===============================================================================
 
-# Initialisation
+# initialisation
 pygame.init()
 pygame.mixer.init()
+
+# read configuration file
+with open(jp(dp,'config.json'), 'r') as file:
+    config = json.load(file)
+cfg_full_screen = config['FULL_SCREEN']
+cfg_scanlines_type = config['SCANLINES_TYPE']
+
 # generates a main window (or full screen) 
 # with title, icon, and 32-bit colour.
 flags = 0
 if cfg_full_screen:
-    flags = FULLSCREEN
+    flags = pygame.FULLSCREEN
 screen = pygame.display.set_mode(WIN_SIZE, flags, 32)
 pygame.display.set_caption('.:: Red Planet Pi ::.')
 icon = pygame.image.load(jp(dp, 'images/assets/icon.png')).convert_alpha()
-pygame.display.set_icon(icon)   
+pygame.display.set_icon(icon)  
+
 # area covered by the map
 map_display = pygame.Surface(MAP_UNSCALED_SIZE)
 # surface to save the generated map without sprites
@@ -868,15 +876,15 @@ while True:
         # event management
         for event in pygame.event.get():
             # exit when click on the X in the window
-            if event.type == QUIT: 
+            if event.type == pygame.QUIT: 
                 exit()
-            if event.type == KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 # exit by pressing ESC key
-                if event.key == K_ESCAPE:
+                if event.key == pygame.K_ESCAPE:
                     if confirm_exit():
                         game_status = OVER # go to the main menu
                 # pause main loop
-                if event.key == K_h:
+                if event.key == pygame.K_h:
                     if game_status == RUNNING:
                         game_status = PAUSED
                         # mute the music if necessary
@@ -888,7 +896,7 @@ while True:
                         if music_status == UNMUTED:
                             pygame.mixer.music.play()
                 # mute music
-                if event.key == K_m :
+                if event.key == pygame.K_m :
                     if music_status == MUTED:
                         music_status = UNMUTED
                         pygame.mixer.music.play()
@@ -897,10 +905,10 @@ while True:
                         pygame.mixer.music.fadeout(1200)
 
                 # temp code ================
-                if event.key == K_RIGHT:
+                if event.key == pygame.K_RIGHT:
                     if map_number < 44:
                         map_number += 1
-                if event.key == K_LEFT:
+                if event.key == pygame.K_LEFT:
                     if map_number > 0:
                         map_number -= 1
                 # ==========================
