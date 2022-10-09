@@ -53,10 +53,6 @@ RUNNING, PAUSED, OVER = 0, 1, 2
 # music states
 UNMUTED, MUTED = 0, 1
 
-# configuration values
-cfg_scanlines_type = None  # 0 = none, 1 = fast, 2 = HQ
-cfg_full_screen = None # 0 = no, 1 = yes
-
 # colour palette (Pico8)
 PALETTE = {
     'BLACK': (0, 0, 0),
@@ -804,7 +800,7 @@ def main_menu():
 
 
 #===============================================================================
-# Main loop
+# Main
 #===============================================================================
 
 # initialisation
@@ -814,7 +810,9 @@ pygame.mixer.init()
 # read configuration file
 with open(jp(dp,'config.json'), 'r') as file:
     config = json.load(file)
+# 0 = no, 1 = yes
 cfg_full_screen = config['FULL_SCREEN']
+# 0 = none, 1 = fast, 2 = HQ
 cfg_scanlines_type = config['SCANLINES_TYPE']
 
 # generates a main window (or full screen) 

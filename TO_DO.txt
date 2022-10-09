@@ -3,7 +3,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Cargar/Guardar configuración en archivo
 - Gestión de Keko; movimiento y saltos
 - Tiles pasables, bloqueantes, matantes, y plataformas
 
@@ -62,6 +61,7 @@ HECHO
 28/09/22 - Bucle de juego, gameover y final
 03/10/22 - Nivel nuevo intermedio de hielo
 06/10/22 - Gestión de pantalla completa (raspberry/PC)
+09/10/22 - Cargar/Guardar configuración en archivo
 
 
 
