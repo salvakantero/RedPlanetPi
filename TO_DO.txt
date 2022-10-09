@@ -3,8 +3,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de Keko; movimiento y saltos
 - Tiles pasables, bloqueantes, matantes, y plataformas
+- Gestión de Keko; movimiento y saltos
 
 POR HACER
 =========
