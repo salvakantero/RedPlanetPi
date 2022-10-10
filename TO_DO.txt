@@ -17,6 +17,7 @@ POR HACER
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo MUNICIÓN
 - Gestión de objetos de tipo OXÍGENO
+- Gestión de plataformas móviles
 - Gestión de tiempo de oxígeno
 - Gestión de disparos de Keko
 - Teclas redefinibles
@@ -80,3 +81,10 @@ COLOCADOR
 2) LLave
 4) Munición
 5) Aire
+
+behs[]
+// 0 = Walkable (no action) [from T0 to T15]
+// 1 = Walkable and kills.
+// 4 = Platform (only stops player if falling on it) [T40]
+// 8 = Full obstacle (blocks player from all directions) [from T16 to T35]
+// 10 = special obstacle (pushing blocks OR locks!) [T60]

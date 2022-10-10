@@ -18,11 +18,8 @@ from pygame.constants import *
 
 
 #===============================================================================
-# Global variables
+# Constants and Global variables
 #===============================================================================
-
-dp = os.path.dirname(__file__) + '/' # exec path (+ '/' when using VS Code)
-jp = os.path.join # forms the folder/file path
 
 WIN_SIZE = 800, 640 # main window size
 MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)
@@ -32,20 +29,8 @@ SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 H_MARGIN = 40 # horizontal distance between the edge and the playing area
 V_MARGIN = 20 # vertical distance between the edge and the playing area
 
-# animated tiles
-anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
-ANIM_TILES = {
-    # frame_1   frame_2
-    'T4.png' : 'T70.png',   # computer 1
-    'T8.png' : 'T71.png',   # computer 2
-    'T9.png' : 'T72.png',   # corpse
-    'T25.png' : 'T73.png',  # toxic waste
-    'T29.png' : 'T74.png'   # lava
-}
-
-map_number = 0 # current map number
-last_map = -1 # last map loaded
-game_percent = 0 # % of gameplay completed
+# tile behaviours
+NO_ACTION, OBSTACLE, PLATFORM, ITEM, KILLER, DOOR = 0, 1, 2, 3, 4 
 
 # game states
 RUNNING, PAUSED, OVER = 0, 1, 2
@@ -316,9 +301,23 @@ ENEMIES_DATA = [
 	[0, 0, 0, 0, 0, 0, 0]
 ]
 
+# animated tiles
+ANIM_TILES = {
+    # frame_1   frame_2
+    'T4.png' : 'T70.png',   # computer 1
+    'T8.png' : 'T71.png',   # computer 2
+    'T9.png' : 'T72.png',   # corpse
+    'T80.png' : 'T82.png',  # toxic waste
+    'T81.png' : 'T83.png'   # lava
+}
 
-
-
+dp = os.path.dirname(__file__) + '/' # exec path (+ '/' when using VS Code)
+jp = os.path.join # forms the folder/file path
+map_number = 0 # current map number
+last_map = -1 # last map loaded
+game_percent = 0 # % of gameplay completed
+tile_behaviour_list = [] # (tile rect, behaviour type)
+anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 
 #===============================================================================
 # Auxiliar and generic functions
@@ -506,6 +505,7 @@ def process_map(map_file):
 
 # draws the tile map on the screen
 def draw_map(map_display):
+    tile_behaviour_list.clear()
     anim_tiles_list.clear()
     # scroll through the map data
     for y in range(0, map_data['height']):
@@ -517,6 +517,16 @@ def draw_map(map_display):
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
+
+            # generates the list of behaviour tiles of the current map
+            behaviour = NO_ACTION
+            if t['id'] > 15 and t['id'] <= 35: behaviour = OBSTACLE
+            elif t['id'] >= 50 and t['id'] <= 55: behaviour = ITEM
+            elif t['id'] >= 80 and t['id'] <= 85: behaviour = KILLER
+            elif t['id'] == 40: behaviour = PLATFORM
+            elif t['id'] == 60: behaviour = DOOR
+            tile_behaviour_list.append(tileRect, behaviour)     
+
             # generates the list of animated tiles of the current map
             # (frame_1, frame_2, x, y, num_frame)
             if t['image'] in ANIM_TILES.keys():                
