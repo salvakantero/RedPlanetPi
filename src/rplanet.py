@@ -4,6 +4,7 @@
 # salvaKantero 2022
 # ==============================================================================
 
+from distutils.command.clean import clean
 import pygame # pygame library functions
 import random # random()
 import os # path()
@@ -30,7 +31,7 @@ H_MARGIN = 40 # horizontal distance between the edge and the playing area
 V_MARGIN = 20 # vertical distance between the edge and the playing area
 
 # tile behaviours
-NO_ACTION, OBSTACLE, PLATFORM, ITEM, KILLER, DOOR = 0, 1, 2, 3, 4 
+NO_ACTION, OBSTACLE, PLATFORM, ITEM, KILLER, DOOR = 0, 1, 2, 3, 4, 5 
 
 # game states
 RUNNING, PAUSED, OVER = 0, 1, 2
@@ -316,7 +317,8 @@ jp = os.path.join # forms the folder/file path
 map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
-tile_behaviour_list = [] # (tile rect, behaviour type)
+tilemap_rect_list = [] # list of tile rects
+tilemap_behaviour_list = [] # tile 
 anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 
 #===============================================================================
@@ -505,7 +507,8 @@ def process_map(map_file):
 
 # draws the tile map on the screen
 def draw_map(map_display):
-    tile_behaviour_list.clear()
+    tilemap_rect_list.clear()
+    tilemap_behaviour_list.clear()
     anim_tiles_list.clear()
     # scroll through the map data
     for y in range(0, map_data['height']):
@@ -518,14 +521,15 @@ def draw_map(map_display):
             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
 
-            # generates the list of behaviour tiles of the current map
+            # generates the list of rects and behaviour of the current map
             behaviour = NO_ACTION
             if t['id'] > 15 and t['id'] <= 35: behaviour = OBSTACLE
             elif t['id'] >= 50 and t['id'] <= 55: behaviour = ITEM
             elif t['id'] >= 80 and t['id'] <= 85: behaviour = KILLER
             elif t['id'] == 40: behaviour = PLATFORM
             elif t['id'] == 60: behaviour = DOOR
-            tile_behaviour_list.append(tileRect, behaviour)     
+            tilemap_rect_list.append(tileRect)
+            tilemap_behaviour_list.append(behaviour)
 
             # generates the list of animated tiles of the current map
             # (frame_1, frame_2, x, y, num_frame)
@@ -665,7 +669,12 @@ class Player(pygame.sprite.Sprite):
             self.my += 1
         self.rect.x += self.mx
         self.rect.y += self.my
-
+        # tilemap collisions
+        index = self.rect.collidelist(tilemap_rect_list) 
+        beh = tilemap_behaviour_list[index]
+        if beh == OBSTACLE:
+            self.rect.x -= self.mx
+            self.rect.y -= self.my
 
 
 
@@ -961,7 +970,7 @@ while True:
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
     # FPS counter using the clock   
-    # aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
+    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
     # scale x 3 the scoreboard
     screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), 
@@ -972,4 +981,4 @@ while True:
     
     make_scanlines()
     pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    clock.tick() # 60 FPS
