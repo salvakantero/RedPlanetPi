@@ -9,7 +9,7 @@
  "name":"tileset",
  "spacing":0,
  "tilecount":41,
- "tiledversion":"1.8.2",
+ "tiledversion":"1.9.2",
  "tileheight":16,
  "tiles":[
         {
@@ -193,8 +193,8 @@
          "imagewidth":16
         }, 
         {
-         "id":25,
-         "image":"..\/images\/tiles\/T25.png",
+         "id":71,
+         "image":"..\/images\/tiles\/T70.png",
          "imageheight":16,
          "imagewidth":16
         }, 
@@ -217,8 +217,8 @@
          "imagewidth":16
         }, 
         {
-         "id":29,
-         "image":"..\/images\/tiles\/T29.png",
+         "id":72,
+         "image":"..\/images\/tiles\/T71.png",
          "imageheight":16,
          "imagewidth":16
         }, 
@@ -260,5 +260,5 @@
         }],
  "tilewidth":16,
  "type":"tileset",
- "version":"1.8"
+ "version":"1.9"
 }
