@@ -305,11 +305,11 @@ ENEMIES_DATA = [
 # animated tiles
 ANIM_TILES = {
     # frame_1   frame_2
-    'T4.png' : 'T70.png',   # computer 1
-    'T8.png' : 'T71.png',   # computer 2
-    'T9.png' : 'T72.png',   # corpse
-    'T80.png' : 'T82.png',  # toxic waste
-    'T81.png' : 'T83.png'   # lava
+    'T4.png' : 'T80.png',   # computer 1
+    'T8.png' : 'T81.png',   # computer 2
+    'T9.png' : 'T82.png',   # corpse
+    'T70.png' : 'T83.png',  # toxic waste
+    'T71.png' : 'T84.png'   # lava
 }
 
 dp = os.path.dirname(__file__) + '/' # exec path (+ '/' when using VS Code)
@@ -318,7 +318,7 @@ map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
 tilemap_rect_list = [] # list of tile rects
-tilemap_behaviour_list = [] # tile 
+tilemap_behaviour_list = [] # list of tile behaviours
 anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
 
 #===============================================================================
@@ -505,6 +505,12 @@ def process_map(map_file):
         data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
     return data
 
+# extracts the tile number from the filename
+def get_tile_number(tile_name):
+    result = tile_name.replace('.png', '')
+    result = result.replace('T', '')
+    return int(result)
+
 # draws the tile map on the screen
 def draw_map(map_display):
     tilemap_rect_list.clear()
@@ -522,14 +528,24 @@ def draw_map(map_display):
             map_display.blit(tile, tileRect)
 
             # generates the list of rects and behaviour of the current map
+            # from T0.png to T15.png: background tiles (NO_ACTION)
+            # from T16.png to T35.png: blocking tiles (OBSTABLE)
+            # T40.png: platform tile (PLATFORM)
+            # from T50.png to T55.png: object tiles (ITEM)
+            # T60.png: door tile (DOOR)
+            # from T70.png to T75.png: tiles that kill (KILLER)
+            # from T80.png: animated tiles (NO_ACTION)
+            tn = get_tile_number(t['image'])            
             behaviour = NO_ACTION
-            if t['id'] > 15 and t['id'] <= 35: behaviour = OBSTACLE
-            elif t['id'] >= 50 and t['id'] <= 55: behaviour = ITEM
-            elif t['id'] >= 80 and t['id'] <= 85: behaviour = KILLER
-            elif t['id'] == 40: behaviour = PLATFORM
-            elif t['id'] == 60: behaviour = DOOR
-            tilemap_rect_list.append(tileRect)
-            tilemap_behaviour_list.append(behaviour)
+            if tn >= 16 and tn <= 35: behaviour = OBSTACLE
+            elif tn == 40: behaviour = PLATFORM
+            elif tn >= 50 and tn <= 55: behaviour = ITEM
+            elif tn == 60: behaviour = DOOR
+            elif tn >= 70 and tn <= 75: behaviour = KILLER
+            # is only added to the list if there is an active behaviour
+            if behaviour != NO_ACTION:
+                tilemap_rect_list.append(tileRect)
+                tilemap_behaviour_list.append(behaviour)
 
             # generates the list of animated tiles of the current map
             # (frame_1, frame_2, x, y, num_frame)
