@@ -687,10 +687,11 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.my
         # tilemap collisions
         index = self.rect.collidelist(tilemap_rect_list) 
-        beh = tilemap_behaviour_list[index]
-        if beh == OBSTACLE:
-            self.rect.x -= self.mx
-            self.rect.y -= self.my
+        if index >= 0:
+            beh = tilemap_behaviour_list[index]
+            if beh == OBSTACLE:
+                self.rect.x -= self.mx
+                self.rect.y -= self.my
 
 
 
