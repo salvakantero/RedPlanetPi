@@ -4,7 +4,8 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Tiles pasables, bloqueantes, matantes, y plataformas
-- Gestión de Keko; movimiento y saltos
+- Cambio de mapa según posición XY del player
+- Gestión del player (movimiento, animación, saltos, gravedad) 
 
 POR HACER
 =========
@@ -63,7 +64,6 @@ HECHO
 03/10/22 - Nivel nuevo intermedio de hielo
 06/10/22 - Gestión de pantalla completa (raspberry/PC)
 09/10/22 - Cargar/Guardar configuración en archivo
-
 
 
 
