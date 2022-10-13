@@ -4,7 +4,6 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Tiles pasables, bloqueantes, matantes, y plataformas
-- Cambio de mapa según posición XY del player
 - Gestión del player (movimiento, animación, saltos, gravedad) 
 
 POR HACER
@@ -28,6 +27,8 @@ POR HACER
 
 OPCIONAL
 ========
+- Animación al cambiar de mapa
+- Animación al abrir puerta
 - Usar sistema de partículas para explosiones
 - Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
@@ -64,7 +65,7 @@ HECHO
 03/10/22 - Nivel nuevo intermedio de hielo
 06/10/22 - Gestión de pantalla completa (raspberry/PC)
 09/10/22 - Cargar/Guardar configuración en archivo
-
+13/10/22 - Cambio de mapa según posición XY del player
 
 
 GREETINGS

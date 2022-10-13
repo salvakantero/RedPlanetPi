@@ -790,9 +790,11 @@ class Enemy(pygame.sprite.Sprite):
 #===============================================================================
 
 def confirm_exit():
-    message_box('Leave the current game?', 'PRESS Y / ENTER TO EXIT OR N TO CONTINUE')
-    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), (H_MARGIN, V_MARGIN))        
-    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
+    message_box('Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE')
+    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), 
+        (H_MARGIN, V_MARGIN))        
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), 
+        (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
     make_scanlines()
     pygame.display.update()
     waiting = True
@@ -829,6 +831,30 @@ def main_menu():
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+
+# check map boundary (to change it)
+def check_map_change(x, y):
+    global map_number
+    # player disappears on the left
+    # appearing from the right on the new map
+    if x < -16:
+        map_number -= 1
+        player.rect.right = MAP_UNSCALED_SIZE[0]
+    # player disappears on the right
+    # appearing from the left on the new map
+    elif x > MAP_UNSCALED_SIZE[0]:
+        map_number += 1
+        player.rect.left = 0
+    # player disappears over the top
+    # appearing at the bottom of the new map
+    elif y < (-16):
+        map_number -= 5
+        player.rect.bottom = MAP_UNSCALED_SIZE[1]
+    # player disappears from underneath
+    #appearing at the top of the new map
+    elif y > MAP_UNSCALED_SIZE[1]:
+        map_number += 5
+        player.rect.top = 0
 
 
 
@@ -901,9 +927,10 @@ while True:
         player = Player()
         # ingame music
         pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
-        pygame.mixer.music.play(-1)
+        #pygame.mixer.music.play(-1)
         # reset variables
         game_status = RUNNING
+        map_number = 0
         last_map = -1
     else: # game running or paused
         # event management
@@ -982,6 +1009,8 @@ while True:
             animate_tiles()
             # print sprites
             all_sprites_group.draw(map_display)
+            # check map change using player's coordinates
+            check_map_change(player.rect.x, player.rect.y)
         elif game_status == PAUSED:            
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
@@ -997,4 +1026,4 @@ while True:
     
     make_scanlines()
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS
