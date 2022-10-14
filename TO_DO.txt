@@ -33,6 +33,7 @@ OPCIONAL
 - Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
 - Score y High?
+- Highs online
 - Tabla de mejores puntuaciones
 - Objetos para puntuar (diamantes, joyas, regalos)
 

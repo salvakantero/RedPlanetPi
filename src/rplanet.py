@@ -832,7 +832,7 @@ def main_menu():
                     pygame.quit()
                     sys.exit()
 
-# check map boundary (to change it)
+# checks if the map needs to be changed (depending on the player's XY position)
 def check_map_change(x, y):
     global map_number
     # player disappears on the left
@@ -1025,5 +1025,5 @@ while True:
         (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
     
     make_scanlines()
-    pygame.display.update() # refreshes the screen
+    #pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
