@@ -506,9 +506,9 @@ def process_map(map_file):
 
 # extracts the tile number from the filename
 def get_tile_number(tile_name):
-    result = tile_name.replace('.png', '')
-    result = result.replace('T', '')
-    return int(result)
+    tile_name = tile_name.replace('.png', '')
+    tile_name = tile_name.replace('T', '')
+    return int(tile_name)
 
 # draws the tile map on the screen
 def draw_map(map_display):
@@ -856,7 +856,8 @@ def check_map_change(x, y):
         map_number += 5
         player.rect.top = 0
 
-
+def map_scroll():
+    pass
 
 
 
@@ -890,6 +891,8 @@ pygame.display.set_icon(icon)
 map_display = pygame.Surface(MAP_UNSCALED_SIZE)
 # surface to save the generated map without sprites
 map_display_backup = pygame.Surface(MAP_UNSCALED_SIZE)
+# surface to save the old and the new map together, and scroll
+map_display_scroll = pygame.Surface((MAP_UNSCALED_SIZE[0]*2, MAP_UNSCALED_SIZE[1]))
 # area covered by the scoreboard
 sboard_display = pygame.Surface(SBOARD_UNSCALED_SIZE)
 # surface for HQ scanlines
@@ -976,8 +979,12 @@ while True:
         # change map if neccessary
         if map_number != last_map:
             load_map(map_number, map_display)
+            # save the old map and the new map for scrolling effect
+            map_display_scroll.blit(map_display_backup, (0,0))
+            map_display_scroll.blit(map_display, (MAP_UNSCALED_SIZE[0],0))            
             # save the new empty background
             map_display_backup.blit(map_display, (0,0))
+            map_scroll()
             draw_map_info()
             init_scoreboard()
             update_scoreboard()
@@ -1025,5 +1032,5 @@ while True:
         (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
     
     make_scanlines()
-    #pygame.display.update() # refreshes the screen
+    pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
