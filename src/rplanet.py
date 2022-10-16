@@ -878,26 +878,43 @@ def check_map_change(x, y):
         map_number += 5
         player.rect.top = 0
 
-def map_scroll():
+# makes a screen transition between the old map and the new one.
+def map_transition():
     # surfaces to save the old and the new map together
-    map_scroll_horiz = pygame.Surface((MAP_UNSCALED_SIZE[0]*2, MAP_UNSCALED_SIZE[1]))
-    map_scroll_vert = pygame.Surface((MAP_UNSCALED_SIZE[0], MAP_UNSCALED_SIZE[1]*2))
+    map_trans_horiz = pygame.Surface((MAP_UNSCALED_SIZE[0]*2, MAP_UNSCALED_SIZE[1]))
+    map_trans_vert = pygame.Surface((MAP_UNSCALED_SIZE[0], MAP_UNSCALED_SIZE[1]*2))
 
     if player.dir == UP:
-        for x in range(0, -MAP_UNSCALED_SIZE[0], -4):
-            map_display.blit(map_scroll_vert, (x, 0))
+        # joins the two maps on a single surface
+        map_trans_vert.blit(map_display_backup, (0,0))
+        map_trans_vert.blit(map_display_backup_old, (0, MAP_UNSCALED_SIZE[1]))
+        # scrolls the two maps across the screen
+        for y in range(-MAP_UNSCALED_SIZE[1], 0, 4):
+            map_display.blit(map_trans_vert, (0, y))
             refresh_screen()
     elif player.dir == DOWN:
+        # joins the two maps on a single surface
+        map_trans_vert.blit(map_display_backup_old, (0,0))
+        map_trans_vert.blit(map_display_backup, (0, MAP_UNSCALED_SIZE[1]))
+        # scrolls the two maps across the screen
         for y in range(0, -MAP_UNSCALED_SIZE[1], -4):
-            map_display.blit(map_scroll_vert, (0, y))
+            map_display.blit(map_trans_vert, (0, y))
             refresh_screen()
     elif player.dir == LEFT:
-        for x in range(-MAP_UNSCALED_SIZE[0], 0, 4):
-            map_display.blit(map_scroll_horiz, (x, 0))
+        # joins the two maps on a single surface
+        map_trans_horiz.blit(map_display_backup, (0,0))
+        map_trans_horiz.blit(map_display_backup_old, (MAP_UNSCALED_SIZE[0], 0))
+        # scrolls the two maps across the screen
+        for x in range(-MAP_UNSCALED_SIZE[0], 0, 6):
+            map_display.blit(map_trans_horiz, (x, 0))
             refresh_screen()
     elif player.dir == RIGHT:
-        for x in range(0, -MAP_UNSCALED_SIZE[0], -4):
-            map_display.blit(map_scroll_horiz, (x, 0))
+        # joins the two maps on a single surface
+        map_trans_horiz.blit(map_display_backup_old, (0,0))
+        map_trans_horiz.blit(map_display_backup, (MAP_UNSCALED_SIZE[0], 0))
+        # scrolls the two maps across the screen
+        for x in range(0, -MAP_UNSCALED_SIZE[0], -6):
+            map_display.blit(map_trans_horiz, (x, 0))
             refresh_screen()
 
 
@@ -919,6 +936,8 @@ with open(jp(dp,'config.json'), 'r') as file:
 cfg_full_screen = config['FULL_SCREEN']
 # 0 = none, 1 = fast, 2 = HQ
 cfg_scanlines_type = config['SCANLINES_TYPE']
+# 0 = no, 1 = yes
+cfg_map_transition = config['MAP_TRANSITION']
 
 # generates a main window (or full screen) 
 # with title, icon, and 32-bit colour.
@@ -936,9 +955,13 @@ map_display = pygame.Surface(MAP_UNSCALED_SIZE)
 map_display_backup = pygame.Surface(MAP_UNSCALED_SIZE)
 # area covered by the scoreboard
 sboard_display = pygame.Surface(SBOARD_UNSCALED_SIZE)
+# surface to save the previous map (transition effect between screens)
+if cfg_map_transition:
+    map_display_backup_old = pygame.Surface(MAP_UNSCALED_SIZE)
 # surface for HQ scanlines
-screen_sl = pygame.Surface(WIN_SIZE)
-screen_sl.set_alpha(40)
+if cfg_scanlines_type == 2:
+    screen_sl = pygame.Surface(WIN_SIZE)
+    screen_sl.set_alpha(40)
 
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', PALETTE['GREEN'], True)
@@ -1020,16 +1043,18 @@ while True:
         # change map if neccessary
         if map_number != last_map:
             load_map(map_number, map_display)
-            # save the old map and the new map for scrolling effect
-            map_display_scroll.blit(map_display_backup, (0,0))
-            map_display_scroll.blit(map_display, (MAP_UNSCALED_SIZE[0],0))            
+            # preserves the previous 
+            if cfg_map_transition:
+                map_display_backup_old.blit(map_display_backup, (0,0))
             # save the new empty background
             map_display_backup.blit(map_display, (0,0))
-            map_scroll()
             draw_map_info()
             init_scoreboard()
             update_scoreboard()
-            last_map = map_number        
+            last_map = map_number
+            # performs the screen transition
+            if cfg_map_transition:
+                map_transition()        
             # reset the groups  
             all_sprites_group.empty()
             enemies_group.empty()
