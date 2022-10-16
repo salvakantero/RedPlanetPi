@@ -687,9 +687,9 @@ class Player(pygame.sprite.Sprite):
         if key_state[pygame.K_q]:
             self.my -= 1
             self.dir = UP
-        if key_state[pygame.K_a]:
-            self.dir = DOWN
+        if key_state[pygame.K_a]:            
             self.my += 1
+            self.dir = DOWN
         self.rect.x += self.mx
         self.rect.y += self.my
         # tilemap collisions
@@ -879,21 +879,25 @@ def check_map_change(x, y):
         player.rect.top = 0
 
 def map_scroll():
+    # surfaces to save the old and the new map together
+    map_scroll_horiz = pygame.Surface((MAP_UNSCALED_SIZE[0]*2, MAP_UNSCALED_SIZE[1]))
+    map_scroll_vert = pygame.Surface((MAP_UNSCALED_SIZE[0], MAP_UNSCALED_SIZE[1]*2))
+
     if player.dir == UP:
         for x in range(0, -MAP_UNSCALED_SIZE[0], -4):
-            map_display.blit(map_display_scroll, (x, 0))
+            map_display.blit(map_scroll_vert, (x, 0))
             refresh_screen()
     elif player.dir == DOWN:
         for y in range(0, -MAP_UNSCALED_SIZE[1], -4):
-            map_display.blit(map_display_scroll, (0, y))
+            map_display.blit(map_scroll_vert, (0, y))
             refresh_screen()
     elif player.dir == LEFT:
         for x in range(-MAP_UNSCALED_SIZE[0], 0, 4):
-            map_display.blit(map_display_scroll, (x, 0))
+            map_display.blit(map_scroll_horiz, (x, 0))
             refresh_screen()
     elif player.dir == RIGHT:
         for x in range(0, -MAP_UNSCALED_SIZE[0], -4):
-            map_display.blit(map_display_scroll, (x, 0))
+            map_display.blit(map_scroll_horiz, (x, 0))
             refresh_screen()
 
 
@@ -930,8 +934,6 @@ pygame.display.set_icon(icon)
 map_display = pygame.Surface(MAP_UNSCALED_SIZE)
 # surface to save the generated map without sprites
 map_display_backup = pygame.Surface(MAP_UNSCALED_SIZE)
-# surface to save the old and the new map together
-map_display_scroll = pygame.Surface((MAP_UNSCALED_SIZE[0]*2, MAP_UNSCALED_SIZE[1]))
 # area covered by the scoreboard
 sboard_display = pygame.Surface(SBOARD_UNSCALED_SIZE)
 # surface for HQ scanlines
