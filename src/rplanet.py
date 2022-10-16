@@ -35,6 +35,9 @@ NO_ACTION, OBSTACLE, PLATFORM, ITEM, KILLER, DOOR = 0, 1, 2, 3, 4, 5
 # game states
 RUNNING, PAUSED, OVER = 0, 1, 2
 
+# directions
+UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
+
 # music states
 UNMUTED, MUTED = 0, 1
 
@@ -647,6 +650,7 @@ class Player(pygame.sprite.Sprite):
         self.ammo = 5
         self.keys = 0
         self.explosives = 0
+        self.dir = RIGHT
         # images
         num_frames = 3
         self.images = []
@@ -676,11 +680,15 @@ class Player(pygame.sprite.Sprite):
         key_state = pygame.key.get_pressed()
         if key_state[pygame.K_o]:
             self.mx -= 1
+            self.dir = LEFT
         if key_state[pygame.K_p]:
             self.mx += 1
+            self.dir = RIGHT
         if key_state[pygame.K_q]:
             self.my -= 1
+            self.dir = UP
         if key_state[pygame.K_a]:
+            self.dir = DOWN
             self.my += 1
         self.rect.x += self.mx
         self.rect.y += self.my
@@ -815,8 +823,10 @@ def main_menu():
     map_display.fill(PALETTE['BLACK'])
     sboard_display.fill(PALETTE['BLACK'])
     message_box('Red Planet Pi', 'WIP. Press a key to continue')
-    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), (H_MARGIN, V_MARGIN))     
-    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
+    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), 
+        (H_MARGIN, V_MARGIN))     
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), 
+        (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
     make_scanlines()
     pygame.display.update()
     waiting = True
@@ -831,6 +841,18 @@ def main_menu():
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+
+#dumps and scales surfaces to the screen
+def refresh_screen():
+    # scale x 3 the scoreboard
+    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), 
+        (H_MARGIN, V_MARGIN))
+    # scale x 3 the map
+    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), 
+        (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
+    make_scanlines()
+    pygame.display.update() # refreshes the screen
+    clock.tick(60) # 60 FPS
 
 # checks if the map needs to be changed (depending on the player's XY position)
 def check_map_change(x, y):
@@ -857,7 +879,24 @@ def check_map_change(x, y):
         player.rect.top = 0
 
 def map_scroll():
-    pass
+    if player.dir == UP:
+        for x in range(0, -MAP_UNSCALED_SIZE[0], -4):
+            map_display.blit(map_display_scroll, (x, 0))
+            refresh_screen()
+    elif player.dir == DOWN:
+        for y in range(0, -MAP_UNSCALED_SIZE[1], -4):
+            map_display.blit(map_display_scroll, (0, y))
+            refresh_screen()
+    elif player.dir == LEFT:
+        for x in range(-MAP_UNSCALED_SIZE[0], 0, 4):
+            map_display.blit(map_display_scroll, (x, 0))
+            refresh_screen()
+    elif player.dir == RIGHT:
+        for x in range(0, -MAP_UNSCALED_SIZE[0], -4):
+            map_display.blit(map_display_scroll, (x, 0))
+            refresh_screen()
+
+
 
 
 
@@ -891,7 +930,7 @@ pygame.display.set_icon(icon)
 map_display = pygame.Surface(MAP_UNSCALED_SIZE)
 # surface to save the generated map without sprites
 map_display_backup = pygame.Surface(MAP_UNSCALED_SIZE)
-# surface to save the old and the new map together, and scroll
+# surface to save the old and the new map together
 map_display_scroll = pygame.Surface((MAP_UNSCALED_SIZE[0]*2, MAP_UNSCALED_SIZE[1]))
 # area covered by the scoreboard
 sboard_display = pygame.Surface(SBOARD_UNSCALED_SIZE)
@@ -1024,13 +1063,4 @@ while True:
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
-    # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_display, SBOARD_SCALED_SIZE), 
-        (H_MARGIN, V_MARGIN))
-    # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_display, MAP_SCALED_SIZE), 
-        (H_MARGIN, SBOARD_SCALED_SIZE[1] + V_MARGIN))
-    
-    make_scanlines()
-    pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    refresh_screen()
