@@ -47,7 +47,8 @@ def load_font_img(path, font_color, is_transparent):
 # creates a new font from an image path and a colour
 class Font():
     def __init__(self, path, color, transparent):
-        self.letters, self.letter_spacing, self.line_height = load_font_img(path, color, transparent)
+        self.letters, self.letter_spacing, self.line_height = load_font_img(
+            path, color, transparent)
         self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
         'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e',
         'f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w',
@@ -64,8 +65,10 @@ class Font():
         for char in text:
             if char not in ['\n', ' ']:
                 # draw the letter and add the width
-                surf.blit(self.letters[self.font_order.index(char)], (loc[0] + x_offset, loc[1] + y_offset))
-                x_offset += self.letter_spacing[self.font_order.index(char)] + self.base_spacing
+                surf.blit(self.letters[self.font_order.index(char)], 
+                    (loc[0] + x_offset, loc[1] + y_offset))
+                x_offset += self.letter_spacing[
+                    self.font_order.index(char)] + self.base_spacing
             elif char == ' ':
                 x_offset += self.space_width + self.base_spacing
             else: # line feed
