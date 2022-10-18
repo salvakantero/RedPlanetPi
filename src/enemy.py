@@ -3,7 +3,7 @@
 #===============================================================================
 
 import pygame
-from globalvars import jp, dp
+from globalvars import jp, dp # to build file paths
 
 # calculates the distance between two points
 def distance (x1, y1, x2, y2):

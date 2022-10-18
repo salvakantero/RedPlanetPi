@@ -2,7 +2,7 @@
 # Font class
 #===============================================================================
 
-import pygame # pygame library functions
+import pygame
 from globalvars import dp, jp # to build file paths
 
 # change one colour for another

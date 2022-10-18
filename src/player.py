@@ -5,7 +5,7 @@
 import pygame
 import enums
 import globalvars
-from globalvars import jp, dp
+from globalvars import jp, dp # to build file paths
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):

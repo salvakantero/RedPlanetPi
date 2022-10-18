@@ -14,11 +14,11 @@ from pygame.constants import *
 # own code
 from globalvars import *
 import constants, enums
-import font
-import config
-import tiled
-from player import Player
-from enemy import Enemy
+import config # configuration file
+import tiled # maps and tiles
+from font import Font # font class
+from player import Player # player class
+from enemy import Enemy # enemy class
 
 
 
@@ -128,7 +128,7 @@ def message_box(message1, message2):
     x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
     y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
     pygame.draw.rect(map_display, constants.PALETTE['BLACK'],(x, y, width, height))
-    # paints the text centred inside the box (Y positions are fixed)
+    # draws the text centred inside the box (Y positions are fixed)
     text_x = (x + (width//2)) - (message1_len//2)
     text_y = y + 5
     bg_font_L.render(message1, map_display, (text_x, text_y))
@@ -244,6 +244,39 @@ def map_transition():
             map_display.blit(map_trans_horiz, (x, 0))
             refresh_screen()
 
+# does everything necessary to change the map
+def change_map():
+    # sets the new map as the current one
+    global last_map
+    last_map = map_number
+    # load the new map
+    tiled.load_map(map_number, map_display)
+    # preserves the previous 
+    if cfg_map_transition:
+        map_display_backup_old.blit(map_display_backup, (0,0))
+    # save the new empty background
+    map_display_backup.blit(map_display, (0,0))
+    # refresh the scoreboard area
+    draw_map_info()
+    init_scoreboard()
+    update_scoreboard()
+    # performs the screen transition
+    if cfg_map_transition:
+        map_transition()        
+    # reset the groups  
+    all_sprites_group.empty()
+    enemies_group.empty()
+    # add the player  
+    all_sprites_group.add(player)
+    # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
+    # (a maximum of three enemies per map)
+    for i in range(3):
+        enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
+        if enemy_data[6] != 0: # no enemy
+            enemy = Enemy(enemy_data)
+            all_sprites_group.add(enemy)
+            enemies_group.add(enemy)
+
 
 
 #===============================================================================
@@ -269,10 +302,10 @@ pygame.display.set_icon(icon)
 
 # area covered by the map
 map_display = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-# surface to save the generated map without sprites
-map_display_backup = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # area covered by the scoreboard
 sboard_display = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
+# surface to save the generated map without sprites
+map_display_backup = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface to save the previous map (transition effect between screens)
 if cfg_map_transition:
     map_display_backup_old = pygame.Surface(constants.MAP_UNSCALED_SIZE)
@@ -282,11 +315,11 @@ if cfg_scanlines_type == 2:
     screen_sl.set_alpha(40)
 
 # fonts
-fg_font_S = font.Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
-bg_font_S = font.Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
-fg_font_L = font.Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
-bg_font_L = font.Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
-aux_font_L = font.Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], False)
+fg_font_S = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
+bg_font_S = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
+fg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
+bg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
+aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], False)
 
 # scoreboard icons
 lives_icon = pygame.image.load(jp(dp, 'images/assets/lives.png')).convert()
@@ -360,32 +393,7 @@ while True:
 
         # change map if neccessary
         if map_number != last_map:
-            tiled.load_map(map_number, map_display)
-            # preserves the previous 
-            if cfg_map_transition:
-                map_display_backup_old.blit(map_display_backup, (0,0))
-            # save the new empty background
-            map_display_backup.blit(map_display, (0,0))
-            draw_map_info()
-            init_scoreboard()
-            update_scoreboard()
-            last_map = map_number
-            # performs the screen transition
-            if cfg_map_transition:
-                map_transition()        
-            # reset the groups  
-            all_sprites_group.empty()
-            enemies_group.empty()
-            # add the player  
-            all_sprites_group.add(player)
-            # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
-            # (a maximum of three enemies per map)
-            for i in range(3):
-                enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
-                if enemy_data[6] != 0: # no enemy
-                    enemy = Enemy(enemy_data)
-                    all_sprites_group.add(enemy)
-                    enemies_group.add(enemy)
+            change_map()
 
         if game_status == enums.RUNNING:
             # update sprites
@@ -394,18 +402,19 @@ while True:
             if player.lives == 0:
                 # print game over message
                 game_status = enums.OVER
-            # paint the map free of sprites to clean it up
+            # draws the map free of sprites to clean it up
             map_display.blit(map_display_backup, (0,0))
             # and change the frame of the animated tiles
             map_display_backup = tiled.animate_tiles(map_display_backup)
             # print sprites
             all_sprites_group.draw(map_display)
             # check map change using player's coordinates
+            # if the player leaves, the map number changes
             check_map_change(player)
         elif game_status == enums.PAUSED:            
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
     # FPS counter using the clock   
-    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
+    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
     refresh_screen()

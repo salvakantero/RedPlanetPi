@@ -3,7 +3,7 @@
 #===============================================================================
 
 import json
-from globalvars import jp, dp
+from globalvars import jp, dp # to build file paths
 
 def read():
     # read configuration file

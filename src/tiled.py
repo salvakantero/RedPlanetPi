@@ -8,7 +8,7 @@ import json
 import random
 
 import constants, enums, globalvars
-from globalvars import jp, dp
+from globalvars import jp, dp # to build file paths
 
 # loads a map and draws it on screen
 def load_map(map_number, map_display):
