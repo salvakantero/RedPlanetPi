@@ -5,6 +5,7 @@
 import pygame
 import os
 import json
+import random
 
 import constants, enums, globalvars
 from globalvars import jp, dp
@@ -98,3 +99,18 @@ def draw_map(map_display):
                     [tile, pygame.image.load(jp(dp, 'images/tiles/' 
                     + constants.ANIM_TILES[t['image']])).convert(), 
                     tileRect.topleft[0], tileRect.topleft[1], 0])                 
+
+# select some of the animated tiles on the current map to change the frame
+# and apply to the surface
+def animate_tiles(surf):
+    for anim_tile in globalvars.anim_tiles_list: # for each animated tile on the map
+        if random.randint(0,24) == 0: # 4% chance of changing frame
+            tile = anim_tile[0+anim_tile[4]] # select image according to frame number
+            tileRect = tile.get_rect()
+            tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
+            surf.blit(tile, tileRect) # draws on the background image
+            # update frame number
+            anim_tile[4] += 1
+            if anim_tile[4] > 1:
+                anim_tile[4] = 0    
+    return surf                   

@@ -5,7 +5,6 @@
 # ==============================================================================
 
 import pygame # pygame library functions
-import random # random()
 import sys # exit()
 
 # allows constants without typing "pygame."
@@ -24,22 +23,8 @@ from enemy import Enemy
 
 
 #===============================================================================
-# Auxiliar and generic functions
+# Main functions
 #===============================================================================
-
-# get a value from a dictionary
-def find_data(lst, key, value):
-    for i, dic in enumerate(lst):
-        if dic[key] == value:
-            return dic
-    return -1
-
-def limit(val, min, max):
-    if val < min:
-        return min
-    elif val > max:
-        return max
-    return val
 
 # draws scanlines
 def scanlines(surface, height, from_x, to_x, rgb):
@@ -57,37 +42,6 @@ def make_scanlines():
     elif cfg_scanlines_type == 1: # fast
         scanlines(screen, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
             constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
-
-# draws a centred message box erasing the background
-def message_box(message1, message2):
-    # calculates the dimensions of the box
-    height = 36
-    message1_len = len(message1) * 7 # approximate length of text 1 in pixels
-    message2_len = len(message2) * 4 # approximate length of text 2 in pixels
-    # width = length of the longest text + margin
-    if message1_len > message2_len:
-        width = message1_len + constants.V_MARGIN
-    else:
-        width = message2_len + constants.V_MARGIN
-    # calculates the position of the box
-    x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
-    y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
-    pygame.draw.rect(map_display, constants.PALETTE['BLACK'],(x, y, width, height))
-    # paints the text centred inside the box (Y positions are fixed)
-    text_x = (x + (width//2)) - (message1_len//2)
-    text_y = y + 5
-    bg_font_L.render(message1, map_display, (text_x, text_y))
-    fg_font_L.render(message1, map_display, (text_x - 2, text_y - 2))
-    text_x = (x + (width//2)) - (message2_len//2)
-    text_y = y + 24
-    bg_font_S.render(message2, map_display, (text_x, text_y))
-    fg_font_S.render(message2, map_display, (text_x - 1, text_y - 1))
-
-
-
-#===============================================================================
-# Scoreboard functions
-#===============================================================================
 
 # draws the name of the map and other data at the top
 def draw_map_info():
@@ -119,6 +73,7 @@ def draw_map_info():
     bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
     fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
 
+# resets the scoreboard data to zero
 def init_scoreboard():
     # icons
     sboard_display.blit(lives_icon, (0, 2))
@@ -132,6 +87,7 @@ def init_scoreboard():
     bg_font_L.render('+15', sboard_display, (220, 6))
     fg_font_L.render('+15', sboard_display, (218, 4))
 
+# update the scoreboard data
 def update_scoreboard():
     # values
     bg_font_L.render(str(player.lives).rjust(2, '0'), sboard_display, (20, 6))
@@ -145,12 +101,44 @@ def update_scoreboard():
     bg_font_L.render(str(player.explosives).rjust(2, '0'), sboard_display, (206, 6))
     fg_font_L.render(str(player.explosives).rjust(2, '0'), sboard_display, (204, 4))
 
+#dumps and scales surfaces to the screen
+def refresh_screen():
+    # scale x 3 the scoreboard
+    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.V_MARGIN))
+    # scale x 3 the map
+    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
+    make_scanlines()
+    pygame.display.update() # refreshes the screen
+    clock.tick() # 60 FPS
 
+# draws a centred message box erasing the background
+def message_box(message1, message2):
+    # calculates the dimensions of the box
+    height = 36
+    message1_len = len(message1) * 7 # approximate length of text 1 in pixels
+    message2_len = len(message2) * 4 # approximate length of text 2 in pixels
+    # width = length of the longest text + margin
+    if message1_len > message2_len:
+        width = message1_len + constants.V_MARGIN
+    else:
+        width = message2_len + constants.V_MARGIN
+    # calculates the position of the box
+    x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
+    y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
+    pygame.draw.rect(map_display, constants.PALETTE['BLACK'],(x, y, width, height))
+    # paints the text centred inside the box (Y positions are fixed)
+    text_x = (x + (width//2)) - (message1_len//2)
+    text_y = y + 5
+    bg_font_L.render(message1, map_display, (text_x, text_y))
+    fg_font_L.render(message1, map_display, (text_x - 2, text_y - 2))
+    text_x = (x + (width//2)) - (message2_len//2)
+    text_y = y + 24
+    bg_font_S.render(message2, map_display, (text_x, text_y))
+    fg_font_S.render(message2, map_display, (text_x - 1, text_y - 1))
 
-#===============================================================================
-# Main functions
-#===============================================================================
-
+# displays a message to confirm exit
 def confirm_exit():
     message_box('Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE')
     screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
@@ -172,18 +160,6 @@ def confirm_exit():
                 elif event.key == pygame.K_n:  
                     return False
 
-#dumps and scales surfaces to the screen
-def refresh_screen():
-    # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.V_MARGIN))
-    # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    make_scanlines()
-    #pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
-    
 # Main menu
 def main_menu():
     map_display.fill(constants.PALETTE['BLACK'])
@@ -204,26 +180,26 @@ def main_menu():
                     sys.exit()
 
 # checks if the map needs to be changed (depending on the player's XY position)
-def check_map_change(x, y):
+def check_map_change(player):
     global map_number
     # player disappears on the left
     # appearing from the right on the new map
-    if x < -16:
+    if player.rect.x < -16:
         map_number -= 1
         player.rect.right = constants.MAP_UNSCALED_SIZE[0]
     # player disappears on the right
     # appearing from the left on the new map
-    elif x > constants.MAP_UNSCALED_SIZE[0]:
+    elif player.rect.x > constants.MAP_UNSCALED_SIZE[0]:
         map_number += 1
         player.rect.left = 0
     # player disappears over the top
     # appearing at the bottom of the new map
-    elif y < (-16):
+    elif player.rect.y < (-16):
         map_number -= 5
         player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]
     # player disappears from underneath
     #appearing at the top of the new map
-    elif y > constants.MAP_UNSCALED_SIZE[1]:
+    elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
         map_number += 5
         player.rect.top = 0
 
@@ -268,18 +244,7 @@ def map_transition():
             map_display.blit(map_trans_horiz, (x, 0))
             refresh_screen()
 
-# select some of the animated tiles on the current map to change the frame
-def animate_tiles():
-    for anim_tile in anim_tiles_list: # for each animated tile on the map
-        if random.randint(0,24) == 0: # 4% chance of changing frame
-            tile = anim_tile[0+anim_tile[4]] # select image according to frame number
-            tileRect = tile.get_rect()
-            tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
-            map_display_backup.blit(tile, tileRect) # draws on the background image
-            # update frame number
-            anim_tile[4] += 1
-            if anim_tile[4] > 1:
-                anim_tile[4] = 0   
+
 
 #===============================================================================
 # Main
@@ -432,11 +397,11 @@ while True:
             # paint the map free of sprites to clean it up
             map_display.blit(map_display_backup, (0,0))
             # and change the frame of the animated tiles
-            animate_tiles()
+            map_display_backup = tiled.animate_tiles(map_display_backup)
             # print sprites
             all_sprites_group.draw(map_display)
             # check map change using player's coordinates
-            check_map_change(player.rect.x, player.rect.y)
+            check_map_change(player)
         elif game_status == enums.PAUSED:            
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 

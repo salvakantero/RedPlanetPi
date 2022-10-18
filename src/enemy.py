@@ -15,6 +15,14 @@ def distance (x1, y1, x2, y2):
         mn = dy
     return(dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
 
+# maintains a value within limits
+def limit(val, min, max):
+    if val < min:
+        return min
+    elif val > max:
+        return max
+    return val
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data): # x1, y1, x2, y2, mx, my, type
         super(Enemy, self).__init__()
