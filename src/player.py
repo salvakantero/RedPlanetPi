@@ -20,7 +20,6 @@ class Player(pygame.sprite.Sprite):
         self.explosives = 0
         self.dir = enums.RIGHT
         self.y_velocity = 0
-        self.jump_velocity = -7
         
         # images
         num_frames = 3
@@ -69,31 +68,15 @@ class Player(pygame.sprite.Sprite):
         playeronground = False
         ydist = 0
         index = newpositiony.collidelist(globalvars.tilemap_rect_list) 
-
-
-    # for p in platforms:
-    #     y_collision = newplayerpositiony.colliderect(p) or y_collision
-    #     # player collided with ground if player's y position is
-    #     # lower than the y position of the platform
-    #     if newplayerpositiony.colliderect(p) and (player.y < p.y):
-    #         playeronground = True or playeronground
-    #         # stick the player to the ground
-    #         player.y = p.y - player.h
-
-    # # player no longer has vertical velocity
-    # # if colliding with a platform
-    # if y_collision:
-    #     player.y_velocity = 0
-    # # only allow the player to move if it
-    # # doesn't collide with any platforms
-    # else:
-    #     player.y = newy
-
-    # # pressing space sets a negative vertical velocity
-    # # only if player is on the ground
-    # if keyboard.space and playeronground:
-    #     player.y_velocity = player.jump_velocity
-
+        if index == -1:
+            self.rect.y = newy
+        else:
+            playeronground = True
+            self.y_velocity = 0
+        if key_state[pygame.K_q] and playeronground:
+            self.y_velocity = constants.JUMP_VALUE
+            self.dir = enums.UP
+            playeronground = False
 
 
 

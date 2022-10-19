@@ -4,10 +4,11 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Tiles pasables, bloqueantes, matantes, y plataformas
-- Gestión del player (movimiento, animación, saltos, gravedad) 
+- Gestión del player (movimiento, saltos, gravedad) 
 
 POR HACER
 =========
+- Animación del player
 - Menu inicial con imagen de fondo de MasterKlown
 - Obtener SFX de opengameart.com
 - Movimiento fanty de malotes

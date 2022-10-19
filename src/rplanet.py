@@ -202,6 +202,7 @@ def check_map_change(player):
     elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
         map_number += 5
         player.rect.top = 0
+        player.dir = enums.DOWN
 
 # makes a screen transition between the old map and the new one.
 def map_transition():
