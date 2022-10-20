@@ -46,39 +46,46 @@ class Player(pygame.sprite.Sprite):
             self.animation_index = 0
         self.image = self.images[int(self.animation_index)]
 
-        # horizontal movement
-        newx = self.rect.x
         key_state = pygame.key.get_pressed()
+
+        # horizontal movement
+        temp_x = self.rect.x 
+        # X varies depending on the key pressed       
         if key_state[pygame.K_o]:
-            newx -= 2
+            temp_x -= 2
             self.dir = enums.LEFT
         if key_state[pygame.K_p]:
-            newx += 2
+            temp_x += 2
             self.dir = enums.RIGHT
-        newpositionx = pygame.Rect((newx,self.rect.y), (constants.TILE_WIDTH, constants.TILE_HEIGHT))
-        index = newpositionx.collidelist(globalvars.tilemap_rect_list) 
+        # gets the new rectangle to check for collision
+        temp_rect = pygame.Rect((temp_x,self.rect.y), 
+            (constants.TILE_WIDTH, constants.TILE_HEIGHT))
+        index = temp_rect.collidelist(globalvars.tilemap_rect_list) 
+        # no collision. Apply the new position X
         if index == -1:
-            self.rect.x = newx
+            self.rect.x = temp_x
 
         # vertical movement
-        newy = self.rect.y
+        temp_y = self.rect.y
+        # applies acceleration of gravity
         self.y_velocity += constants.GRAVITY
-        newy += self.y_velocity
-        newpositiony = pygame.Rect((self.rect.x, newy), (constants.TILE_WIDTH, constants.TILE_HEIGHT))
+        temp_y += self.y_velocity
+        # gets the new rectangle to check for collision
+        temp_rect = pygame.Rect((self.rect.x, temp_y), 
+            (constants.TILE_WIDTH, constants.TILE_HEIGHT))
         playeronground = False
         ydist = 0
-        index = newpositiony.collidelist(globalvars.tilemap_rect_list) 
-        if index == -1:
-            self.rect.y = newy
-        else:
+        index = temp_rect.collidelist(globalvars.tilemap_rect_list)         
+        if index == -1: # no collision. Apply the new position Y
+            self.rect.y = temp_y
+        else: # collision. Stops the player
             playeronground = True
             self.y_velocity = 0
+
         if key_state[pygame.K_q] and playeronground:
             self.y_velocity = constants.JUMP_VALUE
             self.dir = enums.UP
             playeronground = False
-
-
 
 
 
