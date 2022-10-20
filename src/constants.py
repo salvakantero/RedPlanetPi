@@ -10,8 +10,8 @@ SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 H_MARGIN = 40 # horizontal distance between the edge and the playing area
 V_MARGIN = 20 # vertical distance between the edge and the playing area
 TILE_WIDTH = TILE_HEIGHT = 16 # tile/sprite size in pixels
-JUMP_VALUE = -7 # value of the initial jump
-GRAVITY = 0.2 # acceleration of gravity for the player
+JUMP_VALUE = -3 # value of the initial jump
+GRAVITY = 0.175 # acceleration of gravity for the player
 
 # colour palette (Pico8)
 PALETTE = {

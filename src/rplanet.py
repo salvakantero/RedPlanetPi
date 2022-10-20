@@ -271,12 +271,12 @@ def change_map():
     all_sprites_group.add(player)
     # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
     # (a maximum of three enemies per map)
-    for i in range(3):
-        enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
-        if enemy_data[6] != 0: # no enemy
-            enemy = Enemy(enemy_data)
-            all_sprites_group.add(enemy)
-            enemies_group.add(enemy)
+    # for i in range(3):
+    #     enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
+    #     if enemy_data[6] != 0: # no enemy
+    #         enemy = Enemy(enemy_data)
+    #         all_sprites_group.add(enemy)
+    #         enemies_group.add(enemy)
 
 
 

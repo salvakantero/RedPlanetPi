@@ -73,19 +73,19 @@ class Player(pygame.sprite.Sprite):
         # gets the new rectangle to check for collision
         temp_rect = pygame.Rect((self.rect.x, temp_y), 
             (constants.TILE_WIDTH, constants.TILE_HEIGHT))
-        playeronground = False
+        on_ground = False
         ydist = 0
         index = temp_rect.collidelist(globalvars.tilemap_rect_list)         
         if index == -1: # no collision. Apply the new position Y
             self.rect.y = temp_y
         else: # collision. Stops the player
-            playeronground = True
+            on_ground = True
             self.y_velocity = 0
 
-        if key_state[pygame.K_q] and playeronground:
+        if key_state[pygame.K_q] and on_ground:
             self.y_velocity = constants.JUMP_VALUE
             self.dir = enums.UP
-            playeronground = False
+            on_ground = False
 
 
 
