@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
         if key_state[pygame.K_p]:
             temp_x += 2
             self.dir = enums.RIGHT
-        # gets the new rectangle to check for collision
+        # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((temp_x,self.rect.y), 
             (constants.TILE_WIDTH, constants.TILE_HEIGHT))
         index = temp_rect.collidelist(globalvars.tilemap_rect_list) 
@@ -70,7 +70,7 @@ class Player(pygame.sprite.Sprite):
         # applies acceleration of gravity
         self.y_velocity += constants.GRAVITY
         temp_y += self.y_velocity
-        # gets the new rectangle to check for collision
+        # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, temp_y), 
             (constants.TILE_WIDTH, constants.TILE_HEIGHT))
         on_ground = False
@@ -78,40 +78,21 @@ class Player(pygame.sprite.Sprite):
         index = temp_rect.collidelist(globalvars.tilemap_rect_list)         
         if index == -1: # no collision. Apply the new position Y
             self.rect.y = temp_y
-        else: # collision. Stops the player
-            on_ground = True
-            self.y_velocity = 0
+        else: # collision
+            beh = globalvars.tilemap_behaviour_list[index]
+            if beh == enums.OBSTACLE: # stops the player
+                on_ground = True
+                self.y_velocity = 0
+            elif beh == enums.PLATFORM: # stops the player only from above                
+                pass
+            elif beh == enums.ITEM: # manage objects
+                pass
+            elif beh == enums.KILLER: # tile killer, lose a life
+                pass
+            elif beh == enums.DOOR: # closed door
+                pass
 
         if key_state[pygame.K_q] and on_ground:
             self.y_velocity = constants.JUMP_VALUE
             self.dir = enums.UP
             on_ground = False
-
-
-
-        # # movement
-        # self.mx = 0
-        # self.my = 0
-        # key_state = pygame.key.get_pressed()
-        # if key_state[pygame.K_o]:
-        #     self.mx -= 1
-        #     self.dir = enums.LEFT
-        # if key_state[pygame.K_p]:
-        #     self.mx += 1
-        #     self.dir = enums.RIGHT
-        # if key_state[pygame.K_q]:
-        #     self.my -= 1
-        #     self.dir = enums.UP
-        # if key_state[pygame.K_a]:            
-        #     self.my += 1
-        #     self.dir = enums.DOWN
-        # self.rect.x += self.mx
-        # self.my += constants.GRAVITY
-        # self.rect.y += self.my
-        # # tilemap collisions
-        # index = self.rect.collidelist(globalvars.tilemap_rect_list) 
-        # if index >= 0:
-        #     beh = globalvars.tilemap_behaviour_list[index]
-        #     if beh == enums.OBSTACLE:
-        #         self.rect.x -= self.mx
-        #         self.rect.y -= self.my
