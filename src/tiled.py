@@ -84,8 +84,8 @@ def draw_map(map_display):
             behaviour = enums.NO_ACTION
             if tn >= 16 and tn <= 35: behaviour = enums.OBSTACLE
             elif tn == 40: behaviour = enums.PLATFORM
-            elif tn >= 50 and tn <= 55: behaviour = enums.ITEM
-            elif tn == 60: behaviour = enums.DOOR
+            #elif tn >= 50 and tn <= 55: behaviour = enums.ITEM
+            #elif tn == 60: behaviour = enums.DOOR
             elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
             # is only added to the list if there is an active behaviour
             if behaviour != enums.NO_ACTION:
