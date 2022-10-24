@@ -74,20 +74,78 @@ GREETINGS
 =========
 Mojon Twins (MK1 engine)
 DaFluffyPotato (Font class, screen scaling)
-Mark Vanstone (Tiled functions)
-César Gómez (Mundo Python)
+Rik Cross (Raspberry Pi Foundation)
+Mark Vanstone (Raspberry Pi Press)
 Ryan Lambie (Raspberry Pi Press)
+César Gómez (Mundo Python)
 
-COLOCADOR
-=========
-1) Objeto (explosivo)
-2) LLave
-4) Munición
-5) Aire
 
-behs[]
-// 0 = Walkable (no action) [from T0 to T15]
-// 1 = Walkable and kills.
-// 4 = Platform (only stops player if falling on it) [T40]
-// 8 = Full obstacle (blocks player from all directions) [from T16 to T35]
-// 10 = special obstacle (pushing blocks OR locks!) [T60]
+
+ITEMS:
+
+type        map pos
+=========== === =====
+TNT         1   13, 7
+TNT         3    1, 7
+TNT         6    5, 3
+TNT         9   13, 6
+TNT         11   6, 1
+TNT         15   2, 8
+TNT         20   1, 3
+TNT         24  13, 6
+TNT         27   7, 2
+TNT         29   7, 8
+TNT         34   2, 3
+TNT         37  12, 1
+TNT         39  13, 4
+TNT         41   3, 2
+TNT         43   9, 8
+
+ammo        0   13, 3
+ammo        8   11, 3
+ammo        13   8, 4
+ammo        18   1, 7
+ammo        21  13, 4
+ammo        23   7, 8
+ammo        28   1, 5
+ammo        31   1, 6
+ammo        38   6, 1
+ammo        42   4, 6
+
+oxigen      2    5, 7
+oxigen      7   10, 7
+oxigen      12   5, 4
+oxigen      14   1, 2
+oxigen      19   6, 7
+oxigen      22  12, 2
+oxigen      26   5, 2
+oxigen      33  11, 2
+oxigen      35   4, 7
+oxigen      40   5, 8
+oxigen      44   1, 2
+
+key         4   13, 1
+key         5    7, 8
+key         10   6, 8
+key         16  13, 3
+key         17  12, 2
+key         25   1, 8
+key         30   7, 8
+key         32   6, 8
+key         36  12, 6
+
+door        8   14, 8
+door        13  14, 8
+door        14  11, 1
+door        16   0, 3
+door        22   0, 7
+door        28  14, 8
+door        39   3, 6
+door        41  14, 8
+door        42  14, 2
+
+detonator   0    0, 7
+
+
+
+
