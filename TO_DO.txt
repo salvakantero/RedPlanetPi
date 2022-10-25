@@ -3,11 +3,11 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Tiles pasables, bloqueantes, matantes, y plataformas
 - Gestión del player (movimiento, saltos, gravedad) 
 
 POR HACER
 =========
+- Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
 - Animación del player
 - Menu inicial con imagen de fondo de MasterKlown
 - Obtener SFX de opengameart.com
@@ -28,6 +28,7 @@ POR HACER
 
 OPCIONAL
 ========
+- Animación de objetos
 - Animación al abrir puerta
 - Usar sistema de partículas para explosiones
 - Notas en pantalla de juego (+1) (+25)
