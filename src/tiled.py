@@ -73,19 +73,13 @@ def draw_map(map_display):
             map_display.blit(tile, tileRect)
 
             # generates the list of rects and behaviour of the current map
-            # from T0.png to T15.png: background tiles (NO_ACTION)
             # from T16.png to T35.png: blocking tiles (OBSTABLE)
             # T40.png: platform tile (PLATFORM)
-            # from T50.png to T55.png: object tiles (ITEM)
-            # T60.png: door tile (DOOR)
             # from T70.png to T75.png: tiles that kill (KILLER)
-            # from T80.png: animated tiles (NO_ACTION)
             tn = get_tile_number(t['image'])            
             behaviour = enums.NO_ACTION
             if tn >= 16 and tn <= 35: behaviour = enums.OBSTACLE
             elif tn == 40: behaviour = enums.PLATFORM
-            #elif tn >= 50 and tn <= 55: behaviour = enums.ITEM
-            #elif tn == 60: behaviour = enums.DOOR
             elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
             # is only added to the list if there is an active behaviour
             if behaviour != enums.NO_ACTION:
