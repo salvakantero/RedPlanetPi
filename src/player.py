@@ -12,15 +12,12 @@ class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
         
-        # loads lists of images for each state and direction
-        self.animations_right = {
-            'idle':[],
-            'run':[],
-            'jump':[],
-            'fall':[]
-            }
-        self.animations_left = {'idle':[],'run':[],'jump':[],'fall':[]}
-
+        # loads the lists of images for each state and direction
+        path = 'images/sprites/player'
+        self.animations_right = {'idle':[],'run':[],'jump':[],'fall':[]}
+        self.animations_right.idle.add:
+            self.animations_right[animation] = pygame.image.load(
+                jp(dp, path + '0.png')).convert()
 
         # properties
         self.lives = 10
