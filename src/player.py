@@ -11,6 +11,16 @@ from globalvars import jp, dp # to build file paths
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
+        
+        # loads lists of images for each state and direction
+        self.animations_right = {
+            'idle':[],
+            'run':[],
+            'jump':[],
+            'fall':[]
+            }
+        self.animations_left = {'idle':[],'run':[],'jump':[],'fall':[]}
+
 
         # properties
         self.lives = 10
