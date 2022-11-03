@@ -7,24 +7,26 @@ EN PROCESO
 
 POR HACER
 =========
-- Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
 - Animación del player
-- Menu inicial con imagen de fondo de MasterKlown
+- Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
+- Menu inicial
 - Obtener SFX de opengameart.com
-- Movimiento fanty de malotes
-- Colisiones entre Keko y malotes
-- Keko es invencible los primeros 5 segundos (parpadea)
+- Movimiento del enemigo fanty
+- Colisiones player/enemigos
+- El player es invencible los primeros 5 segundos (parpadea)
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo MUNICIÓN
 - Gestión de objetos de tipo OXÍGENO
 - Gestión de plataformas móviles
 - Gestión de tiempo de oxígeno
-- Gestión de disparos de Keko
+- Gestión de disparos del player
 - Teclas redefinibles
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
-- Recordatorio: Reactivar música
+
+- Recordatorio: Reactivar música y SFX
+
 
 OPCIONAL
 ========
@@ -53,12 +55,12 @@ HECHO
 25/07/22 - Marcador
 27/07/22 - Adaptar las músicas definitivas de tacha a OGG e implementar
 31/07/22 - Filtro Scanlines HQ
-08/08/22 - Sprites de malotes
-14/08/22 - Movimiento lineal XY de malotes
+08/08/22 - Sprites de enemigos
+14/08/22 - Movimiento lineal XY de enemigos
 17/08/22 - Transparencia de sprites
-21/08/22 - Movimiento diagonal de malotes
+21/08/22 - Movimiento diagonal de enemigos
 21/08/22 - Sprite plataforma móvil
-22/08/22 - Colocación de malotes (ENEMS.h)
+22/08/22 - Colocación de enemigos (ENEMS.h)
 26/08/22 - Tiles animados (computadoras, lava, cadaver...)
 31/08/22 - Teclas especiales; Pause y Mute
 24/09/22 - Simplificar la generación de enemigos por mapa
