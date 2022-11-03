@@ -81,20 +81,6 @@ class Player(pygame.sprite.Sprite):
             on_ground = True
             self.y_velocity = 0
 
-        # else: # collision
-        #     beh = globalvars.tilemap_behaviour_list[index]
-        #     if beh == enums.OBSTACLE: # stops the player
-        #         on_ground = True
-        #         self.y_velocity = 0
-        #     elif beh == enums.PLATFORM: # stops the player only from above                
-        #         pass
-        #     elif beh == enums.ITEM: # manage objects
-        #         pass
-        #     elif beh == enums.KILLER: # tile killer, lose a life
-        #         pass
-        #     elif beh == enums.DOOR: # closed door
-        #         pass
-
         if key_state[pygame.K_q] and on_ground:
             self.y_velocity = constants.JUMP_VALUE
             self.dir = enums.UP

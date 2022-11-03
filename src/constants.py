@@ -13,6 +13,24 @@ TILE_WIDTH = TILE_HEIGHT = 16 # tile/sprite size in pixels
 JUMP_VALUE = -3 # value of the initial jump for the player
 GRAVITY = 0.175 # acceleration of gravity for the player
 
+# animated tiles
+ANIM_TILES = {
+    # frame_1   frame_2
+    'T4.png' : 'T80.png',   # computer 1
+    'T8.png' : 'T81.png',   # computer 2
+    'T9.png' : 'T82.png',   # corpse
+    'T70.png' : 'T83.png',  # toxic waste
+    'T71.png' : 'T84.png'   # lava
+}
+
+# Lists of images for player animation
+idle_right_file_list = ['player0.png', 'player1.png']
+idle_left_file_list = ['player2.png', 'player3.png']
+run_right_file_list = ['player4.png', 'player0.png', 'player5.png']
+run_left_file_list = ['player6.png', 'player2.png', 'player7.png']
+# jump/fall right: 'player8.png'
+# jump/fall left: 'player9.png'
+
 # colour palette (Pico8)
 PALETTE = {
     'BLACK': (0, 0, 0),
@@ -276,12 +294,3 @@ ENEMIES_DATA = [
 	[0, 0, 0, 0, 0, 0, 0]
 ]
 
-# animated tiles
-ANIM_TILES = {
-    # frame_1   frame_2
-    'T4.png' : 'T80.png',   # computer 1
-    'T8.png' : 'T81.png',   # computer 2
-    'T9.png' : 'T82.png',   # corpse
-    'T70.png' : 'T83.png',  # toxic waste
-    'T71.png' : 'T84.png'   # lava
-}

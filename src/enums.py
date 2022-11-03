@@ -10,3 +10,5 @@ RUNNING, PAUSED, OVER = 0, 1, 2
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 # music states
 UNMUTED, MUTED = 0, 1
+# player states
+IDLE, JUMP, RUN, FALL = 0, 1, 2, 3 
