@@ -3,11 +3,10 @@
 #===============================================================================
 
 import json
-from globalvars import jp, dp # to build file paths
 
 def read():
     # read configuration file
-    with open(jp(dp,'config.json'), 'r') as file:
+    with open('config.json', 'r') as file:
         config = json.load(file)
     return config['FULL_SCREEN'], config['SCANLINES_TYPE'], config['MAP_TRANSITION']
 

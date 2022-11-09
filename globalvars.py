@@ -2,12 +2,6 @@
 # Global variables
 #===============================================================================
 
-import pygame
-import os # path()
-
-dp = os.path.dirname(__file__) + '/' # exec path (+ '/' when using VS Code)
-jp = os.path.join # forms the folder/file path
-
 map_number = 0 # current map number
 last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed

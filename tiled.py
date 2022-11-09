@@ -8,12 +8,11 @@ import json
 import random
 
 import constants, enums, globalvars
-from globalvars import jp, dp # to build file paths
 
 # loads a map and draws it on screen
 def load_map(map_number, map_display):
     global map_data
-    map_data = process_map(jp(dp, 'maps/map{}.json'.format(map_number)))
+    map_data = process_map('maps/map{}.json'.format(map_number))
     draw_map(map_display) # draws the tile map on the screen
 
 # dump tiled map into 'mapdata'
@@ -33,7 +32,7 @@ def process_map(map_file):
     # gets the name of the tile file
     tileset = data_readed['tilesets'][0]['source'].replace('.tsx','.json')
     # gets the data from the tile file
-    with open(jp(dp,'maps/' + tileset)) as json_data:
+    with open('maps/' + tileset) as json_data:
         t = json.load(json_data)
     # removes the path to each image from the tile file
     data['tiles'] = t['tiles']
@@ -67,7 +66,7 @@ def draw_map(map_display):
             # gets the tile number from the list
             t = find_data(map_data['tiles'], 'id', map_data['data'][y][x])
             # draws the selected tile
-            tile = pygame.image.load(jp(dp, 'images/tiles/' + t['image'])).convert()
+            tile = pygame.image.load('images/tiles/' + t['image']).convert()
             tileRect = tile.get_rect()
             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
             map_display.blit(tile, tileRect)
@@ -90,8 +89,8 @@ def draw_map(map_display):
             # (frame_1, frame_2, x, y, num_frame)
             if t['image'] in constants.ANIM_TILES.keys():                
                 globalvars.anim_tiles_list.append(
-                    [tile, pygame.image.load(jp(dp, 'images/tiles/' 
-                    + constants.ANIM_TILES[t['image']])).convert(), 
+                    [tile, pygame.image.load('images/tiles/' 
+                    + constants.ANIM_TILES[t['image']]).convert(), 
                     tileRect.topleft[0], tileRect.topleft[1], 0])                 
 
 # select some of the animated tiles on the current map to change the frame

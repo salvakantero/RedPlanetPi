@@ -3,7 +3,6 @@
 #===============================================================================
 
 import pygame
-from globalvars import dp, jp # to build file paths
 
 # change one colour for another
 def swap_color(img,old_c,new_c):
@@ -24,7 +23,7 @@ def clip(surf,x,y,x_size,y_size):
 def load_font_img(path, font_color, is_transparent):
     fg_color = (255, 0, 0) # original red
     bg_color = (0, 0, 0) # black
-    font_img = pygame.image.load(jp(dp,path)).convert() # load font image
+    font_img = pygame.image.load(path).convert() # load font image
     font_img = swap_color(font_img, fg_color, font_color) # apply the requested font colour
     last_x = 0
     letters = []

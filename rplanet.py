@@ -110,8 +110,8 @@ def refresh_screen():
     screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
     make_scanlines()
-    #pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    pygame.display.update() # refreshes the screen
+    clock.tick() # 60 FPS
 
 # draws a centred message box erasing the background
 def message_box(message1, message2):
@@ -298,7 +298,7 @@ if cfg_full_screen:
     flags = pygame.FULLSCREEN
 screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
 pygame.display.set_caption('.:: Red Planet Pi ::.')
-icon = pygame.image.load(jp(dp, 'images/assets/icon.png')).convert_alpha()
+icon = pygame.image.load('images/assets/icon.png').convert_alpha()
 pygame.display.set_icon(icon)  
 
 # area covered by the map
@@ -323,18 +323,18 @@ bg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], 
 aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], False)
 
 # scoreboard icons
-lives_icon = pygame.image.load(jp(dp, 'images/assets/lives.png')).convert()
-oxigen_icon = pygame.image.load(jp(dp, 'images/tiles/T53.png')).convert()
-ammo_icon = pygame.image.load(jp(dp, 'images/tiles/T52.png')).convert()
-keys_icon = pygame.image.load(jp(dp, 'images/tiles/T51.png')).convert()
-explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
+lives_icon = pygame.image.load('images/assets/lives.png').convert()
+oxigen_icon = pygame.image.load('images/tiles/T53.png').convert()
+ammo_icon = pygame.image.load('images/tiles/T52.png').convert()
+keys_icon = pygame.image.load('images/tiles/T51.png').convert()
+explosives_icon = pygame.image.load('images/tiles/T50.png').convert()
 
 # sequences of animations for the player depending on its status
 player_animation = {
-    'idle': [
-        pygame.image.load('images/sprites/player0.png'),
-        pygame.image.load('images/sprites/player1.png')],
-    'walking': [
+    enums.IDLE: [
+        pygame.image.load('images/sprites/player0.png').convert_alpha(),
+        pygame.image.load('images/sprites/player1.png').convert_alpha()],
+    enums.WALKING: [
         pygame.image.load('images/sprites/player4.png'),
         pygame.image.load('images/sprites/player0.png'),
         pygame.image.load('images/sprites/player5.png')]}
@@ -353,9 +353,9 @@ while True:
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
         # create the player
-        player = Player()
+        player = Player(player_animation)
         # ingame music
-        pygame.mixer.music.load(jp(dp, "sounds/ingame.ogg"))
+        pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
         # reset variables
         game_status = enums.RUNNING
@@ -426,6 +426,6 @@ while True:
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
     # FPS counter using the clock   
-    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
+    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
 
     refresh_screen()

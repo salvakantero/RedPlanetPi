@@ -3,7 +3,6 @@
 #===============================================================================
 
 import pygame
-from globalvars import jp, dp # to build file paths
 
 # calculates the distance between two points
 def distance (x1, y1, x2, y2):
@@ -56,7 +55,7 @@ class Enemy(pygame.sprite.Sprite):
         for i in range(num_frames):
             # image for the frame
             self.images.append(pygame.image.load(
-                jp(dp, 'images/sprites/' + enemy_name + str(i) + '.png')).convert())
+                'images/sprites/' + enemy_name + str(i) + '.png')).convert()
             # mask
             self.images[i].set_colorkey((255, 0, 255))
         self.animation_index = 0

@@ -6,7 +6,6 @@ import pygame
 import constants
 import enums
 import globalvars
-#from globalvars import jp, dp # to build file paths
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, image_list):
@@ -87,8 +86,8 @@ class Player(pygame.sprite.Sprite):
         # vertical movement
         temp_y = self.rect.y
         # applies acceleration of gravity
-        self.y_velocity += constants.GRAVITY
-        temp_y += self.y_velocity
+        self.y_speed += constants.GRAVITY
+        temp_y += self.y_speed
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, temp_y), 
             (constants.TILE_WIDTH, constants.TILE_HEIGHT))
@@ -98,9 +97,9 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = temp_y
         else:
             on_ground = True
-            self.y_velocity = 0
+            self.y_speed = 0
 
         if key_state[pygame.K_q] and on_ground:
-            self.y_velocity = constants.JUMP_VALUE
+            self.y_speed = constants.JUMP_VALUE
             self.dir = enums.UP
             on_ground = False
