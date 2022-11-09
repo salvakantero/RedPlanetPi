@@ -110,7 +110,7 @@ def refresh_screen():
     screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
     make_scanlines()
-    pygame.display.update() # refreshes the screen
+    #pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
 
 # draws a centred message box erasing the background
@@ -328,6 +328,16 @@ oxigen_icon = pygame.image.load(jp(dp, 'images/tiles/T53.png')).convert()
 ammo_icon = pygame.image.load(jp(dp, 'images/tiles/T52.png')).convert()
 keys_icon = pygame.image.load(jp(dp, 'images/tiles/T51.png')).convert()
 explosives_icon = pygame.image.load(jp(dp, 'images/tiles/T50.png')).convert()
+
+# sequences of animations for the player depending on its status
+player_animation = {
+    'idle': [
+        pygame.image.load('images/sprites/player0.png'),
+        pygame.image.load('images/sprites/player1.png')],
+    'walking': [
+        pygame.image.load('images/sprites/player4.png'),
+        pygame.image.load('images/sprites/player0.png'),
+        pygame.image.load('images/sprites/player5.png')]}
 
 # clock to control the FPS
 clock = pygame.time.Clock()
