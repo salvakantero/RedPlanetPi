@@ -57,5 +57,4 @@ ESC:    Cancelar partida.
 RED PLANET Pi
 ==================================
 salvaKantero:   Programa, GFX, SFX
-tacha:          Música
-Masterklown:    Portada
+Masterklown:    Música, Portada
