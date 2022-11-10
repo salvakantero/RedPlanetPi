@@ -111,7 +111,7 @@ def refresh_screen():
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
     make_scanlines()
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS
 
 # draws a centred message box erasing the background
 def message_box(message1, message2):
@@ -335,9 +335,10 @@ player_animation = {
         pygame.image.load('images/sprites/player0.png').convert_alpha(),
         pygame.image.load('images/sprites/player1.png').convert_alpha()],
     enums.WALKING: [
-        pygame.image.load('images/sprites/player4.png'),
-        pygame.image.load('images/sprites/player0.png'),
-        pygame.image.load('images/sprites/player5.png')]}
+        pygame.image.load('images/sprites/player4.png').convert_alpha(),
+        pygame.image.load('images/sprites/player0.png').convert_alpha(),
+        pygame.image.load('images/sprites/player5.png').convert_alpha(),
+        pygame.image.load('images/sprites/player0.png').convert_alpha()]}
 
 # clock to control the FPS
 clock = pygame.time.Clock()

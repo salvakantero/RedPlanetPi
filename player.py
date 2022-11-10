@@ -25,30 +25,14 @@ class Player(pygame.sprite.Sprite):
         self.image_index = 0 # frame_number
         self.animation_timer = 10 # timer to change frame
         self.animation_speed = 8 # frame dwell time
-        self.image = image_list[self.state][0] # first frame of the animation
-        # num_frames = 3
-        # self.images = []
-        # for i in range(num_frames):
-        #     # image for the frame
-        #     self.images.append(pygame.image.load(
-        #         jp(dp, 'images/sprites/player{}.png'.format(i))).convert())
-        #     # mask
-        #     self.images[i].set_colorkey((255, 0, 255))
-        # self.animation_index = 0
-        # self.animation_speed = 0.08
-        # self.image = self.images[self.animation_index]
+        self.image = image_list[self.state][0] # 1st frame of the animation
         # initial position
         self.rect = self.image.get_rect()
-        self.rect.x = 32
-        self.rect.y = 112
+        self.rect.x = self.temp_x = 32
+        self.rect.y = self.temp_y = 112
 
-    def update(self):
+    def animate(self):
         # animation
-        # self.animation_index += self.animation_speed
-        # if self.animation_index >= len(self.images):
-        #     self.animation_index = 0
-        # self.image = self.images[int(self.animation_index)]
-
         self.animation_timer += 1
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
@@ -64,42 +48,60 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(
                     self.image_list[self.state][self.image_index], True, False)
 
-        key_state = pygame.key.get_pressed()
-
-        # horizontal movement
-        temp_x = self.rect.x 
-        # X varies depending on the key pressed       
+    def get_input(self):
+        # manages keystrokes
+        key_state = pygame.key.get_pressed()   
+        # press left
         if key_state[pygame.K_o]:
             temp_x -= 2
             self.dir = enums.LEFT
+            self.state = enums.WALKING
+        # press right
         if key_state[pygame.K_p]:
             temp_x += 2
             self.dir = enums.RIGHT
-        # gets the new rectangle and check for collision
-        temp_rect = pygame.Rect((temp_x,self.rect.y), 
-            (constants.TILE_WIDTH, constants.TILE_HEIGHT))
-        index = temp_rect.collidelist(globalvars.tilemap_rect_list) 
-        # no collision. Apply the new position X
-        if index == -1:
-            self.rect.x = temp_x
+            self.state = enums.WALKING
+        # without lateral movement
+        if not key_state[pygame.K_o] and not key_state[pygame.K_p]:
+            self.state = enums.IDLE
+        # press jump
+        if key_state[pygame.K_q] and self.on_ground:
+            self.y_speed = constants.JUMP_VALUE
 
-        # vertical movement
-        temp_y = self.rect.y
+    def horizontal_mov(self):
+        # gets the new rectangle and check for collision
+        temp_rect = pygame.Rect((self.temp_x,self.rect.y), 
+            (constants.TILE_WIDTH, constants.TILE_HEIGHT))      
+        if temp_rect.collidelist(globalvars.tilemap_rect_list) == -1:
+            self.rect.x = self.temp_x # no collision. Apply the new position X
+
+    def vertical_mov(self):
         # applies acceleration of gravity
         self.y_speed += constants.GRAVITY
         temp_y += self.y_speed
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, temp_y), 
-            (constants.TILE_WIDTH, constants.TILE_HEIGHT))
-        on_ground = False
+            (constants.TILE_WIDTH, constants.TILE_HEIGHT))        
         index = temp_rect.collidelist(globalvars.tilemap_rect_list)         
-        if index == -1: # no collision. Apply the new position Y
-            self.rect.y = temp_y
-        else:
-            on_ground = True
-            self.y_speed = 0
+        if index == -1: # no collision            
+            self.rect.y = temp_y # apply the new position Y
+            self.on_ground = False
+        else: # collision            
+            self.y_speed = 0 # stops the player
+            # avoid the rebound
+            tile = globalvars.tilemap_rect_list[index]
+            if temp_rect.bottom > tile.top:                
+                self.rect.bottom = tile.top # sticks to platform
+                self.on_ground = True
 
-        if key_state[pygame.K_q] and on_ground:
-            self.y_speed = constants.JUMP_VALUE
-            self.dir = enums.UP
-            on_ground = False
+    def update(self):
+        self.animate()    
+
+        # XY temporary to check for collision at the new position
+        self.temp_x = self.rect.x 
+        self.temp_y = self.rect.y
+
+        self.get_input()
+        self.horizontal_mov()
+        self.vertical_mov()
+             
