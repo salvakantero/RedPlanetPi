@@ -344,7 +344,7 @@ player_animation = {
 clock = pygame.time.Clock()
 
 game_status = enums.OVER
-music_status = enums.UNMUTED 
+music_status = enums.UNMUTED
 
 # Main loop
 while True:    

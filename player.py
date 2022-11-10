@@ -23,8 +23,8 @@ class Player(pygame.sprite.Sprite):
         # image/animation
         self.image_list = image_list # list of images for animation
         self.image_index = 0 # frame_number
-        self.animation_timer = 10 # timer to change frame
-        self.animation_speed = 8 # frame dwell time
+        self.animation_timer = 16 # timer to change frame
+        self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         # initial position
         self.rect = self.image.get_rect()
@@ -33,6 +33,11 @@ class Player(pygame.sprite.Sprite):
 
     def animate(self):
         # animation
+        if (self.state == enums.IDLE):
+            self.animation_speed = 16
+        else:
+            self.animation_speed = 6
+
         self.animation_timer += 1
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
@@ -53,12 +58,12 @@ class Player(pygame.sprite.Sprite):
         key_state = pygame.key.get_pressed()   
         # press left
         if key_state[pygame.K_o]:
-            temp_x -= 2
+            self.temp_x -= 2
             self.dir = enums.LEFT
             self.state = enums.WALKING
         # press right
         if key_state[pygame.K_p]:
-            temp_x += 2
+            self.temp_x += 2
             self.dir = enums.RIGHT
             self.state = enums.WALKING
         # without lateral movement
@@ -78,21 +83,21 @@ class Player(pygame.sprite.Sprite):
     def vertical_mov(self):
         # applies acceleration of gravity
         self.y_speed += constants.GRAVITY
-        temp_y += self.y_speed
+        self.temp_y += self.y_speed
         # gets the new rectangle and check for collision
-        temp_rect = pygame.Rect((self.rect.x, temp_y), 
+        temp_rect = pygame.Rect((self.rect.x, self.temp_y), 
             (constants.TILE_WIDTH, constants.TILE_HEIGHT))        
         index = temp_rect.collidelist(globalvars.tilemap_rect_list)         
         if index == -1: # no collision            
-            self.rect.y = temp_y # apply the new position Y
+            self.rect.y = self.temp_y # apply the new position Y
             self.on_ground = False
         else: # collision            
             self.y_speed = 0 # stops the player
             # avoid the rebound
-            tile = globalvars.tilemap_rect_list[index]
-            if temp_rect.bottom > tile.top:                
-                self.rect.bottom = tile.top # sticks to platform
-                self.on_ground = True
+            # tile = globalvars.tilemap_rect_list[index]
+            # if temp_rect.bottom > tile.top:                
+            #     self.rect.bottom = tile.top # sticks to platform
+            self.on_ground = True
 
     def update(self):
         self.animate()    
