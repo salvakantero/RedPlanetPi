@@ -34,10 +34,9 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         # animation
         if (self.state == enums.IDLE):
-            self.animation_speed = 16
+            self.animation_speed = 16 # breathing
         else:
-            self.animation_speed = 6
-
+            self.animation_speed = 6 # running fast
         self.animation_timer += 1
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
@@ -54,6 +53,9 @@ class Player(pygame.sprite.Sprite):
                     self.image_list[self.state][self.image_index], True, False)
 
     def get_input(self):
+        # XY temporary to check for collision at the new position
+        self.temp_x = self.rect.x 
+        self.temp_y = self.rect.y
         # manages keystrokes
         key_state = pygame.key.get_pressed()   
         # press left
@@ -94,18 +96,13 @@ class Player(pygame.sprite.Sprite):
         else: # collision            
             self.y_speed = 0 # stops the player
             # avoid the rebound
-            # tile = globalvars.tilemap_rect_list[index]
-            # if temp_rect.bottom > tile.top:                
-            #     self.rect.bottom = tile.top # sticks to platform
-            self.on_ground = True
+            tile = globalvars.tilemap_rect_list[index]
+            if tile.y > self.temp_y: # sticks to platform                    
+                    self.rect.y = tile.y - constants.TILE_HEIGHT
+                    self.on_ground = True
 
     def update(self):
         self.animate()    
-
-        # XY temporary to check for collision at the new position
-        self.temp_x = self.rect.x 
-        self.temp_y = self.rect.y
-
         self.get_input()
         self.horizontal_mov()
         self.vertical_mov()

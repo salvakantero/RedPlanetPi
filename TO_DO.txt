@@ -3,11 +3,12 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión del player (movimiento, saltos, gravedad) 
+- Animación del player
+- Usar sistema de partículas para el player
 
 POR HACER
 =========
-- Animación del player
+- Mejorar animación enemigos
 - Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
 - Menu inicial
 - Obtener SFX de opengameart.com
@@ -32,7 +33,6 @@ OPCIONAL
 ========
 - Animación de objetos
 - Animación al abrir puerta
-- Usar sistema de partículas para explosiones
 - Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
 - Score y High
@@ -71,6 +71,8 @@ HECHO
 09/10/22 - Cargar/Guardar configuración en archivo
 13/10/22 - Cambio de mapa según posición XY del player
 16/10/22 - Animación (scroll) al cambiar de mapa
+11/11/22 - Gestión del player (movimiento, saltos, gravedad) 
+
 
 
 GREETINGS
