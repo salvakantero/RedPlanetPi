@@ -335,9 +335,9 @@ player_animation = {
         pygame.image.load('images/sprites/player0.png').convert_alpha(),
         pygame.image.load('images/sprites/player1.png').convert_alpha()],
     enums.WALKING: [
-        pygame.image.load('images/sprites/player4.png').convert_alpha(),
+        pygame.image.load('images/sprites/player2.png').convert_alpha(),
         pygame.image.load('images/sprites/player0.png').convert_alpha(),
-        pygame.image.load('images/sprites/player5.png').convert_alpha(),
+        pygame.image.load('images/sprites/player3.png').convert_alpha(),
         pygame.image.load('images/sprites/player0.png').convert_alpha()]}
 
 # clock to control the FPS
