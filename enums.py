@@ -11,4 +11,4 @@ UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 # music states
 UNMUTED, MUTED = 0, 1
 # player states
-IDLE, WALKING = 0, 1
+IDLE, WALKING, JUMPING, FALLING = 0, 1, 2, 3

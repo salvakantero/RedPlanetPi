@@ -55,9 +55,8 @@ class Enemy(pygame.sprite.Sprite):
         for i in range(num_frames):
             # image for the frame
             self.images.append(pygame.image.load(
-                'images/sprites/' + enemy_name + str(i) + '.png')).convert()
-            # mask
-            self.images[i].set_colorkey((255, 0, 255))
+                'images/sprites/' + enemy_name + str(i) + '.png'))
+            self.images[i].convert_alpha()
         self.animation_index = 0
         self.animation_speed = 0.08
         self.image = self.images[self.animation_index]

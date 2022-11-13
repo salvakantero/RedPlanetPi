@@ -4,11 +4,11 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Animación del player
+- Mejorar animación enemigos
 - Usar sistema de partículas para el player
 
 POR HACER
 =========
-- Mejorar animación enemigos
 - Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
 - Menu inicial
 - Obtener SFX de opengameart.com

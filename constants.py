@@ -23,14 +23,6 @@ ANIM_TILES = {
     'T71.png' : 'T84.png'   # lava
 }
 
-# Lists of images for player animation
-idle_right_file_list = ['player0.png', 'player1.png']
-idle_left_file_list = ['player2.png', 'player3.png']
-run_right_file_list = ['player4.png', 'player0.png', 'player5.png']
-run_left_file_list = ['player6.png', 'player2.png', 'player7.png']
-# jump/fall right: 'player8.png'
-# jump/fall left: 'player9.png'
-
 # colour palette (Pico8)
 PALETTE = {
     'BLACK': (0, 0, 0),
