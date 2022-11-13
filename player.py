@@ -33,10 +33,10 @@ class Player(pygame.sprite.Sprite):
 
     def animate(self):
         # animation
-        if (self.state == enums.IDLE):
-            self.animation_speed = 16 # breathing
-        else:
+        if (self.state == enums.WALKING):
             self.animation_speed = 6 # running fast
+        else:
+            self.animation_speed = 16 # breathing, jumping, falling
         self.animation_timer += 1
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
@@ -70,10 +70,12 @@ class Player(pygame.sprite.Sprite):
             self.state = enums.WALKING
         # without lateral movement
         if not key_state[pygame.K_o] and not key_state[pygame.K_p]:
-            self.state = enums.IDLE
+            if self.on_ground:
+                self.state = enums.IDLE
         # press jump
         if key_state[pygame.K_q] and self.on_ground:
             self.y_speed = constants.JUMP_VALUE
+            self.state = enums.JUMPING
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision

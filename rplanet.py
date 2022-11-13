@@ -338,7 +338,11 @@ player_animation = {
         pygame.image.load('images/sprites/player2.png').convert_alpha(),
         pygame.image.load('images/sprites/player0.png').convert_alpha(),
         pygame.image.load('images/sprites/player3.png').convert_alpha(),
-        pygame.image.load('images/sprites/player0.png').convert_alpha()]}
+        pygame.image.load('images/sprites/player0.png').convert_alpha()],
+    enums.JUMPING: [
+        pygame.image.load('images/sprites/player4.png').convert_alpha()],
+    enums.FALLING: [
+        pygame.image.load('images/sprites/player5.png').convert_alpha()]}
 
 # clock to control the FPS
 clock = pygame.time.Clock()
@@ -427,6 +431,7 @@ while True:
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
     # FPS counter using the clock   
-    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_display, (124, 22))
+    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
+        ' FPS', sboard_display, (124, 22))
 
     refresh_screen()
