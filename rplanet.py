@@ -271,12 +271,12 @@ def change_map():
     all_sprites_group.add(player)
     # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
     # (a maximum of three enemies per map)
-    for i in range(3):
-        enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
-        if enemy_data[6] != 0: # no enemy
-            enemy = Enemy(enemy_data)
-            all_sprites_group.add(enemy)
-            enemies_group.add(enemy)
+    # for i in range(3):
+    #     enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
+    #     if enemy_data[6] != 0: # no enemy
+    #         enemy = Enemy(enemy_data)
+    #         all_sprites_group.add(enemy)
+    #         enemies_group.add(enemy)
 
 
 
@@ -378,7 +378,7 @@ while True:
                     if confirm_exit():
                         game_status = enums.OVER # go to the main menu
                 # pause main loop
-                if event.key == pygame.K_h:
+                if event.key == pause_key:
                     if game_status == enums.RUNNING:
                         game_status = enums.PAUSED
                         # mute the music if necessary
@@ -390,7 +390,7 @@ while True:
                         if music_status == enums.UNMUTED:
                             pygame.mixer.music.play()
                 # mute music
-                if event.key == pygame.K_m :
+                if event.key == mute_key :
                     if music_status == enums.MUTED:
                         music_status = enums.UNMUTED
                         pygame.mixer.music.play()

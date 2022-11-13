@@ -31,27 +31,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.temp_x = 32
         self.rect.y = self.temp_y = 112
 
-    def animate(self):
-        # animation
-        if (self.state == enums.WALKING):
-            self.animation_speed = 6 # running fast
-        else:
-            self.animation_speed = 16 # breathing, jumping, falling
-        self.animation_timer += 1
-        # exceeded the frame time?
-        if self.animation_timer >= self.animation_speed:
-            self.animation_timer = 0 # reset the timer
-            self.image_index += 1 # next frame
-            # exceeded the number of frames?
-            if self.image_index > len(self.image_list[self.state]) - 1:
-                self.image_index = 0 # reset the frame number
-            # assigns image according to frame, status and direction
-            if self.dir == enums.RIGHT:
-                self.image = self.image_list[self.state][self.image_index]
-            else: # reflects the image when looking to the left
-                self.image = pygame.transform.flip(
-                    self.image_list[self.state][self.image_index], True, False)
-
     def get_input(self):
         # XY temporary to check for collision at the new position
         self.temp_x = self.rect.x 
@@ -59,21 +38,24 @@ class Player(pygame.sprite.Sprite):
         # manages keystrokes
         key_state = pygame.key.get_pressed()   
         # press left
-        if key_state[pygame.K_o]:
+        if key_state[globalvars.left_key]:
             self.temp_x -= 2
             self.dir = enums.LEFT
             self.state = enums.WALKING
         # press right
-        if key_state[pygame.K_p]:
+        if key_state[globalvars.right_key]:
             self.temp_x += 2
             self.dir = enums.RIGHT
             self.state = enums.WALKING
         # without lateral movement
-        if not key_state[pygame.K_o] and not key_state[pygame.K_p]:
+        if not key_state[globalvars.left_key] and not key_state[
+            globalvars.right_key]:
             if self.on_ground:
                 self.state = enums.IDLE
+            elif self.y_speed > 1:
+                self.state = enums.FALLING
         # press jump
-        if key_state[pygame.K_q] and self.on_ground:
+        if key_state[globalvars.jump_key] and self.on_ground:
             self.y_speed = constants.JUMP_VALUE
             self.state = enums.JUMPING
 
@@ -103,9 +85,29 @@ class Player(pygame.sprite.Sprite):
                     self.rect.y = tile.y - constants.TILE_HEIGHT
                     self.on_ground = True
 
+    def animate(self):
+        # animation
+        if (self.state == enums.WALKING):
+            self.animation_speed = 6 # running fast
+        else:
+            self.animation_speed = 16 # breathing, jumping, falling
+        self.animation_timer += 1
+        # exceeded the frame time?
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0 # reset the timer
+            self.image_index += 1 # next frame
+        # exceeded the number of frames?
+        if self.image_index > len(self.image_list[self.state]) - 1:
+            self.image_index = 0 # reset the frame number
+        # assigns image according to frame, status and direction
+        if self.dir == enums.RIGHT:
+            self.image = self.image_list[self.state][self.image_index]
+        else: # reflects the image when looking to the left
+            self.image = pygame.transform.flip(
+                self.image_list[self.state][self.image_index], True, False)
+                
     def update(self):
-        self.animate()    
         self.get_input()
         self.horizontal_mov()
         self.vertical_mov()
-             
+        self.animate()
