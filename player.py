@@ -22,14 +22,11 @@ class Player(pygame.sprite.Sprite):
         self.y_speed = 0 # motion + gravity
         # image/animation
         self.image_list = image_list # list of images for animation
-        self.image_index = 0 # frame_number
+        self.frame_index = 0 # frame_number
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
-        # initial position
-        self.rect = self.image.get_rect()
-        self.rect.x = self.temp_x = 32
-        self.rect.y = self.temp_y = 112
+        self.rect = self.image.get_rect(topleft = (32,112))  # initial position
 
     def get_input(self):
         # XY temporary to check for collision at the new position
@@ -95,16 +92,16 @@ class Player(pygame.sprite.Sprite):
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
             self.animation_timer = 0 # reset the timer
-            self.image_index += 1 # next frame
+            self.frame_index += 1 # next frame
         # exceeded the number of frames?
-        if self.image_index > len(self.image_list[self.state]) - 1:
-            self.image_index = 0 # reset the frame number
+        if self.frame_index > len(self.image_list[self.state]) - 1:
+            self.frame_index = 0 # reset the frame number
         # assigns image according to frame, status and direction
         if self.dir == enums.RIGHT:
-            self.image = self.image_list[self.state][self.image_index]
+            self.image = self.image_list[self.state][self.frame_index]
         else: # reflects the image when looking to the left
             self.image = pygame.transform.flip(
-                self.image_list[self.state][self.image_index], True, False)
+                self.image_list[self.state][self.frame_index], True, False)
                 
     def update(self):
         self.get_input()

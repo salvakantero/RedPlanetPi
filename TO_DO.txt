@@ -10,23 +10,21 @@ EN PROCESO
 POR HACER
 =========
 - Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
-- Menu inicial
-- Obtener SFX de opengameart.com
-- Movimiento del enemigo fanty
 - Colisiones player/enemigos
+- Movimiento del enemigo fanty
 - El player es invencible los primeros 5 segundos (parpadea)
+- Gestión de plataformas móviles
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo MUNICIÓN
 - Gestión de objetos de tipo OXÍGENO
-- Gestión de plataformas móviles
 - Gestión de tiempo de oxígeno
 - Gestión de disparos del player
 - Teclas redefinibles
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
-
-- Recordatorio: Reactivar música y SFX
+- Menu inicial
+- Obtener SFX de opengameart.com
 
 
 OPCIONAL
