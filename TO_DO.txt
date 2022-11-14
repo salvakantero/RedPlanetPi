@@ -3,9 +3,10 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Animación del player
+- pasar dirección de scroll a map_transition()
 - Mejorar animación enemigos
 - Usar sistema de partículas para el player
+
 
 POR HACER
 =========
@@ -37,6 +38,7 @@ OPCIONAL
 - Highs online
 - Tabla de mejores puntuaciones
 - Objetos para puntuar (diamantes, joyas, regalos)
+
 
 HECHO
 =====
@@ -70,7 +72,7 @@ HECHO
 13/10/22 - Cambio de mapa según posición XY del player
 16/10/22 - Animación (scroll) al cambiar de mapa
 11/11/22 - Gestión del player (movimiento, saltos, gravedad) 
-
+14/11/22 - Animación del player
 
 
 GREETINGS

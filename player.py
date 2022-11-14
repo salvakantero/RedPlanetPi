@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):
         self.keys = 0 # unused keys collected 
         self.explosives = 0 # explosives collected        
         self.state = enums.IDLE # to know the animation to be applied
-        self.dir = enums.RIGHT # to know if the sprite needs to be mirrored
+        self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground
         self.y_speed = 0 # motion + gravity
         # image/animation
@@ -37,12 +37,12 @@ class Player(pygame.sprite.Sprite):
         # press left
         if key_state[globalvars.left_key]:
             self.temp_x -= 2
-            self.dir = enums.LEFT
+            self.facing_right = False
             self.state = enums.WALKING
         # press right
         if key_state[globalvars.right_key]:
             self.temp_x += 2
-            self.dir = enums.RIGHT
+            self.facing_right = True
             self.state = enums.WALKING
         # without lateral movement
         if not key_state[globalvars.left_key] and not key_state[
@@ -97,7 +97,7 @@ class Player(pygame.sprite.Sprite):
         if self.frame_index > len(self.image_list[self.state]) - 1:
             self.frame_index = 0 # reset the frame number
         # assigns image according to frame, status and direction
-        if self.dir == enums.RIGHT:
+        if self.facing_right:
             self.image = self.image_list[self.state][self.frame_index]
         else: # reflects the image when looking to the left
             self.image = pygame.transform.flip(
