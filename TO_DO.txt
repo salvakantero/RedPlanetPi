@@ -3,7 +3,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- pasar dirección de scroll a map_transition()
 - Mejorar animación enemigos
 - Usar sistema de partículas para el player
 

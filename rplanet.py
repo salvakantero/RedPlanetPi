@@ -181,28 +181,31 @@ def main_menu():
 
 # checks if the map needs to be changed (depending on the player's XY position)
 def check_map_change(player):
-    global map_number
+    global map_number, map_scroll
     # player disappears on the left
     # appearing from the right on the new map
     if player.rect.x < -16:
         map_number -= 1
+        map_scroll = enums.LEFT
         player.rect.right = constants.MAP_UNSCALED_SIZE[0]
     # player disappears on the right
     # appearing from the left on the new map
     elif player.rect.x > constants.MAP_UNSCALED_SIZE[0]:
         map_number += 1
+        map_scroll = enums.RIGHT
         player.rect.left = 0
     # player disappears over the top
     # appearing at the bottom of the new map
     elif player.rect.y < (-16):
         map_number -= 5
+        map_scroll = enums.UP
         player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]
     # player disappears from underneath
     #appearing at the top of the new map
     elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
         map_number += 5
+        map_scroll = enums.DOWN
         player.rect.top = 0
-        player.dir = enums.DOWN
 
 # makes a screen transition between the old map and the new one.
 def map_transition():
@@ -212,7 +215,7 @@ def map_transition():
     map_trans_vert = pygame.Surface(
         (constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
 
-    if player.dir == enums.UP:
+    if map_scroll == enums.UP:
         # joins the two maps on a single surface
         map_trans_vert.blit(map_display_backup, (0,0))
         map_trans_vert.blit(map_display_backup_old, (0, constants.MAP_UNSCALED_SIZE[1]))
@@ -220,7 +223,7 @@ def map_transition():
         for y in range(-constants.MAP_UNSCALED_SIZE[1], 0, 4):
             map_display.blit(map_trans_vert, (0, y))
             refresh_screen()
-    elif player.dir == enums.DOWN:
+    elif map_scroll == enums.DOWN:
         # joins the two maps on a single surface
         map_trans_vert.blit(map_display_backup_old, (0,0))
         map_trans_vert.blit(map_display_backup, (0, constants.MAP_UNSCALED_SIZE[1]))
@@ -228,7 +231,7 @@ def map_transition():
         for y in range(0, -constants.MAP_UNSCALED_SIZE[1], -4):
             map_display.blit(map_trans_vert, (0, y))
             refresh_screen()
-    elif player.dir == enums.LEFT:
+    elif map_scroll == enums.LEFT:
         # joins the two maps on a single surface
         map_trans_horiz.blit(map_display_backup, (0,0))
         map_trans_horiz.blit(map_display_backup_old, (constants.MAP_UNSCALED_SIZE[0], 0))
@@ -236,7 +239,7 @@ def map_transition():
         for x in range(-constants.MAP_UNSCALED_SIZE[0], 0, 6):
             map_display.blit(map_trans_horiz, (x, 0))
             refresh_screen()
-    elif player.dir == enums.RIGHT:
+    else: # right
         # joins the two maps on a single surface
         map_trans_horiz.blit(map_display_backup_old, (0,0))
         map_trans_horiz.blit(map_display_backup, (constants.MAP_UNSCALED_SIZE[0], 0))
