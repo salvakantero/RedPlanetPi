@@ -24,7 +24,7 @@ def limit(val, min, max):
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data): # x1, y1, x2, y2, mx, my, type
-        super(Enemy, self).__init__()
+        super().__init__()
         # max/min xy values
         self.x = self.x1 = enemy_data[0]
         self.y = self.y1 = enemy_data[1]
@@ -63,11 +63,6 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        # animation
-        self.animation_index += self.animation_speed
-        if self.animation_index >= len(self.images):
-            self.animation_index = 0
-        self.image = self.images[int(self.animation_index)]
         # movement
         if self.type != 6: # no fanty  
             self.x += self.mx
@@ -102,3 +97,13 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x = self.x
         self.rect.y = self.y
+
+        # animation
+        self.animation_index += self.animation_speed
+        if self.animation_index >= len(self.images):
+            self.animation_index = 0
+        if self.mx >= 0:
+            self.image = self.images[int(self.animation_index)]
+        else:
+            self.image = pygame.transform.flip(
+                self.images[int(self.animation_index)], True, False)

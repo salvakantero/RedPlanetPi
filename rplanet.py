@@ -186,6 +186,7 @@ def main_menu():
 
 # checks if the map needs to be changed (depending on the player's XY position)
 def check_map_change(player):
+    global map_number, map_scroll
     # player disappears on the left
     # appearing from the right on the new map
     if player.rect.x < -16:
