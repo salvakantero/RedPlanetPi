@@ -12,13 +12,18 @@ from pygame.locals import *
 from pygame.constants import *
 
 # own code
-from globalvars import *
 import constants, enums
 import config # configuration file
 import tiled # maps and tiles
 from font import Font # font class
 from player import Player # player class
 from enemy import Enemy # enemy class
+
+# global vars
+map_number = 0 # current map
+map_scroll = 0 # scroll direction for map_transition()
+last_map = -1 # last map loaded
+game_percent = 0 # % of gameplay completed
 
 
 
@@ -35,11 +40,11 @@ def scanlines(surface, height, from_x, to_x, rgb):
 
 # applies scanlines according to the configuration
 def make_scanlines():
-    if cfg_scanlines_type == 2: # HQ
+    if config.scanlines_type == 2: # HQ
         scanlines(screen_sl, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
             constants.WIN_SIZE[0]-constants.H_MARGIN-1, 200)
         screen.blit(screen_sl, (0, 0))
-    elif cfg_scanlines_type == 1: # fast
+    elif config.scanlines_type == 1: # fast
         scanlines(screen, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
             constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
 
@@ -181,7 +186,6 @@ def main_menu():
 
 # checks if the map needs to be changed (depending on the player's XY position)
 def check_map_change(player):
-    global map_number, map_scroll
     # player disappears on the left
     # appearing from the right on the new map
     if player.rect.x < -16:
@@ -250,13 +254,13 @@ def map_transition():
 
 # does everything necessary to change the map
 def change_map():
-    # sets the new map as the current one
     global last_map
+    # sets the new map as the current one
     last_map = map_number
     # load the new map
     tiled.load_map(map_number, map_display)
     # preserves the previous 
-    if cfg_map_transition:
+    if config.map_transition:
         map_display_backup_old.blit(map_display_backup, (0,0))
     # save the new empty background
     map_display_backup.blit(map_display, (0,0))
@@ -265,7 +269,7 @@ def change_map():
     init_scoreboard()
     update_scoreboard()
     # performs the screen transition
-    if cfg_map_transition:
+    if config.map_transition:
         map_transition()        
     # reset the groups  
     all_sprites_group.empty()
@@ -274,12 +278,12 @@ def change_map():
     all_sprites_group.add(player)
     # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
     # (a maximum of three enemies per map)
-    # for i in range(3):
-    #     enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
-    #     if enemy_data[6] != 0: # no enemy
-    #         enemy = Enemy(enemy_data)
-    #         all_sprites_group.add(enemy)
-    #         enemies_group.add(enemy)
+    for i in range(3):
+        enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
+        if enemy_data[6] != 0: # no enemy
+            enemy = Enemy(enemy_data)
+            all_sprites_group.add(enemy)
+            enemies_group.add(enemy)
 
 
 
@@ -291,13 +295,13 @@ def change_map():
 pygame.init()
 pygame.mixer.init()
 
-# reads the configuration file and applies the personal settings
-cfg_full_screen, cfg_scanlines_type, cfg_map_transition = config.read()
+# reads the configuration file to apply the personal settings
+config.read()
 
 # generates a main window (or full screen) 
 # with title, icon, and 32-bit colour.
 flags = 0
-if cfg_full_screen:
+if config.full_screen:
     flags = pygame.FULLSCREEN
 screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
 pygame.display.set_caption('.:: Red Planet Pi ::.')
@@ -311,10 +315,10 @@ sboard_display = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
 # surface to save the generated map without sprites
 map_display_backup = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface to save the previous map (transition effect between screens)
-if cfg_map_transition:
+if config.map_transition:
     map_display_backup_old = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface for HQ scanlines
-if cfg_scanlines_type == 2:
+if config.scanlines_type == 2:
     screen_sl = pygame.Surface(constants.WIN_SIZE)
     screen_sl.set_alpha(40)
 
@@ -369,6 +373,7 @@ while True:
         game_status = enums.RUNNING
         map_number = 0
         last_map = -1
+        map_scroll = enums.RIGHT
     else: # game running or paused
         # event management
         for event in pygame.event.get():
@@ -381,7 +386,7 @@ while True:
                     if confirm_exit():
                         game_status = enums.OVER # go to the main menu
                 # pause main loop
-                if event.key == pause_key:
+                if event.key == config.pause_key:
                     if game_status == enums.RUNNING:
                         game_status = enums.PAUSED
                         # mute the music if necessary
@@ -393,7 +398,7 @@ while True:
                         if music_status == enums.UNMUTED:
                             pygame.mixer.music.play()
                 # mute music
-                if event.key == mute_key :
+                if event.key == config.mute_key :
                     if music_status == enums.MUTED:
                         music_status = enums.UNMUTED
                         pygame.mixer.music.play()

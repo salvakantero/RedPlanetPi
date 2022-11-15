@@ -5,7 +5,8 @@
 import pygame
 import constants
 import enums
-import globalvars
+import config
+import tiled
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, image_list):
@@ -35,24 +36,23 @@ class Player(pygame.sprite.Sprite):
         # manages keystrokes
         key_state = pygame.key.get_pressed()   
         # press left
-        if key_state[globalvars.left_key]:
+        if key_state[config.left_key]:
             self.temp_x -= 2
             self.facing_right = False
             self.state = enums.WALKING
         # press right
-        if key_state[globalvars.right_key]:
+        if key_state[config.right_key]:
             self.temp_x += 2
             self.facing_right = True
             self.state = enums.WALKING
         # without lateral movement
-        if not key_state[globalvars.left_key] and not key_state[
-            globalvars.right_key]:
+        if not key_state[config.left_key] and not key_state[config.right_key]:
             if self.on_ground:
                 self.state = enums.IDLE
             elif self.y_speed > 1:
                 self.state = enums.FALLING
         # press jump
-        if key_state[globalvars.jump_key] and self.on_ground:
+        if key_state[config.jump_key] and self.on_ground:
             self.y_speed = constants.JUMP_VALUE
             self.state = enums.JUMPING
 
@@ -60,7 +60,7 @@ class Player(pygame.sprite.Sprite):
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.temp_x,self.rect.y), 
             (constants.TILE_WIDTH, constants.TILE_HEIGHT))      
-        if temp_rect.collidelist(globalvars.tilemap_rect_list) == -1:
+        if temp_rect.collidelist(tiled.tilemap_rect_list) == -1:
             self.rect.x = self.temp_x # no collision. Apply the new position X
 
     def vertical_mov(self):
@@ -70,14 +70,14 @@ class Player(pygame.sprite.Sprite):
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, self.temp_y), 
             (constants.TILE_WIDTH, constants.TILE_HEIGHT))        
-        index = temp_rect.collidelist(globalvars.tilemap_rect_list)         
+        index = temp_rect.collidelist(tiled.tilemap_rect_list)         
         if index == -1: # no collision            
             self.rect.y = self.temp_y # apply the new position Y
             self.on_ground = False
         else: # collision            
             self.y_speed = 0 # stops the player
             # avoid the rebound
-            tile = globalvars.tilemap_rect_list[index]
+            tile = tiled.tilemap_rect_list[index]
             if tile.y > self.temp_y: # sticks to platform                    
                     self.rect.y = tile.y - constants.TILE_HEIGHT
                     self.on_ground = True

@@ -1,5 +1,12 @@
 {
     "FULL_SCREEN": 0,
-    "SCANLINES_TYPE": 0,
-    "MAP_TRANSITION": 0
+    "SCANLINES_TYPE": 2,
+    "MAP_TRANSITION": 1,
+
+    "LEFT_KEY": 97,
+    "RIGHT_KEY": 100,
+    "JUMP_KEY": 119,
+    "ACTION_KEY": 115,
+    "PAUSE_KEY": 104,
+    "MUTE_KEY": 109
 }
