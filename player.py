@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
         if not key_state[config.left_key] and not key_state[config.right_key]:
             if self.on_ground:
                 self.state = enums.IDLE
-            elif self.y_speed > 1:
+            elif self.y_speed >= 1:
                 self.state = enums.FALLING
         # press jump
         if key_state[config.jump_key] and self.on_ground:
