@@ -3,7 +3,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Mejorar animación enemigos
 - Usar sistema de partículas para el player
 
 
@@ -72,6 +71,7 @@ HECHO
 16/10/22 - Animación (scroll) al cambiar de mapa
 11/11/22 - Gestión del player (movimiento, saltos, gravedad) 
 14/11/22 - Animación del player
+15/11/22 - Mejorar animación enemigos
 
 
 GREETINGS
@@ -79,6 +79,7 @@ GREETINGS
 Mojon Twins (MK1 engine)
 DaFluffyPotato (Font class, screen scaling)
 Rik Cross (Raspberry Pi Foundation)
+Chris (Clear Code)
 Mark Vanstone (Raspberry Pi Press)
 Ryan Lambie (Raspberry Pi Press)
 César Gómez (Mundo Python)

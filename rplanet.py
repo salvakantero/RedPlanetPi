@@ -358,7 +358,12 @@ clock = pygame.time.Clock()
 game_status = enums.OVER
 music_status = enums.UNMUTED
 
+
+
+#===============================================================================
 # Main loop
+#===============================================================================
+
 while True:    
     if game_status == enums.OVER: # game not running
         #main_menu()
@@ -436,6 +441,7 @@ while True:
             # check map change using player's coordinates
             # if the player leaves, the map number changes
             check_map_change(player)
+            
         elif game_status == enums.PAUSED:            
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
