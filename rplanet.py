@@ -360,6 +360,11 @@ dust_animation = {
         pygame.image.load('images/sprites/dust2.png').convert_alpha(),
         pygame.image.load('images/sprites/dust3.png').convert_alpha(),                                
         pygame.image.load('images/sprites/dust4.png').convert_alpha()],
+    enums.FALLING: [
+        pygame.image.load('images/sprites/dust5.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust6.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust7.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
 
 # clock to control the FPS
@@ -381,7 +386,7 @@ while True:
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
         # create the player
-        player = Player(player_animation, dust_animation)
+        player = Player(player_animation, dust_animation, all_sprites_group)
         # ingame music
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)

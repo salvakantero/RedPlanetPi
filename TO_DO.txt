@@ -3,7 +3,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Usar sistema de partículas para el player
+- Usar sistema de partículas de polvo para el player
 
 
 POR HACER

@@ -10,7 +10,7 @@ import tiled
 import particles
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, image_list, dust_image_list):
+    def __init__(self, image_list, dust_image_list, all_sprites_group):
         super().__init__()
         # properties
         self.lives = 10 # lives remaining
@@ -24,17 +24,23 @@ class Player(pygame.sprite.Sprite):
         self.y_speed = 0 # motion + gravity
         # image/animation
         self.image_list = image_list # list of images for animation
-        self.dust_image_list = dust_image_list
         self.frame_index = 0 # frame_number
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (32,112))  # initial position
 
+        self.dust_image_list = dust_image_list
+        self.sprites_group = all_sprites_group
+
     # partículas de polvo del salto
     def create_jump_particles(self,pos):
-        jump_particle_sprite = particles.ParticleEffect(pos, self.dust_image_list[self.state])
-        #self.dust_sprite.add(jump_particle_sprite)
+        jump_particle_sprite = particles.ParticleEffect(pos, self.dust_image_list[enums.JUMPING])
+        self.sprites_group.add(jump_particle_sprite)
+
+    def create_landing_particles(self,pos):
+        landing_particle_sprite = particles.ParticleEffect(pos, self.dust_image_list[enums.FALLING])
+        self.sprites_group.add(landing_particle_sprite)
 
     def get_input(self):
         # XY temporary to check for collision at the new position
@@ -62,7 +68,7 @@ class Player(pygame.sprite.Sprite):
         if key_state[config.jump_key] and self.on_ground:
             self.y_speed = constants.JUMP_VALUE
             self.state = enums.JUMPING
-            self.create_jump_particles(self.rect.midbottom)
+            self.create_jump_particles(self.rect.center)
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
@@ -87,8 +93,9 @@ class Player(pygame.sprite.Sprite):
             # avoid the rebound
             tile = tiled.tilemap_rect_list[index]
             if tile.y > self.temp_y: # sticks to platform                    
-                    self.rect.y = tile.y - constants.TILE_HEIGHT
-                    self.on_ground = True
+                self.rect.y = tile.y - constants.TILE_HEIGHT
+                self.on_ground = True
+                self.create_landing_particles(self.rect.center)
 
     def animate(self):
         # animation
