@@ -7,9 +7,10 @@ import constants
 import enums
 import config
 import tiled
+import particles
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, image_list):
+    def __init__(self, image_list, dust_image_list):
         super().__init__()
         # properties
         self.lives = 10 # lives remaining
@@ -23,11 +24,17 @@ class Player(pygame.sprite.Sprite):
         self.y_speed = 0 # motion + gravity
         # image/animation
         self.image_list = image_list # list of images for animation
+        self.dust_image_list = dust_image_list
         self.frame_index = 0 # frame_number
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (32,112))  # initial position
+
+    # partículas de polvo del salto
+    def create_jump_particles(self,pos):
+        jump_particle_sprite = particles.ParticleEffect(pos, self.dust_image_list[self.state])
+        #self.dust_sprite.add(jump_particle_sprite)
 
     def get_input(self):
         # XY temporary to check for collision at the new position
@@ -55,6 +62,7 @@ class Player(pygame.sprite.Sprite):
         if key_state[config.jump_key] and self.on_ground:
             self.y_speed = constants.JUMP_VALUE
             self.state = enums.JUMPING
+            self.create_jump_particles(self.rect.midbottom)
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
