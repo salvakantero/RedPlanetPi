@@ -7,17 +7,18 @@ import constants
 import enums
 import config
 import tiled
-import particles
+import dust
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, image_list, dust_image_list, all_sprites_group):
         super().__init__()
-        # properties
+        # external properties
         self.lives = 10 # lives remaining
         self.oxigen = 99 # oxigen remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
-        self.explosives = 0 # explosives collected        
+        self.explosives = 0 # explosives collected  
+        # internal properties
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground
@@ -29,18 +30,21 @@ class Player(pygame.sprite.Sprite):
         self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (32,112))  # initial position
-
+        # properties for the dust effect
         self.dust_image_list = dust_image_list
         self.sprites_group = all_sprites_group
 
-    # partículas de polvo del salto
-    def create_jump_particles(self,pos):
-        jump_particle_sprite = particles.ParticleEffect(pos, self.dust_image_list[enums.JUMPING])
-        self.sprites_group.add(jump_particle_sprite)
+    # dust effect when jumping
+    def jumping_dust(self,pos):
+        jumping_dust_sprite = dust.DustEffect(pos, 
+            self.dust_image_list[enums.JUMPING])
+        self.sprites_group.add(jumping_dust_sprite)
 
-    def create_landing_particles(self,pos):
-        landing_particle_sprite = particles.ParticleEffect(pos, self.dust_image_list[enums.FALLING])
-        self.sprites_group.add(landing_particle_sprite)
+    # dust effect on landing
+    def landing_dust(self,pos):
+        landing_dust_sprite = dust.DustEffect(pos, 
+            self.dust_image_list[enums.FALLING])
+        self.sprites_group.add(landing_dust_sprite)
 
     def get_input(self):
         # XY temporary to check for collision at the new position
@@ -68,7 +72,7 @@ class Player(pygame.sprite.Sprite):
         if key_state[config.jump_key] and self.on_ground:
             self.y_speed = constants.JUMP_VALUE
             self.state = enums.JUMPING
-            self.create_jump_particles(self.rect.center)
+            self.jumping_dust(self.rect.center) # dust effect
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
@@ -95,7 +99,7 @@ class Player(pygame.sprite.Sprite):
             if tile.y > self.temp_y: # sticks to platform                    
                 self.rect.y = tile.y - constants.TILE_HEIGHT
                 self.on_ground = True
-                self.create_landing_particles(self.rect.center)
+                #self.landing_dust(self.rect.center)
 
     def animate(self):
         # animation
