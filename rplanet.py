@@ -116,7 +116,7 @@ def refresh_screen():
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
     make_scanlines()
     pygame.display.update() # refreshes the screen
-    clock.tick() # 60 FPS
+    clock.tick(60) # 60 FPS
 
 # draws a centred message box erasing the background
 def message_box(message1, message2):

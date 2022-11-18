@@ -65,6 +65,9 @@ class Player(pygame.sprite.Sprite):
         # without lateral movement
         if not key_state[config.left_key] and not key_state[config.right_key]:
             if self.on_ground:
+                # landing, creating some dust
+                if self.state == enums.FALLING:
+                    self.landing_dust(self.rect.center) # dust effect
                 self.state = enums.IDLE
             elif self.y_speed >= 1:
                 self.state = enums.FALLING
@@ -98,8 +101,7 @@ class Player(pygame.sprite.Sprite):
             tile = tiled.tilemap_rect_list[index]
             if tile.y > self.temp_y: # sticks to platform                    
                 self.rect.y = tile.y - constants.TILE_HEIGHT
-                self.on_ground = True
-                #self.landing_dust(self.rect.center)
+                self.on_ground = True                
 
     def animate(self):
         # animation
