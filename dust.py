@@ -8,7 +8,8 @@ class DustEffect(pygame.sprite.Sprite):
         self.frames = dust_animation # image list
         self.image = self.frames[0] # first frame
         self.rect = self.image.get_rect(center = pos) # position
-
+        self.rect.y += 2 # offset
+        
     # loads next frame of animation or ends
     def animate(self):
         self.frame_index += self.animation_speed

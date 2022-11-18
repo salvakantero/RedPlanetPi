@@ -3,27 +3,26 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Usar sistema de partículas de polvo para el player
+- Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
 
 
 POR HACER
 =========
-- Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
 - Colisiones player/enemigos
 - Movimiento del enemigo fanty
 - El player es invencible los primeros 5 segundos (parpadea)
 - Gestión de plataformas móviles
+- Gestión de disparos del player
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo MUNICIÓN
 - Gestión de objetos de tipo OXÍGENO
 - Gestión de tiempo de oxígeno
-- Gestión de disparos del player
 - Teclas redefinibles
 - Pantalla final
-- Revisar, simplificar, organizar y comentar el código fuente final
 - Menu inicial
 - Obtener SFX de opengameart.com
+- Revisar, simplificar, organizar y comentar el código fuente final
 
 
 OPCIONAL
@@ -72,6 +71,7 @@ HECHO
 11/11/22 - Gestión del player (movimiento, saltos, gravedad) 
 14/11/22 - Animación del player
 15/11/22 - Mejorar animación enemigos
+18/11/22 - Sistema de partículas de polvo para el player
 
 
 GREETINGS
