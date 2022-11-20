@@ -3,8 +3,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Refrescar marcador solo si es necesario
-- Gestión de tiles matantes
 - Gestión de tiles plataformas
 
 
@@ -76,6 +74,8 @@ HECHO
 18/11/22 - Sistema de partículas de polvo para el player
 20/11/22 - Gestión de tilemaps background
 20/11/22 - Gestión de tilemaps bloqueantes
+20/11/22 - Gestión de tiles matantes
+20/11/22 - Refrescar marcador solo si es necesario
 
 
 GREETINGS

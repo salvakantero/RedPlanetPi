@@ -7,7 +7,7 @@ import os
 import json
 import random
 
-import constants, enums
+import globalvars, enums
 
 tilemap_rect_list = [] # list of tile rects
 tilemap_behaviour_list = [] # list of tile behaviours
@@ -91,10 +91,10 @@ def draw_map(map_display):
 
             # generates the list of animated tiles of the current map
             # (frame_1, frame_2, x, y, num_frame)
-            if t['image'] in constants.ANIM_TILES.keys():                
+            if t['image'] in globalvars.ANIM_TILES.keys():                
                 anim_tiles_list.append(
                     [tile, pygame.image.load('images/tiles/' 
-                    + constants.ANIM_TILES[t['image']]).convert(), 
+                    + globalvars.ANIM_TILES[t['image']]).convert(), 
                     tileRect.topleft[0], tileRect.topleft[1], 0])                 
 
 # select some of the animated tiles on the current map to change the frame

@@ -3,7 +3,7 @@
 #===============================================================================
 
 import pygame
-import constants
+import globalvars
 import enums
 import config
 import tiled
@@ -73,24 +73,24 @@ class Player(pygame.sprite.Sprite):
                 self.state = enums.FALLING
         # press jump
         if key_state[config.jump_key] and self.on_ground:
-            self.y_speed = constants.JUMP_VALUE
+            self.y_speed = globalvars.JUMP_VALUE
             self.state = enums.JUMPING
             self.jumping_dust(self.rect.center) # dust effect
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.temp_x,self.rect.y), 
-            (constants.TILE_WIDTH, constants.TILE_HEIGHT))      
+            (globalvars.TILE_WIDTH, globalvars.TILE_HEIGHT))      
         if temp_rect.collidelist(tiled.tilemap_rect_list) == -1:
             self.rect.x = self.temp_x # no collision. Apply the new position X
 
     def vertical_mov(self):
         # applies acceleration of gravity
-        self.y_speed += constants.GRAVITY
+        self.y_speed += globalvars.GRAVITY
         self.temp_y += self.y_speed
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, self.temp_y), 
-            (constants.TILE_WIDTH, constants.TILE_HEIGHT))        
+            (globalvars.TILE_WIDTH, globalvars.TILE_HEIGHT))        
         index = temp_rect.collidelist(tiled.tilemap_rect_list)         
         if index == -1: # no collision            
             self.rect.y = self.temp_y # apply the new position Y
@@ -101,13 +101,14 @@ class Player(pygame.sprite.Sprite):
                 # avoid the rebound
                 tile = tiled.tilemap_rect_list[index]
                 if tile.y > self.temp_y: # sticks to platform                    
-                    self.rect.y = tile.y - constants.TILE_HEIGHT
+                    self.rect.y = tile.y - globalvars.TILE_HEIGHT
                     self.on_ground = True   
             # toxic waste and lava             
             elif (tiled.tilemap_behaviour_list[index] == enums.KILLER):
                 self.lives -= 1
+                globalvars.refresh_scoreboard = True
                 # makes a preventive jump (this time without dust)
-                self.y_speed = constants.JUMP_VALUE
+                self.y_speed = globalvars.JUMP_VALUE
                 self.state = enums.JUMPING
 
     def animate(self):
