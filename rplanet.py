@@ -95,6 +95,7 @@ def init_scoreboard():
 # update the scoreboard data
 def update_scoreboard():
     # values
+    pygame.draw.rect(sboard_display, constants.PALETTE['BLACK'], ((18,4),(13,12)))
     bg_font_L.render(str(player.lives).rjust(2, '0'), sboard_display, (20, 6))
     fg_font_L.render(str(player.lives).rjust(2, '0'), sboard_display, (18, 4))
     bg_font_L.render(str(player.oxigen).rjust(2, '0'), sboard_display, (62, 6))
@@ -116,7 +117,7 @@ def refresh_screen():
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
     make_scanlines()
     pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+    clock.tick() # 60 FPS
 
 # draws a centred message box erasing the background
 def message_box(message1, message2):
@@ -279,12 +280,12 @@ def change_map():
     all_sprites_group.add(player)
     # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
     # (a maximum of three enemies per map)
-    for i in range(3):
-        enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
-        if enemy_data[6] != 0: # no enemy
-            enemy = Enemy(enemy_data)
-            all_sprites_group.add(enemy)
-            enemies_group.add(enemy)
+    # for i in range(3):
+    #     enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
+    #     if enemy_data[6] != 0: # no enemy
+    #         enemy = Enemy(enemy_data)
+    #         all_sprites_group.add(enemy)
+    #         enemies_group.add(enemy)
 
 
 
@@ -327,7 +328,7 @@ if config.scanlines_type == 2:
 fg_font_S = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
 bg_font_S = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
 fg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
-bg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
+bg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
 aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], False)
 
 # scoreboard icons
@@ -453,6 +454,7 @@ while True:
             map_display_backup = tiled.animate_tiles(map_display_backup)
             # print sprites
             all_sprites_group.draw(map_display)
+            #update_scoreboard()
             # check map change using player's coordinates
             # if the player leaves, the map number changes
             check_map_change(player)

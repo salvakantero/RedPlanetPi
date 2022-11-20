@@ -95,13 +95,20 @@ class Player(pygame.sprite.Sprite):
         if index == -1: # no collision            
             self.rect.y = self.temp_y # apply the new position Y
             self.on_ground = False
-        else: # collision            
-            self.y_speed = 0 # stops the player
-            # avoid the rebound
-            tile = tiled.tilemap_rect_list[index]
-            if tile.y > self.temp_y: # sticks to platform                    
-                self.rect.y = tile.y - constants.TILE_HEIGHT
-                self.on_ground = True                
+        else: # collision
+            if (tiled.tilemap_behaviour_list[index] == enums.OBSTACLE):        
+                self.y_speed = 0 # stops the player
+                # avoid the rebound
+                tile = tiled.tilemap_rect_list[index]
+                if tile.y > self.temp_y: # sticks to platform                    
+                    self.rect.y = tile.y - constants.TILE_HEIGHT
+                    self.on_ground = True   
+            # toxic waste and lava             
+            elif (tiled.tilemap_behaviour_list[index] == enums.KILLER):
+                self.lives -= 1
+                # makes a preventive jump (this time without dust)
+                self.y_speed = constants.JUMP_VALUE
+                self.state = enums.JUMPING
 
     def animate(self):
         # animation

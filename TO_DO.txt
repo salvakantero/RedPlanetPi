@@ -3,7 +3,9 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de tiles (pasables, bloqueantes, matantes, y plataformas)
+- Refrescar marcador solo si es necesario
+- Gestión de tiles matantes
+- Gestión de tiles plataformas
 
 
 POR HACER
@@ -72,6 +74,8 @@ HECHO
 14/11/22 - Animación del player
 15/11/22 - Mejorar animación enemigos
 18/11/22 - Sistema de partículas de polvo para el player
+20/11/22 - Gestión de tilemaps background
+20/11/22 - Gestión de tilemaps bloqueantes
 
 
 GREETINGS

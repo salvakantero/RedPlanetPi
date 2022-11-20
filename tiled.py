@@ -98,7 +98,8 @@ def draw_map(map_display):
                     tileRect.topleft[0], tileRect.topleft[1], 0])                 
 
 # select some of the animated tiles on the current map to change the frame
-# and apply to the surface
+# and apply to the surface. 
+# anim_tiles_list = (frame_1, frame_2, x, y, num_frame)
 def animate_tiles(surf):
     for anim_tile in anim_tiles_list: # for each animated tile on the map
         if random.randint(0,24) == 0: # 4% chance of changing frame
