@@ -1,3 +1,4 @@
+
 #===============================================================================
 # Player class
 #===============================================================================
@@ -36,15 +37,19 @@ class Player(pygame.sprite.Sprite):
 
     # dust effect when jumping
     def jumping_dust(self,pos):
-        jumping_dust_sprite = dust.DustEffect(pos, 
-            self.dust_image_list[enums.JUMPING])
-        self.sprites_group.add(jumping_dust_sprite)
+        if not globalvars.dust_in_progress:            
+            jumping_dust_sprite = dust.DustEffect(pos, 
+                self.dust_image_list[enums.JUMPING])
+            self.sprites_group.add(jumping_dust_sprite)
+            globalvars.dust_in_progress = True
 
     # dust effect on landing
     def landing_dust(self,pos):
-        landing_dust_sprite = dust.DustEffect(pos, 
-            self.dust_image_list[enums.FALLING])
-        self.sprites_group.add(landing_dust_sprite)
+        if not globalvars.dust_in_progress:
+            landing_dust_sprite = dust.DustEffect(pos, 
+                self.dust_image_list[enums.FALLING])
+            self.sprites_group.add(landing_dust_sprite)
+            globalvars.dust_in_progress = True
 
     def get_input(self):
         # XY temporary to check for collision at the new position
@@ -96,15 +101,19 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = self.temp_y # apply the new position Y
             self.on_ground = False
         else: # collision
-            if (tiled.tilemap_behaviour_list[index] == enums.OBSTACLE):        
+            if tiled.tilemap_behaviour_list[index] == enums.OBSTACLE \
+            or tiled.tilemap_behaviour_list[index] == enums.PLATFORM:        
                 self.y_speed = 0 # stops the player
                 # avoid the rebound
                 tile = tiled.tilemap_rect_list[index]
                 if tile.y > self.temp_y: # sticks to platform                    
                     self.rect.y = tile.y - globalvars.TILE_HEIGHT
                     self.on_ground = True   
+            # platform, only stops from above
+            # elif tiled.tilemap_behaviour_list[index] == enums.PLATFORM:        
+            #     pass
             # toxic waste and lava             
-            elif (tiled.tilemap_behaviour_list[index] == enums.KILLER):
+            elif tiled.tilemap_behaviour_list[index] == enums.KILLER:
                 self.lives -= 1
                 globalvars.refresh_scoreboard = True
                 # makes a preventive jump (this time without dust)

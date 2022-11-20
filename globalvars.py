@@ -4,6 +4,7 @@
 #===============================================================================
 
 refresh_scoreboard = False # requires updating of the scoreboard
+dust_in_progress = False # prevents further dust generation
 
 
 

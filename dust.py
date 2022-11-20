@@ -1,4 +1,5 @@
 import pygame
+import globalvars
 
 class DustEffect(pygame.sprite.Sprite):
     def __init__(self, pos, dust_animation):
@@ -15,6 +16,7 @@ class DustEffect(pygame.sprite.Sprite):
         self.frame_index += self.animation_speed
         if self.frame_index >= len(self.frames): # end of the animation
             self.kill()
+            globalvars.dust_in_progress = False
         else:
             self.image = self.frames[int(self.frame_index)] # next frame
 
