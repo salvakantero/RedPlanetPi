@@ -99,20 +99,30 @@ class Player(pygame.sprite.Sprite):
         index = temp_rect.collidelist(tiled.tilemap_rect_list)         
         if index == -1: # no collision            
             self.rect.y = self.temp_y # apply the new position Y
-            self.on_ground = False
+            self.on_ground = False           
         else: # collision
-            if tiled.tilemap_behaviour_list[index] == enums.OBSTACLE \
-            or tiled.tilemap_behaviour_list[index] == enums.PLATFORM:        
+            # platform, only stops from above
+            if tiled.tilemap_behaviour_list[index] == enums.PLATFORM:        
+                if (self.state is not enums.JUMPING): 
+                    tile = tiled.tilemap_rect_list[index]
+                    if self.temp_y + globalvars.TILE_HEIGHT >= tile.y:                  
+                        self.y_speed = 0 # stops the player                        
+                        self.rect.y = tile.y - globalvars.TILE_HEIGHT
+                        self.on_ground = True
+                else:
+                    self.rect.y = self.temp_y # apply the new position Y
+                    self.on_ground = False
+
+            # obstacles, stops the player from all directions
+            elif tiled.tilemap_behaviour_list[index] == enums.OBSTACLE:        
                 self.y_speed = 0 # stops the player
                 # avoid the rebound
                 tile = tiled.tilemap_rect_list[index]
                 if tile.y > self.temp_y: # sticks to platform                    
                     self.rect.y = tile.y - globalvars.TILE_HEIGHT
-                    self.on_ground = True   
-            # platform, only stops from above
-            # elif tiled.tilemap_behaviour_list[index] == enums.PLATFORM:        
-            #     pass
-            # toxic waste and lava             
+                    self.on_ground = True 
+              
+            # toxic waste and lava, one life less            
             elif tiled.tilemap_behaviour_list[index] == enums.KILLER:
                 self.lives -= 1
                 globalvars.refresh_scoreboard = True
