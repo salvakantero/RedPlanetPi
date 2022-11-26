@@ -93,26 +93,36 @@ class Player(pygame.sprite.Sprite):
         # applies acceleration of gravity
         self.y_speed += globalvars.GRAVITY
         self.temp_y += self.y_speed
+
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, self.temp_y), 
             (globalvars.TILE_WIDTH, globalvars.TILE_HEIGHT))        
-        index = temp_rect.collidelist(tiled.tilemap_rect_list)         
+        index = temp_rect.collidelist(tiled.tilemap_rect_list) 
+
         if index == -1: # no collision            
             self.rect.y = self.temp_y # apply the new position Y
             self.on_ground = False           
         else: # collision
             # platform, only stops from above
-            if tiled.tilemap_behaviour_list[index] == enums.PLATFORM:        
+
+            # si se trata de una plataforma...
+            if tiled.tilemap_behaviour_list[index] == enums.PLATFORM:   
+                # si no está saltando (si no está subiendo)     
                 if (self.state is not enums.JUMPING):
+                    # si la parte baja del player está mas baja que
+                    # la parte superior de la plataforma
+                    # avoid the rebound
                     tile = tiled.tilemap_rect_list[index]
-                    if self.rect.bottom < tile.top:
-                    #if self.temp_y + globalvars.TILE_HEIGHT >= tile.y:                  
-                        self.y_speed = 0 # stops the player                        
+                    if tile.y > self.temp_y + 10: # sticks to platform  
+                        self.y_speed = 0 # stops the player                 
                         self.rect.y = tile.y - globalvars.TILE_HEIGHT
-                        self.on_ground = True
+                        self.on_ground = True 
+                    # si no está en la base de la plataforma
+                    # es como un tile de fondo
                     else:
                         self.rect.y = self.temp_y # apply the new position Y
                         self.on_ground = False
+                # si está saltando es como un tile de fondo
                 else:
                     self.rect.y = self.temp_y # apply the new position Y
                     self.on_ground = False
