@@ -4,11 +4,11 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Gestión de tiles plataformas
+- Colisiones player/enemigos
 
 
 POR HACER
 =========
-- Colisiones player/enemigos
 - Movimiento del enemigo fanty
 - El player es invencible los primeros 5 segundos (parpadea)
 - Gestión de plataformas móviles

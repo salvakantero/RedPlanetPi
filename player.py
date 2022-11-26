@@ -103,12 +103,16 @@ class Player(pygame.sprite.Sprite):
         else: # collision
             # platform, only stops from above
             if tiled.tilemap_behaviour_list[index] == enums.PLATFORM:        
-                if (self.state is not enums.JUMPING): 
+                if (self.state is not enums.JUMPING):
                     tile = tiled.tilemap_rect_list[index]
-                    if self.temp_y + globalvars.TILE_HEIGHT >= tile.y:                  
+                    if self.rect.bottom < tile.top:
+                    #if self.temp_y + globalvars.TILE_HEIGHT >= tile.y:                  
                         self.y_speed = 0 # stops the player                        
                         self.rect.y = tile.y - globalvars.TILE_HEIGHT
                         self.on_ground = True
+                    else:
+                        self.rect.y = self.temp_y # apply the new position Y
+                        self.on_ground = False
                 else:
                     self.rect.y = self.temp_y # apply the new position Y
                     self.on_ground = False
