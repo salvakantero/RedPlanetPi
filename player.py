@@ -35,20 +35,11 @@ class Player(pygame.sprite.Sprite):
         self.dust_image_list = dust_image_list
         self.sprites_group = all_sprites_group
 
-    # dust effect when jumping
-    def jumping_dust(self,pos):
+        # dust effect when jumping or landing
+    def dust_effect(self, pos, state):
         if not globalvars.dust_in_progress:            
-            jumping_dust_sprite = dust.DustEffect(pos, 
-                self.dust_image_list[enums.JUMPING])
-            self.sprites_group.add(jumping_dust_sprite)
-            globalvars.dust_in_progress = True
-
-    # dust effect on landing
-    def landing_dust(self,pos):
-        if not globalvars.dust_in_progress:
-            landing_dust_sprite = dust.DustEffect(pos, 
-                self.dust_image_list[enums.FALLING])
-            self.sprites_group.add(landing_dust_sprite)
+            dust_sprite = dust.DustEffect(pos, self.dust_image_list[state])
+            self.sprites_group.add(dust_sprite)
             globalvars.dust_in_progress = True
 
     def get_input(self):
@@ -72,7 +63,7 @@ class Player(pygame.sprite.Sprite):
             if self.on_ground:
                 # landing, creating some dust
                 if self.state == enums.FALLING:
-                    self.landing_dust(self.rect.center) # dust effect
+                    self.dust_effect(self.rect.center, self.state)
                 self.state = enums.IDLE
             elif self.y_speed >= 1:
                 self.state = enums.FALLING
@@ -80,14 +71,16 @@ class Player(pygame.sprite.Sprite):
         if key_state[config.jump_key] and self.on_ground:
             self.y_speed = globalvars.JUMP_VALUE
             self.state = enums.JUMPING
-            self.jumping_dust(self.rect.center) # dust effect
+            self.dust_effect(self.rect.center, self.state)
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.temp_x,self.rect.y), 
             (globalvars.TILE_WIDTH, globalvars.TILE_HEIGHT))      
-        if temp_rect.collidelist(tiled.tilemap_rect_list) == -1:
-            self.rect.x = self.temp_x # no collision. Apply the new position X
+        index = temp_rect.collidelist(tiled.tilemap_rect_list) 
+        # no collision, or collides with a platform
+        if index == -1 or tiled.tilemap_behaviour_list[index] == enums.PLATFORM:
+            self.rect.x = self.temp_x # apply the new position X
 
     def vertical_mov(self):
         # applies acceleration of gravity
