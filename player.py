@@ -75,8 +75,8 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
-        temp_rect = pygame.Rect((self.temp_x,self.rect.y), 
-            (globalvars.TILE_WIDTH, globalvars.TILE_HEIGHT))      
+        temp_rect = pygame.Rect((self.temp_x,self.rect.y),
+            (self.rect.width, self.rect.height))      
         index = temp_rect.collidelist(tiled.tilemap_rect_list) 
         # no collision, or collides with a platform
         if index == -1 or tiled.tilemap_behaviour_list[index] == enums.PLATFORM:
@@ -89,44 +89,44 @@ class Player(pygame.sprite.Sprite):
 
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, self.temp_y), 
-            (globalvars.TILE_WIDTH, globalvars.TILE_HEIGHT))        
+            (self.rect.width, self.rect.height))        
         index = temp_rect.collidelist(tiled.tilemap_rect_list) 
 
         if index == -1: # no collision            
-            self.rect.y = self.temp_y # apply the new position Y
-            self.on_ground = False           
+            self.rect.y = self.temp_y # apply the new position
+            self.on_ground = False  
+
         else: # collision
             # platform, only stops from above
-
-            # si se trata de una plataforma...
             if tiled.tilemap_behaviour_list[index] == enums.PLATFORM:   
-                # si no está saltando (si no está subiendo)     
+                # if the player is not jumping (if not climbing)    
                 if (self.state is not enums.JUMPING):
-                    # si la parte baja del player está mas baja que
-                    # la parte superior de la plataforma
-                    # avoid the rebound
+                    # if the lower part of the player is below 
+                    # the upper part of the platform
                     tile = tiled.tilemap_rect_list[index]
-                    if tile.y > self.temp_y + 12: # sticks to platform  
-                        self.y_speed = 0 # stops the player                 
-                        self.rect.y = tile.y - globalvars.TILE_HEIGHT
-                        self.on_ground = True 
-                    # si no está en la base de la plataforma
-                    # es como un tile de fondo
+                    if tile.y > self.temp_y + 12:
+                        # sticks to platform                
+                        self.rect.y = tile.y - self.rect.height
+                        self.on_ground = True
+                        self.y_speed = 0  
+                    # if the player is not on top of the platform
+                    # it keeps moving
                     else:
-                        self.rect.y = self.temp_y # apply the new position Y
+                        self.rect.y = self.temp_y
                         self.on_ground = False
-                # si está saltando es como un tile de fondo
+                # if it's jumping it keeps moving
                 else:
-                    self.rect.y = self.temp_y # apply the new position Y
+                    self.rect.y = self.temp_y
                     self.on_ground = False
 
             # obstacles, stops the player from all directions
             elif tiled.tilemap_behaviour_list[index] == enums.OBSTACLE:        
-                self.y_speed = 0 # stops the player
+                self.y_speed = 0
                 # avoid the rebound
                 tile = tiled.tilemap_rect_list[index]
-                if tile.y > self.temp_y: # sticks to platform                    
-                    self.rect.y = tile.y - globalvars.TILE_HEIGHT
+                if tile.y > self.temp_y:
+                    # sticks to platform                    
+                    self.rect.y = tile.y - self.rect.height
                     self.on_ground = True 
               
             # toxic waste and lava, one life less            

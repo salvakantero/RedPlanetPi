@@ -3,15 +3,15 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de tiles plataformas
 - Colisiones player/enemigos
+- Gestión de plataformas móviles
 
 
 POR HACER
 =========
+- Afinar salto y movimiento para afrontar el mapa de la versión original
 - Movimiento del enemigo fanty
 - El player es invencible los primeros 5 segundos (parpadea)
-- Gestión de plataformas móviles
 - Gestión de disparos del player
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
@@ -76,6 +76,7 @@ HECHO
 20/11/22 - Gestión de tilemaps bloqueantes
 20/11/22 - Gestión de tiles matantes
 20/11/22 - Refrescar marcador solo si es necesario
+27/11/22 - Gestión de tiles plataformas
 
 
 GREETINGS

@@ -276,6 +276,7 @@ def change_map():
     # reset the groups  
     all_sprites_group.empty()
     enemies_group.empty()
+    globalvars.dust_in_progress = False
     # add the player  
     all_sprites_group.add(player)
     # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
