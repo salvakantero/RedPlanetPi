@@ -106,7 +106,7 @@ class Player(pygame.sprite.Sprite):
                     # la parte superior de la plataforma
                     # avoid the rebound
                     tile = tiled.tilemap_rect_list[index]
-                    if tile.y > self.temp_y + 10: # sticks to platform  
+                    if tile.y > self.temp_y + 12: # sticks to platform  
                         self.y_speed = 0 # stops the player                 
                         self.rect.y = tile.y - globalvars.TILE_HEIGHT
                         self.on_ground = True 
