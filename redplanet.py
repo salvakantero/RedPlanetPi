@@ -256,7 +256,7 @@ def map_transition():
 
 # does everything necessary to change the map
 def change_map():
-    global last_map
+    global last_map, map_number
     # sets the new map as the current one
     last_map = map_number
     # load the new map
@@ -281,12 +281,12 @@ def change_map():
     all_sprites_group.add(player)
     # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
     # (a maximum of three enemies per map)
-    # for i in range(3):
-    #     enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
-    #     if enemy_data[6] != 0: # no enemy
-    #         enemy = Enemy(enemy_data)
-    #         all_sprites_group.add(enemy)
-    #         enemies_group.add(enemy)
+    for i in range(3):
+        enemy_data = globalvars.ENEMIES_DATA[map_number*3 + i]
+        if enemy_data[6] != 0: # no enemy
+            enemy = Enemy(enemy_data)
+            all_sprites_group.add(enemy)
+            enemies_group.add(enemy)
 
 
 
@@ -445,10 +445,18 @@ while True:
         if game_status == enums.RUNNING:
             # update sprites
             all_sprites_group.update()
-            # collisions
+
+            # collision between the player and the martians?
+            if pygame.sprite.spritecollide(player, enemies_group, False):
+                player.lives -= 1 # one life less
+
             if player.lives == 0:
                 # print game over message
                 game_status = enums.OVER
+            else:
+                # immune for 5 seconds
+                pass
+
             # draws the map free of sprites to clean it up
             map_display.blit(map_display_backup, (0,0))
             # and change the frame of the animated tiles

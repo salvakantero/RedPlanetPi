@@ -4,6 +4,7 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Colisiones player/enemigos
+- Secuencia de Game Over
 - Gestión de plataformas móviles
 
 
@@ -31,6 +32,7 @@ OPCIONAL
 - Animación al abrir puerta
 - Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
+
 - Score y High
 - Highs online
 - Tabla de mejores puntuaciones
