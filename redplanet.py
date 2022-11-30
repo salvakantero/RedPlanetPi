@@ -448,24 +448,24 @@ while True:
 
             # collision between the player and the martians?            
             if not player.invincible and pygame.sprite.spritecollide(player, enemies_group, False):
-                player.lives -= 1 # one life less
+                player.loses_life()
 
             if player.lives == 0:
                 # print game over message
                 game_status = enums.OVER
-            else:
-                # immune for 5 seconds
-                pass
 
             # draws the map free of sprites to clean it up
             map_display.blit(map_display_backup, (0,0))
             # and change the frame of the animated tiles
             map_display_backup = tiled.animate_tiles(map_display_backup)
+
             # print sprites
             all_sprites_group.draw(map_display)
+
             # updates the scoreboard, only if necessary
             if globalvars.refresh_scoreboard:
                 update_scoreboard()
+
             # check map change using player's coordinates
             # if the player leaves, the map number changes
             check_map_change(player)

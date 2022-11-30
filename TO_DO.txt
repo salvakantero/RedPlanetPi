@@ -1,13 +1,11 @@
+
 RED PLANET PI
 =============
 
 EN PROCESO
 ==========
-- Colisiones player/enemigos
-- El player es invencible los primeros 5 segundos (parpadea)
 - Secuencia de Game Over
 - Gestión de plataformas móviles
-
 
 POR HACER
 =========
@@ -25,7 +23,6 @@ POR HACER
 - Obtener SFX de opengameart.com
 - Revisar, simplificar, organizar y comentar el código fuente final
 
-
 OPCIONAL
 ========
 - Animación de objetos
@@ -37,7 +34,6 @@ OPCIONAL
 - Highs online
 - Tabla de mejores puntuaciones
 - Objetos para puntuar (diamantes, joyas, regalos)
-
 
 HECHO
 =====
@@ -79,6 +75,8 @@ HECHO
 20/11/22 - Gestión de tiles matantes
 20/11/22 - Refrescar marcador solo si es necesario
 27/11/22 - Gestión de tiles plataformas
+30/11/22 - Colisiones player/enemigos
+30/11/22 - El player es invencible durante 1 segundo (parpadea)
 
 
 GREETINGS
@@ -90,7 +88,6 @@ Chris (Clear Code)
 Mark Vanstone (Raspberry Pi Press)
 Ryan Lambie (Raspberry Pi Press)
 César Gómez (Mundo Python)
-
 
 
 ITEMS:

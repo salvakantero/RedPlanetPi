@@ -4,6 +4,7 @@
 #===============================================================================
 
 import pygame
+from math import sin
 import globalvars
 import enums
 import config
@@ -25,7 +26,8 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = False # perched on the ground
         self.y_speed = 0 # motion + gravity
         self.invincible = False # invincible after losing a life
-        self.invincibility_duration = 500 # time of the invincible state
+        self.invincible_time_from = 0 # tick number where invincibility begins
+        self.invincible_time_to = 1000 # time of invincibility (1 sec.)
         # image/animation
         self.image_list = image_list # list of images for animation
         self.frame_index = 0 # frame_number
@@ -133,8 +135,7 @@ class Player(pygame.sprite.Sprite):
               
             # toxic waste and lava, one life less            
             elif tiled.tilemap_behaviour_list[index] == enums.KILLER:
-                self.lives -= 1
-                globalvars.refresh_scoreboard = True
+                self.loses_life()
                 # makes a preventive jump (this time without dust)
                 self.y_speed = globalvars.JUMP_VALUE
                 self.state = enums.JUMPING
@@ -160,14 +161,32 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.transform.flip(
                 self.image_list[self.state][self.frame_index], True, False)
         # invincible effect (the player blinks)
+        if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255
+        else: self.image.set_alpha(255) # without transparency
+    
+    # subtracts one life and applies temporary invincibility
+    def loses_life(self):
+        if not self.invincible:
+            self.lives -= 1
+            self.invincible = True
+            self.invincible_time_from = pygame.time.get_ticks()
+            globalvars.refresh_scoreboard = True
+
+    # controls the invincibility time
+    def invincibility_timer(self):
         if self.invincible:
-            alpha = self.wave_value() # returns the value 0 or 255
-            self.image.set_alpha(alpha)
-        else:
-            self.image.set_alpha(255) # without transparency
-                
+            if (pygame.time.get_ticks() - self.invincible_time_from) \
+                >= self.invincible_time_to:
+                self.invincible = False
+
+    # returns the value 0 or 255 depending on the number of ticks.
+    def wave_value(self):
+        if sin(pygame.time.get_ticks()) >= 0: return 255
+        else: return 0
+
     def update(self):
         self.get_input()
         self.horizontal_mov()
         self.vertical_mov()
         self.animate()
+        self.invincibility_timer()
