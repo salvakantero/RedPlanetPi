@@ -4,6 +4,7 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Colisiones player/enemigos
+- El player es invencible los primeros 5 segundos (parpadea)
 - Secuencia de Game Over
 - Gestión de plataformas móviles
 
@@ -12,7 +13,6 @@ POR HACER
 =========
 - Afinar salto y movimiento para afrontar el mapa de la versión original
 - Movimiento del enemigo fanty
-- El player es invencible los primeros 5 segundos (parpadea)
 - Gestión de disparos del player
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO

@@ -24,6 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground
         self.y_speed = 0 # motion + gravity
+        self.invincible = False # invincible after losing a life
+        self.invincibility_duration = 500 # time of the invincible state
         # image/animation
         self.image_list = image_list # list of images for animation
         self.frame_index = 0 # frame_number
@@ -157,6 +159,12 @@ class Player(pygame.sprite.Sprite):
         else: # reflects the image when looking to the left
             self.image = pygame.transform.flip(
                 self.image_list[self.state][self.frame_index], True, False)
+        # invincible effect (the player blinks)
+        if self.invincible:
+            alpha = self.wave_value() # returns the value 0 or 255
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255) # without transparency
                 
     def update(self):
         self.get_input()
