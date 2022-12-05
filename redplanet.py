@@ -447,7 +447,8 @@ while True:
             all_sprites_group.update()
 
             # collision between the player and the martians?            
-            if not player.invincible and pygame.sprite.spritecollide(player, enemies_group, False):
+            if not player.invincible and pygame.sprite.spritecollide(player, 
+                enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life()
 
             if player.lives == 0:

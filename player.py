@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
-        self.rect = self.image.get_rect(topleft = (32,112))  # initial position
+        self.rect = self.image.get_rect(topleft = (16,112))  # initial position
         # properties for the dust effect
         self.dust_image_list = dust_image_list
         self.sprites_group = all_sprites_group
