@@ -479,6 +479,5 @@ while True:
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
         ' FPS', sboard_display, (124, 22))
     # draw collision rects
-    pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1, 1)
-
+    pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
     update_screen()
