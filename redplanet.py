@@ -281,12 +281,12 @@ def change_map():
     all_sprites_group.add(player)
     # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
     # (a maximum of three enemies per map)
-    for i in range(3):
-        enemy_data = globalvars.ENEMIES_DATA[map_number*3 + i]
-        if enemy_data[6] != 0: # no enemy
-            enemy = Enemy(enemy_data)
-            all_sprites_group.add(enemy)
-            enemies_group.add(enemy)
+    # for i in range(3):
+    #     enemy_data = globalvars.ENEMIES_DATA[map_number*3 + i]
+    #     if enemy_data[6] != 0: # no enemy
+    #         enemy = Enemy(enemy_data)
+    #         all_sprites_group.add(enemy)
+    #         enemies_group.add(enemy)
 
 
 
@@ -474,8 +474,11 @@ while True:
         elif game_status == enums.PAUSED:            
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
 
+    # TEST
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
         ' FPS', sboard_display, (124, 22))
+    # draw collision rects
+    pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1, 1)
 
     update_screen()

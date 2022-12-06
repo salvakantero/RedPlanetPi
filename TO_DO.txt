@@ -4,12 +4,12 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Afinar salto y movimiento para afrontar el mapa de la versión original
 - Secuencia de Game Over
 - Gestión de plataformas móviles
 
 POR HACER
 =========
-- Afinar salto y movimiento para afrontar el mapa de la versión original
 - Movimiento del enemigo fanty
 - Gestión de disparos del player
 - Gestión de objetos de tipo TARJETA (abrir puertas)
