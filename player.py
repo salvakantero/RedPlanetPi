@@ -57,8 +57,8 @@ class Player(pygame.sprite.Sprite):
 
     def get_input(self):
         # XY temporary to check for collision at the new position
-        self.temp_x = self.rect.x 
-        self.temp_y = self.rect.y
+        #self.temp_x = self.rect.x 
+        #self.temp_y = self.rect.y
 
         # manages keystrokes
         key_status = pygame.key.get_pressed()   
@@ -195,6 +195,8 @@ class Player(pygame.sprite.Sprite):
                     self.collision_rect.bottom = tile.top
                     self.direction.y = 0 # para el movimiento
                     self.on_ground = True # en tierra
+                    if self.status == enums.FALLING:
+                        self.dust_effect(self.rect.center, enums.FALLING)
                 elif self.direction.y < 0:
                     self.collision_rect.top = tile.bottom
                     self.direction.y = 0 # para el movimiento

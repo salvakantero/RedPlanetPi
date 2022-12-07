@@ -288,8 +288,6 @@ def change_map():
     #         all_sprites_group.add(enemy)
     #         enemies_group.add(enemy)
 
-
-
 #===============================================================================
 # Main
 #===============================================================================
@@ -478,7 +476,9 @@ while True:
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
         ' FPS', sboard_display, (124, 22))
-    # draw collision rects
-    pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
-    
+    # draw collision rect
+    pygame.draw.rect(map_display,
+        globalvars.PALETTE['YELLOW'], player.collision_rect, 1)
+    print (player.rect.x)
+
     update_screen()
