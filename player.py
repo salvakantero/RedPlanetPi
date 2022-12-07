@@ -126,12 +126,12 @@ class Player(pygame.sprite.Sprite):
             if tile.colliderect(self.collision_rect):
                 if self.direction.x < 0: 
                     self.collision_rect.left = self.rect.right
-                    self.on_left = True
-                    self.current_x = self.rect.left # fija el valor de x por la izda.
+                    #self.on_left = True
+                    #self.current_x = self.rect.left # fija el valor de x por la izda.
                 elif self.direction.x > 0:
                     self.collision_rect.right = self.rect.left
-                    self.on_right = True
-                    self.current_x = self.rect.right # fija el valor de x por la derecha
+                    #self.on_right = True
+                    #self.current_x = self.rect.right # fija el valor de x por la derecha
 
     def vertical_mov(self):
         # # applies acceleration of gravity

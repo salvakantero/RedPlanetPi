@@ -186,32 +186,32 @@ def main_menu():
                     sys.exit()
 
 # checks if the map needs to be changed (depending on the player's XY position)
-def check_map_change(player):
-    global map_number, map_scroll
+def check_map_change():
+    global player, map_number, map_scroll
     # player disappears on the left
     # appearing from the right on the new map
     if player.rect.x < -16:
         map_number -= 1
         map_scroll = enums.LEFT
-        player.rect.right = globalvars.MAP_UNSCALED_SIZE[0]
+        player.rect.right = player.collision_rect.right = globalvars.MAP_UNSCALED_SIZE[0]
     # player disappears on the right
     # appearing from the left on the new map
     elif player.rect.x > globalvars.MAP_UNSCALED_SIZE[0]:
         map_number += 1
         map_scroll = enums.RIGHT
-        player.rect.left = 0
+        player.rect.left = player.collision_rect.left = 0
     # player disappears over the top
     # appearing at the bottom of the new map
     elif player.rect.y < (-16):
         map_number -= 5
         map_scroll = enums.UP
-        player.rect.bottom = globalvars.MAP_UNSCALED_SIZE[1]
+        player.rect.bottom = player.collision_rect.bottom = globalvars.MAP_UNSCALED_SIZE[1]
     # player disappears from underneath
     #appearing at the top of the new map
     elif player.rect.y > globalvars.MAP_UNSCALED_SIZE[1]:
         map_number += 5
         map_scroll = enums.DOWN
-        player.rect.top = 0
+        player.rect.top = player.collision_rect.top = 0
 
 # makes a screen transition between the old map and the new one.
 def map_transition():
@@ -287,6 +287,8 @@ def change_map():
     #         enemy = Enemy(enemy_data)
     #         all_sprites_group.add(enemy)
     #         enemies_group.add(enemy)
+
+
 
 #===============================================================================
 # Main
@@ -467,7 +469,7 @@ while True:
 
             # check map change using player's coordinates
             # if the player leaves, the map number changes
-            check_map_change(player)
+            check_map_change()
             
         elif game_status == enums.PAUSED:            
             message_box('P a u s e', 'THE MASSACRE CAN WAIT')
@@ -476,9 +478,8 @@ while True:
     # FPS counter using the clock   
     aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
         ' FPS', sboard_display, (124, 22))
-    # draw collision rect
-    pygame.draw.rect(map_display,
-        globalvars.PALETTE['YELLOW'], player.collision_rect, 1)
-    print (player.rect.x)
-
+    # draw collision rects
+    pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], 
+        player.collision_rect, 1)
+    
     update_screen()
