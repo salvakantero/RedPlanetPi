@@ -83,7 +83,7 @@ class Player(pygame.sprite.Sprite):
             (self.rect.width, self.rect.height))      
         index = temp_rect.collidelist(tiled.tilemap_rect_list) 
         # no collision, or collides with a platform
-        if index == -1 or tiled.tilemap_behaviour_list[index] == enums.PLATFORM:
+        if index == -1 or tiled.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:
             self.rect.x = self.temp_x # apply the new position X 
 
     def vertical_mov(self):
@@ -102,7 +102,7 @@ class Player(pygame.sprite.Sprite):
 
         else: # collision
             # platform, only stops from above
-            if tiled.tilemap_behaviour_list[index] == enums.PLATFORM:   
+            if tiled.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
                 # if the player is not jumping (if not climbing)    
                 if (self.state is not enums.JUMPING):
                     # if the lower part of the player is below 

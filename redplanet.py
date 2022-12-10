@@ -276,6 +276,7 @@ def change_map():
     # reset the groups  
     all_sprites_group.empty()
     enemies_group.empty()
+    platform_group.empty()
     globalvars.dust_in_progress = False
     # add the player  
     all_sprites_group.add(player)
@@ -283,10 +284,15 @@ def change_map():
     # (a maximum of three enemies per map)
     for i in range(3):
         enemy_data = globalvars.ENEMIES_DATA[map_number*3 + i]
-        if enemy_data[6] != 0: # no enemy
+        if enemy_data[6] != enums.NONE: # no enemy
             enemy = Enemy(enemy_data)
             all_sprites_group.add(enemy)
-            enemies_group.add(enemy)
+            # sprite enemigo, añade al grupo de enemigos
+            if enemy_data[6] != enums.PLATFORM_SPR:
+                #enemies_group.add(enemy) //////////////////////////////////////
+                pass
+            else: # sprite plataforma, añade al grupo de plataformas
+                platform_group.add(enemy)
 
 
 
@@ -387,6 +393,7 @@ while True:
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
+        platform_group = pygame.sprite.GroupSingle()
         # create the player
         player = Player(player_animation, dust_animation, all_sprites_group)
         # ingame music
@@ -451,6 +458,14 @@ while True:
                 enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life()
 
+            # colisión entre el player y una plataforma?
+            if pygame.sprite.spritecollide(player, platform_group, False):
+                player.y_speed = 0
+                # sticks to platform                    
+                player.rect.bottom = platform_group.sprite.rect.top
+                Player.state = enums.IDLE
+                Player.on_ground = True 
+
             if player.lives == 0:
                 # print game over message
                 game_status = enums.OVER
@@ -476,8 +491,8 @@ while True:
 
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
-    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
-        ' FPS', sboard_display, (124, 22))
+    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
+    #    ' FPS', sboard_display, (124, 22))
     # draw collision rects
     #pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
     # //////////////////////////////////////////////////////////////////////////

@@ -4,9 +4,9 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Gestión de plataformas móviles
 - Afinar salto y movimiento para afrontar el mapa de la versión original
 - Secuencia de Game Over
-- Gestión de plataformas móviles
 
 POR HACER
 =========
