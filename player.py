@@ -24,6 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground
+        self.on_platform = False # perched on a mobile platform
         self.y_speed = 0 # motion + gravity
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins

@@ -459,12 +459,13 @@ while True:
                 player.loses_life()
 
             # colisión entre el player y una plataforma?
-            if pygame.sprite.spritecollide(player, platform_group, False):
-                player.y_speed = 0
-                # sticks to platform                    
+            if pygame.sprite.spritecollide(player, platform_group, False):                  
                 player.rect.bottom = platform_group.sprite.rect.top
-                Player.state = enums.IDLE
-                Player.on_ground = True 
+                player.y_speed = 0 
+                player.on_ground = True
+                player.on_platform = True
+            else:
+                player.on_platform = False
 
             if player.lives == 0:
                 # print game over message
@@ -495,6 +496,7 @@ while True:
     #    ' FPS', sboard_display, (124, 22))
     # draw collision rects
     #pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
+    #print(player.state)
     # //////////////////////////////////////////////////////////////////////////
     
     update_screen()
