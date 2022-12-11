@@ -21,7 +21,8 @@ H_MARGIN = 40 # horizontal distance between the edge and the playing area
 V_MARGIN = 20 # vertical distance between the edge and the playing area
 TILE_WIDTH = TILE_HEIGHT = 16 # tile/sprite size in pixels
 JUMP_VALUE = -3.5 # value of the initial jump for the player
-GRAVITY = 0.175 # acceleration of gravity for the player
+GRAVITY = 0.180 # acceleration of gravity for the player
+MAX_Y_SPEED = 3 # maximum limit for vertical speed
 
 # animated tiles
 ANIM_TILES = {

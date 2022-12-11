@@ -464,9 +464,6 @@ while True:
                 player.rect.bottom = platform_group.sprite.rect.top
                 player.y_speed = 0 
                 player.on_ground = True
-                player.on_platform = True
-            else:
-                player.on_platform = False
 
             if player.lives == 0:
                 # print game over message
@@ -500,7 +497,7 @@ while True:
     #if platform_group.sprite != None:
     #    pygame.draw.rect(map_display, globalvars.PALETTE['GREEN'], 
     #       platform_group.sprite.rect, 1)
-    #print(player.state)
+    #print(player.y_speed)
     # //////////////////////////////////////////////////////////////////////////
     
     update_screen()

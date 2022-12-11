@@ -24,7 +24,6 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground
-        self.on_platform = False # perched on a mobile platform
         self.y_speed = 0 # motion + gravity
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
@@ -88,8 +87,9 @@ class Player(pygame.sprite.Sprite):
             self.rect.x = self.temp_x # apply the new position X 
 
     def vertical_mov(self):
-        # applies acceleration of gravity
-        self.y_speed += globalvars.GRAVITY
+        # applies acceleration of gravity up to the vertical speed limit
+        if self.y_speed < globalvars.MAX_Y_SPEED:
+            self.y_speed += globalvars.GRAVITY
         self.temp_y += self.y_speed
 
         # gets the new rectangle and check for collision
