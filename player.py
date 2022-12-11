@@ -97,7 +97,7 @@ class Player(pygame.sprite.Sprite):
             (self.rect.width, self.rect.height))        
         index = temp_rect.collidelist(tiled.tilemap_rect_list) 
 
-        if index == -1: # no collision            
+        if index == -1: # no collision       
             self.rect.y = self.temp_y # apply the new position
             self.on_ground = False  
 

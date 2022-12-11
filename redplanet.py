@@ -190,22 +190,23 @@ def check_map_change(player):
     global map_number, map_scroll
     # player disappears on the left
     # appearing from the right on the new map
-    if player.rect.x < -16:
+    if player.rect.x < -(player.rect.width - 1):
         map_number -= 1
         map_scroll = enums.LEFT
         player.rect.right = globalvars.MAP_UNSCALED_SIZE[0]
     # player disappears on the right
     # appearing from the left on the new map
-    elif player.rect.x > globalvars.MAP_UNSCALED_SIZE[0]:
+    elif player.rect.x > globalvars.MAP_UNSCALED_SIZE[0] - 1:
         map_number += 1
         map_scroll = enums.RIGHT
         player.rect.left = 0
     # player disappears over the top
-    # appearing at the bottom of the new map
+    # appearing at the bottom of the new map (and jumps again)
     elif player.rect.y < (-16):
         map_number -= 5
         map_scroll = enums.UP
         player.rect.bottom = globalvars.MAP_UNSCALED_SIZE[1]
+        player.y_speed = globalvars.JUMP_VALUE
     # player disappears from underneath
     #appearing at the top of the new map
     elif player.rect.y > globalvars.MAP_UNSCALED_SIZE[1]:
@@ -287,11 +288,10 @@ def change_map():
         if enemy_data[6] != enums.NONE: # no enemy
             enemy = Enemy(enemy_data)
             all_sprites_group.add(enemy)
-            # sprite enemigo, añade al grupo de enemigos
+            # enemy sprite, add to the enemy group
             if enemy_data[6] != enums.PLATFORM_SPR:
-                #enemies_group.add(enemy) //////////////////////////////////////
-                pass
-            else: # sprite plataforma, añade al grupo de plataformas
+                enemies_group.add(enemy)
+            else: # sprite platform, add to the platform group
                 platform_group.add(enemy)
 
 
@@ -458,12 +458,14 @@ while True:
                 enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life()
 
-            # colisión entre el player y una plataforma?
+            # collision between the player and a mobile platform?
             if pygame.sprite.spritecollide(player, platform_group, False,
-                pygame.sprite.collide_rect_ratio(1.15)):                  
-                player.rect.bottom = platform_group.sprite.rect.top
-                player.y_speed = 0 
-                player.on_ground = True
+                pygame.sprite.collide_rect_ratio(1.15)):
+                # the player is above the platform?
+                if player.rect.bottom - 2 < platform_group.sprite.rect.top:                 
+                    player.rect.bottom = platform_group.sprite.rect.top
+                    player.y_speed = 0 
+                    player.on_ground = True
 
             if player.lives == 0:
                 # print game over message
