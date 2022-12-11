@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de plataformas móviles
 - Afinar salto y movimiento para afrontar el mapa de la versión original
 - Secuencia de Game Over
 
@@ -77,6 +76,7 @@ HECHO
 27/11/22 - Gestión de tiles plataformas
 30/11/22 - Colisiones player/enemigos
 30/11/22 - El player es invencible durante 1 segundo (parpadea)
+11/12/22 - Gestión de plataformas móviles
 
 
 GREETINGS
