@@ -23,7 +23,7 @@ from enemy import Enemy # enemy class
 map_number = 0 # current map
 map_scroll = 0 # scroll direction for map_transition()
 last_map = -1 # last map loaded
-game_percent = 0 # % of gameplay completed
+game_percent = 60 # % of gameplay completed
 
 
 #===============================================================================
@@ -52,19 +52,10 @@ def draw_map_info():
     x = 0
     y = 22
     progress_x = globalvars.SBOARD_UNSCALED_SIZE[0] - 55
-    
-    if map_number < 9:
-        text_1 = 'SCREEN.......'
-    else:
-        text_1 = 'SCREEN.....'
-    if game_percent < 10:
-        text_2 = 'COMPLETED....'
-    else:
-        text_2 = 'COMPLETED..'
-    
-    text_1 += str(map_number+1) + '/45'
-    text_2 += str(game_percent) + ';' # %
 
+    text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'
+    text_2 = 'COMPLETED..' + str(game_percent).rjust(2, '0') + ';' # %
+    
     sboard_display.fill((0,0,0)) # delete previous text
 
     # print map name
@@ -120,8 +111,8 @@ def update_screen():
 
 # draws a centred message box erasing the background
 def message_box(message1, message2):
-    # calculates the dimensions of the box
     height = 36
+    # calculates the width of the box
     message1_len = len(message1) * 7 # approximate length of text 1 in pixels
     message2_len = len(message2) * 4 # approximate length of text 2 in pixels
     # width = length of the longest text + margin
@@ -132,14 +123,17 @@ def message_box(message1, message2):
     # calculates the position of the box
     x = (globalvars.MAP_UNSCALED_SIZE[0]//2) - (width//2)
     y = (globalvars.MAP_UNSCALED_SIZE[1]//2) - (height//2)
+    # black window
     pygame.draw.rect(map_display, globalvars.PALETTE['BLACK'],(x, y, width, height))
-    # draws the text centred inside the box (Y positions are fixed)
+    # blue border
+    pygame.draw.rect(map_display, globalvars.PALETTE['DARK_BLUE'],(x, y, width, height), 1)
+    # draws the text centred inside the window (Y positions are fixed)
     text_x = (x + (width//2)) - (message1_len//2)
     text_y = y + 5
     bg_font_L.render(message1, map_display, (text_x, text_y))
     fg_font_L.render(message1, map_display, (text_x - 2, text_y - 2))
     text_x = (x + (width//2)) - (message2_len//2)
-    text_y = y + 24
+    text_y = y + 25
     bg_font_S.render(message2, map_display, (text_x, text_y))
     fg_font_S.render(message2, map_display, (text_x - 1, text_y - 1))
 
@@ -273,7 +267,7 @@ def change_map():
     # performs the screen transition
     if config.map_transition:
         map_transition()        
-    # reset the groups  
+    # reset the sprite groups  
     all_sprites_group.empty()
     enemies_group.empty()
     platform_group.empty()
