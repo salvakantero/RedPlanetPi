@@ -4,6 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Depurar draw_map_info()
 - Afinar salto y movimiento para afrontar el mapa de la versión original
 - Secuencia de Game Over
 

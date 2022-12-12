@@ -26,14 +26,13 @@ last_map = -1 # last map loaded
 game_percent = 0 # % of gameplay completed
 
 
-
 #===============================================================================
 # Main functions
 #===============================================================================
 
 # draws scanlines
 def scanlines(surface, height, from_x, to_x, rgb):
-    j = globalvars.V_MARGIN
+    j = globalvars.V_MARGIN # Y axis
     while j < height:
         j+=3
         pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, j), (to_x, j))
@@ -68,13 +67,13 @@ def draw_map_info():
 
     sboard_display.fill((0,0,0)) # delete previous text
 
-    # map name
+    # print map name
     bg_font_L.render(globalvars.MAP_NAMES[map_number], sboard_display, (x+2, y+2)) # shadow
     fg_font_L.render(globalvars.MAP_NAMES[map_number], sboard_display, (x, y))
-    # map number
+    # print map number
     bg_font_S.render(text_1, sboard_display, (progress_x+1, y+1)) # shadow
     fg_font_S.render(text_1, sboard_display, (progress_x, y))
-    # game percentage
+    # print game percentage
     bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
     fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
 
@@ -281,17 +280,17 @@ def change_map():
     globalvars.dust_in_progress = False
     # add the player  
     all_sprites_group.add(player)
-    # add enemies to the map reading from 'ENEMIES_DATA' list (enems.h)
-    # (a maximum of three enemies per map)
+    # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list (enems.h)
+    # a maximum of three enemies per map
     for i in range(3):
         enemy_data = globalvars.ENEMIES_DATA[map_number*3 + i]
-        if enemy_data[6] != enums.NONE: # no enemy
+        if enemy_data[6] != enums.NONE:
             enemy = Enemy(enemy_data)
             all_sprites_group.add(enemy)
-            # enemy sprite, add to the enemy group
+            # enemy sprite? add to the enemy group (to check for collisions)
             if enemy_data[6] != enums.PLATFORM_SPR:
                 enemies_group.add(enemy)
-            else: # sprite platform, add to the platform group
+            else: # platform sprite? add to the platform group
                 platform_group.add(enemy)
 
 
