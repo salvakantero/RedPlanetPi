@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, image_list, dust_image_list, all_sprites_group):
         super().__init__()
         # external properties
-        self.lives = 10 # lives remaining
+        self.lives = 99 # lives remaining
         self.oxigen = 99 # oxigen remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
