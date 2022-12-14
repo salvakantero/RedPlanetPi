@@ -329,7 +329,7 @@ fg_font_S = Font('images/fonts/small_font.png', globalvars.PALETTE['GREEN'], Tru
 bg_font_S = Font('images/fonts/small_font.png', globalvars.PALETTE['DARK_GREEN'], False)
 fg_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['WHITE'], True)
 bg_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['DARK_GRAY'], False)
-aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
+#aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
 
 # scoreboard icons
 lives_icon = pygame.image.load('images/assets/lives.png').convert()

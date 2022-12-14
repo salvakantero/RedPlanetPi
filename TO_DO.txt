@@ -6,6 +6,9 @@ EN PROCESO
 ==========
 - Afinar salto y movimiento para afrontar el mapa de la versión original
 - Secuencia de Game Over
+- Marcador como una clase
+- Configuración como una clase
+- Vibra el mapa de juego con saltos grandes
 
 POR HACER
 =========
@@ -20,6 +23,7 @@ POR HACER
 - Pantalla final
 - Menu inicial
 - Obtener SFX de opengameart.com
+- OGT (música)
 - Revisar, simplificar, organizar y comentar el código fuente final
 
 OPCIONAL
