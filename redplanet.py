@@ -15,9 +15,11 @@ from pygame.constants import *
 import globalvars, enums
 import config # configuration file
 import tiled # maps and tiles
-from font import Font # font class
-from player import Player # player class
-from enemy import Enemy # enemy class
+# classes
+from font import Font
+from player import Player
+from enemy import Enemy
+from scoreboard import Scoreboard
 
 # local vars
 map_number = 0 # current map
@@ -67,35 +69,6 @@ def draw_map_info():
     # print game percentage
     bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
     fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
-
-# resets the scoreboard data to zero
-def init_scoreboard():
-    # icons
-    sboard_display.blit(lives_icon, (0, 2))
-    sboard_display.blit(oxigen_icon, (42, 2))
-    sboard_display.blit(ammo_icon, (82, 2))
-    sboard_display.blit(keys_icon, (145, 2))
-    sboard_display.blit(explosives_icon, (186, 2))
-    # fixed texts
-    bg_font_L.render('+50', sboard_display, (116, 6))
-    fg_font_L.render('+50', sboard_display, (114, 4))
-    bg_font_L.render('+15', sboard_display, (220, 6))
-    fg_font_L.render('+15', sboard_display, (218, 4))
-
-# update the scoreboard data
-def update_scoreboard():
-    pygame.draw.rect(sboard_display, globalvars.PALETTE['BLACK'], ((18,4),(13,12)))
-    bg_font_L.render(str(player.lives).rjust(2, '0'), sboard_display, (20, 6))
-    fg_font_L.render(str(player.lives).rjust(2, '0'), sboard_display, (18, 4))
-    bg_font_L.render(str(player.oxigen).rjust(2, '0'), sboard_display, (62, 6))
-    fg_font_L.render(str(player.oxigen).rjust(2, '0'), sboard_display, (60, 4))
-    bg_font_L.render(str(player.ammo).rjust(2, '0'), sboard_display, (102, 6))
-    fg_font_L.render(str(player.ammo).rjust(2, '0'), sboard_display, (100, 4))
-    bg_font_L.render(str(player.keys).rjust(2, '0'), sboard_display, (166, 6))
-    fg_font_L.render(str(player.keys).rjust(2, '0'), sboard_display, (164, 4))
-    bg_font_L.render(str(player.explosives).rjust(2, '0'), sboard_display, (206, 6))
-    fg_font_L.render(str(player.explosives).rjust(2, '0'), sboard_display, (204, 4))
-    globalvars.refresh_scoreboard = False
 
 #dumps and scales surfaces to the screen
 def update_screen():
@@ -262,8 +235,8 @@ def change_map():
     map_display_backup.blit(map_display, (0,0))
     # refresh the scoreboard area
     draw_map_info()
-    init_scoreboard()
-    update_scoreboard()
+    scoreboard.reset()
+    scoreboard.invalidate()
     # performs the screen transition
     if config.map_transition:
         map_transition()        
@@ -331,12 +304,7 @@ fg_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['WHITE'], Tru
 bg_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['DARK_GRAY'], False)
 #aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
 
-# scoreboard icons
-lives_icon = pygame.image.load('images/assets/lives.png').convert()
-oxigen_icon = pygame.image.load('images/tiles/T53.png').convert()
-ammo_icon = pygame.image.load('images/tiles/T52.png').convert()
-keys_icon = pygame.image.load('images/tiles/T51.png').convert()
-explosives_icon = pygame.image.load('images/tiles/T50.png').convert()
+scoreboard = Scoreboard(sboard_display, fg_font_L, bg_font_L)
 
 # sequences of animations for the player depending on its status
 player_animation = {
@@ -388,7 +356,7 @@ while True:
         enemies_group = pygame.sprite.Group()
         platform_group = pygame.sprite.GroupSingle()
         # create the player
-        player = Player(player_animation, dust_animation, all_sprites_group)
+        player = Player(player_animation, dust_animation, all_sprites_group, scoreboard)
         # ingame music
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
@@ -450,6 +418,7 @@ while True:
             if not player.invincible and pygame.sprite.spritecollide(player, 
                 enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life()
+                scoreboard.invalidate()
 
             # collision between the player and a mobile platform?
             if pygame.sprite.spritecollide(player, platform_group, False,
@@ -472,9 +441,8 @@ while True:
             # print sprites
             all_sprites_group.draw(map_display)
 
-            # updates the scoreboard, only if necessary
-            if globalvars.refresh_scoreboard:
-                update_scoreboard()
+            # updates the scoreboard, only if needed
+            scoreboard.update(player)
 
             # check map change using player's coordinates
             # if the player leaves, the map number changes

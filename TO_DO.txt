@@ -6,7 +6,6 @@ EN PROCESO
 ==========
 - Afinar salto y movimiento para afrontar el mapa de la versión original
 - Secuencia de Game Over
-- Marcador como una clase
 - Configuración como una clase
 - Vibra el mapa de juego con saltos grandes
 
@@ -81,7 +80,7 @@ HECHO
 30/11/22 - Colisiones player/enemigos
 30/11/22 - El player es invencible durante 1 segundo (parpadea)
 11/12/22 - Gestión de plataformas móviles
-
+14/12/22 - Marcador como una clase
 
 GREETINGS
 =========

@@ -12,7 +12,7 @@ import tiled
 import dust
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, image_list, dust_image_list, all_sprites_group):
+    def __init__(self, image_list, dust_image_list, all_sprites_group, sboard):
         super().__init__()
         # external properties
         self.lives = 99 # lives remaining
@@ -38,6 +38,8 @@ class Player(pygame.sprite.Sprite):
         # properties for the dust effect
         self.dust_image_list = dust_image_list
         self.sprites_group = all_sprites_group
+        # auxiliary properties
+        self.scoreboard = sboard
 
         # dust effect when jumping or landing
     def dust_effect(self, pos, state):
@@ -137,6 +139,7 @@ class Player(pygame.sprite.Sprite):
             # toxic waste and lava, one life less            
             elif tiled.tilemap_behaviour_list[index] == enums.KILLER:
                 self.loses_life()
+                self.scoreboard.invalidate()
                 # makes a preventive jump (this time without dust)
                 self.y_speed = globalvars.JUMP_VALUE
                 self.state = enums.JUMPING
@@ -171,7 +174,6 @@ class Player(pygame.sprite.Sprite):
             self.lives -= 1
             self.invincible = True
             self.invincible_time_from = pygame.time.get_ticks()
-            globalvars.refresh_scoreboard = True
 
     # controls the invincibility time
     def invincibility_timer(self):
