@@ -7,20 +7,19 @@ import pygame
 from math import sin
 import globalvars
 import enums
-import config
 import tiled
 import dust
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, image_list, dust_image_list, all_sprites_group, sboard):
+    def __init__(self, image_list, dust_image_list, all_sprites_group, sb, cfg):
         super().__init__()
-        # external properties
+        # external attributes
         self.lives = 99 # lives remaining
         self.oxigen = 99 # oxigen remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
         self.explosives = 0 # explosives collected  
-        # internal properties
+        # internal attributes
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground
@@ -35,11 +34,12 @@ class Player(pygame.sprite.Sprite):
         self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
-        # properties for the dust effect
+        # dust effect
         self.dust_image_list = dust_image_list
         self.sprites_group = all_sprites_group
-        # auxiliary properties
-        self.scoreboard = sboard
+        # auxiliary attributes
+        self.scoreboard = sb
+        self.config = cfg
 
         # dust effect when jumping or landing
     def dust_effect(self, pos, state):
@@ -55,17 +55,18 @@ class Player(pygame.sprite.Sprite):
         # manages keystrokes
         key_state = pygame.key.get_pressed()   
         # press left
-        if key_state[config.left_key]:
+        if key_state[self.config.left_key]:
             self.temp_x -= 2
             self.facing_right = False
             self.state = enums.WALKING
         # press right
-        if key_state[config.right_key]:
+        if key_state[self.config.right_key]:
             self.temp_x += 2
             self.facing_right = True
             self.state = enums.WALKING
         # without lateral movement
-        if not key_state[config.left_key] and not key_state[config.right_key]:
+        if not key_state[self.config.left_key] \
+        and not key_state[self.config.right_key]:
             if self.on_ground:
                 # landing, creating some dust
                 if self.state == enums.FALLING:
@@ -74,7 +75,7 @@ class Player(pygame.sprite.Sprite):
             elif self.y_speed >= 1:
                 self.state = enums.FALLING
         # press jump
-        if key_state[config.jump_key] and self.on_ground:
+        if key_state[self.config.jump_key] and self.on_ground:
             self.y_speed = globalvars.JUMP_VALUE
             self.state = enums.JUMPING
             self.dust_effect(self.rect.center, self.state)
@@ -179,7 +180,7 @@ class Player(pygame.sprite.Sprite):
     def invincibility_timer(self):
         if self.invincible:
             if (pygame.time.get_ticks() - self.invincible_time_from) \
-                >= self.invincible_time_to:
+            >= self.invincible_time_to:
                 self.invincible = False
 
     # returns the value 0 or 255 depending on the number of ticks.

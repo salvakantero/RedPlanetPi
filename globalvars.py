@@ -49,8 +49,7 @@ PALETTE = {
     'CYAN' : (41, 173, 255),
     'MALVA' : (131, 118, 156),
     'PINK' : (255, 119, 168),
-    'SAND' : (255, 204, 170),
-    'KEY' : (255, 0, 255) # Mask colour
+    'SAND' : (255, 204, 170)
 }
 
 # screen names
@@ -106,7 +105,14 @@ MAP_NAMES = {
     45 : 'BACK TO CONTROL CENTER',
 }
 
-# enemies per map
+# enemies per map (x1, y1, x2, y2, mx, my, type)
+# types:
+#	1) Infected
+#	2) Pelusoid
+#	3) Arachnovirus
+#	4) Mobile platform
+#	6) Fanty
+
 ENEMIES_DATA = [
     #-----------LEVEL 1-------------
     # CONTROL CENTRE

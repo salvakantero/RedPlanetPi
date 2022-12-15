@@ -6,13 +6,13 @@ EN PROCESO
 ==========
 - Afinar salto y movimiento para afrontar el mapa de la versión original
 - Secuencia de Game Over
-- Configuración como una clase
 - Vibra el mapa de juego con saltos grandes
 
 POR HACER
 =========
 - Movimiento del enemigo fanty
 - Gestión de disparos del player
+- Vibra el mapa de juego con explosiones
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo MUNICIÓN
@@ -81,6 +81,8 @@ HECHO
 30/11/22 - El player es invencible durante 1 segundo (parpadea)
 11/12/22 - Gestión de plataformas móviles
 14/12/22 - Marcador como una clase
+15/12/22 - Configuración como una clase
+
 
 GREETINGS
 =========

@@ -13,13 +13,13 @@ from pygame.constants import *
 
 # own code
 import globalvars, enums
-import config # configuration file
 import tiled # maps and tiles
 # classes
 from font import Font
 from player import Player
 from enemy import Enemy
 from scoreboard import Scoreboard
+from config import Configuration
 
 # local vars
 map_number = 0 # current map
@@ -271,6 +271,7 @@ pygame.init()
 pygame.mixer.init()
 
 # reads the configuration file to apply the personal settings
+config = Configuration()
 config.read()
 
 # generates a main window (or full screen) 
@@ -356,7 +357,8 @@ while True:
         enemies_group = pygame.sprite.Group()
         platform_group = pygame.sprite.GroupSingle()
         # create the player
-        player = Player(player_animation, dust_animation, all_sprites_group, scoreboard)
+        player = Player(player_animation, dust_animation, 
+            all_sprites_group, scoreboard, config)
         # ingame music
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
