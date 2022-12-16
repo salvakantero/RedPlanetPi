@@ -25,7 +25,7 @@ from config import Configuration
 map_number = 0 # current map
 map_scroll = 0 # scroll direction for map_transition()
 last_map = -1 # last map loaded
-game_percent = 60 # % of gameplay completed
+game_percent = 0 # % of gameplay completed
 
 
 #===============================================================================
@@ -48,27 +48,6 @@ def make_scanlines():
     elif config.scanlines_type == 1: # fast
         scanlines(screen, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
             constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
-
-# draws the name of the map and other data at the top
-def draw_map_info():
-    x = 0
-    y = 22
-    progress_x = constants.SBOARD_UNSCALED_SIZE[0] - 55
-
-    text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'
-    text_2 = 'COMPLETED..' + str(game_percent).rjust(2, '0') + ';' # %
-    
-    sboard_display.fill((0,0,0)) # delete previous text
-
-    # print map name
-    bg_font_L.render(constants.MAP_NAMES[map_number], sboard_display, (x+2, y+2)) # shadow
-    fg_font_L.render(constants.MAP_NAMES[map_number], sboard_display, (x, y))
-    # print map number
-    bg_font_S.render(text_1, sboard_display, (progress_x+1, y+1)) # shadow
-    fg_font_S.render(text_1, sboard_display, (progress_x, y))
-    # print game percentage
-    bg_font_S.render(text_2, sboard_display, (progress_x+1, y+bg_font_S.line_height+1)) # shadow
-    fg_font_S.render(text_2, sboard_display, (progress_x, y+fg_font_S.line_height))
 
 #dumps and scales surfaces to the screen
 def update_screen():
@@ -234,8 +213,8 @@ def change_map():
     # save the new empty background
     map_display_backup.blit(map_display, (0,0))
     # refresh the scoreboard area
-    draw_map_info()
     scoreboard.reset()
+    scoreboard.map_info(map_number, game_percent)
     scoreboard.invalidate()
     # performs the screen transition
     if config.map_transition:
@@ -269,6 +248,7 @@ def change_map():
 # initialisation
 pygame.init()
 pygame.mixer.init()
+pygame.mouse.set_visible(False)
 
 # reads the configuration file to apply the personal settings
 config = Configuration()
@@ -305,7 +285,8 @@ fg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True
 bg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
 #aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
 
-scoreboard = Scoreboard(sboard_display, fg_font_L, bg_font_L)
+scoreboard = Scoreboard(sboard_display, 
+    fg_font_L, bg_font_L, fg_font_S, bg_font_S)
 
 # sequences of animations for the player depending on its status
 player_animation = {
