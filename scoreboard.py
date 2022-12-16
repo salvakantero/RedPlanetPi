@@ -1,5 +1,5 @@
 import pygame
-import globalvars
+import constants
 
 class Scoreboard():
     def __init__(self, surface, fg_font, bg_font):
@@ -40,9 +40,9 @@ class Scoreboard():
     # update the data (only if it has been invalidated)
     def update(self, player):
         if self.needs_updating:
-            #
-            #pygame.draw.rect(self.surface, 
-            #    globalvars.PALETTE['RED'], ((18,4),(13,12))) 
+            # clean the previous data
+            pygame.draw.rect(self.surface, 
+                constants.PALETTE['BLACK'], ((18,4),(13,12))) 
             # draws the new data
             self.shaded_text(player.lives, 20, 6)
             self.shaded_text(player.oxigen, 62, 6)

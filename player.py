@@ -5,16 +5,17 @@
 
 import pygame
 from math import sin
-import globalvars
+import constants
 import enums
 import tiled
 import dust
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, image_list, dust_image_list, all_sprites_group, sb, cfg):
+    def __init__(self, image_list, dust_image_list, all_sprites_group, 
+        dust_group, scoreboard, config):
         super().__init__()
         # external attributes
-        self.lives = 99 # lives remaining
+        self.lives = 10 # lives remaining
         self.oxigen = 99 # oxigen remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
@@ -26,7 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.y_speed = 0 # motion + gravity
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
-        self.invincible_time_to = 1000 # time of invincibility (1 sec.)
+        self.invincible_time_to = 2000 # time of invincibility (1 sec.)
         # image/animation
         self.image_list = image_list # list of images for animation
         self.frame_index = 0 # frame_number
@@ -36,17 +37,18 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
         # dust effect
         self.dust_image_list = dust_image_list
-        self.sprites_group = all_sprites_group
+        self.all_sprites_group = all_sprites_group    
+        self.dust_group = dust_group    
         # auxiliary attributes
-        self.scoreboard = sb
-        self.config = cfg
+        self.scoreboard = scoreboard
+        self.config = config
 
         # dust effect when jumping or landing
     def dust_effect(self, pos, state):
-        if not globalvars.dust_in_progress:            
+        if self.dust_group.sprite == None:        
             dust_sprite = dust.DustEffect(pos, self.dust_image_list[state])
-            self.sprites_group.add(dust_sprite)
-            globalvars.dust_in_progress = True
+            self.dust_group.add(dust_sprite)
+            self.all_sprites_group.add(dust_sprite)
 
     def get_input(self):
         # # XY temporary to check for collision at the new position
@@ -76,7 +78,7 @@ class Player(pygame.sprite.Sprite):
                 self.state = enums.FALLING
         # press jump
         if key_state[self.config.jump_key] and self.on_ground:
-            self.y_speed = globalvars.JUMP_VALUE
+            self.y_speed = constants.JUMP_VALUE
             self.state = enums.JUMPING
             self.dust_effect(self.rect.center, self.state)
 
@@ -91,8 +93,8 @@ class Player(pygame.sprite.Sprite):
 
     def vertical_mov(self):
         # applies acceleration of gravity up to the vertical speed limit
-        if self.y_speed < globalvars.MAX_Y_SPEED:
-            self.y_speed += globalvars.GRAVITY
+        if self.y_speed < constants.MAX_Y_SPEED:
+            self.y_speed += constants.GRAVITY
         self.temp_y += self.y_speed
 
         # gets the new rectangle and check for collision
@@ -142,7 +144,7 @@ class Player(pygame.sprite.Sprite):
                 self.loses_life()
                 self.scoreboard.invalidate()
                 # makes a preventive jump (this time without dust)
-                self.y_speed = globalvars.JUMP_VALUE
+                self.y_speed = constants.JUMP_VALUE
                 self.state = enums.JUMPING
 
     def animate(self):
