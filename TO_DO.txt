@@ -4,9 +4,11 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Afinar salto y movimiento para afrontar el mapa de la versión original
+- BUG: colisión con plataforma fija permite entrar en obstáculo por la derecha
+- BUG: al salta se queda pegado al techo
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
+
 
 POR HACER
 =========
@@ -82,6 +84,7 @@ HECHO
 11/12/22 - Gestión de plataformas móviles
 14/12/22 - Marcador como una clase
 15/12/22 - Configuración como una clase
+16/12/22 - Afinar salto y movimiento para afrontar el mapa original
 
 
 GREETINGS

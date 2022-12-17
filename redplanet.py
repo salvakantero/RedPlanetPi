@@ -146,12 +146,14 @@ def check_map_change(player):
         map_scroll = enums.RIGHT
         player.rect.left = 0
     # player disappears over the top
-    # appearing at the bottom of the new map (and jumps again)
+    # appearing at the bottom of the new map 
     elif player.rect.y < (-16):
         map_number -= 5
         map_scroll = enums.UP
         player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]
-        player.y_speed = constants.JUMP_VALUE
+        # jumps again on some maps to facilitate the return
+        if map_number in (2, 7, 14, 19):
+            player.y_speed = constants.JUMP_VALUE
     # player disappears from underneath
     #appearing at the top of the new map
     elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
