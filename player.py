@@ -21,10 +21,12 @@ class Player(pygame.sprite.Sprite):
         self.keys = 0 # unused keys collected 
         self.explosives = 0 # explosives collected  
         # internal attributes
+        self.direction = pygame.math.Vector2(0.0)
+        self.x_speed = 2 # movement in the x-axis
+        self.y_speed = 0 # movement in the y-axis + gravity
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
-        self.on_ground = False # perched on the ground
-        self.y_speed = 0 # motion + gravity
+        self.on_ground = False # perched on the ground        
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = 2000 # time of invincibility (1 sec.)
@@ -52,23 +54,24 @@ class Player(pygame.sprite.Sprite):
 
     def get_input(self):
         # # XY temporary to check for collision at the new position
-        self.temp_x = self.rect.x 
-        self.temp_y = self.rect.y
+        self.x_temp = self.rect.x 
+        self.y_temp = self.rect.y
         # manages keystrokes
         key_state = pygame.key.get_pressed()   
         # press left
         if key_state[self.config.left_key]:
-            self.temp_x -= 2
+            self.direction.x = -1
             self.facing_right = False
             self.state = enums.WALKING
         # press right
         if key_state[self.config.right_key]:
-            self.temp_x += 2
+            self.direction.x = 1
             self.facing_right = True
             self.state = enums.WALKING
         # without lateral movement
         if not key_state[self.config.left_key] \
         and not key_state[self.config.right_key]:
+            self.direction.x = 0
             if self.on_ground:
                 # landing, creating some dust
                 if self.state == enums.FALLING:
@@ -84,26 +87,38 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
-        temp_rect = pygame.Rect((self.temp_x,self.rect.y),
-            (self.rect.width, self.rect.height))      
-        index = temp_rect.collidelist(tiled.tilemap_rect_list) 
-        # no collision, or collides with a platform
-        if index == -1 or tiled.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:
-            self.rect.x = self.temp_x # apply the new position X 
+        self.x_temp += self.direction.x * self.x_speed
+        temp_rect = pygame.Rect((self.x_temp,self.rect.y),
+            (self.rect.width, self.rect.height))
+
+        collision = False # True if at least one tile collides
+        index = -1 # index of the colliding tile to obtain its type
+        for tile in tiled.tilemap_rect_list:
+            index += 1
+            if tile.colliderect(temp_rect) \
+            and tiled.tilemap_behaviour_list[index] != enums.PLATFORM_TILE:
+                collision = True
+                if self.direction.x < 0: # adjusts to the right of the tile
+                    self.rect.left = tile.right
+                elif self.direction.x > 0: # adjusts to the left of the tile
+                    self.rect.right = tile.left
+        if not collision:
+            self.rect.x = self.x_temp # apply the new position X
+
 
     def vertical_mov(self):
         # applies acceleration of gravity up to the vertical speed limit
         if self.y_speed < constants.MAX_Y_SPEED:
             self.y_speed += constants.GRAVITY
-        self.temp_y += self.y_speed
+        self.y_temp += self.y_speed
 
         # gets the new rectangle and check for collision
-        temp_rect = pygame.Rect((self.rect.x, self.temp_y), 
+        temp_rect = pygame.Rect((self.rect.x, self.y_temp), 
             (self.rect.width, self.rect.height))        
         index = temp_rect.collidelist(tiled.tilemap_rect_list) 
 
         if index == -1: # no collision       
-            self.rect.y = self.temp_y # apply the new position
+            self.rect.y = self.y_temp # apply the new position
             self.on_ground = False  
 
         else: # collision
@@ -114,7 +129,7 @@ class Player(pygame.sprite.Sprite):
                     # if the lower part of the player is below 
                     # the upper part of the platform
                     tile = tiled.tilemap_rect_list[index]
-                    if tile.y > self.temp_y + 12:
+                    if tile.y > self.y_temp + 12:
                         # sticks to platform                
                         self.rect.y = tile.y - self.rect.height
                         self.on_ground = True
@@ -122,11 +137,11 @@ class Player(pygame.sprite.Sprite):
                     # if the player is not on top of the platform
                     # it keeps moving
                     else:
-                        self.rect.y = self.temp_y
+                        self.rect.y = self.y_temp
                         self.on_ground = False
                 # if it's jumping it keeps moving
                 else:
-                    self.rect.y = self.temp_y
+                    self.rect.y = self.y_temp
                     self.on_ground = False
 
             # obstacles, stops the player from all directions
@@ -134,7 +149,7 @@ class Player(pygame.sprite.Sprite):
                 self.y_speed = 0
                 # avoid the rebound
                 tile = tiled.tilemap_rect_list[index]
-                if tile.y > self.temp_y:
+                if tile.y > self.y_temp:
                     # sticks to platform                    
                     self.rect.y = tile.y - self.rect.height
                     self.on_ground = True 
