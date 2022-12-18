@@ -153,7 +153,7 @@ def check_map_change(player):
         player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]
         # jumps again on some maps to facilitate the return
         if map_number in (2, 7, 14, 19):
-            player.y_speed = constants.JUMP_VALUE
+            player.direction.y = constants.JUMP_VALUE
     # player disappears from underneath
     #appearing at the top of the new map
     elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
@@ -412,7 +412,7 @@ while True:
                 # the player is above the platform?
                 if player.rect.bottom - 2 < platform_group.sprite.rect.top:                 
                     player.rect.bottom = platform_group.sprite.rect.top
-                    player.y_speed = 0 
+                    player.direction.y = 0
                     player.on_ground = True
 
             if player.lives == 0:

@@ -4,7 +4,7 @@
 #===============================================================================
 
 import pygame
-from math import sin
+import math
 import constants
 import enums
 import tiled
@@ -22,8 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.explosives = 0 # explosives collected  
         # internal attributes
         self.direction = pygame.math.Vector2(0.0)
-        self.x_speed = 2 # movement in the x-axis
-        self.y_speed = 0 # movement in the y-axis + gravity
+        self.x_speed = 2 # movement in the x-axis (pixels)
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground        
@@ -77,11 +76,11 @@ class Player(pygame.sprite.Sprite):
                 if self.state == enums.FALLING:
                     self.dust_effect(self.rect.center, self.state)
                 self.state = enums.IDLE
-            elif self.y_speed >= 1:
+            elif self.direction.y > 1:
                 self.state = enums.FALLING
         # press jump
         if key_state[self.config.jump_key] and self.on_ground:
-            self.y_speed = constants.JUMP_VALUE
+            self.direction.y = constants.JUMP_VALUE
             self.state = enums.JUMPING
             self.dust_effect(self.rect.center, self.state)
 
@@ -93,6 +92,7 @@ class Player(pygame.sprite.Sprite):
 
         collision = False # True if at least one tile collides
         index = -1 # index of the colliding tile to obtain its type
+        # it is necessary to check all colliding tiles.
         for tile in tiled.tilemap_rect_list:
             index += 1
             if tile.colliderect(temp_rect) \
@@ -103,64 +103,62 @@ class Player(pygame.sprite.Sprite):
                 elif self.direction.x > 0: # adjusts to the left of the tile
                     self.rect.right = tile.left
         if not collision:
-            self.rect.x = self.x_temp # apply the new position X
+            self.rect.x = self.x_temp # apply the new X position
 
 
     def vertical_mov(self):
         # applies acceleration of gravity up to the vertical speed limit
-        if self.y_speed < constants.MAX_Y_SPEED:
-            self.y_speed += constants.GRAVITY
-        self.y_temp += self.y_speed
+        if self.direction.y < constants.MAX_Y_SPEED:
+            self.direction.y += constants.GRAVITY
+        self.y_temp += self.direction.y
 
         # gets the new rectangle and check for collision
         temp_rect = pygame.Rect((self.rect.x, self.y_temp), 
-            (self.rect.width, self.rect.height))        
-        index = temp_rect.collidelist(tiled.tilemap_rect_list) 
+            (self.rect.width, self.rect.height))  
 
-        if index == -1: # no collision       
-            self.rect.y = self.y_temp # apply the new position
-            self.on_ground = False  
+        collision = False # True if at least one tile collides
+        index = -1 # index of the colliding tile to obtain its type
+        # it is necessary to check all colliding tiles.
+        for tile in tiled.tilemap_rect_list:
+            index += 1
+            if tile.colliderect(temp_rect):
+                collision = True
+                # platform, only stops from above
+                if tiled.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
+                    # if the player is not jumping (if not climbing)    
+                    if (self.state is not enums.JUMPING):
+                        # if the lower part of the player is below 
+                        # the upper part of the platform
+                        if tile.y > self.y_temp + 12:
+                            # sticks to platform                
+                            self.rect.y = tile.y - self.rect.height
+                            self.on_ground = True
+                            self.direction.y = 0  
+                        # if the player is not on top of the platform
+                        # it keeps moving
+                        else: collision = False
+                    # if it's jumping it keeps moving
+                    else: collision = False
 
-        else: # collision
-            # platform, only stops from above
-            if tiled.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
-                # if the player is not jumping (if not climbing)    
-                if (self.state is not enums.JUMPING):
-                    # if the lower part of the player is below 
-                    # the upper part of the platform
-                    tile = tiled.tilemap_rect_list[index]
-                    if tile.y > self.y_temp + 12:
-                        # sticks to platform                
+                # obstacles, stops the player from all directions
+                elif tiled.tilemap_behaviour_list[index] == enums.OBSTACLE:        
+                    self.direction.y = 0
+                    # avoid the rebound
+                    if tile.y > self.y_temp:
+                        # sticks to platform                    
                         self.rect.y = tile.y - self.rect.height
-                        self.on_ground = True
-                        self.y_speed = 0  
-                    # if the player is not on top of the platform
-                    # it keeps moving
-                    else:
-                        self.rect.y = self.y_temp
-                        self.on_ground = False
-                # if it's jumping it keeps moving
-                else:
-                    self.rect.y = self.y_temp
-                    self.on_ground = False
+                        self.on_ground = True 
 
-            # obstacles, stops the player from all directions
-            elif tiled.tilemap_behaviour_list[index] == enums.OBSTACLE:        
-                self.y_speed = 0
-                # avoid the rebound
-                tile = tiled.tilemap_rect_list[index]
-                if tile.y > self.y_temp:
-                    # sticks to platform                    
-                    self.rect.y = tile.y - self.rect.height
-                    self.on_ground = True 
-              
-            # toxic waste and lava, one life less            
-            elif tiled.tilemap_behaviour_list[index] == enums.KILLER:
-                self.loses_life()
-                self.scoreboard.invalidate()
-                # makes a preventive jump (this time without dust)
-                self.y_speed = constants.JUMP_VALUE
-                self.state = enums.JUMPING
+                # toxic waste and lava, one life less            
+                elif tiled.tilemap_behaviour_list[index] == enums.KILLER:
+                    self.loses_life()
+                    self.scoreboard.invalidate()
+                    # makes a preventive jump (this time without dust)
+                    self.direction.y = constants.JUMP_VALUE
+                    self.state = enums.JUMPING
+        if not collision:
+            self.rect.y = self.y_temp # apply the new Y position
+            self.on_ground = False
 
     def animate(self):
         # animation
@@ -202,7 +200,7 @@ class Player(pygame.sprite.Sprite):
 
     # returns the value 0 or 255 depending on the number of ticks.
     def wave_value(self):
-        if sin(pygame.time.get_ticks()) >= 0: return 255
+        if pygame.math.sin(pygame.time.get_ticks()) >= 0: return 255
         else: return 0
 
     def update(self):
