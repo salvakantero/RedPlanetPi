@@ -4,7 +4,6 @@
 #===============================================================================
 
 import pygame
-import math
 import constants
 import enums
 import tiled
@@ -61,12 +60,12 @@ class Player(pygame.sprite.Sprite):
         if key_state[self.config.left_key]:
             self.direction.x = -1
             self.facing_right = False
-            self.state = enums.WALKING
+            #self.state = enums.WALKING
         # press right
         if key_state[self.config.right_key]:
             self.direction.x = 1
             self.facing_right = True
-            self.state = enums.WALKING
+            #self.state = enums.WALKING
         # without lateral movement
         if not key_state[self.config.left_key] \
         and not key_state[self.config.right_key]:
@@ -75,14 +74,25 @@ class Player(pygame.sprite.Sprite):
                 # landing, creating some dust
                 if self.state == enums.FALLING:
                     self.dust_effect(self.rect.center, self.state)
-                self.state = enums.IDLE
-            elif self.direction.y > 1:
-                self.state = enums.FALLING
+                #self.state = enums.IDLE
+            #elif self.direction.y > 1:
+            #    self.state = enums.FALLING
         # press jump
         if key_state[self.config.jump_key] and self.on_ground:
             self.direction.y = constants.JUMP_VALUE
-            self.state = enums.JUMPING
+            #self.state = enums.JUMPING
             self.dust_effect(self.rect.center, self.state)
+
+    def get_state(self):
+        if self.direction.y < 0: # decrementing Y. Jumping
+            self.state = enums.JUMPING
+        elif self.direction.y > 1: # increasing Y. Falling
+            self.state = enums.FALLING
+        else:
+            if self.direction.x != 0: # is moving
+                self.state = enums.WALKING
+            else: # x does not change. Stopped
+                self.state = enums.IDLE
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
@@ -155,7 +165,7 @@ class Player(pygame.sprite.Sprite):
                     self.scoreboard.invalidate()
                     # makes a preventive jump (this time without dust)
                     self.direction.y = constants.JUMP_VALUE
-                    self.state = enums.JUMPING
+                    #self.state = enums.JUMPING
         if not collision:
             self.rect.y = self.y_temp # apply the new Y position
             self.on_ground = False
@@ -205,6 +215,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.get_input()
+        self.get_state()
         self.horizontal_mov()
         self.vertical_mov()
         self.animate()
