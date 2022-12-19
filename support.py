@@ -23,7 +23,7 @@ def make_scanlines(surface, surface_hq, config):
             constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
 
 # draws a centred message box erasing the background
-def message_box(surface, msg1, msg2, font_BL, font_FL, font_BS, font_FS):
+def message_box(msg1, msg2, surface, font_BL, font_FL, font_BS, font_FS):
     height = 36
     # calculates the width of the box
     message1_len = len(msg1) * 7 # approximate length of text 1 in pixels

@@ -14,6 +14,8 @@ from pygame.constants import *
 # own code
 import constants, enums
 import tiled # maps and tiles
+import support # generic functions
+
 # classes
 from font import Font
 from player import Player
@@ -32,23 +34,6 @@ game_percent = 0 # % of gameplay completed
 # Main functions
 #===============================================================================
 
-# draws scanlines
-def scanlines(surface, height, from_x, to_x, rgb):
-    j = constants.V_MARGIN # Y axis
-    while j < height:
-        j+=3
-        pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, j), (to_x, j))
-
-# applies scanlines according to the configuration
-def make_scanlines():
-    if config.scanlines_type == 2: # HQ
-        scanlines(screen_sl, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
-            constants.WIN_SIZE[0]-constants.H_MARGIN-1, 200)
-        screen.blit(screen_sl, (0, 0))
-    elif config.scanlines_type == 1: # fast
-        scanlines(screen, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
-            constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
-
 #dumps and scales surfaces to the screen
 def update_screen():
     # scale x 3 the scoreboard
@@ -57,46 +42,20 @@ def update_screen():
     # scale x 3 the map
     screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    make_scanlines()
+    support.make_scanlines(screen, screen_sl, config)
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
 
-# draws a centred message box erasing the background
-def message_box(message1, message2):
-    height = 36
-    # calculates the width of the box
-    message1_len = len(message1) * 7 # approximate length of text 1 in pixels
-    message2_len = len(message2) * 4 # approximate length of text 2 in pixels
-    # width = length of the longest text + margin
-    if message1_len > message2_len:
-        width = message1_len + constants.V_MARGIN
-    else:
-        width = message2_len + constants.V_MARGIN
-    # calculates the position of the box
-    x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
-    y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
-    # black window
-    pygame.draw.rect(map_display, constants.PALETTE['BLACK'],(x, y, width, height))
-    # blue border
-    pygame.draw.rect(map_display, constants.PALETTE['DARK_BLUE'],(x, y, width, height), 1)
-    # draws the text centred inside the window (Y positions are fixed)
-    text_x = (x + (width//2)) - (message1_len//2)
-    text_y = y + 5
-    bg_font_L.render(message1, map_display, (text_x, text_y))
-    fg_font_L.render(message1, map_display, (text_x - 2, text_y - 2))
-    text_x = (x + (width//2)) - (message2_len//2)
-    text_y = y + 25
-    bg_font_S.render(message2, map_display, (text_x, text_y))
-    fg_font_S.render(message2, map_display, (text_x - 1, text_y - 1))
-
 # displays a message to confirm exit
 def confirm_exit():
-    message_box('Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE')
+    support.message_box(
+        'Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE',
+        map_display, bg_font_L, fg_font_L, bg_font_S, fg_font_S)
     screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
         (constants.H_MARGIN, constants.V_MARGIN))        
     screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    make_scanlines()
+    support.make_scanlines(screen, screen_sl, config)
     pygame.display.update()
     waiting = True
     while waiting:
@@ -115,7 +74,8 @@ def confirm_exit():
 def main_menu():
     map_display.fill(constants.PALETTE['BLACK'])
     sboard_display.fill(constants.PALETTE['BLACK'])
-    message_box('Red Planet Pi', 'WIP. Press a key to continue')
+    support.message_box('Red Planet Pi', 'WIP. Press a key to continue',
+        map_display, bg_font_L, fg_font_L, bg_font_S, fg_font_S)
     update_screen()
     waiting = True
     while waiting:
@@ -276,9 +236,8 @@ map_display_backup = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 if config.map_transition:
     map_display_backup_old = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface for HQ scanlines
-if config.scanlines_type == 2:
-    screen_sl = pygame.Surface(constants.WIN_SIZE)
-    screen_sl.set_alpha(40)
+screen_sl = pygame.Surface(constants.WIN_SIZE)
+screen_sl.set_alpha(40)
 
 # fonts
 fg_font_S = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
@@ -435,7 +394,8 @@ while True:
             check_map_change(player)
             
         elif game_status == enums.PAUSED:            
-            message_box('P a u s e', 'THE MASSACRE CAN WAIT')
+            support.message_box('P a u s e', 'THE MASSACRE CAN WAIT',
+            map_display, bg_font_L, fg_font_L, bg_font_S, fg_font_S)
 
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   

@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Empaquetar funciones genéricas en support.py
+- Empaquetar funciones de mapas en maps.py
 - BUG: al saltar se queda pegado al techo
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
@@ -86,6 +86,7 @@ HECHO
 15/12/22 - Configuración como una clase
 16/12/22 - Afinar salto y movimiento para afrontar el mapa original
 18/12/22 - BUG: colisión con plataforma fija permite entrar en obstáculo por la derecha
+19/12/22 - Empaquetar funciones genéricas en support.py
 
 GREETINGS
 =========
