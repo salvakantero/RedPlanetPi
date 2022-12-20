@@ -13,10 +13,10 @@ from pygame.constants import *
 
 # own code
 import constants, enums
-import tiled # maps and tiles
 import support # generic functions
 
 # classes
+from map import Map
 from font import Font
 from player import Player
 from enemy import Enemy
@@ -112,7 +112,8 @@ def change_map():
     # sets the new map as the current one
     last_map = map_number
     # load the new map
-    tiled.load_map(map_number, map_display)
+    #.load_map(map_number, map_display)
+    map.load(map_number)
     # preserves the previous 
     if config.map_transition:
         map_display_backup_old.blit(map_display_backup, (0,0))
@@ -251,6 +252,7 @@ font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], Fa
 #aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
 
 scoreboard = Scoreboard(sboard_display, font_FL, font_BL, font_FS, font_BS)
+map = Map(map_display)
 
 # sequences of animations for the player depending on its status
 player_animation = {
@@ -304,7 +306,7 @@ while True:
         dust_group = pygame.sprite.GroupSingle()
         # create the player
         player = Player(player_animation, dust_animation, 
-            all_sprites_group, dust_group, scoreboard, config)
+            all_sprites_group, dust_group, map, scoreboard, config)
         # ingame music
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
@@ -384,7 +386,7 @@ while True:
             # draws the map free of sprites to clean it up
             map_display.blit(map_display_backup, (0,0))
             # and change the frame of the animated tiles
-            map_display_backup = tiled.animate_tiles(map_display_backup)
+            map_display_backup = map.animate_tiles(map_display_backup)
 
             # print sprites
             all_sprites_group.draw(map_display)

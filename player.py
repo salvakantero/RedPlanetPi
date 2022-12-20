@@ -8,12 +8,11 @@ from math import sin
 
 import constants
 import enums
-import tiled
 import dust
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, image_list, dust_image_list, all_sprites_group, 
-        dust_group, scoreboard, config):
+        dust_group, map, scoreboard, config):
         super().__init__()
         # external attributes
         self.lives = 90 # lives remaining
@@ -41,7 +40,8 @@ class Player(pygame.sprite.Sprite):
         self.dust_image_list = dust_image_list
         self.all_sprites_group = all_sprites_group    
         self.dust_group = dust_group    
-        # auxiliary attributes
+        # objects
+        self.map = map
         self.scoreboard = scoreboard
         self.config = config
 
@@ -99,10 +99,10 @@ class Player(pygame.sprite.Sprite):
         collision = False # True if at least one tile collides
         index = -1 # index of the colliding tile to obtain its type
         # it is necessary to check all colliding tiles.
-        for tile in tiled.tilemap_rect_list:
+        for tile in self.map.tilemap_rect_list:
             index += 1
             if tile.colliderect(temp_rect) \
-            and tiled.tilemap_behaviour_list[index] != enums.PLATFORM_TILE:
+            and self.map.tilemap_behaviour_list[index] != enums.PLATFORM_TILE:
                 collision = True
                 if self.direction.x < 0: # adjusts to the right of the tile
                     self.rect.left = tile.right
@@ -124,12 +124,12 @@ class Player(pygame.sprite.Sprite):
         collision = False # True if at least one tile collides
         index = -1 # index of the colliding tile to obtain its type
         # it is necessary to check all colliding tiles.
-        for tile in tiled.tilemap_rect_list:
+        for tile in self.map.tilemap_rect_list:
             index += 1
             if tile.colliderect(temp_rect):
                 collision = True
                 # platform, only stops from above
-                if tiled.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
+                if self.map.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
                     # if the player is not jumping (if not climbing)    
                     if (self.state is not enums.JUMPING):
                         # if the lower part of the player is below 
@@ -145,8 +145,8 @@ class Player(pygame.sprite.Sprite):
                     # if it's jumping it keeps moving
                     else: collision = False
 
-                # obstacles, stops the player from all directions
-                elif tiled.tilemap_behaviour_list[index] == enums.OBSTACLE:        
+                # obstacles, stops the player from all directions      
+                elif self.map.tilemap_behaviour_list[index] == enums.OBSTACLE:
                     self.direction.y = 0
                     # avoid the rebound
                     if tile.y > self.y_temp:
@@ -155,7 +155,7 @@ class Player(pygame.sprite.Sprite):
                         self.on_ground = True 
 
                 # toxic waste and lava, one life less            
-                elif tiled.tilemap_behaviour_list[index] == enums.KILLER:
+                elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
                     # makes a preventive jump (this time without dust)
