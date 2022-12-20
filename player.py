@@ -111,7 +111,6 @@ class Player(pygame.sprite.Sprite):
         if not collision:
             self.rect.x = self.x_temp # apply the new X position
 
-
     def vertical_mov(self):
         # applies acceleration of gravity up to the vertical speed limit
         if self.direction.y < constants.MAX_Y_SPEED:

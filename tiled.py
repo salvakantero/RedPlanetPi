@@ -112,4 +112,6 @@ def animate_tiles(surf):
             anim_tile[4] += 1
             if anim_tile[4] > 1:
                 anim_tile[4] = 0    
-    return surf                   
+    return surf
+
+    

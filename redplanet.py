@@ -31,64 +31,8 @@ game_percent = 0 # % of gameplay completed
 
 
 #===============================================================================
-# Main functions
+# Map functions
 #===============================================================================
-
-#dumps and scales surfaces to the screen
-def update_screen():
-    # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.V_MARGIN))
-    # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    support.make_scanlines(screen, screen_sl, config)
-    pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
-
-# displays a message to confirm exit
-def confirm_exit():
-    support.message_box(
-        'Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE',
-        map_display, bg_font_L, fg_font_L, bg_font_S, fg_font_S)
-    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.V_MARGIN))        
-    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    support.make_scanlines(screen, screen_sl, config)
-    pygame.display.update()
-    waiting = True
-    while waiting:
-        clock.tick(60)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            if event.type == pygame.KEYUP:
-            # exit by pressing ESC key
-                if event.key == pygame.K_y:                    
-                    return True
-                elif event.key == pygame.K_n:  
-                    return False
-
-# Main menu
-def main_menu():
-    map_display.fill(constants.PALETTE['BLACK'])
-    sboard_display.fill(constants.PALETTE['BLACK'])
-    support.message_box('Red Planet Pi', 'WIP. Press a key to continue',
-        map_display, bg_font_L, fg_font_L, bg_font_S, fg_font_S)
-    update_screen()
-    waiting = True
-    while waiting:
-        clock.tick(60)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            if event.type == pygame.KEYUP:
-                waiting = False
-            # exit by pressing ESC key
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
 
 # checks if the map needs to be changed (depending on the player's XY position)
 def check_map_change(player):
@@ -202,6 +146,66 @@ def change_map():
                 platform_group.add(enemy)
 
 
+#===============================================================================
+# Main functions
+#===============================================================================
+
+#dumps and scales surfaces to the screen
+def update_screen():
+    # scale x 3 the scoreboard
+    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.V_MARGIN))
+    # scale x 3 the map
+    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
+    support.make_scanlines(screen, screen_sl, config)
+    pygame.display.update() # refreshes the screen
+    clock.tick(60) # 60 FPS
+
+# displays a message to confirm exit
+def confirm_exit():
+    support.message_box(
+        'Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE',
+        map_display, font_BL, font_FL, font_BS, font_FS)
+    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.V_MARGIN))        
+    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
+    support.make_scanlines(screen, screen_sl, config)
+    pygame.display.update()
+    waiting = True
+    while waiting:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYUP:
+            # exit by pressing ESC key
+                if event.key == pygame.K_y:                    
+                    return True
+                elif event.key == pygame.K_n:  
+                    return False
+
+# Main menu
+def main_menu():
+    map_display.fill(constants.PALETTE['BLACK'])
+    sboard_display.fill(constants.PALETTE['BLACK'])
+    support.message_box('Red Planet Pi', 'WIP. Press a key to continue',
+        map_display, font_BL, font_FL, font_BS, font_FS)
+    update_screen()
+    waiting = True
+    while waiting:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYUP:
+                waiting = False
+            # exit by pressing ESC key
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+
 
 #===============================================================================
 # Main
@@ -240,14 +244,13 @@ screen_sl = pygame.Surface(constants.WIN_SIZE)
 screen_sl.set_alpha(40)
 
 # fonts
-fg_font_S = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
-bg_font_S = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
-fg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
-bg_font_L = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
+font_FS = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
+font_BS = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
+font_FL = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
+font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
 #aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
 
-scoreboard = Scoreboard(sboard_display, 
-    fg_font_L, bg_font_L, fg_font_S, bg_font_S)
+scoreboard = Scoreboard(sboard_display, font_FL, font_BL, font_FS, font_BS)
 
 # sequences of animations for the player depending on its status
 player_animation = {
@@ -395,7 +398,7 @@ while True:
             
         elif game_status == enums.PAUSED:            
             support.message_box('P a u s e', 'THE MASSACRE CAN WAIT',
-            map_display, bg_font_L, fg_font_L, bg_font_S, fg_font_S)
+            map_display, font_BL, font_FL, font_BS, font_FS)
 
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   

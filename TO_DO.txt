@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Empaquetar funciones de mapas en maps.py
+- Empaquetar funciones de tiled y mapas en una clase?
 - BUG: al saltar se queda pegado al techo
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
