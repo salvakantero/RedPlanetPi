@@ -5,6 +5,7 @@ RED PLANET PI
 EN PROCESO
 ==========
 - BUG: al saltar se queda pegado al techo
+- Enemigos verticales siempre miran al jugador
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
 

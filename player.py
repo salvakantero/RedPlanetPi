@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         # image/animation
         self.image_list = image_list # list of images for animation
         self.frame_index = 0 # frame_number
-        self.animation_speed = 0.16 #16 # frame dwell time
+        self.animation_speed = 0 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
         # dust effect
@@ -143,7 +143,6 @@ class Player(pygame.sprite.Sprite):
                         else: collision = False
                     # if it's jumping it keeps moving
                     else: collision = False
-
                 # obstacles, stops the player from all directions      
                 elif self.map.tilemap_behaviour_list[index] == enums.OBSTACLE:
                     self.direction.y = 0
@@ -152,7 +151,6 @@ class Player(pygame.sprite.Sprite):
                         # sticks to platform                    
                         self.rect.y = tile.y - self.rect.height
                         self.on_ground = True 
-
                 # toxic waste and lava, one life less            
                 elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
@@ -166,9 +164,9 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         # animation
         if (self.state == enums.WALKING):
-            self.animation_speed = 0.3 #6 # running fast
+            self.animation_speed = 0.17 # running fast
         else:
-            self.animation_speed = 0.16 #16 # breathing, jumping, falling
+            self.animation_speed = 0.07 # breathing, jumping, falling
         self.frame_index += self.animation_speed
         # exceeded the number of frames?
         if self.frame_index > len(self.image_list[self.state]): # - 1:

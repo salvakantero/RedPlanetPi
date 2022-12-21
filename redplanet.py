@@ -122,7 +122,7 @@ def update_screen():
     screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
     support.make_scanlines(screen, scanlines_surf, config)
-    #pygame.display.update() # refreshes the screen
+    pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
 
 # displays a message to confirm exit
@@ -213,9 +213,6 @@ font_FL = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
 font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
 #aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
 
-scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
-map = Map(map_surf)
-
 # sequences of animations for the player depending on its status
 player_animation = {
     enums.IDLE: [
@@ -246,13 +243,13 @@ dust_animation = {
         pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
 
-# clock to control the FPS
-clock = pygame.time.Clock()
-
+scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
+map = Map(map_surf)
 game_status = enums.OVER
 music_status = enums.UNMUTED
 
-
+# clock to control the FPS
+clock = pygame.time.Clock()
 
 #===============================================================================
 # Main loop
