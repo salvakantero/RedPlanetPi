@@ -23,47 +23,10 @@ from enemy import Enemy
 from scoreboard import Scoreboard
 from config import Configuration
 
-# local vars
-map_number = 0 # current map
-map_scroll = 0 # scroll direction for map_transition()
-last_map = -1 # last map loaded
-game_percent = 0 # % of gameplay completed
-
 
 #===============================================================================
 # Map functions
 #===============================================================================
-
-# checks if the map needs to be changed (depending on the player's XY position)
-def check_map_change(player):
-    global map_number, map_scroll
-    # player disappears on the left
-    # appearing from the right on the new map
-    if player.rect.x < -(player.rect.width - 1):
-        map_number -= 1
-        map_scroll = enums.LEFT
-        player.rect.right = constants.MAP_UNSCALED_SIZE[0]
-    # player disappears on the right
-    # appearing from the left on the new map
-    elif player.rect.x > constants.MAP_UNSCALED_SIZE[0] - 1:
-        map_number += 1
-        map_scroll = enums.RIGHT
-        player.rect.left = 0
-    # player disappears over the top
-    # appearing at the bottom of the new map 
-    elif player.rect.y < (-16):
-        map_number -= 5
-        map_scroll = enums.UP
-        player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]
-        # jumps again on some maps to facilitate the return
-        if map_number in (2, 7, 14, 19):
-            player.direction.y = constants.JUMP_VALUE
-    # player disappears from underneath
-    #appearing at the top of the new map
-    elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
-        map_number += 5
-        map_scroll = enums.DOWN
-        player.rect.top = 0
 
 # makes a screen transition between the old map and the new one.
 def map_transition():
@@ -73,55 +36,53 @@ def map_transition():
     map_trans_vert = pygame.Surface(
         (constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
 
-    if map_scroll == enums.UP:
+    if map.scroll == enums.UP:
         # joins the two maps on a single surface
-        map_trans_vert.blit(map_display_backup, (0,0))
-        map_trans_vert.blit(map_display_backup_old, (0, constants.MAP_UNSCALED_SIZE[1]))
+        map_trans_vert.blit(map_surf_bk, (0,0))
+        map_trans_vert.blit(map_surf_bk_prev, (0, constants.MAP_UNSCALED_SIZE[1]))
         # scrolls the two maps across the screen
         for y in range(-constants.MAP_UNSCALED_SIZE[1], 0, 4):
-            map_display.blit(map_trans_vert, (0, y))
+            map_surf.blit(map_trans_vert, (0, y))
             update_screen()
-    elif map_scroll == enums.DOWN:
+    elif map.scroll == enums.DOWN:
         # joins the two maps on a single surface
-        map_trans_vert.blit(map_display_backup_old, (0,0))
-        map_trans_vert.blit(map_display_backup, (0, constants.MAP_UNSCALED_SIZE[1]))
+        map_trans_vert.blit(map_surf_bk_prev, (0,0))
+        map_trans_vert.blit(map_surf_bk, (0, constants.MAP_UNSCALED_SIZE[1]))
         # scrolls the two maps across the screen
         for y in range(0, -constants.MAP_UNSCALED_SIZE[1], -4):
-            map_display.blit(map_trans_vert, (0, y))
+            map_surf.blit(map_trans_vert, (0, y))
             update_screen()
-    elif map_scroll == enums.LEFT:
+    elif map.scroll == enums.LEFT:
         # joins the two maps on a single surface
-        map_trans_horiz.blit(map_display_backup, (0,0))
-        map_trans_horiz.blit(map_display_backup_old, (constants.MAP_UNSCALED_SIZE[0], 0))
+        map_trans_horiz.blit(map_surf_bk, (0,0))
+        map_trans_horiz.blit(map_surf_bk_prev, (constants.MAP_UNSCALED_SIZE[0], 0))
         # scrolls the two maps across the screen
         for x in range(-constants.MAP_UNSCALED_SIZE[0], 0, 6):
-            map_display.blit(map_trans_horiz, (x, 0))
+            map_surf.blit(map_trans_horiz, (x, 0))
             update_screen()
     else: # right
         # joins the two maps on a single surface
-        map_trans_horiz.blit(map_display_backup_old, (0,0))
-        map_trans_horiz.blit(map_display_backup, (constants.MAP_UNSCALED_SIZE[0], 0))
+        map_trans_horiz.blit(map_surf_bk_prev, (0,0))
+        map_trans_horiz.blit(map_surf_bk, (constants.MAP_UNSCALED_SIZE[0], 0))
         # scrolls the two maps across the screen
         for x in range(0, -constants.MAP_UNSCALED_SIZE[0], -6):
-            map_display.blit(map_trans_horiz, (x, 0))
+            map_surf.blit(map_trans_horiz, (x, 0))
             update_screen()
 
 # does everything necessary to change the map
 def change_map():
-    global last_map, map_number
     # sets the new map as the current one
-    last_map = map_number
+    map.last = map.number
     # load the new map
-    #.load_map(map_number, map_display)
-    map.load(map_number)
+    map.load()
     # preserves the previous 
     if config.map_transition:
-        map_display_backup_old.blit(map_display_backup, (0,0))
+        map_surf_bk_prev.blit(map_surf_bk, (0,0))
     # save the new empty background
-    map_display_backup.blit(map_display, (0,0))
+    map_surf_bk.blit(map_surf, (0,0))
     # refresh the scoreboard area
     scoreboard.reset()
-    scoreboard.map_info(map_number, game_percent)
+    scoreboard.map_info(map.number, map.game_percent)
     scoreboard.invalidate()
     # performs the screen transition
     if config.map_transition:
@@ -133,10 +94,11 @@ def change_map():
     dust_group.empty()
     # add the player  
     all_sprites_group.add(player)
-    # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list (enems.h)
+    # add enemies (and mobile platforms) to the map 
+    # reading from 'ENEMIES_DATA' list (enems.h)
     # a maximum of three enemies per map
     for i in range(3):
-        enemy_data = constants.ENEMIES_DATA[map_number*3 + i]
+        enemy_data = constants.ENEMIES_DATA[map.number*3 + i]
         if enemy_data[6] != enums.NONE:
             enemy = Enemy(enemy_data)
             all_sprites_group.add(enemy)
@@ -146,7 +108,7 @@ def change_map():
             else: # platform sprite? add to the platform group
                 platform_group.add(enemy)
 
-
+ 
 #===============================================================================
 # Main functions
 #===============================================================================
@@ -154,25 +116,25 @@ def change_map():
 #dumps and scales surfaces to the screen
 def update_screen():
     # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
+    screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
         (constants.H_MARGIN, constants.V_MARGIN))
     # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
+    screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    support.make_scanlines(screen, screen_sl, config)
-    pygame.display.update() # refreshes the screen
+    support.make_scanlines(screen, scanlines_surf, config)
+    #pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
 
 # displays a message to confirm exit
 def confirm_exit():
     support.message_box(
         'Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE',
-        map_display, font_BL, font_FL, font_BS, font_FS)
-    screen.blit(pygame.transform.scale(sboard_display, constants.SBOARD_SCALED_SIZE), 
+        map_surf, font_BL, font_FL, font_BS, font_FS)
+    screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
         (constants.H_MARGIN, constants.V_MARGIN))        
-    screen.blit(pygame.transform.scale(map_display, constants.MAP_SCALED_SIZE), 
+    screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    support.make_scanlines(screen, screen_sl, config)
+    support.make_scanlines(screen, scanlines_surf, config)
     pygame.display.update()
     waiting = True
     while waiting:
@@ -189,10 +151,10 @@ def confirm_exit():
 
 # Main menu
 def main_menu():
-    map_display.fill(constants.PALETTE['BLACK'])
-    sboard_display.fill(constants.PALETTE['BLACK'])
+    map_surf.fill(constants.PALETTE['BLACK'])
+    sboard_surf.fill(constants.PALETTE['BLACK'])
     support.message_box('Red Planet Pi', 'WIP. Press a key to continue',
-        map_display, font_BL, font_FL, font_BS, font_FS)
+        map_surf, font_BL, font_FL, font_BS, font_FS)
     update_screen()
     waiting = True
     while waiting:
@@ -232,17 +194,17 @@ icon = pygame.image.load('images/assets/icon.png').convert_alpha()
 pygame.display.set_icon(icon)  
 
 # area covered by the map
-map_display = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # area covered by the scoreboard
-sboard_display = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
+sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
 # surface to save the generated map without sprites
-map_display_backup = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface to save the previous map (transition effect between screens)
 if config.map_transition:
-    map_display_backup_old = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+    map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface for HQ scanlines
-screen_sl = pygame.Surface(constants.WIN_SIZE)
-screen_sl.set_alpha(40)
+scanlines_surf = pygame.Surface(constants.WIN_SIZE)
+scanlines_surf.set_alpha(40)
 
 # fonts
 font_FS = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
@@ -251,8 +213,8 @@ font_FL = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
 font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
 #aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
 
-scoreboard = Scoreboard(sboard_display, font_FL, font_BL, font_FS, font_BS)
-map = Map(map_display)
+scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
+map = Map(map_surf)
 
 # sequences of animations for the player depending on its status
 player_animation = {
@@ -312,9 +274,9 @@ while True:
         #pygame.mixer.music.play(-1)
         # reset variables
         game_status = enums.RUNNING
-        map_number = 0
-        last_map = -1
-        map_scroll = enums.RIGHT
+        map.number = 0
+        map.last = -1
+        map.scroll = enums.RIGHT
     else: # game running or paused
         # event management
         for event in pygame.event.get():
@@ -349,15 +311,15 @@ while True:
 
                 # temp code ================
                 if event.key == pygame.K_RIGHT:
-                    if map_number < 44:
-                        map_number += 1
+                    if map.number < 44:
+                        map.number += 1
                 if event.key == pygame.K_LEFT:
-                    if map_number > 0:
-                        map_number -= 1
+                    if map.number > 0:
+                        map.number -= 1
                 # ==========================
 
         # change map if neccessary
-        if map_number != last_map:
+        if map.number != map.last:
             change_map()
 
         if game_status == enums.RUNNING:
@@ -384,23 +346,23 @@ while True:
                 game_status = enums.OVER
 
             # draws the map free of sprites to clean it up
-            map_display.blit(map_display_backup, (0,0))
+            map_surf.blit(map_surf_bk, (0,0))
             # and change the frame of the animated tiles
-            map_display_backup = map.animate_tiles(map_display_backup)
+            map_surf_bk = map.animate_tiles(map_surf_bk)
 
             # print sprites
-            all_sprites_group.draw(map_display)
+            all_sprites_group.draw(map_surf)
 
             # updates the scoreboard, only if needed
             scoreboard.update(player)
 
             # check map change using player's coordinates
             # if the player leaves, the map number changes
-            check_map_change(player)
+            map.check_change(player)
             
         elif game_status == enums.PAUSED:            
             support.message_box('P a u s e', 'THE MASSACRE CAN WAIT',
-            map_display, font_BL, font_FL, font_BS, font_FS)
+            map_surf, font_BL, font_FL, font_BS, font_FS)
 
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   

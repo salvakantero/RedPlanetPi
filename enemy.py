@@ -5,24 +5,6 @@
 
 import pygame
 
-# calculates the distance between two points
-def distance (x1, y1, x2, y2):
-    dx = abs(x2-x1)
-    dy = abs(y2-y1)
-    if dx < dy:
-        mn = dx
-    else:
-        mn = dy
-    return(dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
-
-# maintains a value within limits
-def limit(val, min, max):
-    if val < min:
-        return min
-    elif val > max:
-        return max
-    return val
-
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data): # x1, y1, x2, y2, mx, my, type
         super().__init__()
@@ -63,6 +45,24 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.images[self.animation_index]
         self.rect = self.image.get_rect()
 
+    # calculates the distance between two points
+    def distance (self, x1, y1, x2, y2):
+        dx = abs(x2-x1)
+        dy = abs(y2-y1)
+        if dx < dy:
+            mn = dx
+        else:
+            mn = dy
+        return(dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
+
+    # maintains a value within limits
+    def limit(self, val, min, max):
+        if val < min:
+            return min
+        elif val > max:
+            return max
+        return val
+
     def update(self):
         # movement
         if self.type != 6: # no fanty  
@@ -74,10 +74,10 @@ class Enemy(pygame.sprite.Sprite):
                 self.my = -self.my
         else: # fanty
             if self.state == 0: # idle
-                if distance(0, 0, self.x, self.y) <= self.sight_distance:
+                if self.distance(0, 0, self.x, self.y) <= self.sight_distance:
                     self.state = 1 # pursuing
             elif self.state == 1: # pursuing
-                if distance(0, 0, self.x, self.y) > self.sight_distance:
+                if self.distance(0, 0, self.x, self.y) > self.sight_distance:
                     self.state = 2 # retreating
                 else:
                     #en_an [gpit].vx = limit(en_an [gpit].vx + addsign (player.x - en_an [gpit].x, FANTY_A),-FANTY_MAX_V, FANTY_MAX_V)
@@ -88,7 +88,7 @@ class Enemy(pygame.sprite.Sprite):
             else: # retreating
                 #en_an [gpit].x += addsign(malotes [enoffsmasi].x - gpen_cx, 64)
                 #en_an [gpit].y += addsign(malotes [enoffsmasi].y - gpen_cy, 64)                
-                if distance (0, 0, self.x, self.y) <= self.sight_distance:
+                if self.distance (0, 0, self.x, self.y) <= self.sight_distance:
                     self.state = 1 # pursuing					
                         				
             #gpen_cx = en_an [gpit].x >> 6;

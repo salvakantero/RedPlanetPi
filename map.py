@@ -11,16 +11,20 @@ import constants
 import enums
 
 class Map():
-    def __init__(self, map_display):
+    def __init__(self, map_surf):
+        self.number = 0 # current map
+        self.scroll = 0 # scroll direction for map_transition()
+        self.last = -1 # last map loaded
+        self.game_percent = 0 # % of gameplay completed
         self.tilemap_rect_list = [] # list of tile rects
         self.tilemap_behaviour_list = [] # list of tile behaviours
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
-        self.map_display = map_display
+        self.map_surf = map_surf
 
     # loads a map and draws it on screen
-    def load(self, map_number):
-        self.map_data = self.process_map('maps/map{}.json'.format(map_number))
+    def load(self):
+        self.map_data = self.process_map('maps/map{}.json'.format(self.number))
         self.draw_map() # draws the tile map on the screen
 
     # dump tiled map into 'mapdata'
@@ -77,7 +81,7 @@ class Map():
                 tile = pygame.image.load('images/tiles/' + t['image']).convert()
                 tileRect = tile.get_rect()
                 tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
-                self.map_display.blit(tile, tileRect)
+                self.map_surf.blit(tile, tileRect)
 
                 # generates the list of rects and behaviour of the current map
                 # from T16.png to T35.png: blocking tiles (OBSTABLE)
@@ -116,3 +120,34 @@ class Map():
                 if anim_tile[4] > 1:
                     anim_tile[4] = 0    
         return surface
+
+    # checks if the map needs to be changed (depending on the player's XY position)
+    def check_change(self, player):
+        # player disappears on the left
+        # appearing from the right on the new map
+        if player.rect.x < -(player.rect.width - 1):
+            self.number -= 1
+            self.scroll = enums.LEFT
+            player.rect.right = constants.MAP_UNSCALED_SIZE[0]
+        # player disappears on the right
+        # appearing from the left on the new map
+        elif player.rect.x > constants.MAP_UNSCALED_SIZE[0] - 1:
+            self.number += 1
+            self.scroll = enums.RIGHT
+            player.rect.left = 0
+        # player disappears over the top
+        # appearing at the bottom of the new map 
+        # and jumps again to facilitate the return
+        elif player.rect.y < (-16):
+            self.number -= 5
+            self.scroll = enums.UP
+            player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]            
+            player.direction.y = constants.JUMP_VALUE
+        # player disappears from underneath
+        #appearing at the top of the new map
+        elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
+            self.number += 5
+            self.scroll = enums.DOWN
+            player.rect.top = 0
+
+            
