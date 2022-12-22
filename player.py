@@ -31,8 +31,9 @@ class Player(pygame.sprite.Sprite):
         self.invincible_time_to = 2000 # time of invincibility (1 sec.)
         # image/animation
         self.image_list = image_list # list of images for animation
-        self.frame_index = 0 # frame_number
-        self.animation_speed = 0 # frame dwell time
+        self.frame_index = 0 # frame number
+        self.animation_timer = 16 # timer to change frame
+        self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
         # dust effect
@@ -164,19 +165,23 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         # animation
         if (self.state == enums.WALKING):
-            self.animation_speed = 0.17 # running fast
+            self.animation_speed = 6 # running fast
         else:
-            self.animation_speed = 0.07 # breathing, jumping, falling
-        self.frame_index += self.animation_speed
+            self.animation_speed = 16 # breathing, jumping, falling
+        self.animation_timer += 1
+        # exceeded the frame time?
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0 # reset the timer
+            self.frame_index += 1 # next frame
         # exceeded the number of frames?
-        if self.frame_index > len(self.image_list[self.state]): # - 1:
+        if self.frame_index > len(self.image_list[self.state]) - 1:
             self.frame_index = 0 # reset the frame number
         # assigns image according to frame, status and direction
         if self.facing_right:
-            self.image = self.image_list[self.state][int(self.frame_index)]
+            self.image = self.image_list[self.state][self.frame_index]
         else: # reflects the image when looking to the left
             self.image = pygame.transform.flip(
-                self.image_list[self.state][int(self.frame_index)], True, False)
+                self.image_list[self.state][self.frame_index], True, False)
         # invincible effect (the player blinks)
         if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255
         else: self.image.set_alpha(255) # without transparency

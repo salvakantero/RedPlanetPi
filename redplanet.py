@@ -100,7 +100,7 @@ def change_map():
     for i in range(3):
         enemy_data = constants.ENEMIES_DATA[map.number*3 + i]
         if enemy_data[6] != enums.NONE:
-            enemy = Enemy(enemy_data)
+            enemy = Enemy(enemy_data, player)
             all_sprites_group.add(enemy)
             # enemy sprite? add to the enemy group (to check for collisions)
             if enemy_data[6] != enums.PLATFORM_SPR:
@@ -211,7 +211,7 @@ font_FS = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
 font_BS = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
 font_FL = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
 font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
-#aux_font_L = Font('images/fonts/large_font.png', globalvars.PALETTE['YELLOW'], False)
+aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], False)
 
 # sequences of animations for the player depending on its status
 player_animation = {
@@ -363,8 +363,8 @@ while True:
 
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
-    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
-    #    ' FPS', sboard_display, (124, 22))
+    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
+        ' FPS', sboard_surf, (124, 22))
     # draw collision rects
     #pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
     #if platform_group.sprite != None:

@@ -6,8 +6,9 @@
 import pygame
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_data): # x1, y1, x2, y2, mx, my, type
+    def __init__(self, enemy_data, player): # x1, y1, x2, y2, mx, my, type
         super().__init__()
+        self.player = player
         # max/min xy values
         self.x = self.x1 = enemy_data[0]
         self.y = self.y1 = enemy_data[1]
@@ -33,17 +34,33 @@ class Enemy(pygame.sprite.Sprite):
             self.acceleration = 16
             self.max_speed = 256
         # images
-        num_frames = 2
-        self.images = []
-        for i in range(num_frames):
+        self.image_list = []
+        for i in range(2): # 2 frames per enemy
             # image for the frame
-            self.images.append(pygame.image.load(
+            self.image_list.append(pygame.image.load(
                 'images/sprites/' + enemy_name + str(i) + '.png'))
-            self.images[i].convert_alpha()
-        self.animation_index = 0
-        self.animation_speed = 0.08
-        self.image = self.images[self.animation_index]
+            self.image_list[i].convert_alpha()
+        self.frame_index = 0 # frame number
+        self.animation_timer = 16 # timer to change frame
+        self.animation_speed = 16 # frame dwell time
+        self.image = self.image_list[0]
         self.rect = self.image.get_rect()
+
+    def animate(self):
+        self.animation_timer += 1
+        # exceeded the frame time?
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0 # reset the timer
+            self.frame_index += 1 # next frame
+        # exceeded the number of frames?
+        if self.frame_index > len(self.image_list) - 1:
+            self.frame_index = 0 # reset the frame number
+        # assigns the original or inverted image
+        if self.mx > 0 or (self.mx == 0 and self.player.rect.x >= self.x):
+            self.image = self.image_list[self.frame_index]
+        elif self.mx < 0 or (self.mx == 0 and self.player.rect.x < self.x):
+            self.image = pygame.transform.flip(
+                self.image_list[self.frame_index], True, False)
 
     # calculates the distance between two points
     def distance (self, x1, y1, x2, y2):
@@ -98,13 +115,4 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x = self.x
         self.rect.y = self.y
-
-        # animation
-        self.animation_index += self.animation_speed
-        if self.animation_index >= len(self.images):
-            self.animation_index = 0
-        if self.mx >= 0:
-            self.image = self.images[int(self.animation_index)]
-        else:
-            self.image = pygame.transform.flip(
-                self.images[int(self.animation_index)], True, False)
+        self.animate()
