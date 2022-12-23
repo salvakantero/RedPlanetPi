@@ -125,13 +125,13 @@ class Map():
     def check_change(self, player):
         # player disappears on the left
         # appearing from the right on the new map
-        if player.rect.x < -(player.rect.width - 1):
+        if player.rect.x < -(player.rect.width - 8):
             self.number -= 1
             self.scroll = enums.LEFT
             player.rect.right = constants.MAP_UNSCALED_SIZE[0]
         # player disappears on the right
         # appearing from the left on the new map
-        elif player.rect.x > constants.MAP_UNSCALED_SIZE[0] - 1:
+        elif player.rect.x > constants.MAP_UNSCALED_SIZE[0] - 8:
             self.number += 1
             self.scroll = enums.RIGHT
             player.rect.left = 0

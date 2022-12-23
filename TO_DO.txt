@@ -4,8 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- plataformas móviles laterales
-- BUG: cambio de pantalla a veces regresa a la anterior
+- Afinar salto y movimiento para afrontar el mapa original
+- Plataformas móviles laterales
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
 
@@ -84,7 +84,6 @@ HECHO
 11/12/22 - Gestión de plataformas móviles
 14/12/22 - Marcador como una clase
 15/12/22 - Configuración como una clase
-16/12/22 - Afinar salto y movimiento para afrontar el mapa original
 18/12/22 - BUG: colisión con plataforma fija permite entrar en obstáculo por la derecha
 19/12/22 - Empaquetar funciones genéricas en support.py
 21/12/22 - Empaquetar funciones de tiled y mapas en map.py
