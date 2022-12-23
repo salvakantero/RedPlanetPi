@@ -4,8 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- BUG: al saltar se queda pegado al techo
-- Enemigos verticales siempre miran al jugador
+- plataformas móviles laterales
+- BUG: cambio de pantalla a veces regresa a la anterior
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
 
@@ -88,6 +88,8 @@ HECHO
 18/12/22 - BUG: colisión con plataforma fija permite entrar en obstáculo por la derecha
 19/12/22 - Empaquetar funciones genéricas en support.py
 21/12/22 - Empaquetar funciones de tiled y mapas en map.py
+23/12/22 - Enemigos verticales siempre miran al jugador
+23/12/22 - BUG: al saltar se queda pegado al techo
 
 GREETINGS
 =========

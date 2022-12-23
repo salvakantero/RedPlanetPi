@@ -75,7 +75,8 @@ class Player(pygame.sprite.Sprite):
                 if self.state == enums.FALLING:
                     self.dust_effect(self.rect.center, self.state)
         # press jump
-        if key_state[self.config.jump_key] and self.on_ground:
+        if key_state[self.config.jump_key] and self.on_ground \
+        and not self.state == enums.JUMPING:
             self.direction.y = constants.JUMP_VALUE
             self.dust_effect(self.rect.center, enums.JUMPING)
 
@@ -128,6 +129,7 @@ class Player(pygame.sprite.Sprite):
             index += 1
             if tile.colliderect(temp_rect):
                 collision = True
+
                 # platform, only stops from above
                 if self.map.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
                     # if the player is not jumping (if not climbing)    
@@ -144,20 +146,23 @@ class Player(pygame.sprite.Sprite):
                         else: collision = False
                     # if it's jumping it keeps moving
                     else: collision = False
+
                 # obstacles, stops the player from all directions      
                 elif self.map.tilemap_behaviour_list[index] == enums.OBSTACLE:
                     self.direction.y = 0
                     # avoid the rebound
                     if tile.y > self.y_temp:
-                        # sticks to platform                    
+                        # sticks to tile             
                         self.rect.y = tile.y - self.rect.height
-                        self.on_ground = True 
+                        self.on_ground = True
+                        
                 # toxic waste and lava, one life less            
                 elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
                     # makes a preventive jump (this time without dust)
                     self.direction.y = constants.JUMP_VALUE
+
         if not collision:
             self.rect.y = self.y_temp # apply the new Y position
             self.on_ground = False

@@ -80,13 +80,13 @@ def change_map():
         map_surf_bk_prev.blit(map_surf_bk, (0,0))
     # save the new empty background
     map_surf_bk.blit(map_surf, (0,0))
+    # performs the screen transition
+    if config.map_transition:
+        map_transition()  
     # refresh the scoreboard area
     scoreboard.reset()
     scoreboard.map_info(map.number, map.game_percent)
-    scoreboard.invalidate()
-    # performs the screen transition
-    if config.map_transition:
-        map_transition()        
+    scoreboard.invalidate()      
     # reset the sprite groups  
     all_sprites_group.empty()
     enemies_group.empty()
@@ -363,14 +363,16 @@ while True:
 
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
-    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
-        ' FPS', sboard_surf, (124, 22))
+    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
+    #    ' FPS', sboard_surf, (124, 22))
     # draw collision rects
     #pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
     #if platform_group.sprite != None:
     #    pygame.draw.rect(map_display, globalvars.PALETTE['GREEN'], 
     #       platform_group.sprite.rect, 1)
-    #print(player.y_speed)
+    # any other data
+    #aux_font_L.render(str(player.on_ground), sboard_surf, (124, 22))
+    #print(player.state)
     # //////////////////////////////////////////////////////////////////////////
     
     update_screen()
