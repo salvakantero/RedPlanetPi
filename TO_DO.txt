@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Afinar salto y movimiento para afrontar el mapa original
+- Afinar salto y movimiento para afrontar el mapa original (mapa 12)
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
 
