@@ -169,6 +169,31 @@ def main_menu():
                     pygame.quit()
                     sys.exit()
 
+# collision between the player and an enemy or moving platform
+def collision_check():
+    # mobile platform
+    if platform_group.sprite != None \
+    and pygame.sprite.spritecollide(player, platform_group, False, 
+    pygame.sprite.collide_rect_ratio(1.15)):
+        platform = platform_group.sprite
+        # the player is above the platform?
+        if player.rect.bottom - 2 < platform.rect.top:                 
+            player.rect.bottom = platform.rect.top
+            player.direction.y = 0                    
+            player.on_ground = True                                        
+            # horizontal platform
+            if platform.my == 0:
+                # if the movement keys are not pressed
+                # takes the movement of the platform
+                key_state = pygame.key.get_pressed()
+                if not key_state[config.left_key] \
+                and not key_state[config.right_key]:
+                    player.rect.x += platform.mx
+    # martians
+    if not player.invincible and pygame.sprite.spritecollide(player, 
+    enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
+        player.loses_life()
+        scoreboard.invalidate() # redraws the scoreboard
 
 #===============================================================================
 # Main
@@ -322,37 +347,19 @@ while True:
         if game_status == enums.RUNNING:
             # update sprites
             all_sprites_group.update()
-
-            # collision between the player and the martians?            
-            if not player.invincible and pygame.sprite.spritecollide(player, 
-                enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
-                player.loses_life()
-                scoreboard.invalidate()
-
-            # collision between the player and a mobile platform?
-            if pygame.sprite.spritecollide(player, platform_group, False,
-                pygame.sprite.collide_rect_ratio(1.15)):
-                # the player is above the platform?
-                if player.rect.bottom - 2 < platform_group.sprite.rect.top:                 
-                    player.rect.bottom = platform_group.sprite.rect.top
-                    player.direction.y = 0
-                    player.on_ground = True
-
-            if player.lives == 0:
-                # print game over message
-                game_status = enums.OVER
-
+            # collision between the player and an enemy or moving platform
+            collision_check()
+            # game over?
+            if player.lives == 0:                
+                game_status = enums.OVER # print game over message
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
             # and change the frame of the animated tiles
             map_surf_bk = map.animate_tiles(map_surf_bk)
-
             # print sprites
             all_sprites_group.draw(map_surf)
-
             # updates the scoreboard, only if needed
             scoreboard.update(player)
-
             # check map change using player's coordinates
             # if the player leaves, the map number changes
             map.check_change(player)

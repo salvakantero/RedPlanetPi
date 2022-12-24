@@ -1,6 +1,7 @@
 
 #===============================================================================
 # Player class
+# movement and animations, collisions with the map
 #===============================================================================
 
 import pygame
@@ -40,7 +41,7 @@ class Player(pygame.sprite.Sprite):
         self.dust_image_list = dust_image_list
         self.all_sprites_group = all_sprites_group    
         self.dust_group = dust_group    
-        # objects
+        # objects and others
         self.map = map
         self.scoreboard = scoreboard
         self.config = config
@@ -130,7 +131,7 @@ class Player(pygame.sprite.Sprite):
             if tile.colliderect(temp_rect):
                 collision = True
 
-                # platform, only stops from above
+                # fixed platform, only stops from above
                 if self.map.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
                     # if the player is not jumping (if not climbing)    
                     if (self.state is not enums.JUMPING):

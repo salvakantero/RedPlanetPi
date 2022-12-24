@@ -5,7 +5,6 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Afinar salto y movimiento para afrontar el mapa original
-- Plataformas móviles laterales
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
 
@@ -89,6 +88,8 @@ HECHO
 21/12/22 - Empaquetar funciones de tiled y mapas en map.py
 23/12/22 - Enemigos verticales siempre miran al jugador
 23/12/22 - BUG: al saltar se queda pegado al techo
+24/12/22 - Plataformas móviles laterales
+
 
 GREETINGS
 =========
