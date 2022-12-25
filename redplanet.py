@@ -6,6 +6,7 @@
 
 import pygame # pygame library functions
 import sys # exit()
+import random
 
 # allows constants without typing "pygame."
 from pygame.locals import *
@@ -115,12 +116,19 @@ def change_map():
 
 #dumps and scales surfaces to the screen
 def update_screen():
+    # shakes the surface of the map if it has been requested
+    offset = [0,0]
+    if shake_time > 0:
+        offset[0] = random.randint(-shake_screen[0], shake_screen[0])
+        offset[1] = random.randint(-shake_screen[1], shake_screen[1])
     # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
+    screen.blit(pygame.transform.scale(
+        sboard_surf, constants.SBOARD_SCALED_SIZE), 
         (constants.H_MARGIN, constants.V_MARGIN))
     # scale x 3 the map
-    screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
+    screen.blit(pygame.transform.scale(
+        map_surf, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
+        constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
     support.make_scanlines(screen, scanlines_surf, config)
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
@@ -268,8 +276,16 @@ dust_animation = {
         pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
 
+# create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
+# create the Map object
 map = Map(map_surf)
+
+# modifies the XY position of the map on the screen to create a shaking effect
+shake_screen = [0,0]
+# number of frames the shaking effect will last for
+shake_time = 0
+
 game_status = enums.OVER
 music_status = enums.UNMUTED
 

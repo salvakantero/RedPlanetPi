@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Afinar salto y movimiento para afrontar el mapa original (mapa 12)
 - Secuencia de Game Over
 - Vibra el mapa de juego con saltos grandes
 
@@ -89,6 +88,8 @@ HECHO
 23/12/22 - Enemigos verticales siempre miran al jugador
 23/12/22 - BUG: al saltar se queda pegado al techo
 24/12/22 - Plataformas móviles laterales
+25/12/22 - Adaptar mapa, salto y movimiento para afrontar el mapa original
+
 
 
 GREETINGS

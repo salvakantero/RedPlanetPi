@@ -19,6 +19,10 @@ class Map():
         self.tilemap_rect_list = [] # list of tile rects
         self.tilemap_behaviour_list = [] # list of tile behaviours
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
+        # modifies the XY position of the map on the screen to create 
+        # a shaking effect for a given number of frames
+        self.shake = [0, 0]
+        self.shake_time = 0
         self.map_data = {}
         self.map_surf = map_surf
 
