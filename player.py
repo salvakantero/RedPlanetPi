@@ -24,6 +24,7 @@ class Player(pygame.sprite.Sprite):
         # internal attributes
         self.direction = pygame.math.Vector2(0.0)
         self.x_speed = 2 # movement in the x-axis (pixels)
+        self.y_jump = 0 # current y value when jumping (to detect large jumps)
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground        
@@ -75,6 +76,7 @@ class Player(pygame.sprite.Sprite):
         if key_state[self.config.jump_key] and self.on_ground \
         and not self.state == enums.JUMPING:
             self.direction.y = constants.JUMP_VALUE
+            self.y_jump = self.rect.y # to detect large jumps on landing
             self.dust_effect(self.rect.center, enums.JUMPING)
 
     def get_state(self):
@@ -164,10 +166,14 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = self.y_temp # apply the new Y position
             self.on_ground = False
 
-        # landing, creating some dust
+        # landing, creating some dust and and shaking the map
         if self.state == enums.FALLING and self.on_ground:
             self.dust_effect(self.rect.center, self.state)
-
+            # large jump?
+            if self.rect.y > self.y_jump:
+                self.map.shake = [0, 4]
+                self.map.shake_timer = 4
+                
     def animate(self):
         # animation
         if (self.state == enums.WALKING):
