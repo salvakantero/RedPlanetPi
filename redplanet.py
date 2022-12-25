@@ -118,9 +118,10 @@ def change_map():
 def update_screen():
     # shakes the surface of the map if it has been requested
     offset = [0,0]
-    if shake_time > 0:
-        offset[0] = random.randint(-shake_screen[0], shake_screen[0])
-        offset[1] = random.randint(-shake_screen[1], shake_screen[1])
+    if map.shake_timer > 0:
+        offset[0] = random.randint(-map.shake[0], map.shake[0])
+        offset[1] = random.randint(-map.shake[1], map.shake[1])
+        map.shake_timer -= 1
     # scale x 3 the scoreboard
     screen.blit(pygame.transform.scale(
         sboard_surf, constants.SBOARD_SCALED_SIZE), 
@@ -394,7 +395,7 @@ while True:
     #    pygame.draw.rect(map_display, globalvars.PALETTE['GREEN'], 
     #       platform_group.sprite.rect, 1)
     # any other data
-    #aux_font_L.render(str(player.on_ground), sboard_surf, (124, 22))
+    #aux_font_L.render(str(player.direction.y), sboard_surf, (124, 22))
     #print(player.state)
     # //////////////////////////////////////////////////////////////////////////
     

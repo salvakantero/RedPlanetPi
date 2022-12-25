@@ -58,23 +58,19 @@ class Player(pygame.sprite.Sprite):
         self.x_temp = self.rect.x 
         self.y_temp = self.rect.y
         # manages keystrokes
-        key_state = pygame.key.get_pressed()   
-        # press left
-        if key_state[self.config.left_key]:
-            self.direction.x = -1
-            self.facing_right = False
+        key_state = pygame.key.get_pressed()  
         # press right
         if key_state[self.config.right_key]:
             self.direction.x = 1
             self.facing_right = True
+        # press left
+        elif key_state[self.config.left_key]:
+            self.direction.x = -1
+            self.facing_right = False
         # without lateral movement
-        if not key_state[self.config.left_key] \
-        and not key_state[self.config.right_key]:
-            self.direction.x = 0
-            if self.on_ground:
-                # landing, creating some dust
-                if self.state == enums.FALLING:
-                    self.dust_effect(self.rect.center, self.state)
+        elif not key_state[self.config.right_key] \
+        and not key_state[self.config.left_key]:
+            self.direction.x = 0 
         # press jump
         if key_state[self.config.jump_key] and self.on_ground \
         and not self.state == enums.JUMPING:
@@ -113,7 +109,7 @@ class Player(pygame.sprite.Sprite):
         if not collision:
             self.rect.x = self.x_temp # apply the new X position
 
-    def vertical_mov(self):
+    def vertical_mov(self):        
         # applies acceleration of gravity up to the vertical speed limit
         if self.direction.y < constants.MAX_Y_SPEED:
             self.direction.y += constants.GRAVITY
@@ -167,6 +163,10 @@ class Player(pygame.sprite.Sprite):
         if not collision:
             self.rect.y = self.y_temp # apply the new Y position
             self.on_ground = False
+
+        # landing, creating some dust
+        if self.state == enums.FALLING and self.on_ground:
+            self.dust_effect(self.rect.center, self.state)
 
     def animate(self):
         # animation

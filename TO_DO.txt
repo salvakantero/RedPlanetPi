@@ -5,7 +5,6 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Secuencia de Game Over
-- Vibra el mapa de juego con saltos grandes
 
 
 POR HACER
