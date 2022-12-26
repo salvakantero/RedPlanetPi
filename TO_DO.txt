@@ -5,11 +5,11 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Secuencia de Game Over
+- Movimiento del enemigo fanty
 
 
 POR HACER
 =========
-- Movimiento del enemigo fanty
 - Gestión de disparos del player
 - Vibra el mapa de juego con explosiones
 - Gestión de objetos de tipo TARJETA (abrir puertas)
@@ -88,6 +88,7 @@ HECHO
 23/12/22 - BUG: al saltar se queda pegado al techo
 24/12/22 - Plataformas móviles laterales
 25/12/22 - Adaptar mapa, salto y movimiento para afrontar el mapa original
+26/12/22 - Vibra la pantalla al hacer grandes saltos
 
 
 
