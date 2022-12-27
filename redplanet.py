@@ -145,18 +145,37 @@ def confirm_exit():
         (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
     support.make_scanlines(screen, scanlines_surf, config)
     pygame.display.update()
-    waiting = True
-    while waiting:
-        clock.tick(60)
+    while True:
+        clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
             if event.type == pygame.KEYUP:
-            # exit by pressing ESC key
                 if event.key == pygame.K_y:                    
                     return True
                 elif event.key == pygame.K_n:  
                     return False
+
+# displays a game over message and waits
+def game_over():  
+    support.message_box('G a m e  O v e r', 'PRESS Y TO TRY AGAIN OR N TO EXIT!',
+        map_surf, font_BL, font_FL, font_BS, font_FS)
+    screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.V_MARGIN))        
+    screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
+        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
+    support.make_scanlines(screen, scanlines_surf, config)
+    pygame.display.update()
+    while True:
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_y:                    
+                    return True
+                elif event.key == pygame.K_n:  
+                    pygame.quit()
 
 # Main menu
 def main_menu():
@@ -282,11 +301,6 @@ scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
 # create the Map object
 map = Map(map_surf)
 
-# modifies the XY position of the map on the screen to create a shaking effect
-shake_screen = [0,0]
-# number of frames the shaking effect will last for
-shake_time = 0
-
 game_status = enums.OVER
 music_status = enums.UNMUTED
 
@@ -299,7 +313,7 @@ clock = pygame.time.Clock()
 
 while True:    
     if game_status == enums.OVER: # game not running
-        #main_menu()
+        main_menu()
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
@@ -367,8 +381,9 @@ while True:
             # collision between the player and an enemy or moving platform
             collision_check()
             # game over?
-            if player.lives == 0:                
-                game_status = enums.OVER # print game over message
+            if player.lives == 0 and game_over():
+                game_status = enums.OVER
+
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
             # and change the frame of the animated tiles

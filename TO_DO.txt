@@ -101,6 +101,7 @@ Chris (Clear Code)
 Mark Vanstone (Raspberry Pi Press)
 Ryan Lambie (Raspberry Pi Press)
 César Gómez (Mundo Python)
+ChatGPT
 
 
 ITEMS:

@@ -49,4 +49,3 @@ def message_box(msg1, msg2, surface, font_BL, font_FL, font_BS, font_FS):
     text_y = y + 25
     font_BS.render(msg2, surface, (text_x, text_y))
     font_FS.render(msg2, surface, (text_x - 1, text_y - 1))
-
