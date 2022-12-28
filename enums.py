@@ -15,3 +15,5 @@ UNMUTED, MUTED = 0, 1
 IDLE, WALKING, JUMPING, FALLING = 0, 1, 2, 3
 # enemy types (and platform)
 NONE, INFECTED, AVIRUS, PELUSOID, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 6
+# fanty enemy states
+IDLE, CHASING, RETREATING = 0, 1, 2

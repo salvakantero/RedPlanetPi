@@ -5,7 +5,6 @@
 # ==============================================================================
 
 import pygame # pygame library functions
-import sys # exit()
 import random
 
 # allows constants without typing "pygame."
@@ -149,7 +148,7 @@ def confirm_exit():
         clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                support.exit()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_y:                    
                     return True
@@ -158,6 +157,10 @@ def confirm_exit():
 
 # displays a game over message and waits
 def game_over():  
+
+    # oscurece la surface del mapa
+    map_surf.set_alpha(0)
+
     support.message_box('G a m e  O v e r', 'PRESS Y TO TRY AGAIN OR N TO EXIT!',
         map_surf, font_BL, font_FL, font_BS, font_FS)
     screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
@@ -170,12 +173,12 @@ def game_over():
         clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                support.exit()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_y:                    
                     return True
                 elif event.key == pygame.K_n:  
-                    pygame.quit()
+                    support.exit()
 
 # Main menu
 def main_menu():
@@ -189,13 +192,12 @@ def main_menu():
         clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
+                support.exit()
             if event.type == pygame.KEYUP:
                 waiting = False
             # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                    support.exit()
 
 # collision between the player and an enemy or moving platform
 def collision_check():
@@ -335,7 +337,7 @@ while True:
         for event in pygame.event.get():
             # exit when click on the X in the window
             if event.type == pygame.QUIT: 
-                exit()
+                support.exit()
             if event.type == pygame.KEYDOWN:
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
