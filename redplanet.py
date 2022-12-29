@@ -157,18 +157,27 @@ def confirm_exit():
 
 # displays a game over message and waits
 def game_over():  
-
     # oscurece la surface del mapa
-    map_surf.set_alpha(0)
-
+    map_surf.fill(constants.PALETTE['BLACK'])
+    for i in range(25):
+        map_surf.set_alpha(i)
+        update_screen()
+    # obtiene una copia de la pantalla oscurecida
+    black_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
+    black_surf.blit(map_surf, (0,0))
+    # pinta el mensaje claro sobre el fondo oscuro
     support.message_box('G a m e  O v e r', 'PRESS Y TO TRY AGAIN OR N TO EXIT!',
-        map_surf, font_BL, font_FL, font_BS, font_FS)
-    screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.V_MARGIN))        
-    screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    support.make_scanlines(screen, scanlines_surf, config)
-    pygame.display.update()
+        black_surf, font_BL, font_FL, font_BS, font_FS)
+    # vuelca todo en la surface del mapa y refresca la pantalla
+    map_surf.blit(black_surf, (0,0))
+    map_surf.set_alpha(255)
+    update_screen()
+    # screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
+    #     (constants.H_MARGIN, constants.V_MARGIN))        
+    # screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
+    #     (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
+    # support.make_scanlines(screen, scanlines_surf, config)
+    # pygame.display.update()
     while True:
         clock.tick(30)
         for event in pygame.event.get():

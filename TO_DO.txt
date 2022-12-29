@@ -6,11 +6,13 @@ EN PROCESO
 ==========
 - Secuencia de Game Over
 - Movimiento del enemigo fanty
-
+- Gestión de disparos del player
+- Obtener SFX de opengameart.org
+- Obtener música de opengameart.org
+- Implementar música y SFX
 
 POR HACER
 =========
-- Gestión de disparos del player
 - Vibra el mapa de juego con explosiones
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
@@ -20,8 +22,7 @@ POR HACER
 - Teclas redefinibles
 - Pantalla final
 - Menu inicial
-- Obtener SFX de opengameart.com
-- OGT (música)
+- Créditos
 - Revisar, simplificar, organizar y comentar el código fuente final
 
 OPCIONAL
