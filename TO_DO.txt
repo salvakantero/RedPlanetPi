@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Secuencia de Game Over
 - Movimiento del enemigo fanty
 - Gestión de disparos del player
 - Obtener SFX de opengameart.org
@@ -90,7 +89,7 @@ HECHO
 24/12/22 - Plataformas móviles laterales
 25/12/22 - Adaptar mapa, salto y movimiento para afrontar el mapa original
 26/12/22 - Vibra la pantalla al hacer grandes saltos
-
+29/12/22 - Secuencia de Game Over
 
 
 GREETINGS

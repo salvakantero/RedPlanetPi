@@ -133,17 +133,24 @@ def update_screen():
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
 
+# displays a message, darkening the screen
+def show_message(msg1, msg2):
+    # obscures the surface of the map
+    map_surf.set_alpha(120)
+    update_screen()
+    # saves a copy of the darkened screen
+    dim_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
+    dim_surf.blit(map_surf, (0,0))
+    # draws the light message on the dark background
+    support.message_box(msg1, msg2, dim_surf, font_BL, font_FL, font_BS, font_FS)
+    # return the copy with the message on the map surface and redraw it.
+    map_surf.blit(dim_surf, (0,0))
+    map_surf.set_alpha(None)
+    update_screen()
+
 # displays a message to confirm exit
 def confirm_exit():
-    support.message_box(
-        'Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE',
-        map_surf, font_BL, font_FL, font_BS, font_FS)
-    screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.V_MARGIN))        
-    screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    support.make_scanlines(screen, scanlines_surf, config)
-    pygame.display.update()
+    show_message('Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE')
     while True:
         clock.tick(30)
         for event in pygame.event.get():
@@ -157,27 +164,7 @@ def confirm_exit():
 
 # displays a game over message and waits
 def game_over():  
-    # oscurece la surface del mapa
-    map_surf.fill(constants.PALETTE['BLACK'])
-    for i in range(25):
-        map_surf.set_alpha(i)
-        update_screen()
-    # obtiene una copia de la pantalla oscurecida
-    black_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
-    black_surf.blit(map_surf, (0,0))
-    # pinta el mensaje claro sobre el fondo oscuro
-    support.message_box('G a m e  O v e r', 'PRESS Y TO TRY AGAIN OR N TO EXIT!',
-        black_surf, font_BL, font_FL, font_BS, font_FS)
-    # vuelca todo en la surface del mapa y refresca la pantalla
-    map_surf.blit(black_surf, (0,0))
-    map_surf.set_alpha(255)
-    update_screen()
-    # screen.blit(pygame.transform.scale(sboard_surf, constants.SBOARD_SCALED_SIZE), 
-    #     (constants.H_MARGIN, constants.V_MARGIN))        
-    # screen.blit(pygame.transform.scale(map_surf, constants.MAP_SCALED_SIZE), 
-    #     (constants.H_MARGIN, constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN))
-    # support.make_scanlines(screen, scanlines_surf, config)
-    # pygame.display.update()
+    show_message('G a m e  O v e r', 'PRESS Y TO TRY AGAIN OR N TO EXIT!')
     while True:
         clock.tick(30)
         for event in pygame.event.get():
@@ -193,9 +180,7 @@ def game_over():
 def main_menu():
     map_surf.fill(constants.PALETTE['BLACK'])
     sboard_surf.fill(constants.PALETTE['BLACK'])
-    support.message_box('Red Planet Pi', 'WIP. Press a key to continue',
-        map_surf, font_BL, font_FL, font_BS, font_FS)
-    update_screen()
+    show_message('Red Planet Pi', 'WIP. Press a key to continue')
     waiting = True
     while waiting:
         clock.tick(60)
