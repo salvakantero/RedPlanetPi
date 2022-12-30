@@ -9,7 +9,10 @@ from math import sin
 
 import constants
 import enums
-import dust
+
+from dust import DustEffect
+from bullet import Bullet
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, image_list, dust_image_list, all_sprites_group, 
@@ -27,7 +30,7 @@ class Player(pygame.sprite.Sprite):
         self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
-        self.on_ground = False # perched on the ground        
+        self.on_ground = False # perched on the ground     
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = 2000 # time of invincibility (1 sec.)
@@ -50,7 +53,7 @@ class Player(pygame.sprite.Sprite):
     # dust effect when jumping or landing
     def dust_effect(self, pos, state):
         if self.dust_group.sprite == None:        
-            dust_sprite = dust.DustEffect(pos, self.dust_image_list[state])
+            dust_sprite = DustEffect(pos, self.dust_image_list[state])
             self.dust_group.add(dust_sprite)
             self.all_sprites_group.add(dust_sprite)
 
@@ -78,6 +81,12 @@ class Player(pygame.sprite.Sprite):
             self.direction.y = constants.JUMP_VALUE
             self.y_jump = self.rect.y # to detect large jumps on landing
             self.dust_effect(self.rect.center, enums.JUMPING)
+        # press fire
+        if key_state[self.config.fire_key]:
+            if self.bullet_group.sprite == None:        
+                bullet = Bullet(self.rect.center, self.facing_right)
+                self.bullet_group.add(bullet)
+                self.all_sprites_group.add(bullet)
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping

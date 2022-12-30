@@ -15,6 +15,7 @@ class Configuration():
         self.left_key = pygame.K_o
         self.right_key = pygame.K_p
         self.jump_key = pygame.K_q
+        self.fire_key = pygame.K_SPACE
         self.action_key = pygame.K_a
         self.pause_key = pygame.K_h
         self.mute_key = pygame.K_m
@@ -30,6 +31,7 @@ class Configuration():
         # self.left_key = config['LEFT_KEY']
         # self.right_key = config['RIGHT_KEY']
         # self.jump_key = config['JUMP_KEY']
+        # self.fire_key = config['FIRE_KEY']
         # self.action_key = config['ACTION_KEY']
         # self.pause_key = config['PAUSE_KEY']
         # self.mute_key = config['MUTE_KEY']

@@ -95,21 +95,21 @@ class Enemy(pygame.sprite.Sprite):
             gpen_cx = self.x >> 6
             gpen_cy = self.y >> 6            
             if self.state == enums.IDLE:
-                if self.distance(self.player.x, self.player.y, self.x, self.y) \
+                if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
                 <= self.sight_distance: self.state = enums.CHASING
             elif self.state == enums.CHASING:
-                if self.distance(self.player.x, self.player.y, self.x, self.y) \
+                if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
                 > self.sight_distance: self.state = enums.RETREATING
                 else:
-                    self.mx = self.limit(self.mx + self.addsign (self.player.x - self.x, self.acceleration),-self.max_speed, self.max_speed)
-                    self.my = self.limit(self.my + self.addsign (self.player.y - self.y, self.acceleration),-self.max_speed, self.max_speed)                        
+                    self.mx = self.limit(self.mx + self.addsign (self.player.rect.x - self.x, self.acceleration),-self.max_speed, self.max_speed)
+                    self.my = self.limit(self.my + self.addsign (self.player.rect.y - self.y, self.acceleration),-self.max_speed, self.max_speed)                        
                     self.x = self.limit(self.x + self.mx, 0, 14336)
                     self.y = self.limit(self.y + self.my, 0, 9216) 
                     pass               
             else: # retreating
                 self.x += self.addsign(self.x - gpen_cx, 64)
                 self.y += self.addsign(self.y - gpen_cy, 64)                
-                if self.distance(self.player.x, self.player.y, self.x, self.y) \
+                if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
                 <= self.sight_distance: self.state = enums.CHASING			
                         				
             if self.state == enums.RETREATING \

@@ -113,7 +113,7 @@ def change_map():
 # Main functions
 #===============================================================================
 
-#dumps and scales surfaces to the screen
+# dumps and scales surfaces to the screen
 def update_screen():
     # shakes the surface of the map if it has been requested
     offset = [0,0]
@@ -162,7 +162,7 @@ def confirm_exit():
                 elif event.key == pygame.K_n:  
                     return False
 
-# displays a game over message and waits
+# displays a 'game over' message and waits
 def game_over():  
     show_message('G a m e  O v e r', 'PRESS Y TO TRY AGAIN OR N TO EXIT!')
     while True:
@@ -176,7 +176,18 @@ def game_over():
                 elif event.key == pygame.K_n:  
                     support.exit()
 
-# Main menu
+# displays a 'pause' message and waits
+def pause_game():
+    show_message('P a u s e', 'THE MASSACRE CAN WAIT!')
+    while True:
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE or \
+                event.key == config.pause_key:
+                    return
+
+# main menu
 def main_menu():
     map_surf.fill(constants.PALETTE['BLACK'])
     sboard_surf.fill(constants.PALETTE['BLACK'])
@@ -205,7 +216,7 @@ def collision_check():
             player.rect.bottom = platform.rect.top
             player.direction.y = 0                    
             player.on_ground = True                                        
-            # horizontal platform
+            # horizontal platform?
             if platform.my == 0:
                 # if the movement keys are not pressed
                 # takes the movement of the platform
@@ -218,6 +229,8 @@ def collision_check():
     enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
         player.loses_life()
         scoreboard.invalidate() # redraws the scoreboard
+
+
 
 #===============================================================================
 # Main
@@ -303,6 +316,7 @@ music_status = enums.UNMUTED
 # clock to control the FPS
 clock = pygame.time.Clock()
 
+
 #===============================================================================
 # Main loop
 #===============================================================================
@@ -315,6 +329,7 @@ while True:
         enemies_group = pygame.sprite.Group()
         platform_group = pygame.sprite.GroupSingle()
         dust_group = pygame.sprite.GroupSingle()
+        bullet_group = pygame.sprite.GroupSingle()
         # create the player
         player = Player(player_animation, dust_animation, 
             all_sprites_group, dust_group, map, scoreboard, config)
@@ -337,18 +352,29 @@ while True:
                 if event.key == pygame.K_ESCAPE:
                     if confirm_exit():
                         game_status = enums.OVER # go to the main menu
+
+                # # pause main loop
+                # if event.key == config.pause_key:
+                #     if game_status == enums.RUNNING:
+                #         game_status = enums.PAUSED
+                #         # mute the music if necessary
+                #         if music_status == enums.UNMUTED:
+                #             pygame.mixer.music.fadeout(1200)
+                #     else:
+                #         game_status = enums.RUNNING
+                #         # restore music if necessary
+                #         if music_status == enums.UNMUTED:
+                #             pygame.mixer.music.play()
+
                 # pause main loop
                 if event.key == config.pause_key:
-                    if game_status == enums.RUNNING:
-                        game_status = enums.PAUSED
-                        # mute the music if necessary
-                        if music_status == enums.UNMUTED:
-                            pygame.mixer.music.fadeout(1200)
-                    else:
-                        game_status = enums.RUNNING
-                        # restore music if necessary
-                        if music_status == enums.UNMUTED:
-                            pygame.mixer.music.play()
+                    # mute the music if necessary
+                    if music_status == enums.UNMUTED:
+                        pygame.mixer.music.fadeout(1200)
+                    pause_game()
+                    if music_status == enums.UNMUTED:
+                        pygame.mixer.music.play()
+                                
                 # mute music
                 if event.key == config.mute_key :
                     if music_status == enums.MUTED:
@@ -379,7 +405,6 @@ while True:
             # game over?
             if player.lives == 0 and game_over():
                 game_status = enums.OVER
-
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
             # and change the frame of the animated tiles
@@ -392,9 +417,9 @@ while True:
             # if the player leaves, the map number changes
             map.check_change(player)
             
-        elif game_status == enums.PAUSED:            
-            support.message_box('P a u s e', 'THE MASSACRE CAN WAIT',
-            map_surf, font_BL, font_FL, font_BS, font_FS)
+        # elif game_status == enums.PAUSED:            
+        #     support.message_box('P a u s e', 'THE MASSACRE CAN WAIT',
+        #     map_surf, font_BL, font_FL, font_BS, font_FS)
 
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
