@@ -150,39 +150,37 @@ def show_message(msg1, msg2):
 
 # displays a message to confirm exit
 def confirm_exit():
-    show_message('Leave the current game?', 'PRESS Y TO EXIT OR N TO CONTINUE')
+    show_message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE')
+    pygame.event.clear(pygame.KEYDOWN)
     while True:
-        clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 support.exit()
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_y:                    
-                    return True
-                elif event.key == pygame.K_n:  
-                    return False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:                    
+                    return True 
+                return False
 
 # displays a 'game over' message and waits
 def game_over():  
-    show_message('G a m e  O v e r', 'PRESS Y TO TRY AGAIN OR N TO EXIT!')
+    show_message('G a m e  O v e r', 'PRESS ANY KEY')
+    pygame.event.clear(pygame.KEYDOWN)
     while True:
-        clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 support.exit()
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_y:                    
-                    return True
-                elif event.key == pygame.K_n:  
-                    support.exit()
+            if event.type == pygame.KEYDOWN:                  
+                return
 
 # displays a 'pause' message and waits
 def pause_game():
     show_message('P a u s e', 'THE MASSACRE CAN WAIT!')
+    pygame.event.clear(pygame.KEYDOWN)
     while True:
-        clock.tick(30)
         for event in pygame.event.get():
-            if event.type == pygame.KEYUP:
+            if event.type == pygame.QUIT:
+                support.exit()
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or \
                 event.key == config.pause_key:
                     return
@@ -191,18 +189,17 @@ def pause_game():
 def main_menu():
     map_surf.fill(constants.PALETTE['BLACK'])
     sboard_surf.fill(constants.PALETTE['BLACK'])
-    show_message('Red Planet Pi', 'WIP. Press a key to continue')
-    waiting = True
-    while waiting:
-        clock.tick(60)
+    show_message('-Red Planet Pi-', 'WIP. PRESS ANY KEY TO CONTINUE')
+    pygame.event.clear(pygame.KEYDOWN)
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 support.exit()
-            if event.type == pygame.KEYUP:
-                waiting = False
-            # exit by pressing ESC key
+            if event.type == pygame.KEYDOWN:
+                # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
                     support.exit()
+                return
 
 # collision between the player and an enemy or moving platform
 def collision_check():
@@ -332,7 +329,7 @@ while True:
         bullet_group = pygame.sprite.GroupSingle()
         # create the player
         player = Player(player_animation, dust_animation, 
-            all_sprites_group, dust_group, map, scoreboard, config)
+            all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
         # ingame music
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
@@ -352,19 +349,6 @@ while True:
                 if event.key == pygame.K_ESCAPE:
                     if confirm_exit():
                         game_status = enums.OVER # go to the main menu
-
-                # # pause main loop
-                # if event.key == config.pause_key:
-                #     if game_status == enums.RUNNING:
-                #         game_status = enums.PAUSED
-                #         # mute the music if necessary
-                #         if music_status == enums.UNMUTED:
-                #             pygame.mixer.music.fadeout(1200)
-                #     else:
-                #         game_status = enums.RUNNING
-                #         # restore music if necessary
-                #         if music_status == enums.UNMUTED:
-                #             pygame.mixer.music.play()
 
                 # pause main loop
                 if event.key == config.pause_key:
@@ -403,8 +387,10 @@ while True:
             # collision between the player and an enemy or moving platform
             collision_check()
             # game over?
-            if player.lives == 0 and game_over():
+            if player.lives == 0:
                 game_status = enums.OVER
+                game_over()
+                continue
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
             # and change the frame of the animated tiles
@@ -417,10 +403,6 @@ while True:
             # if the player leaves, the map number changes
             map.check_change(player)
             
-        # elif game_status == enums.PAUSED:            
-        #     support.message_box('P a u s e', 'THE MASSACRE CAN WAIT',
-        #     map_surf, font_BL, font_FL, font_BS, font_FS)
-
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
     #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 

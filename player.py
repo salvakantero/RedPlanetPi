@@ -16,7 +16,7 @@ from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, image_list, dust_image_list, all_sprites_group, 
-        dust_group, map, scoreboard, config):
+        dust_group, bullet_group, map, scoreboard, config):
         super().__init__()
         # external attributes
         self.lives = 1 # lives remaining
@@ -42,10 +42,11 @@ class Player(pygame.sprite.Sprite):
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
         # dust effect
-        self.dust_image_list = dust_image_list
-        self.all_sprites_group = all_sprites_group    
+        self.dust_image_list = dust_image_list 
         self.dust_group = dust_group    
         # objects and others
+        self.all_sprites_group = all_sprites_group   
+        self.bullet_group = bullet_group
         self.map = map
         self.scoreboard = scoreboard
         self.config = config

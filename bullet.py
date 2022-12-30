@@ -4,7 +4,6 @@
 #===============================================================================
 
 import pygame
-import enums
 import constants
 
 class Bullet(pygame.sprite.Sprite):
