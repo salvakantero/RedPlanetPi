@@ -4,8 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Movimiento del enemigo fanty
 - Gestión de disparos del player
+- Movimiento del enemigo fanty
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org
 - Implementar música y SFX

@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         dust_group, bullet_group, map, scoreboard, config):
         super().__init__()
         # external attributes
-        self.lives = 1 # lives remaining
+        self.lives = 10 # lives remaining
         self.oxigen = 99 # oxigen remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
@@ -83,11 +83,13 @@ class Player(pygame.sprite.Sprite):
             self.y_jump = self.rect.y # to detect large jumps on landing
             self.dust_effect(self.rect.center, enums.JUMPING)
         # press fire
-        if key_state[self.config.fire_key]:
+        if key_state[self.config.fire_key] and self.ammo > 0:
             if self.bullet_group.sprite == None:        
-                bullet = Bullet(self.rect.center, self.facing_right)
+                bullet = Bullet(self.rect, self.facing_right)
                 self.bullet_group.add(bullet)
                 self.all_sprites_group.add(bullet)
+                self.ammo -= 1
+                self.scoreboard.invalidate()
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
