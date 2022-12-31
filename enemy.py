@@ -74,7 +74,7 @@ class Enemy(pygame.sprite.Sprite):
         dy = abs(y2 - y1)
         if dx < dy: mn = dx
         else: mn = dy
-        return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
+        return 0 #(dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
 
     # maintains a value within limits
     def limit(self, val, min, max):
@@ -92,8 +92,8 @@ class Enemy(pygame.sprite.Sprite):
             if self.y == self.y1 or self.y == self.y2:
                 self.my = -self.my
         else: # fanty
-            gpen_cx = self.x >> 6
-            gpen_cy = self.y >> 6            
+            gpen_cx = self.x #>> 6
+            gpen_cy = self.y #>> 6            
             if self.state == enums.IDLE:
                 if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
                 <= self.sight_distance: self.state = enums.CHASING

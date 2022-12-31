@@ -113,16 +113,22 @@ def change_map():
 # Main functions
 #===============================================================================
 
+# it is necessary to clean the edges of the map after shaking it
+def clean_edges():
+    pygame.draw.rect(screen, constants.PALETTE['BLACK'], 
+        (20, 120 , 20 , 500))
+    pygame.draw.rect(screen, constants.PALETTE['BLACK'], 
+        (760, 120 , 20 , 500))
+    pygame.draw.rect(screen, constants.PALETTE['BLACK'],
+        (40, 610 , 720 , 20))
+
 # dumps and scales surfaces to the screen
 def update_screen():
     # shakes the surface of the map if it has been requested
     offset = [0,0]
     if map.shake_timer > 0:
-        if map.shake_timer == 1:
-            # clean the edges
-            pygame.draw.rect(screen, (0, 255, 0), (20, 120 , 20 , 500))
-            pygame.draw.rect(screen, (0, 255, 0), (760, 120 , 20 , 500))
-            pygame.draw.rect(screen, (255, 0, 0), (40, 600 , 720 , 20))
+        if map.shake_timer == 1: # last frame shaken            
+            clean_edges()
         else:
             offset[0] = random.randint(-map.shake[0], map.shake[0])
             offset[1] = random.randint(-map.shake[1], map.shake[1])
