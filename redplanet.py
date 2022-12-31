@@ -118,8 +118,14 @@ def update_screen():
     # shakes the surface of the map if it has been requested
     offset = [0,0]
     if map.shake_timer > 0:
-        offset[0] = random.randint(-map.shake[0], map.shake[0])
-        offset[1] = random.randint(-map.shake[1], map.shake[1])
+        if map.shake_timer == 1:
+            # clean the edges
+            pygame.draw.rect(screen, (0, 255, 0), (20, 120 , 20 , 500))
+            pygame.draw.rect(screen, (0, 255, 0), (760, 120 , 20 , 500))
+            pygame.draw.rect(screen, (255, 0, 0), (40, 600 , 720 , 20))
+        else:
+            offset[0] = random.randint(-map.shake[0], map.shake[0])
+            offset[1] = random.randint(-map.shake[1], map.shake[1])
         map.shake_timer -= 1
     # scale x 3 the scoreboard
     screen.blit(pygame.transform.scale(
@@ -221,11 +227,23 @@ def collision_check():
                 if not key_state[config.left_key] \
                 and not key_state[config.right_key]:
                     player.rect.x += platform.mx
+    
     # martians
     if not player.invincible and pygame.sprite.spritecollide(player, 
     enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
         player.loses_life()
         scoreboard.invalidate() # redraws the scoreboard
+    
+    # bullets
+    if not bullet_group.sprite == None:
+        for enemy in enemies_group:
+            if enemy.rect.colliderect(bullet_group.sprite):
+                map.shake = [10, 6]
+                map.shake_timer = 10
+                enemy.kill()
+                bullet_group.sprite.kill()
+                break
+        
 
 
 #===============================================================================

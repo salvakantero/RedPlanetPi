@@ -72,7 +72,9 @@ class Scoreboard():
         if self.needs_updating:
             # clean the previous data
             pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((18,4),(13,12))) 
+                constants.PALETTE['BLACK'], ((18,4),(13,12)))
+            pygame.draw.rect(self.surface, 
+                constants.PALETTE['BLACK'], ((100,4),(13,12))) 
             # draws the new data
             self.shaded_text(player.lives, 20, 6)
             self.shaded_text(player.oxigen, 62, 6)

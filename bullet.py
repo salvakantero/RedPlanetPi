@@ -20,10 +20,8 @@ class Bullet(pygame.sprite.Sprite):
         
     def update(self):
         # moves the bullet according to the direction
-        if self.facing_right: 
-            self.rect.x += self.speed
-        else: 
-            self.rect.x -= self.speed 
+        if self.facing_right: self.rect.x += self.speed
+        else: self.rect.x -= self.speed 
         # eliminates the bullet if it has reached the sides of the screen
         if self.rect.x < 0 or self.rect.x > constants.MAP_UNSCALED_SIZE[0]:
             self.kill()
