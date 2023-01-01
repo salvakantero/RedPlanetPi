@@ -22,6 +22,7 @@ from player import Player
 from enemy import Enemy
 from scoreboard import Scoreboard
 from config import Configuration
+from explosion import Explosion
 
 
 #===============================================================================
@@ -92,6 +93,7 @@ def change_map():
     enemies_group.empty()
     platform_group.empty()
     dust_group.empty()
+    blast_group.empty()
     # add the player  
     all_sprites_group.add(player)
     # add enemies (and mobile platforms) to the map 
@@ -244,8 +246,15 @@ def collision_check():
     if not bullet_group.sprite == None:
         for enemy in enemies_group:
             if enemy.rect.colliderect(bullet_group.sprite):
+                # shake the map
                 map.shake = [10, 6]
                 map.shake_timer = 10
+                # creates an explosion
+                blast = Explosion(enemy.rect.center, 
+                    blast_animation[random.randint(0,1)])
+                blast_group.add(blast)
+                all_sprites_group.add(blast)
+                # removes objects
                 enemy.kill()
                 bullet_group.sprite.kill()
                 break
@@ -325,6 +334,21 @@ dust_animation = {
         pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
 
+# blast images
+blast_animation = {
+    0: [ # explosion 1: mainly dust
+        pygame.image.load('images/sprites/dust0.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust1.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust2.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust3.png').convert_alpha(),                                
+        pygame.image.load('images/sprites/dust4.png').convert_alpha()],
+    1: [ # explosion 2: fire
+        pygame.image.load('images/sprites/dust5.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust6.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust7.png').convert_alpha(),
+        pygame.image.load('images/sprites/dust8.png').convert_alpha()],
+}
+
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
 # create the Map object
@@ -350,6 +374,7 @@ while True:
         platform_group = pygame.sprite.GroupSingle()
         dust_group = pygame.sprite.GroupSingle()
         bullet_group = pygame.sprite.GroupSingle()
+        blast_group = pygame.sprite.GroupSingle()
         # create the player
         player = Player(player_animation, dust_animation, 
             all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
