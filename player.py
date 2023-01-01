@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         # external attributes
         self.lives = 10 # lives remaining
         self.oxigen = 99 # oxigen remaining
-        self.ammo = 5 # unused ammunition collected
+        self.ammo = 50 # unused ammunition collected
         self.keys = 0 # unused keys collected 
         self.explosives = 0 # explosives collected  
         # internal attributes

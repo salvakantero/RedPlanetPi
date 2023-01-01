@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de disparos del player
+- Gestión de disparos del player (falta blast2 y sprite con retroceso y brillo)
 - Movimiento del enemigo fanty
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org

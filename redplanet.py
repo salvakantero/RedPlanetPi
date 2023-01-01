@@ -336,17 +336,20 @@ dust_animation = {
 
 # blast images
 blast_animation = {
-    0: [ # explosion 1: mainly dust
-        pygame.image.load('images/sprites/dust0.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust1.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust2.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust3.png').convert_alpha(),                                
-        pygame.image.load('images/sprites/dust4.png').convert_alpha()],
-    1: [ # explosion 2: fire
-        pygame.image.load('images/sprites/dust5.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust6.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust7.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust8.png').convert_alpha()],
+    0: [ # explosion 1: on the air
+        pygame.image.load('images/sprites/blast0.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast1.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast2.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast3.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast4.png').convert_alpha(),                                
+        pygame.image.load('images/sprites/blast5.png').convert_alpha()],
+    1: [ # explosion 2: on the ground
+        pygame.image.load('images/sprites/blast0.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast1.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast2.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast3.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast4.png').convert_alpha(),                                
+        pygame.image.load('images/sprites/blast5.png').convert_alpha()],
 }
 
 # create the Scoreboard object
