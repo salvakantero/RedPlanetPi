@@ -250,8 +250,11 @@ def collision_check():
                 map.shake = [10, 6]
                 map.shake_timer = 10
                 # creates an explosion
-                blast = Explosion(enemy.rect.center, 
-                    blast_animation[random.randint(0,1)])
+                if enemy.type == 1: # infected on ground
+                    blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], 
+                        blast_animation[1])
+                else: # flying enemies
+                    blast = Explosion(enemy.rect.center, blast_animation[0])
                 blast_group.add(blast)
                 all_sprites_group.add(blast)
                 # removes objects
@@ -341,15 +344,17 @@ blast_animation = {
         pygame.image.load('images/sprites/blast1.png').convert_alpha(),
         pygame.image.load('images/sprites/blast2.png').convert_alpha(),
         pygame.image.load('images/sprites/blast3.png').convert_alpha(),
-        pygame.image.load('images/sprites/blast4.png').convert_alpha(),                                
-        pygame.image.load('images/sprites/blast5.png').convert_alpha()],
+        pygame.image.load('images/sprites/blast4.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
+        pygame.image.load('images/sprites/blast6.png').convert_alpha()],
     1: [ # explosion 2: on the ground
-        pygame.image.load('images/sprites/blast0.png').convert_alpha(),
-        pygame.image.load('images/sprites/blast1.png').convert_alpha(),
-        pygame.image.load('images/sprites/blast2.png').convert_alpha(),
-        pygame.image.load('images/sprites/blast3.png').convert_alpha(),
-        pygame.image.load('images/sprites/blast4.png').convert_alpha(),                                
-        pygame.image.load('images/sprites/blast5.png').convert_alpha()],
+        pygame.image.load('images/sprites/blast7.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast8.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast9.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast10.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast4.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
+        pygame.image.load('images/sprites/blast6.png').convert_alpha()],
 }
 
 # create the Scoreboard object
