@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite):
         self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
-        self.on_ground = False # perched on the ground     
+        self.on_ground = False # perched on the ground   
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = 2000 # time of invincibility (1 sec.)
@@ -41,6 +41,11 @@ class Player(pygame.sprite.Sprite):
         self.animation_speed = 16 # frame dwell time
         self.image = image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
+        # the FIRING state is independent of the other states and requires 
+        # a specific image for a certain number of frames
+        self.firing = 0
+        self.image_firing = pygame.image.load('images/sprites/player6.png')
+        self.image_firing.convert_alpha()
         # dust effect
         self.dust_image_list = dust_image_list 
         self.dust_group = dust_group    
@@ -90,6 +95,7 @@ class Player(pygame.sprite.Sprite):
                 self.all_sprites_group.add(bullet)
                 self.ammo -= 1
                 self.scoreboard.invalidate()
+                self.firing = 8 # frames drawing the image "firing".
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
@@ -202,11 +208,16 @@ class Player(pygame.sprite.Sprite):
         if self.frame_index > len(self.image_list[self.state]) - 1:
             self.frame_index = 0 # reset the frame number
         # assigns image according to frame, status and direction
-        if self.facing_right:
-            self.image = self.image_list[self.state][self.frame_index]
-        else: # reflects the image when looking to the left
-            self.image = pygame.transform.flip(
-                self.image_list[self.state][self.frame_index], True, False)
+        if self.firing == 0: # normal sequence of images
+            if self.facing_right:
+                self.image = self.image_list[self.state][self.frame_index]
+            else: # reflects the image when looking to the left
+                self.image = pygame.transform.flip(
+                    self.image_list[self.state][self.frame_index], True, False)
+        else: # frame firing
+            self.firing -= 1
+            if self.facing_right: self.image = self.image_firing
+            else: self.image = pygame.transform.flip(self.image_firing, True, False)            
         # invincible effect (the player blinks)
         if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255
         else: self.image.set_alpha(255) # without transparency
