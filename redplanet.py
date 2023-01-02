@@ -248,7 +248,7 @@ def collision_check():
             if enemy.rect.colliderect(bullet_group.sprite):
                 # shake the map
                 map.shake = [10, 6]
-                map.shake_timer = 10
+                map.shake_timer = 14
                 # creates an explosion
                 if enemy.type == 1: # infected on ground
                     blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], 
