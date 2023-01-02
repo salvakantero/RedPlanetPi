@@ -95,7 +95,7 @@ class Player(pygame.sprite.Sprite):
                 self.all_sprites_group.add(bullet)
                 self.ammo -= 1
                 self.scoreboard.invalidate()
-                self.firing = 8 # frames drawing the image "firing".
+                self.firing = 10 # frames drawing the image "firing".
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping

@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de disparos del player (falta blast2 y sprite con retroceso y brillo)
 - Movimiento del enemigo fanty
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org
@@ -90,6 +89,8 @@ HECHO
 25/12/22 - Adaptar mapa, salto y movimiento para afrontar el mapa original
 26/12/22 - Vibra la pantalla al hacer grandes saltos
 29/12/22 - Secuencia de Game Over
+02/01/23 - Gestión de disparos del player
+
 
 
 GREETINGS
