@@ -6,6 +6,7 @@
 import pygame
 import enums
 
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player): # x1, y1, x2, y2, mx, my, type
         super().__init__()
@@ -20,20 +21,20 @@ class Enemy(pygame.sprite.Sprite):
         self.my = enemy_data[5] / 2
         # enemy type
         self.type = enemy_data[6]
-        if self.type == 1:
+        if self.type == enums.INFECTED:
             enemy_name = 'infected'
-        elif self.type == 2:
+        elif self.type == enums.PELUSOID:
             enemy_name = 'pelusoid'
-        elif self.type == 3:
+        elif self.type == enums.AVIRUS:
             enemy_name = 'avirus'
-        elif self.type == 4:
+        elif self.type == enums.PLATFORM_SPR:
             enemy_name = 'platform'
-        elif self.type == 6:
+        elif self.type == enums.FANTY:
             enemy_name = 'fanty'
             self.state = enums.IDLE
-            self.sight_distance = 64
-            self.acceleration = 16
-            self.max_speed = 256
+            self.sight_distance = 48
+            self.acceleration = 2
+            self.max_speed = 20
         # images
         self.image_list = []
         for i in range(2): # 2 frames per enemy
@@ -70,11 +71,12 @@ class Enemy(pygame.sprite.Sprite):
 
     # calculates the distance between two points
     def distance (self, x1, y1, x2, y2):
-        dx = abs(x2 - x1)
-        dy = abs(y2 - y1)
-        if dx < dy: mn = dx
-        else: mn = dy
-        return 0 #(dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
+        # dx = abs(x2 - x1)
+        # dy = abs(y2 - y1)
+        # if dx < dy: mn = dx
+        # else: mn = dy
+        # return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
+        return pygame.math.hypot(x2 - x1, y2 - y1)
 
     # maintains a value within limits
     def limit(self, val, min, max):
@@ -84,16 +86,14 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         # movement
-        if self.type != 6: # no fanty  
+        if self.type != enums.FANTY: # no fanty  
             self.x += self.mx
             self.y += self.my
             if self.x == self.x1 or self.x == self.x2:
                 self.mx = -self.mx
             if self.y == self.y1 or self.y == self.y2:
                 self.my = -self.my
-        else: # fanty
-            gpen_cx = self.x #>> 6
-            gpen_cy = self.y #>> 6            
+        else: # fanty          
             if self.state == enums.IDLE:
                 if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
                 <= self.sight_distance: self.state = enums.CHASING
@@ -101,14 +101,13 @@ class Enemy(pygame.sprite.Sprite):
                 if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
                 > self.sight_distance: self.state = enums.RETREATING
                 else:
-                    self.mx = self.limit(self.mx + self.addsign (self.player.rect.x - self.x, self.acceleration),-self.max_speed, self.max_speed)
-                    self.my = self.limit(self.my + self.addsign (self.player.rect.y - self.y, self.acceleration),-self.max_speed, self.max_speed)                        
+                    self.mx = self.limit(self.mx + self.addsign (self.player.rect.x - self.x, self.acceleration), -self.max_speed, self.max_speed)
+                    self.my = self.limit(self.my + self.addsign (self.player.rect.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
                     self.x = self.limit(self.x + self.mx, 0, 14336)
-                    self.y = self.limit(self.y + self.my, 0, 9216) 
-                    pass               
+                    self.y = self.limit(self.y + self.my, 0, 9216)              
             else: # retreating
-                self.x += self.addsign(self.x - gpen_cx, 64)
-                self.y += self.addsign(self.y - gpen_cy, 64)                
+                self.x += self.addsign(self.x1 - self.x, 64)
+                self.y += self.addsign(self.y1 - self.y, 64)                
                 if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
                 <= self.sight_distance: self.state = enums.CHASING			
                         				
