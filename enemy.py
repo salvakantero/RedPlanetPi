@@ -4,6 +4,7 @@
 #===============================================================================
 
 import pygame
+import math
 import enums
 
 
@@ -32,9 +33,9 @@ class Enemy(pygame.sprite.Sprite):
         elif self.type == enums.FANTY:
             enemy_name = 'fanty'
             self.state = enums.IDLE
-            self.sight_distance = 48
-            self.acceleration = 2
-            self.max_speed = 20
+            self.sight_distance = 64
+            self.acceleration = 0.01
+            self.max_speed = 1
         # images
         self.image_list = []
         for i in range(2): # 2 frames per enemy
@@ -71,12 +72,7 @@ class Enemy(pygame.sprite.Sprite):
 
     # calculates the distance between two points
     def distance (self, x1, y1, x2, y2):
-        # dx = abs(x2 - x1)
-        # dy = abs(y2 - y1)
-        # if dx < dy: mn = dx
-        # else: mn = dy
-        # return (dx + dy - (mn >> 1) - (mn >> 2) + (mn >> 4))
-        return pygame.math.hypot(x2 - x1, y2 - y1)
+        return math.hypot(x2 - x1, y2 - y1)
 
     # maintains a value within limits
     def limit(self, val, min, max):
