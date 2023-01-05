@@ -83,7 +83,7 @@ def change_map():
     map_surf_bk.blit(map_surf, (0,0))
     # performs the screen transition
     if config.map_transition:
-        map_transition()  
+        map_transition()
     # refresh the scoreboard area
     scoreboard.reset()
     scoreboard.map_info(map.number, map.game_percent)
@@ -357,10 +357,18 @@ blast_animation = {
         pygame.image.load('images/sprites/blast6.png').convert_alpha()],
 }
 
+hotspot_images = {
+    enums.TNT: pygame.image.load('images/tiles/T50.png').convert(),
+    enums.KEY: pygame.image.load('images/tiles/T51.png').convert(),
+    enums.AMMO: pygame.image.load('images/tiles/T52.png').convert(),
+    enums.OXYGEN: pygame.image.load('images/tiles/T53.png').convert(),
+    enums.DOOR: pygame.image.load('images/tiles/T60.png').convert(),
+}
+
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
 # create the Map object
-map = Map(map_surf)
+map = Map(map_surf, hotspot_images)
 
 game_status = enums.OVER
 music_status = enums.UNMUTED
@@ -461,8 +469,7 @@ while True:
             
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
-    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + 
-    #    ' FPS', sboard_surf, (124, 22))
+    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_surf, (124, 22))
     # draw collision rects
     #pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
     #if platform_group.sprite != None:

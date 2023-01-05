@@ -11,7 +11,7 @@ import constants
 import enums
 
 class Map():
-    def __init__(self, map_surf):
+    def __init__(self, map_surf, hotspot_images):
         self.number = 0 # current map
         self.scroll = 0 # scroll direction for map_transition()
         self.last = -1 # last map loaded
@@ -19,9 +19,12 @@ class Map():
         self.tilemap_rect_list = [] # list of tile rects
         self.tilemap_behaviour_list = [] # list of tile behaviours
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
-        self.hotspots = constants.HOTSPOTS_DATA # objects
         self.map_data = {}
         self.map_surf = map_surf        
+        # hotspot data and images
+        self.hotspots = constants.HOTSPOTS_DATA
+        self.hotspot_images = hotspot_images
+        self.hotspot_list = [] 
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames
         self.shake = [0, 0]
@@ -125,6 +128,14 @@ class Map():
                 if anim_tile[4] > 1:
                     anim_tile[4] = 0    
         return surface
+
+    def load_hotspots(self):
+        for hotspot in self.hotspots:
+            if hotspot[1] == self.number and hotspot[4] == False:
+                image = self.hotspot_images[hotspot[0]]
+                imageRect = image.get_rect()
+                imageRect.topleft = (hotspot[2] * 16, hotspot[3] * 16)   
+                self.map_surf.blit(image, imageRect)
 
     # checks if the map needs to be changed (depending on the player's XY position)
     def check_change(self, player):

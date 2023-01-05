@@ -14,8 +14,8 @@ UNMUTED, MUTED = 0, 1
 # player states
 IDLE, WALKING, JUMPING, FALLING = 0, 1, 2, 3
 # enemy types (and platform)
-NONE, INFECTED, AVIRUS, PELUSOID, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 5
+NONE, INFECTED, PELUSOID, AVIRUS, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 5
 # fanty enemy states
 IDLE, CHASING, RETREATING = 0, 1, 2
 # hotspot types
-TNT, AMMO, OXYGEN, KEY, DOOR = 0, 1, 2, 3, 4
+TNT, KEY, AMMO, OXYGEN, DOOR = 0, 1, 2, 3, 4
