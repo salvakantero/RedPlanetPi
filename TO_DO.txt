@@ -4,14 +4,15 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Colocación de objetos en el mapa
 - Movimiento del enemigo fanty
-- Gestión de objetos de tipo MUNICIÓN
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org
 - Implementar música y SFX
 
 POR HACER
 =========
+- Gestión de objetos de tipo MUNICIÓN
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo OXÍGENO
