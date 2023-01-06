@@ -19,9 +19,9 @@ class Player(pygame.sprite.Sprite):
         dust_group, bullet_group, map, scoreboard, config):
         super().__init__()
         # external attributes
-        self.lives = 10 # lives remaining
+        self.lives = 99 # lives remaining
         self.oxigen = 99 # oxigen remaining
-        self.ammo = 5 # unused ammunition collected
+        self.ammo = 50 # unused ammunition collected
         self.keys = 0 # unused keys collected 
         self.explosives = 0 # explosives collected  
         # internal attributes

@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Colocación de objetos en el mapa
+- Gestión de objetos de tipo MUNICIÓN
 - Movimiento del enemigo fanty
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org
@@ -12,7 +12,6 @@ EN PROCESO
 
 POR HACER
 =========
-- Gestión de objetos de tipo MUNICIÓN
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo OXÍGENO
@@ -90,7 +89,7 @@ HECHO
 26/12/22 - Vibra la pantalla al hacer grandes saltos y explosiones
 29/12/22 - Secuencia de Game Over
 02/01/23 - Gestión de disparos del player
-
+06/01/23 - Colocación de objetos en el mapa
 
 
 GREETINGS
