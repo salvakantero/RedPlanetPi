@@ -15,7 +15,7 @@ from bullet import Bullet
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, image_list, dust_image_list, all_sprites_group, 
+    def __init__(self, dust_image_list, all_sprites_group, 
         dust_group, bullet_group, map, scoreboard, config):
         super().__init__()
         # external attributes
@@ -34,12 +34,26 @@ class Player(pygame.sprite.Sprite):
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = 2000 # time of invincibility (1 sec.)
-        # image/animation
-        self.image_list = image_list # list of images for animation
+        # image/animation        
+        self.image_list = {
+            # sequences of animations for the player depending on its status
+            enums.IDLE: [
+                pygame.image.load('images/sprites/player0.png').convert_alpha(),
+                pygame.image.load('images/sprites/player1.png').convert_alpha()],
+            enums.WALKING: [
+                pygame.image.load('images/sprites/player2.png').convert_alpha(),
+                pygame.image.load('images/sprites/player0.png').convert_alpha(),
+                pygame.image.load('images/sprites/player3.png').convert_alpha(),
+                pygame.image.load('images/sprites/player0.png').convert_alpha()],
+            enums.JUMPING: [
+                pygame.image.load('images/sprites/player4.png').convert_alpha()],
+            enums.FALLING: [
+                pygame.image.load('images/sprites/player5.png').convert_alpha()]
+        }
         self.frame_index = 0 # frame number
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
-        self.image = image_list[self.state][0] # 1st frame of the animation
+        self.image = self.image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
         # the FIRING state is independent of the other states and requires 
         # a specific image for a certain number of frames

@@ -11,7 +11,7 @@ import constants
 import enums
 
 class Map():
-    def __init__(self, map_surf, hotspot_images):
+    def __init__(self, map_surf):
         self.number = 0 # current map
         self.scroll = 0 # scroll direction for map_transition()
         self.last = -1 # last map loaded
@@ -21,10 +21,71 @@ class Map():
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
         self.map_surf = map_surf        
-        # hotspot data and images
-        self.hotspots = constants.HOTSPOTS_DATA
-        self.hotspot_images = hotspot_images
-        self.hotspot_list = [] 
+        # hotspot images
+        self.hotspot_images = {
+            enums.TNT: pygame.image.load('images/tiles/T50.png').convert(),
+            enums.KEY: pygame.image.load('images/tiles/T51.png').convert(),
+            enums.AMMO: pygame.image.load('images/tiles/T52.png').convert(),
+            enums.OXYGEN: pygame.image.load('images/tiles/T53.png').convert(),
+            enums.DOOR: pygame.image.load('images/tiles/T60.png').convert(),
+        }
+        # objects and hotspots per map (type, map number, x, y, used?)
+        self.hotspot_data = [
+            [enums.AMMO, 0, 13, 3, False],
+            [enums.TNT, 1, 13, 7, False],
+            [enums.OXYGEN, 2, 5, 7, False],
+            [enums.TNT, 3, 1, 7, False],
+            [enums.KEY, 4, 13, 1, False],
+            [enums.KEY, 5, 7, 8, False],
+            [enums.TNT, 6, 5, 3, False],
+            [enums.OXYGEN, 7, 10, 7, False],
+            [enums.AMMO, 8, 11, 3, False],
+            [enums.DOOR, 8, 14, 8, False],
+            [enums.TNT, 9, 13, 6, False],
+            [enums.KEY, 10, 6, 8, False],
+            [enums.TNT, 11, 6, 1, False],
+            [enums.OXYGEN, 12, 5, 4, False],
+            [enums.AMMO, 13, 8, 4, False],
+            [enums.DOOR, 13, 14, 8, False],
+            [enums.OXYGEN, 14, 1, 2, False],
+            [enums.DOOR, 14, 11, 1, False],
+            [enums.TNT, 15, 2, 8, False],
+            [enums.KEY, 16, 13, 3, False],
+            [enums.DOOR, 16, 0, 3, False],
+            [enums.KEY, 17, 12, 2, False],
+            [enums.AMMO, 18, 1, 7, False],
+            [enums.OXYGEN, 19, 6, 7, False],
+            [enums.TNT, 20, 1, 3, False],
+            [enums.AMMO, 21, 13, 4, False],
+            [enums.OXYGEN, 22, 12, 2, False],
+            [enums.DOOR, 22, 0, 7, False],
+            [enums.AMMO, 23, 7, 8, False],
+            [enums.TNT, 24, 13, 6, False],
+            [enums.KEY, 25, 1, 8, False],
+            [enums.OXYGEN, 26, 5, 2, False],
+            [enums.TNT, 27, 7, 2, False],
+            [enums.AMMO, 28, 1, 5, False],
+            [enums.DOOR, 28, 14, 8, False],
+            [enums.TNT, 29, 7, 8, False],
+            [enums.KEY, 30, 7, 8, False],
+            [enums.AMMO, 31, 1, 6, False],
+            [enums.KEY, 32, 6, 8, False],
+            [enums.OXYGEN, 33, 11, 2, False],
+            [enums.TNT, 34, 2, 3, False],
+            [enums.OXYGEN, 35, 4, 7, False],
+            [enums.KEY, 36, 12, 6, False],
+            [enums.TNT, 37, 12, 1, False],
+            [enums.AMMO, 38, 6, 1, False],
+            [enums.TNT, 39, 13, 4, False],
+            [enums.DOOR, 39, 3, 6, False],
+            [enums.OXYGEN, 40, 5, 8, False],
+            [enums.TNT, 41, 3, 2, False],
+            [enums.DOOR, 41, 14, 8, False],
+            [enums.AMMO, 42, 4, 6, False],
+            [enums.DOOR, 42, 14, 2, False],
+            [enums.TNT, 43, 9, 8, False],
+            [enums.OXYGEN, 44, 1, 2, False]
+        ]   
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames
         self.shake = [0, 0]
@@ -127,15 +188,14 @@ class Map():
                 anim_tile[4] += 1
                 if anim_tile[4] > 1:
                     anim_tile[4] = 0    
-        return surface
 
-    def load_hotspots(self):
-        for hotspot in self.hotspots:
+    def update_hotspots(self, surface):
+        for hotspot in self.hotspot_data:
             if hotspot[1] == self.number and hotspot[4] == False:
                 image = self.hotspot_images[hotspot[0]]
                 imageRect = image.get_rect()
                 imageRect.topleft = (hotspot[2] * 16, hotspot[3] * 16)   
-                self.map_surf.blit(image, imageRect)
+                surface.blit(image, imageRect) # draws on the background image
 
     # checks if the map needs to be changed (depending on the player's XY position)
     def check_change(self, player):

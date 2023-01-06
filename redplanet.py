@@ -307,21 +307,8 @@ font_FL = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
 font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
 aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], False)
 
-# sequences of animations for the player depending on its status
-player_animation = {
-    enums.IDLE: [
-        pygame.image.load('images/sprites/player0.png').convert_alpha(),
-        pygame.image.load('images/sprites/player1.png').convert_alpha()],
-    enums.WALKING: [
-        pygame.image.load('images/sprites/player2.png').convert_alpha(),
-        pygame.image.load('images/sprites/player0.png').convert_alpha(),
-        pygame.image.load('images/sprites/player3.png').convert_alpha(),
-        pygame.image.load('images/sprites/player0.png').convert_alpha()],
-    enums.JUMPING: [
-        pygame.image.load('images/sprites/player4.png').convert_alpha()],
-    enums.FALLING: [
-        pygame.image.load('images/sprites/player5.png').convert_alpha()]}
-
+# The following image lists are created here, not in their corresponding classes, 
+# as hundreds of DUST and EXPLOSION objects can be generated per game.
 # dust images
 dust_animation = {
     enums.JUMPING: [
@@ -336,7 +323,6 @@ dust_animation = {
         pygame.image.load('images/sprites/dust7.png').convert_alpha(),
         pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
-
 # blast images
 blast_animation = {
     0: [ # explosion 1: on the air
@@ -357,18 +343,10 @@ blast_animation = {
         pygame.image.load('images/sprites/blast6.png').convert_alpha()],
 }
 
-hotspot_images = {
-    enums.TNT: pygame.image.load('images/tiles/T50.png').convert(),
-    enums.KEY: pygame.image.load('images/tiles/T51.png').convert(),
-    enums.AMMO: pygame.image.load('images/tiles/T52.png').convert(),
-    enums.OXYGEN: pygame.image.load('images/tiles/T53.png').convert(),
-    enums.DOOR: pygame.image.load('images/tiles/T60.png').convert(),
-}
-
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
 # create the Map object
-map = Map(map_surf, hotspot_images)
+map = Map(map_surf)
 
 game_status = enums.OVER
 music_status = enums.UNMUTED
@@ -392,8 +370,8 @@ while True:
         bullet_group = pygame.sprite.GroupSingle()
         blast_group = pygame.sprite.GroupSingle()
         # create the player
-        player = Player(player_animation, dust_animation, 
-            all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
+        player = Player(dust_animation, all_sprites_group, dust_group, 
+            bullet_group, map, scoreboard, config)
         # ingame music
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
@@ -457,8 +435,10 @@ while True:
                 continue
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
-            # and change the frame of the animated tiles
-            map_surf_bk = map.animate_tiles(map_surf_bk)
+            # change the frame of the animated tiles
+            map.animate_tiles(map_surf_bk)
+            # and draw the hotspots that correspond to the map.
+            map.update_hotspots(map_surf_bk)
             # print sprites
             all_sprites_group.draw(map_surf)
             # updates the scoreboard, only if needed
