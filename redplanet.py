@@ -115,7 +115,7 @@ def change_map():
 # Main functions
 #===============================================================================
 
-# it is necessary to clean the edges of the map after shaking it
+# it's necessary to clean the edges of the map after shaking it
 def clean_edges():
     pygame.draw.rect(screen, constants.PALETTE['BLACK'], 
         (20, 120 , 20 , 500))
