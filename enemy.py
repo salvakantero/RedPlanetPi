@@ -44,8 +44,8 @@ class Enemy(pygame.sprite.Sprite):
                 'images/sprites/' + enemy_name + str(i) + '.png'))
             self.image_list[i].convert_alpha()
         self.frame_index = 0 # frame number
-        self.animation_timer = 16 # timer to change frame
-        self.animation_speed = 16 # frame dwell time
+        self.animation_timer = 12 # timer to change frame
+        self.animation_speed = 12 # frame dwell time
         self.image = self.image_list[0]
         self.rect = self.image.get_rect()
 
