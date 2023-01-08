@@ -21,7 +21,8 @@ class Map():
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
         self.map_surf = map_surf        
-        # hotspot images
+        # hotspot stuff
+        self.hotspot_offset = [0,0] # to animate the object, top and bottom
         self.hotspot_images = {
             enums.TNT: pygame.image.load('images/tiles/T50.png').convert(),
             enums.KEY: pygame.image.load('images/tiles/T51.png').convert(),
@@ -192,15 +193,27 @@ class Map():
                 if anim_tile[4] > 1:
                     anim_tile[4] = 0    
 
+    # animate the object by position, top and bottom       
+    def animate_hotspot(self, rect):
+        if self.hotspot_offset[0] < 5 and self.hotspot_offset[0] <= self.hotspot_offset[1]: # going up
+            self.hotspot_offset[0] += 1
+            rect.y -= self.hotspot_offset[0]
+            self.hotspot_offset[1] += 1
+        elif self.hotspot_offset[0] > 0:
+            self.hotspot_offset[0] -= 1
+            rect.y += self.hotspot_offset[0]
+            self.hotspot_offset[1] -= 1
+
     # update the map with their hotspots if they are still available
     # hotspot_data = [type, x, y, used?]
     def update_hotspots(self, surface):
         hotspot = self.hotspot_data[self.number]
-        if hotspot[4] == False: # unused
+        if hotspot[3] == False: # unused
             image = self.hotspot_images[hotspot[0]]            
-            imageRect = image.get_rect()
+            imageRect = image.get_rect()     
             imageRect.topleft = (
-                hotspot[1] * imageRect.width, hotspot[2] * imageRect.height)   
+                hotspot[1] * imageRect.width, hotspot[2] * imageRect.height)
+            self.animate_hotspot(imageRect)   
             surface.blit(image, imageRect) # draws on the background image
 
     # checks if the map needs to be changed (depending on the player's XY position)
