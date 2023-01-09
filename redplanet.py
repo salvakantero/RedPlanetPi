@@ -100,10 +100,10 @@ def change_map():
     all_sprites_group.add(player)
     # add the hotspot (if available)
     hotspot = hotspot_data[map.number]
-    if hotspot[3] == True: # available?           
+    if hotspot[3] == True: # visible/available?           
         hotspot_sprite = Hotspot(hotspot, hotspot_images[hotspot[0]])
-        all_sprites_group.add(hotspot_sprite)
-        hotspot_group.add(hotspot_sprite)
+        all_sprites_group.add(hotspot_sprite) # to update/draw it
+        hotspot_group.add(hotspot_sprite) # to check for collisions
     # add enemies (and mobile platforms) to the map 
     # reading from 'ENEMIES_DATA' list (enems.h)
     # a maximum of three enemies per map
@@ -111,12 +111,12 @@ def change_map():
         enemy_data = constants.ENEMIES_DATA[map.number*3 + i]
         if enemy_data[6] != enums.NONE:
             enemy = Enemy(enemy_data, player)
-            all_sprites_group.add(enemy)
+            all_sprites_group.add(enemy) # to update/draw it
             # enemy sprite? add to the enemy group (to check for collisions)
             if enemy_data[6] != enums.PLATFORM_SPR:
-                enemies_group.add(enemy)
+                enemies_group.add(enemy) # to check for collisions
             else: # platform sprite? add to the platform group
-                platform_group.add(enemy)
+                platform_group.add(enemy) # to check for collisions
 
  
 #===============================================================================
@@ -357,7 +357,7 @@ blast_animation = {
         pygame.image.load('images/sprites/blast6.png').convert_alpha()],
 }
 
-# index = map number; (type, x, y, available?)
+# index = map number; (type, x, y, visible?)
 hotspot_data = [
     [enums.AMMO, 13, 3, True],
     [enums.TNT, 13, 7, True],
@@ -405,6 +405,19 @@ hotspot_data = [
     [enums.TNT, 9, 8, True],
     [enums.OXYGEN, 1, 2, True]
 ]   
+
+# doors per map (map number, x, y, visible?)
+door_data = [
+    [8, 14, 8, True],
+    [13, 14, 7, True],
+    [14, 11, 1, True],
+    [16, 0, 3, True],  
+    [22, 0, 7, True],
+    [28, 14, 8, True],
+    [39, 3, 6, True],
+    [41, 14, 8, True],
+    [42, 14, 2, True]
+]
 
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
