@@ -318,10 +318,10 @@ aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], Fa
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
 hotspot_images = {
-    enums.TNT: pygame.image.load('images/tiles/T50.png').convert_alpha(),
-    enums.KEY: pygame.image.load('images/tiles/T51.png').convert_alpha(),
-    enums.AMMO: pygame.image.load('images/tiles/T52.png').convert_alpha(),
-    enums.OXYGEN: pygame.image.load('images/tiles/T53.png').convert_alpha()
+    enums.TNT: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
+    enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
+    enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
+    enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()
 }
 
 dust_animation = {
@@ -503,7 +503,7 @@ while True:
             # change the frame of the animated tiles
             map.animate_tiles(map_surf_bk)
             # and draw the hotspots that correspond to the map.
-            map.update_hotspots(map_surf_bk)
+            #map.update_hotspots(map_surf_bk)
             # print sprites
             all_sprites_group.draw(map_surf)
             # updates the scoreboard, only if needed
