@@ -14,6 +14,7 @@ POR HACER
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo OXÍGENO
 - Gestión de tiempo de oxígeno
+- Gestión de puertas
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org
 - Implementar música y SFX

@@ -26,9 +26,9 @@ class Map():
         self.shake = [0, 0]
         self.shake_timer = 0
         # hotspot stuff        
-        self.hotspot_offset = 0 # to animate the hotspot (up and down)
-        self.hotspot_up = True # going up?
-        self.hotspot_anim_timer = 12 # timer to change frame
+        #self.hotspot_offset = 0 # to animate the hotspot (up and down)
+        #self.hotspot_up = True # going up?
+        #self.hotspot_anim_timer = 0 # timer to change frame
         self.hotspot_images = {
             enums.TNT: pygame.image.load('images/tiles/T50.png').convert_alpha(),
             enums.KEY: pygame.image.load('images/tiles/T51.png').convert_alpha(),
@@ -196,34 +196,34 @@ class Map():
                     anim_tile[4] = 0    
 
     # animate the object by position, up and down (5 px)
-    def animate_hotspot(self, rect):
-        if self.hotspot_anim_timer > 1: # time to change the offset
-            self.hotspot_anim_timer = 0
-            if self.hotspot_up: # going up
-                if self.hotspot_offset < 5:
-                    self.hotspot_offset += 1
-                    if self.hotspot_offset == 5: 
-                        self.hotspot_up = False
-            else: # going down
-                if self.hotspot_offset > 0:
-                    self.hotspot_offset -= 1                
-                    if self.hotspot_offset == 0: 
-                        self.hotspot_up = True            
-        # apply the offset
-        rect.y -= self.hotspot_offset
-        self.hotspot_anim_timer += 1
+    # def animate_hotspot(self, rect):
+    #     if self.hotspot_anim_timer > 1: # time to change the offset
+    #         self.hotspot_anim_timer = 0
+    #         if self.hotspot_up: # going up
+    #             if self.hotspot_offset < 5:
+    #                 self.hotspot_offset += 1
+    #                 if self.hotspot_offset == 5: 
+    #                     self.hotspot_up = False
+    #         else: # going down
+    #             if self.hotspot_offset > 0:
+    #                 self.hotspot_offset -= 1                
+    #                 if self.hotspot_offset == 0: 
+    #                     self.hotspot_up = True            
+    #     # apply the offset
+    #     rect.y -= self.hotspot_offset
+    #     self.hotspot_anim_timer += 1
 
     # update the map with their hotspots if they are still available
     # hotspot_data = [type, x, y, used?]
-    def update_hotspots(self, surface):
-        hotspot = self.hotspot_data[self.number]
-        if hotspot[3] == False: # unused
-            image = self.hotspot_images[hotspot[0]]            
-            imageRect = image.get_rect()     
-            imageRect.topleft = (
-                hotspot[1] * imageRect.width, hotspot[2] * imageRect.height)            
-            self.animate_hotspot(imageRect)   
-            surface.blit(image, imageRect) # draws on the background image
+    # def update_hotspots(self, surface):
+    #     hotspot = self.hotspot_data[self.number]
+    #     if hotspot[3] == False: # unused
+    #         image = self.hotspot_images[hotspot[0]]            
+    #         imageRect = image.get_rect()     
+    #         imageRect.topleft = (
+    #             hotspot[1] * imageRect.width, hotspot[2] * imageRect.height)            
+    #         self.animate_hotspot(imageRect)   
+    #         surface.blit(image, imageRect) # draws on the background image
 
     # checks if the map needs to be changed (depending on the player's XY position)
     def check_change(self, player):

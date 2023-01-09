@@ -20,6 +20,7 @@ from map import Map
 from font import Font
 from player import Player
 from enemy import Enemy
+from hotspot import Hotspot
 from scoreboard import Scoreboard
 from config import Configuration
 from explosion import Explosion
@@ -91,11 +92,18 @@ def change_map():
     # reset the sprite groups  
     all_sprites_group.empty()
     enemies_group.empty()
+    hotspot_group.empty()
     platform_group.empty()
     dust_group.empty()
     blast_group.empty()
     # add the player  
     all_sprites_group.add(player)
+    # add the hotspot (if available)
+    hotspot = hotspot_data[map.number]
+    if hotspot[3] == True: # available?           
+        hotspot_sprite = Hotspot(hotspot, hotspot_images[hotspot[0]])
+        all_sprites_group.add(hotspot_sprite)
+        hotspot_group.add(hotspot_sprite)
     # add enemies (and mobile platforms) to the map 
     # reading from 'ENEMIES_DATA' list (enems.h)
     # a maximum of three enemies per map
@@ -215,7 +223,7 @@ def main_menu():
                     support.exit()
                 return
 
-# collision between the player and an enemy or moving platform
+# collisions 
 def collision_check():
     # mobile platform
     if platform_group.sprite != None \
@@ -309,7 +317,13 @@ aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], Fa
 
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
-# dust images
+hotspot_images = {
+    enums.TNT: pygame.image.load('images/tiles/T50.png').convert_alpha(),
+    enums.KEY: pygame.image.load('images/tiles/T51.png').convert_alpha(),
+    enums.AMMO: pygame.image.load('images/tiles/T52.png').convert_alpha(),
+    enums.OXYGEN: pygame.image.load('images/tiles/T53.png').convert_alpha()
+}
+
 dust_animation = {
     enums.JUMPING: [
         pygame.image.load('images/sprites/dust0.png').convert_alpha(),
@@ -323,7 +337,7 @@ dust_animation = {
         pygame.image.load('images/sprites/dust7.png').convert_alpha(),
         pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
-# blast images
+
 blast_animation = {
     0: [ # explosion 1: on the air
         pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -343,8 +357,58 @@ blast_animation = {
         pygame.image.load('images/sprites/blast6.png').convert_alpha()],
 }
 
+# index = map number; (type, x, y, available?)
+hotspot_data = [
+    [enums.AMMO, 13, 3, True],
+    [enums.TNT, 13, 7, True],
+    [enums.OXYGEN, 5, 7, True],
+    [enums.TNT, 1, 7, True],
+    [enums.KEY, 13, 1, True],
+    [enums.KEY, 7, 8, True],
+    [enums.TNT, 5, 3, True],
+    [enums.OXYGEN, 10, 7, True],
+    [enums.AMMO, 11, 3, True],
+    [enums.TNT, 13, 6, True],
+    [enums.KEY, 6, 8, True],
+    [enums.TNT, 6, 1, True],
+    [enums.OXYGEN, 5, 4, True],
+    [enums.AMMO, 8, 4, True],
+    [enums.OXYGEN, 1, 2, True],
+    [enums.TNT, 2, 8, True],
+    [enums.KEY, 13, 3, True],
+    [enums.KEY, 12, 2, True],
+    [enums.AMMO, 1, 7, True],
+    [enums.OXYGEN, 6, 7, True],
+    [enums.TNT, 1, 3, True],
+    [enums.AMMO, 13, 4, True],
+    [enums.OXYGEN, 12, 2, True],
+    [enums.AMMO, 7, 8, True],
+    [enums.TNT, 13, 6, True],
+    [enums.KEY, 1, 8, True],
+    [enums.OXYGEN, 5, 2, True],
+    [enums.TNT, 7, 2, True],
+    [enums.AMMO, 1, 5, True],
+    [enums.TNT, 7, 8, True],
+    [enums.KEY, 7, 8, True],
+    [enums.AMMO, 1, 6, True],
+    [enums.KEY, 6, 7, True],
+    [enums.OXYGEN, 11, 2, True],
+    [enums.TNT, 2, 3, True],
+    [enums.OXYGEN, 4, 7, True],
+    [enums.KEY, 12, 6, True],
+    [enums.TNT, 12, 1, True],
+    [enums.AMMO, 6, 1, True],
+    [enums.TNT, 13, 4, True],
+    [enums.OXYGEN, 5, 7, True],
+    [enums.TNT, 3, 2, True],
+    [enums.AMMO, 4, 6, True],
+    [enums.TNT, 9, 8, True],
+    [enums.OXYGEN, 1, 2, True]
+]   
+
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
+
 # create the Map object
 map = Map(map_surf)
 
@@ -365,6 +429,7 @@ while True:
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
+        hotspot_group = pygame.sprite.GroupSingle()
         platform_group = pygame.sprite.GroupSingle()
         dust_group = pygame.sprite.GroupSingle()
         bullet_group = pygame.sprite.GroupSingle()
