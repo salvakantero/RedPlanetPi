@@ -4,20 +4,19 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Los objetos se pintan variando Y arriba y abajo
+- Gestión de objetos de tipo MUNICIÓN
 - Movimiento del enemigo fanty
 
 POR HACER
 =========
 - Efecto flash mágico al coger objeto
-- Obtener SFX de opengameart.org
-- Obtener música de opengameart.org
-- Implementar música y SFX
-- Gestión de objetos de tipo MUNICIÓN
 - Gestión de objetos de tipo TARJETA (abrir puertas)
 - Gestión de objetos de tipo EXPLOSIVO
 - Gestión de objetos de tipo OXÍGENO
 - Gestión de tiempo de oxígeno
+- Obtener SFX de opengameart.org
+- Obtener música de opengameart.org
+- Implementar música y SFX
 - Teclas redefinibles
 - Pantalla final
 - Menu inicial
@@ -26,7 +25,6 @@ POR HACER
 
 OPCIONAL
 ========
-- Animación de objetos
 - Animación al abrir puerta
 - Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
@@ -91,7 +89,8 @@ HECHO
 26/12/22 - Vibra la pantalla al hacer grandes saltos y explosiones
 29/12/22 - Secuencia de Game Over
 02/01/23 - Gestión de disparos del player
-06/01/23 - Colocación de objetos en el mapa
+06/01/23 - Colocación de hotspots en el mapa
+09/01/23 - Los hotspots se animan variando Y arriba y abajo
 
 
 GREETINGS

@@ -21,13 +21,19 @@ class Map():
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
         self.map_surf = map_surf        
-        # hotspot stuff
-        self.hotspot_offset = [0,0] # to animate the object, top and bottom
+        # modifies the XY position of the map on the screen to create 
+        # a shaking effect for a given number of frames
+        self.shake = [0, 0]
+        self.shake_timer = 0
+        # hotspot stuff        
+        self.hotspot_offset = 0 # to animate the hotspot (up and down)
+        self.hotspot_up = True # going up?
+        self.hotspot_anim_timer = 12 # timer to change frame
         self.hotspot_images = {
-            enums.TNT: pygame.image.load('images/tiles/T50.png').convert(),
-            enums.KEY: pygame.image.load('images/tiles/T51.png').convert(),
-            enums.AMMO: pygame.image.load('images/tiles/T52.png').convert(),
-            enums.OXYGEN: pygame.image.load('images/tiles/T53.png').convert(),
+            enums.TNT: pygame.image.load('images/tiles/T50.png').convert_alpha(),
+            enums.KEY: pygame.image.load('images/tiles/T51.png').convert_alpha(),
+            enums.AMMO: pygame.image.load('images/tiles/T52.png').convert_alpha(),
+            enums.OXYGEN: pygame.image.load('images/tiles/T53.png').convert_alpha(),
             enums.DOOR: pygame.image.load('images/tiles/T60.png').convert(),
         }
         # objects and hotspots. Index = map number; (type, x, y, used?)
@@ -90,10 +96,6 @@ class Map():
             [41, 14, 8, False],
             [42, 14, 2, False]
         ] 
-        # modifies the XY position of the map on the screen to create 
-        # a shaking effect for a given number of frames
-        self.shake = [0, 0]
-        self.shake_timer = 0
 
     # loads a map and draws it on screen
     def load(self):
@@ -193,16 +195,23 @@ class Map():
                 if anim_tile[4] > 1:
                     anim_tile[4] = 0    
 
-    # animate the object by position, top and bottom       
+    # animate the object by position, up and down (5 px)
     def animate_hotspot(self, rect):
-        if self.hotspot_offset[0] < 5 and self.hotspot_offset[0] <= self.hotspot_offset[1]: # going up
-            self.hotspot_offset[0] += 1
-            rect.y -= self.hotspot_offset[0]
-            self.hotspot_offset[1] += 1
-        elif self.hotspot_offset[0] > 0:
-            self.hotspot_offset[0] -= 1
-            rect.y += self.hotspot_offset[0]
-            self.hotspot_offset[1] -= 1
+        if self.hotspot_anim_timer > 1: # time to change the offset
+            self.hotspot_anim_timer = 0
+            if self.hotspot_up: # going up
+                if self.hotspot_offset < 5:
+                    self.hotspot_offset += 1
+                    if self.hotspot_offset == 5: 
+                        self.hotspot_up = False
+            else: # going down
+                if self.hotspot_offset > 0:
+                    self.hotspot_offset -= 1                
+                    if self.hotspot_offset == 0: 
+                        self.hotspot_up = True            
+        # apply the offset
+        rect.y -= self.hotspot_offset
+        self.hotspot_anim_timer += 1
 
     # update the map with their hotspots if they are still available
     # hotspot_data = [type, x, y, used?]
@@ -212,7 +221,7 @@ class Map():
             image = self.hotspot_images[hotspot[0]]            
             imageRect = image.get_rect()     
             imageRect.topleft = (
-                hotspot[1] * imageRect.width, hotspot[2] * imageRect.height)
+                hotspot[1] * imageRect.width, hotspot[2] * imageRect.height)            
             self.animate_hotspot(imageRect)   
             surface.blit(image, imageRect) # draws on the background image
 
