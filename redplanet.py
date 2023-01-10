@@ -223,9 +223,9 @@ def main_menu():
                     support.exit()
                 return
 
-# collisions 
+# collisions (mobile platforms, enemies, bullets, hotspots)
 def collision_check():
-    # mobile platform
+    # mobile platform -----------------------------------------------
     if platform_group.sprite != None \
     and pygame.sprite.spritecollide(player, platform_group, False, 
     pygame.sprite.collide_rect_ratio(1.15)):
@@ -244,13 +244,13 @@ def collision_check():
                 and not key_state[config.right_key]:
                     player.rect.x += platform.mx
     
-    # martians
+    # martians ------------------------------------------------------
     if not player.invincible and pygame.sprite.spritecollide(player, 
     enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
         player.loses_life()
         scoreboard.invalidate() # redraws the scoreboard
     
-    # bullets
+    # bullets -------------------------------------------------------
     if not bullet_group.sprite == None:
         for enemy in enemies_group:
             if enemy.rect.colliderect(bullet_group.sprite):
@@ -269,7 +269,33 @@ def collision_check():
                 enemy.kill()
                 bullet_group.sprite.kill()
                 break
-        
+    
+    # hotspot -------------------------------------------------------
+    if not hotspot_group.sprite == None:
+        if player.rect.colliderect(hotspot_group.sprite):
+            hotspot = hotspot_group.sprite
+            # shake the map (just a little)
+            map.shake = [6, 6]
+            map.shake_timer = 8
+            # creates a magic halo
+            blast = Explosion(
+                [hotspot.rect.centerx, hotspot.rect.centery-4], 
+                blast_animation[1])
+            blast_group.add(blast)
+            all_sprites_group.add(blast)
+            # manages the object according to the type
+            if hotspot.type == enums.TNT: player.explosives += 1
+            elif hotspot.type == enums.KEY: player.keys += 1
+            elif hotspot.type == enums.AMMO: 
+                if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
+                    player.ammo += constants.AMMO_ROUND
+                else: player.ammo = constants.MAX_AMMO
+            elif hotspot.type == enums.OXYGEN: 
+                player.oxygen = constants.MAX_OXYGEN
+            scoreboard.invalidate()
+            # removes objects
+            hotspot_group.sprite.kill()
+            hotspot_data[map.number][3] = False # not visible
 
 
 #===============================================================================

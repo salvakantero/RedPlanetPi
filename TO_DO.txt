@@ -4,17 +4,14 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de objetos de tipo MUNICIÓN
+- Efecto flash mágico al coger objeto
+- Gestión del tiempo de oxígeno
+- Gestión de puertas
 - Movimiento del enemigo fanty
 
 POR HACER
 =========
-- Efecto flash mágico al coger objeto
-- Gestión de objetos de tipo TARJETA (abrir puertas)
-- Gestión de objetos de tipo EXPLOSIVO
-- Gestión de objetos de tipo OXÍGENO
-- Gestión de tiempo de oxígeno
-- Gestión de puertas
+- Acciones; colocar bomba, detonador
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org
 - Implementar música y SFX
@@ -92,6 +89,7 @@ HECHO
 02/01/23 - Gestión de disparos del player
 06/01/23 - Colocación de hotspots en el mapa
 09/01/23 - Los hotspots se animan variando Y arriba y abajo
+10/01/23 - Gestión de objetos; MUNICIÓN, TARJETA, TNT, OXÍGENO
 
 
 GREETINGS

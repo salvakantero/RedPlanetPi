@@ -5,6 +5,7 @@
 
 import enums
 
+# game screen
 WIN_SIZE = 800, 640 # main window size
 MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)
 MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
@@ -12,9 +13,13 @@ SBOARD_SCALED_SIZE = 720, 114 # scoreboard size (scaled x3)
 SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 H_MARGIN = 40 # horizontal distance between the edge and the playing area
 V_MARGIN = 20 # vertical distance between the edge and the playing area
+# player
 JUMP_VALUE = -3.2 # value of the initial jump for the player
 GRAVITY = 0.180 # acceleration of gravity for the player
 MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
+MAX_AMMO = 50 # maximum number of bullets
+AMMO_ROUND = 25 # bullets per reload
+MAX_OXYGEN = 99 # oxygen per refill
 
 # animated tiles
 ANIM_TILES = {
