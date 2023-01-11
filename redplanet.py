@@ -118,7 +118,7 @@ def change_map():
             else: # platform sprite? add to the platform group
                 platform_group.add(enemy) # to check for collisions
 
- 
+
 #===============================================================================
 # Main functions
 #===============================================================================
@@ -278,9 +278,7 @@ def collision_check():
             map.shake = [6, 6]
             map.shake_timer = 8
             # creates a magic halo
-            blast = Explosion(
-                [hotspot.rect.centerx, hotspot.rect.centery-4], 
-                blast_animation[1])
+            blast = Explosion(hotspot.rect.center, blast_animation[2])
             blast_group.add(blast)
             all_sprites_group.add(blast)
             # manages the object according to the type
@@ -381,6 +379,14 @@ blast_animation = {
         pygame.image.load('images/sprites/blast4.png').convert_alpha(),
         pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
         pygame.image.load('images/sprites/blast6.png').convert_alpha()],
+    2: [ # explosion 3: magic halo for hotspots
+        pygame.image.load('images/sprites/blast11.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast12.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast13.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast14.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast15.png').convert_alpha(),
+        pygame.image.load('images/sprites/blast16.png').convert_alpha(),                                 
+        pygame.image.load('images/sprites/blast6.png').convert_alpha()],
 }
 
 # index = map number; (type, x, y, visible?)
@@ -446,7 +452,8 @@ door_data = [
 ]
 
 # create the Scoreboard object
-scoreboard = Scoreboard(sboard_surf, font_FL, font_BL, font_FS, font_BS)
+scoreboard = Scoreboard(sboard_surf, hotspot_images, 
+    font_FL, font_BL, font_FS, font_BS)
 
 # create the Map object
 map = Map(map_surf)

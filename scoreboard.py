@@ -5,9 +5,11 @@
 
 import pygame
 import constants
+import enums
 
 class Scoreboard():
-    def __init__(self, surface, font_FL, font_BL, font_FS, font_BS):
+    def __init__(self, surface, hotspot_images,
+    font_FL, font_BL, font_FS, font_BS):
         # attributes
         self.surface = surface
         self.font_FL = font_FL # large foreground font
@@ -17,10 +19,7 @@ class Scoreboard():
         self.needs_updating = False # redrawing of the data if True
         # icons
         self.lives_icon = pygame.image.load('images/assets/lives.png').convert()
-        self.oxigen_icon = pygame.image.load('images/tiles/T53.png').convert()
-        self.ammo_icon = pygame.image.load('images/tiles/T52.png').convert()
-        self.keys_icon = pygame.image.load('images/tiles/T51.png').convert()
-        self.tnt_icon = pygame.image.load('images/tiles/T50.png').convert()
+        self.hotspot_images = hotspot_images
 
     # draws the name of the map and other data
     def map_info(self, map_number, game_percent):
@@ -55,10 +54,10 @@ class Scoreboard():
         self.surface.fill((0,0,0))
         # icons
         self.surface.blit(self.lives_icon, (0, 2))
-        self.surface.blit(self.oxigen_icon, (42, 2))
-        self.surface.blit(self.ammo_icon, (82, 2))
-        self.surface.blit(self.keys_icon, (145, 2))
-        self.surface.blit(self.tnt_icon, (186, 2))
+        self.surface.blit(self.hotspot_images[enums.OXYGEN], (42, 2))
+        self.surface.blit(self.hotspot_images[enums.AMMO], (82, 2))
+        self.surface.blit(self.hotspot_images[enums.KEY], (145, 2))
+        self.surface.blit(self.hotspot_images[enums.TNT], (186, 2))
         # fixed texts
         self.shaded_text('+50', 116, 6)
         self.shaded_text('+15', 220, 6)
@@ -72,9 +71,11 @@ class Scoreboard():
         if self.needs_updating:
             # clean the previous data
             pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((18,4),(13,12)))
+                constants.PALETTE['BLACK'], ((18,4),(13,12))) # lives
             pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((100,4),(13,12))) 
+                constants.PALETTE['BLACK'], ((100,4),(13,12))) # ammo
+            pygame.draw.rect(self.surface, 
+                constants.PALETTE['BLACK'], ((204,4),(13,12))) # TNT
             # draws the new data
             self.shaded_text(player.lives, 20, 6)
             self.shaded_text(player.oxigen, 62, 6)
