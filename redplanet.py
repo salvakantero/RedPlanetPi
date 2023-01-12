@@ -385,8 +385,7 @@ blast_animation = {
         pygame.image.load('images/sprites/blast13.png').convert_alpha(),
         pygame.image.load('images/sprites/blast14.png').convert_alpha(),
         pygame.image.load('images/sprites/blast15.png').convert_alpha(),
-        pygame.image.load('images/sprites/blast16.png').convert_alpha(),                                 
-        pygame.image.load('images/sprites/blast6.png').convert_alpha()],
+        pygame.image.load('images/sprites/blast16.png').convert_alpha()],                                 
 }
 
 # index = map number; (type, x, y, visible?)
