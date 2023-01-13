@@ -78,7 +78,7 @@ class Scoreboard():
                 constants.PALETTE['BLACK'], ((204,4),(13,12))) # TNT
             # draws the new data
             self.shaded_text(player.lives, 20, 6)
-            self.shaded_text(player.oxigen, 62, 6)
+            self.shaded_text(player.oxygen, 62, 6)
             self.shaded_text(player.ammo, 102, 6)
             self.shaded_text(player.keys, 166, 6)
             self.shaded_text(player.explosives, 206, 6)

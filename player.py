@@ -18,13 +18,12 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, dust_image_list, all_sprites_group, 
         dust_group, bullet_group, map, scoreboard, config):
         super().__init__()
-        # external attributes
+        # attributes
         self.lives = 99 # lives remaining
-        self.oxigen = 99 # oxigen remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
         self.explosives = 0 # explosives collected  
-        # internal attributes
+        self.oxygen = 99 # oxygen remaining
         self.direction = pygame.math.Vector2(0.0)
         self.x_speed = 2 # movement in the x-axis (pixels)
         self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping
@@ -33,7 +32,9 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = False # perched on the ground   
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
-        self.invincible_time_to = 2000 # time of invincibility (1 sec.)
+        self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2 secs.)
+        self.oxygen_time_from = 0 # tick number where oxygen unit begins
+        self.oxygen_time_to = constants.OXYGEN_TIME # time of each oxygen unit (2 secs.)
         # image/animation        
         self.image_list = {
             # sequences of animations for the player depending on its status
@@ -109,7 +110,7 @@ class Player(pygame.sprite.Sprite):
                 self.all_sprites_group.add(bullet)
                 self.ammo -= 1
                 self.scoreboard.invalidate()
-                self.firing = 10 # frames drawing the image "firing".
+                self.firing = 12 # frames drawing the image "firing".
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
@@ -255,6 +256,13 @@ class Player(pygame.sprite.Sprite):
         if sin(pygame.time.get_ticks()) >= 0: return 255
         else: return 0
 
+    # controls the oxygen time
+    def oxygen_timer(self):
+        if (pygame.time.get_ticks() - self.oxygen_time_from) \
+        >= self.oxygen_time_to:
+            self.oxygen -= 1
+            self.scoreboard.invalidate()
+
     def update(self):
         self.get_input()
         self.get_state()
@@ -262,3 +270,4 @@ class Player(pygame.sprite.Sprite):
         self.vertical_mov()
         self.animate()
         self.invincibility_timer()
+        self.oxygen_timer()

@@ -275,8 +275,8 @@ def collision_check():
         if player.rect.colliderect(hotspot_group.sprite):
             hotspot = hotspot_group.sprite
             # shake the map (just a little)
-            map.shake = [6, 6]
-            map.shake_timer = 8
+            map.shake = [4, 4]
+            map.shake_timer = 4
             # creates a magic halo
             blast = Explosion(hotspot.rect.center, blast_animation[2])
             blast_group.add(blast)
@@ -462,6 +462,8 @@ music_status = enums.UNMUTED
 
 # clock to control the FPS
 clock = pygame.time.Clock()
+# oxygen timer
+oxygen_start = pygame.time.get_ticks()
 
 
 #===============================================================================
