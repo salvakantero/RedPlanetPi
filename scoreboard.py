@@ -66,20 +66,22 @@ class Scoreboard():
     def invalidate(self):
         self.needs_updating = True
 
+    # clean the previous data
+    def clear_zone(self, x):
+        pygame.draw.rect(self.surface, 
+                constants.PALETTE['BLACK'], ((x, 4),(13, 12)))
+
     # update the data (only if it has been invalidated)
     def update(self, player):
         if self.needs_updating:
-            # clean the previous data
-            pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((18,4),(13,12))) # lives
-            pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((100,4),(13,12))) # ammo
-            pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((204,4),(13,12))) # TNT
-            # draws the new data
+            self.clear_zone(18)
             self.shaded_text(player.lives, 20, 6)
+            self.clear_zone(60)
             self.shaded_text(player.oxygen, 62, 6)
+            self.clear_zone(100)
             self.shaded_text(player.ammo, 102, 6)
+            self.clear_zone(164)
             self.shaded_text(player.keys, 166, 6)
-            self.shaded_text(player.explosives, 206, 6)
+            self.clear_zone(204)
+            self.shaded_text(player.TNT, 206, 6)
             self.needs_updating = False

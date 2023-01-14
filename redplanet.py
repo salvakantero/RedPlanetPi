@@ -282,7 +282,7 @@ def collision_check():
             blast_group.add(blast)
             all_sprites_group.add(blast)
             # manages the object according to the type
-            if hotspot.type == enums.TNT: player.explosives += 1
+            if hotspot.type == enums.TNT: player.TNT += 1
             elif hotspot.type == enums.KEY: player.keys += 1
             elif hotspot.type == enums.AMMO: 
                 if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
@@ -462,8 +462,6 @@ music_status = enums.UNMUTED
 
 # clock to control the FPS
 clock = pygame.time.Clock()
-# oxygen timer
-oxygen_start = pygame.time.get_ticks()
 
 
 #===============================================================================
@@ -541,7 +539,7 @@ while True:
             # collision between the player and an enemy or moving platform
             collision_check()
             # game over?
-            if player.lives == 0:
+            if player.lives == 0 or player.oxygen < 0:
                 game_status = enums.OVER
                 game_over()
                 continue

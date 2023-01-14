@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión del tiempo de oxígeno
 - Gestión de puertas
 - Movimiento del enemigo fanty
 
@@ -90,6 +89,7 @@ HECHO
 09/01/23 - Los hotspots se animan variando Y arriba y abajo
 10/01/23 - Gestión de objetos; MUNICIÓN, TARJETA, TNT, OXÍGENO
 12/01/23 - Efecto halo mágico al coger objeto
+14/01/23 - Gestión del tiempo de oxígeno
 
 
 GREETINGS

@@ -22,8 +22,8 @@ class Player(pygame.sprite.Sprite):
         self.lives = 99 # lives remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
-        self.explosives = 0 # explosives collected  
-        self.oxygen = 99 # oxygen remaining
+        self.TNT = 0 # explosives collected  
+        self.oxygen = constants.MAX_OXYGEN # oxygen remaining
         self.direction = pygame.math.Vector2(0.0)
         self.x_speed = 2 # movement in the x-axis (pixels)
         self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping
@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2 secs.)
-        self.oxygen_time_from = 0 # tick number where oxygen unit begins
+        self.oxygen_time_from = pygame.time.get_ticks() # tick number where oxygen unit begins
         self.oxygen_time_to = constants.OXYGEN_TIME # time of each oxygen unit (2 secs.)
         # image/animation        
         self.image_list = {
@@ -262,6 +262,7 @@ class Player(pygame.sprite.Sprite):
         >= self.oxygen_time_to:
             self.oxygen -= 1
             self.scoreboard.invalidate()
+            self.oxygen_time_from = pygame.time.get_ticks()
 
     def update(self):
         self.get_input()
