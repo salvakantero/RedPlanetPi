@@ -4,6 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Porcentaje % de juego completado
 - Obtener SFX de opengameart.org
 - Obtener música de opengameart.org
 - Movimiento del enemigo fanty

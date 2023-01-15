@@ -588,7 +588,7 @@ while True:
             
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
-    aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_surf, (124, 22))
+    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_surf, (124, 22))
     # draw collision rects
     #pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
     #if platform_group.sprite != None:

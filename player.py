@@ -85,19 +85,22 @@ class Player(pygame.sprite.Sprite):
         # manages keystrokes
         key_state = pygame.key.get_pressed()  
         # press right
-        if key_state[self.config.right_key]:
+        if key_state[pygame.K_d]: #self.config.right_key]:
             self.direction.x = 1
             self.facing_right = True
         # press left
-        elif key_state[self.config.left_key]:
+        elif key_state[pygame.K_a]: #self.config.left_key]:
             self.direction.x = -1
             self.facing_right = False
         # without lateral movement
-        elif not key_state[self.config.right_key] \
-        and not key_state[self.config.left_key]:
-            self.direction.x = 0 
+        #elif not key_state[self.config.right_key] \
+        #and not key_state[self.config.left_key]:
+        elif not key_state[pygame.K_d] \
+        and not key_state[pygame.K_a]:
+            self.direction.x = 0
         # press jump
-        if key_state[self.config.jump_key] and self.on_ground \
+        #if key_state[self.config.jump_key] and self.on_ground \
+        if key_state[pygame.K_w] and self.on_ground \
         and not self.state == enums.JUMPING:
             self.direction.y = constants.JUMP_VALUE
             self.y_jump = self.rect.y # to detect large jumps on landing
