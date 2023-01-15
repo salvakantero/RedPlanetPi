@@ -21,6 +21,7 @@ from font import Font
 from player import Player
 from enemy import Enemy
 from hotspot import Hotspot
+from gate import Gate
 from scoreboard import Scoreboard
 from config import Configuration
 from explosion import Explosion
@@ -93,6 +94,7 @@ def change_map():
     all_sprites_group.empty()
     enemies_group.empty()
     hotspot_group.empty()
+    gate_group.empty()
     platform_group.empty()
     dust_group.empty()
     blast_group.empty()
@@ -104,6 +106,12 @@ def change_map():
         hotspot_sprite = Hotspot(hotspot, hotspot_images[hotspot[0]])
         all_sprites_group.add(hotspot_sprite) # to update/draw it
         hotspot_group.add(hotspot_sprite) # to check for collisions
+    # add the gate (if there is one visible on the map)
+    gate = gate_data.get(map.number)
+    if gate != None and gate[2] == True: # visible/available?
+        gate_sprite = Gate(gate, gate_image)
+        all_sprites_group.add(gate_sprite) # to update/draw it
+        gate_group.add(gate_sprite) # to check for collisions
     # add enemies (and mobile platforms) to the map 
     # reading from 'ENEMIES_DATA' list (enems.h)
     # a maximum of three enemies per map
@@ -223,7 +231,7 @@ def main_menu():
                     support.exit()
                 return
 
-# collisions (mobile platforms, enemies, bullets, hotspots)
+# collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
     # mobile platform -----------------------------------------------
     if platform_group.sprite != None \
@@ -295,6 +303,26 @@ def collision_check():
             hotspot_group.sprite.kill()
             hotspot_data[map.number][3] = False # not visible
 
+    # gates ---------------------------------------------------------
+    if gate_group.sprite != None:
+        if player.rect.colliderect(gate_group.sprite):
+            if player.keys > 0:
+                player.keys -= 1
+                # creates a magic halo
+                blast = Explosion(gate_group.sprite.rect.center, blast_animation[2])
+                blast_group.add(blast)
+                all_sprites_group.add(blast)
+                # deletes the door
+                gate_group.sprite.kill()
+                gate_data[map.number][2] = False # not visible
+            else: 
+                # shake the map (just a little in X)
+                map.shake = [4, 0]
+                map.shake_timer = 4
+                # bounces the player
+                if player.facing_right: player.rect.x -= 5
+                else: player.rect.x += 5
+
 
 #===============================================================================
 # Main
@@ -347,6 +375,8 @@ hotspot_images = {
     enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
     enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()
 }
+
+gate_image = pygame.image.load('images/tiles/T60.png').convert()
 
 dust_animation = {
     enums.JUMPING: [
@@ -437,18 +467,18 @@ hotspot_data = [
     [enums.OXYGEN, 1, 2, True]
 ]   
 
-# doors per map (map number, x, y, visible?)
-door_data = [
-    [8, 14, 8, True],
-    [13, 14, 7, True],
-    [14, 11, 1, True],
-    [16, 0, 3, True],  
-    [22, 0, 7, True],
-    [28, 14, 8, True],
-    [39, 3, 6, True],
-    [41, 14, 8, True],
-    [42, 14, 2, True]
-]
+# doors per map; map number: [x, y, visible?]
+gate_data = {
+    8: [14, 8, True],
+    13: [14, 7, True],
+    14: [11, 1, True],
+    16: [0, 3, True],  
+    22: [0, 7, True],
+    28: [14, 8, True],
+    39: [3, 6, True],
+    41: [14, 8, True],
+    42: [14, 2, True]
+}
 
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, 
@@ -475,6 +505,7 @@ while True:
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
         hotspot_group = pygame.sprite.GroupSingle()
+        gate_group = pygame.sprite.GroupSingle()
         platform_group = pygame.sprite.GroupSingle()
         dust_group = pygame.sprite.GroupSingle()
         bullet_group = pygame.sprite.GroupSingle()
@@ -547,8 +578,6 @@ while True:
             map_surf.blit(map_surf_bk, (0,0))
             # change the frame of the animated tiles
             map.animate_tiles(map_surf_bk)
-            # and draw the hotspots that correspond to the map.
-            #map.update_hotspots(map_surf_bk)
             # print sprites
             all_sprites_group.draw(map_surf)
             # updates the scoreboard, only if needed

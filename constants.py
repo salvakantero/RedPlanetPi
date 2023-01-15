@@ -3,8 +3,6 @@
 # Constants
 #===============================================================================
 
-import enums
-
 # game screen
 WIN_SIZE = 800, 640 # main window size
 MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)

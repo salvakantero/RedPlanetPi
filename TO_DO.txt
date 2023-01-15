@@ -4,14 +4,13 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Gestión de puertas
+- Obtener SFX de opengameart.org
+- Obtener música de opengameart.org
 - Movimiento del enemigo fanty
 
 POR HACER
 =========
 - Acciones; colocar bomba, detonador
-- Obtener SFX de opengameart.org
-- Obtener música de opengameart.org
 - Implementar música y SFX
 - Teclas redefinibles
 - Pantalla final
@@ -21,7 +20,6 @@ POR HACER
 
 OPCIONAL
 ========
-- Animación al abrir puerta
 - Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
 
@@ -90,6 +88,7 @@ HECHO
 10/01/23 - Gestión de objetos; MUNICIÓN, TARJETA, TNT, OXÍGENO
 12/01/23 - Efecto halo mágico al coger objeto
 14/01/23 - Gestión del tiempo de oxígeno
+25/01/23 - Gestión de puertas
 
 
 GREETINGS
