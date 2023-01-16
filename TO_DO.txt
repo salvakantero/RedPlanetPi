@@ -4,6 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Reparar el tileset de los mapas
 - Obtener SFX de opengameart.org
 - Implementar SFX
 - Movimiento del enemigo fanty

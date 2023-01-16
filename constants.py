@@ -3,6 +3,8 @@
 # Constants
 #===============================================================================
 
+import enums
+
 # game screen
 WIN_SIZE = 800, 640 # main window size
 MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)
@@ -298,3 +300,66 @@ ENEMIES_DATA = [
 	(0, 0, 0, 0, 0, 0, 0),
 	(0, 0, 0, 0, 0, 0, 0)
 ]
+
+# hotspot data
+# index = map number; (type, x, y, visible?)
+INIT_HOTSPOT_DATA = [
+    [enums.AMMO, 13, 3, True],
+    [enums.TNT, 13, 7, True],
+    [enums.OXYGEN, 5, 7, True],
+    [enums.TNT, 1, 7, True],
+    [enums.KEY, 13, 1, True],
+    [enums.KEY, 7, 8, True],
+    [enums.TNT, 5, 3, True],
+    [enums.OXYGEN, 10, 7, True],
+    [enums.AMMO, 11, 3, True],
+    [enums.TNT, 13, 6, True],
+    [enums.KEY, 6, 8, True],
+    [enums.TNT, 6, 1, True],
+    [enums.OXYGEN, 5, 4, True],
+    [enums.AMMO, 8, 4, True],
+    [enums.OXYGEN, 1, 2, True],
+    [enums.TNT, 2, 8, True],
+    [enums.KEY, 13, 3, True],
+    [enums.KEY, 12, 2, True],
+    [enums.AMMO, 1, 7, True],
+    [enums.OXYGEN, 6, 7, True],
+    [enums.TNT, 1, 3, True],
+    [enums.AMMO, 13, 4, True],
+    [enums.OXYGEN, 12, 2, True],
+    [enums.AMMO, 7, 8, True],
+    [enums.TNT, 13, 6, True],
+    [enums.KEY, 1, 8, True],
+    [enums.OXYGEN, 5, 2, True],
+    [enums.TNT, 7, 2, True],
+    [enums.AMMO, 1, 5, True],
+    [enums.TNT, 7, 8, True],
+    [enums.KEY, 7, 8, True],
+    [enums.AMMO, 1, 6, True],
+    [enums.KEY, 6, 7, True],
+    [enums.OXYGEN, 11, 2, True],
+    [enums.TNT, 2, 3, True],
+    [enums.OXYGEN, 4, 7, True],
+    [enums.KEY, 12, 6, True],
+    [enums.TNT, 12, 1, True],
+    [enums.AMMO, 6, 1, True],
+    [enums.TNT, 13, 4, True],
+    [enums.OXYGEN, 5, 7, True],
+    [enums.TNT, 3, 2, True],
+    [enums.AMMO, 4, 6, True],
+    [enums.TNT, 9, 8, True],
+    [enums.OXYGEN, 1, 2, True]
+]   
+
+# doors per map; map number: [x, y, visible?]
+INIT_GATE_DATA = {
+    8: [14, 8, True],
+    13: [14, 7, True],
+    14: [11, 1, True],
+    16: [0, 3, True],  
+    22: [0, 7, True],
+    28: [14, 8, True],
+    39: [3, 6, True],
+    41: [14, 8, True],
+    42: [14, 2, True]
+}

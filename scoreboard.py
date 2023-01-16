@@ -101,6 +101,8 @@ class Scoreboard():
             # game percentage
             x = constants.SBOARD_UNSCALED_SIZE[0] - 13
             y = 30
+            pygame.draw.rect(self.surface, 
+                constants.PALETTE['BLACK'], ((x, y),(8, 8)))
             text = str(self.game_percent).rjust(2, '0') + ';' # ; = %
             self.font_BS.render(text, self.surface, (x+1, y+1)) # shadow
             self.font_FS.render(text, self.surface, (x, y))
