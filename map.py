@@ -15,7 +15,6 @@ class Map():
         self.number = 0 # current map
         self.scroll = 0 # scroll direction for map_transition()
         self.last = -1 # last map loaded
-        self.game_percent = 0 # % of gameplay completed
         self.tilemap_rect_list = [] # list of tile rects
         self.tilemap_behaviour_list = [] # list of tile behaviours
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)

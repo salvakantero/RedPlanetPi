@@ -88,7 +88,7 @@ def change_map():
         map_transition()
     # refresh the scoreboard area
     scoreboard.reset()
-    scoreboard.map_info(map.number, map.game_percent)
+    scoreboard.map_info(map.number)
     scoreboard.invalidate()      
     # reset the sprite groups  
     all_sprites_group.empty()
@@ -290,8 +290,12 @@ def collision_check():
             blast_group.add(blast)
             all_sprites_group.add(blast)
             # manages the object according to the type
-            if hotspot.type == enums.TNT: player.TNT += 1
-            elif hotspot.type == enums.KEY: player.keys += 1
+            if hotspot.type == enums.TNT: 
+                player.TNT += 1
+                scoreboard.game_percent += 3
+            elif hotspot.type == enums.KEY: 
+                player.keys += 1
+                scoreboard.game_percent += 2
             elif hotspot.type == enums.AMMO: 
                 if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
                     player.ammo += constants.AMMO_ROUND
@@ -303,7 +307,7 @@ def collision_check():
             hotspot_group.sprite.kill()
             hotspot_data[map.number][3] = False # not visible
 
-    # gates ---------------------------------------------------------
+    # gate ----------------------------------------------------------
     if gate_group.sprite != None:
         if player.rect.colliderect(gate_group.sprite):
             if player.keys > 0:
@@ -315,6 +319,9 @@ def collision_check():
                 # deletes the door
                 gate_group.sprite.kill()
                 gate_data[map.number][2] = False # not visible
+                # increases the percentage of game play
+                scoreboard.game_percent += 3
+                scoreboard.invalidate()
             else: 
                 # shake the map (just a little in X)
                 map.shake = [4, 0]
