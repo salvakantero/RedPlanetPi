@@ -21,8 +21,19 @@ class Scoreboard():
         self.lives_icon = pygame.image.load('images/assets/lives.png').convert()
         self.hotspot_images = hotspot_images
 
+        # Game Percentage %
+        # ----------------------------
+        # TNT           15 * 3     45%
+        # Keys           9 * 2     18%
+        # Gates          9 * 3     27%
+        # Locate TNT     1 * 5      5%
+        # Detonator      1 * 5      5%
+        #                         ----
+        # TOTAL:                  100%
+        self.game_percent = 0
+
     # draws the name of the map and other data
-    def map_info(self, map_number, game_percent):
+    def map_info(self, map_number):
         # print map name
         x = 0
         y = 22
@@ -30,12 +41,13 @@ class Scoreboard():
             constants.MAP_NAMES[map_number], self.surface, (x+2, y+2)) # shadow
         self.font_FL.render(
             constants.MAP_NAMES[map_number], self.surface, (x, y))
-        # print map number and game percentage
+        # print map number
         x = constants.SBOARD_UNSCALED_SIZE[0] - 55
-        text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'
-        text_2 = 'COMPLETED..' + str(game_percent).rjust(2, '0') + ';' # %
+        text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'        
         self.font_BS.render(text_1, self.surface, (x+1, y+1)) # shadow
         self.font_FS.render(text_1, self.surface, (x, y))
+        # prints a fixed text
+        text_2 = 'COMPLETED..'
         self.font_BS.render(text_2, self.surface, 
             (x+1, y+self.font_BS.line_height+1)) # shadow
         self.font_FS.render(text_2, self.surface, 
@@ -74,6 +86,7 @@ class Scoreboard():
     # update the data (only if it has been invalidated)
     def update(self, player):
         if self.needs_updating:
+            # player data
             self.clear_zone(18)
             self.shaded_text(player.lives, 20, 6)
             self.clear_zone(60)
@@ -85,3 +98,11 @@ class Scoreboard():
             self.clear_zone(204)
             self.shaded_text(player.TNT, 206, 6)
             self.needs_updating = False
+            # game percentage
+            x = constants.SBOARD_UNSCALED_SIZE[0] - 13
+            y = 30
+            pygame.draw.rect(self.surface, 
+                constants.PALETTE['BLACK'], ((x, y),(8, 8)))
+            text = str(self.game_percent).rjust(2, '0') + ';' # ; = %
+            self.font_BS.render(text, self.surface, (x+1, y+1)) # shadow
+            self.font_FS.render(text, self.surface, (x, y))

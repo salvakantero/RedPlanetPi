@@ -4,15 +4,16 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Porcentaje % de juego completado
+- Reparar el tileset de los mapas
 - Obtener SFX de opengameart.org
-- Obtener música de opengameart.org
+- Implementar SFX
 - Movimiento del enemigo fanty
+- Acciones; colocar bomba, detonador
 
 POR HACER
 =========
-- Acciones; colocar bomba, detonador
-- Implementar música y SFX
+- Obtener música de opengameart.org
+- Implementar música
 - Teclas redefinibles
 - Pantalla final
 - Menu inicial
@@ -89,7 +90,9 @@ HECHO
 10/01/23 - Gestión de objetos; MUNICIÓN, TARJETA, TNT, OXÍGENO
 12/01/23 - Efecto halo mágico al coger objeto
 14/01/23 - Gestión del tiempo de oxígeno
-25/01/23 - Gestión de puertas
+15/01/23 - Gestión de puertas
+16/01/23 - Porcentaje % de juego completado
+
 
 
 GREETINGS

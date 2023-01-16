@@ -88,7 +88,7 @@ def change_map():
         map_transition()
     # refresh the scoreboard area
     scoreboard.reset()
-    scoreboard.map_info(map.number, map.game_percent)
+    scoreboard.map_info(map.number)
     scoreboard.invalidate()      
     # reset the sprite groups  
     all_sprites_group.empty()
@@ -290,8 +290,12 @@ def collision_check():
             blast_group.add(blast)
             all_sprites_group.add(blast)
             # manages the object according to the type
-            if hotspot.type == enums.TNT: player.TNT += 1
-            elif hotspot.type == enums.KEY: player.keys += 1
+            if hotspot.type == enums.TNT: 
+                player.TNT += 1
+                scoreboard.game_percent += 3
+            elif hotspot.type == enums.KEY: 
+                player.keys += 1
+                scoreboard.game_percent += 2
             elif hotspot.type == enums.AMMO: 
                 if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
                     player.ammo += constants.AMMO_ROUND
@@ -303,7 +307,7 @@ def collision_check():
             hotspot_group.sprite.kill()
             hotspot_data[map.number][3] = False # not visible
 
-    # gates ---------------------------------------------------------
+    # gate ----------------------------------------------------------
     if gate_group.sprite != None:
         if player.rect.colliderect(gate_group.sprite):
             if player.keys > 0:
@@ -315,6 +319,9 @@ def collision_check():
                 # deletes the door
                 gate_group.sprite.kill()
                 gate_data[map.number][2] = False # not visible
+                # increases the percentage of game play
+                scoreboard.game_percent += 3
+                scoreboard.invalidate()
             else: 
                 # shake the map (just a little in X)
                 map.shake = [4, 0]
@@ -376,8 +383,6 @@ hotspot_images = {
     enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()
 }
 
-gate_image = pygame.image.load('images/tiles/T60.png').convert()
-
 dust_animation = {
     enums.JUMPING: [
         pygame.image.load('images/sprites/dust0.png').convert_alpha(),
@@ -418,67 +423,7 @@ blast_animation = {
         pygame.image.load('images/sprites/blast16.png').convert_alpha()],                                 
 }
 
-# index = map number; (type, x, y, visible?)
-hotspot_data = [
-    [enums.AMMO, 13, 3, True],
-    [enums.TNT, 13, 7, True],
-    [enums.OXYGEN, 5, 7, True],
-    [enums.TNT, 1, 7, True],
-    [enums.KEY, 13, 1, True],
-    [enums.KEY, 7, 8, True],
-    [enums.TNT, 5, 3, True],
-    [enums.OXYGEN, 10, 7, True],
-    [enums.AMMO, 11, 3, True],
-    [enums.TNT, 13, 6, True],
-    [enums.KEY, 6, 8, True],
-    [enums.TNT, 6, 1, True],
-    [enums.OXYGEN, 5, 4, True],
-    [enums.AMMO, 8, 4, True],
-    [enums.OXYGEN, 1, 2, True],
-    [enums.TNT, 2, 8, True],
-    [enums.KEY, 13, 3, True],
-    [enums.KEY, 12, 2, True],
-    [enums.AMMO, 1, 7, True],
-    [enums.OXYGEN, 6, 7, True],
-    [enums.TNT, 1, 3, True],
-    [enums.AMMO, 13, 4, True],
-    [enums.OXYGEN, 12, 2, True],
-    [enums.AMMO, 7, 8, True],
-    [enums.TNT, 13, 6, True],
-    [enums.KEY, 1, 8, True],
-    [enums.OXYGEN, 5, 2, True],
-    [enums.TNT, 7, 2, True],
-    [enums.AMMO, 1, 5, True],
-    [enums.TNT, 7, 8, True],
-    [enums.KEY, 7, 8, True],
-    [enums.AMMO, 1, 6, True],
-    [enums.KEY, 6, 7, True],
-    [enums.OXYGEN, 11, 2, True],
-    [enums.TNT, 2, 3, True],
-    [enums.OXYGEN, 4, 7, True],
-    [enums.KEY, 12, 6, True],
-    [enums.TNT, 12, 1, True],
-    [enums.AMMO, 6, 1, True],
-    [enums.TNT, 13, 4, True],
-    [enums.OXYGEN, 5, 7, True],
-    [enums.TNT, 3, 2, True],
-    [enums.AMMO, 4, 6, True],
-    [enums.TNT, 9, 8, True],
-    [enums.OXYGEN, 1, 2, True]
-]   
-
-# doors per map; map number: [x, y, visible?]
-gate_data = {
-    8: [14, 8, True],
-    13: [14, 7, True],
-    14: [11, 1, True],
-    16: [0, 3, True],  
-    22: [0, 7, True],
-    28: [14, 8, True],
-    39: [3, 6, True],
-    41: [14, 8, True],
-    42: [14, 2, True]
-}
+gate_image = pygame.image.load('images/tiles/T60.png').convert()
 
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, 
@@ -517,10 +462,13 @@ while True:
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
         # reset variables
+        hotspot_data = constants.INIT_HOTSPOT_DATA.copy()
+        gate_data = constants.INIT_GATE_DATA.copy()
         game_status = enums.RUNNING
         map.number = 0
         map.last = -1
         map.scroll = enums.RIGHT
+        scoreboard.game_percent = 0
     else: # game running or paused
         # event management
         for event in pygame.event.get():
