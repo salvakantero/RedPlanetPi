@@ -6,13 +6,10 @@
 
 import pygame
 from math import sin
-
 import constants
 import enums
-
 from dust import DustEffect
 from bullet import Bullet
-
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, dust_image_list, all_sprites_group, 
@@ -63,7 +60,14 @@ class Player(pygame.sprite.Sprite):
         self.image_firing.convert_alpha()
         # dust effect
         self.dust_image_list = dust_image_list 
-        self.dust_group = dust_group    
+        self.dust_group = dust_group
+        # sounds
+        self.sfx_jump1 = pygame.mixer.Sound('sounds/fx/sfx_jump1.wav')
+        self.sfx_jump2 = pygame.mixer.Sound('sounds/fx/sfx_jump2.wav')
+        self.sfx_jump3 = pygame.mixer.Sound('sounds/fx/sfx_jump3.wav')
+        self.sfx_jump4 = pygame.mixer.Sound('sounds/fx/sfx_jump4.wav')
+        self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
+        self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
         # objects and others
         self.all_sprites_group = all_sprites_group   
         self.bullet_group = bullet_group
@@ -106,15 +110,18 @@ class Player(pygame.sprite.Sprite):
             self.y_jump = self.rect.y # to detect large jumps on landing
             self.dust_effect(self.rect.center, enums.JUMPING)
         # press fire
-        if key_state[self.config.fire_key] and self.ammo > 0:
-            if self.bullet_group.sprite == None:        
-                bullet = Bullet(self.rect, self.facing_right)
-                self.bullet_group.add(bullet)
-                self.all_sprites_group.add(bullet)
-                self.ammo -= 1
-                self.scoreboard.invalidate()
-                self.firing = 12 # frames drawing the image "firing".
-
+        if key_state[self.config.fire_key]:
+            if self.ammo > 0:
+                if self.bullet_group.sprite == None:        
+                    bullet = Bullet(self.rect, self.facing_right)
+                    self.bullet_group.add(bullet)
+                    self.all_sprites_group.add(bullet)
+                    self.sfx_shot.play()
+                    self.ammo -= 1
+                    self.scoreboard.invalidate()
+                    self.firing = 12 # frames drawing the image "firing".
+            else: # no bullets
+                self.sfx_no_ammo.play()
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
             self.state = enums.JUMPING

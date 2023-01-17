@@ -425,6 +425,17 @@ blast_animation = {
 
 gate_image = pygame.image.load('images/tiles/T60.png').convert()
 
+# fx sounds
+sfx_alarm_oxygen = pygame.mixer.Sound('sounds/fx/sfx_alarm_oxygen.wav')
+sfx_death_scream = pygame.mixer.Sound('sounds/fx/sfx_death_scream.wav')
+sfx_door_open = pygame.mixer.Sound('sounds/fx/sfx_door_open.wav')
+sfx_exp_arachnid = pygame.mixer.Sound('sounds/fx/sfx_exp_arachnid.wav')
+sfx_exp_fanty = pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
+sfx_exp_infected = pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav')
+sfx_exp_pelusoid = pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav')
+sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
+sfx_landing = pygame.mixer.Sound('sounds/fx/sfx_landing.wav')
+
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, 
     font_FL, font_BL, font_FS, font_BS)
