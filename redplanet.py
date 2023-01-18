@@ -296,17 +296,21 @@ def collision_check():
             blast_group.add(blast)
             all_sprites_group.add(blast)
             # manages the object according to the type
-            if hotspot.type == enums.TNT: 
+            if hotspot.type == enums.TNT:
+                sfx_TNT.play() 
                 player.TNT += 1
                 scoreboard.game_percent += 3
             elif hotspot.type == enums.KEY: 
+                sfx_key.play()
                 player.keys += 1
                 scoreboard.game_percent += 2
-            elif hotspot.type == enums.AMMO: 
+            elif hotspot.type == enums.AMMO:
+                sfx_ammo.play() 
                 if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
                     player.ammo += constants.AMMO_ROUND
                 else: player.ammo = constants.MAX_AMMO
-            elif hotspot.type == enums.OXYGEN: 
+            elif hotspot.type == enums.OXYGEN:
+                sfx_oxygen.play() 
                 player.oxygen = constants.MAX_OXYGEN
             scoreboard.invalidate()
             # removes objects
@@ -439,6 +443,10 @@ sfx_exp_fanty = pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
 sfx_exp_infected = pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav')
 sfx_exp_pelusoid = pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav')
 sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
+sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')
+sfx_key = pygame.mixer.Sound('sounds/fx/sfx_key.wav')
+sfx_ammo = pygame.mixer.Sound('sounds/fx/sfx_ammo.wav')
+sfx_oxygen = pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav')
 
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, 
