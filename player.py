@@ -72,6 +72,12 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav')
+        self.sfx_jump1.set_volume(0.3)
+        self.sfx_jump2.set_volume(0.3)
+        self.sfx_jump3.set_volume(0.3)
+        self.sfx_jump4.set_volume(0.3)
+        self.sfx_landing.set_volume(0.2)
+        self.sfx_no_ammo.set_volume(0.8)
         # objects and others
         self.all_sprites_group = all_sprites_group   
         self.bullet_group = bullet_group

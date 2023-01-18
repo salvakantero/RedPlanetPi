@@ -318,7 +318,7 @@ def collision_check():
         if player.rect.colliderect(gate_group.sprite):
             if player.keys > 0:
                 player.keys -= 1
-                sfx_door_open.play()
+                sfx_open_door.play()
                 # creates a magic halo
                 blast = Explosion(gate_group.sprite.rect.center, blast_animation[2])
                 blast_group.add(blast)
@@ -433,7 +433,7 @@ blast_animation = {
 gate_image = pygame.image.load('images/tiles/T60.png').convert()
 
 # fx sounds
-sfx_door_open = pygame.mixer.Sound('sounds/fx/sfx_door_open.wav')
+sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
 sfx_exp_avirus = pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav')
 sfx_exp_fanty = pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
 sfx_exp_infected = pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav')
