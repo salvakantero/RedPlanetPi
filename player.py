@@ -87,9 +87,6 @@ class Player(pygame.sprite.Sprite):
             self.all_sprites_group.add(dust_sprite)
 
     def get_input(self):
-        # XY temporary to check for collision at the new position
-        #self.x_temp = self.rect.x 
-        #self.y_temp = self.rect.y
         # manages keystrokes
         key_state = pygame.key.get_pressed()  
         # press right
@@ -143,7 +140,6 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_mov(self):
         # gets the new rectangle and check for collision
-        #self.x_temp += self.direction.x * self.x_speed
         x_temp = self.rect.x + (self.direction.x * self.x_speed)
         temp_rect = pygame.Rect((x_temp, self.rect.y),
             (self.rect.width, self.rect.height))
@@ -167,10 +163,9 @@ class Player(pygame.sprite.Sprite):
         # applies acceleration of gravity up to the vertical speed limit
         if self.direction.y < constants.MAX_Y_SPEED:
             self.direction.y += constants.GRAVITY
-        #self.y_temp += self.direction.y
-        y_temp = self.rect.y + self.direction.y
-
+            
         # gets the new rectangle and check for collision
+        y_temp = self.rect.y + self.direction.y
         temp_rect = pygame.Rect((self.rect.x, y_temp), 
             (self.rect.width, self.rect.height))  
 
@@ -283,7 +278,7 @@ class Player(pygame.sprite.Sprite):
         if (pygame.time.get_ticks() - self.oxygen_time_from) \
         >= self.oxygen_time_to:
             self.oxygen -= 1
-            if self.oxigen <= 10: self.sfx_alarm.play()
+            if self.oxygen <= 10: self.sfx_alarm.play()
             self.scoreboard.invalidate()
             self.oxygen_time_from = pygame.time.get_ticks()
 

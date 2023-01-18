@@ -4,6 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- priorizar el salto sobre otras teclas
 - Sonido de golpear puerta cerrada
 - Sonido de recoger objeto TNT, key, ammo y oxígeno
 - Reparar enemigo del mapa 22
