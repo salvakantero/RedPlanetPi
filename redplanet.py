@@ -194,6 +194,7 @@ def confirm_exit():
 # displays a 'game over' message and waits
 def game_over():  
     show_message('G a m e  O v e r', 'PRESS ANY KEY')
+    sfx_game_over.play()
     pygame.event.clear(pygame.KEYDOWN)
     while True:
         for event in pygame.event.get():
@@ -233,7 +234,7 @@ def main_menu():
 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
-    # mobile platform -----------------------------------------------
+    # player and mobile platform -----------------------------------------------
     if platform_group.sprite != None \
     and pygame.sprite.spritecollide(player, platform_group, False, 
     pygame.sprite.collide_rect_ratio(1.15)):
@@ -252,13 +253,13 @@ def collision_check():
                 and not key_state[config.right_key]:
                     player.rect.x += platform.mx
     
-    # martians ------------------------------------------------------
+    # player and martians ------------------------------------------------------
     if not player.invincible and pygame.sprite.spritecollide(player, 
     enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
-        player.loses_life()
+        player.loses_life()        
         scoreboard.invalidate() # redraws the scoreboard
     
-    # bullets -------------------------------------------------------
+    # bullets and martians -----------------------------------------------------
     if not bullet_group.sprite == None:
         for enemy in enemies_group:
             if enemy.rect.colliderect(bullet_group.sprite):
@@ -266,11 +267,16 @@ def collision_check():
                 map.shake = [10, 6]
                 map.shake_timer = 14
                 # creates an explosion
-                if enemy.type == 1: # infected on ground
+                if enemy.type == enums.INFECTED:
                     blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], 
                         blast_animation[1])
+                    sfx_exp_infected.play()
                 else: # flying enemies
                     blast = Explosion(enemy.rect.center, blast_animation[0])
+                    # explosion sounds according to enemy type
+                    if enemy.type == enums.AVIRUS: sfx_exp_avirus.play()
+                    elif enemy.type == enums.PELUSOID: sfx_exp_pelusoid.play()
+                    else: sfx_exp_fanty.play()
                 blast_group.add(blast)
                 all_sprites_group.add(blast)
                 # removes objects
@@ -278,7 +284,7 @@ def collision_check():
                 bullet_group.sprite.kill()
                 break
     
-    # hotspot -------------------------------------------------------
+    # player and hotspot -------------------------------------------------------
     if not hotspot_group.sprite == None:
         if player.rect.colliderect(hotspot_group.sprite):
             hotspot = hotspot_group.sprite
@@ -307,11 +313,12 @@ def collision_check():
             hotspot_group.sprite.kill()
             hotspot_data[map.number][3] = False # not visible
 
-    # gate ----------------------------------------------------------
+    # player and gate ----------------------------------------------------------
     if gate_group.sprite != None:
         if player.rect.colliderect(gate_group.sprite):
             if player.keys > 0:
                 player.keys -= 1
+                sfx_door_open.play()
                 # creates a magic halo
                 blast = Explosion(gate_group.sprite.rect.center, blast_animation[2])
                 blast_group.add(blast)
@@ -426,15 +433,12 @@ blast_animation = {
 gate_image = pygame.image.load('images/tiles/T60.png').convert()
 
 # fx sounds
-sfx_alarm_oxygen = pygame.mixer.Sound('sounds/fx/sfx_alarm_oxygen.wav')
-sfx_death_scream = pygame.mixer.Sound('sounds/fx/sfx_death_scream.wav')
 sfx_door_open = pygame.mixer.Sound('sounds/fx/sfx_door_open.wav')
-sfx_exp_arachnid = pygame.mixer.Sound('sounds/fx/sfx_exp_arachnid.wav')
+sfx_exp_avirus = pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav')
 sfx_exp_fanty = pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
 sfx_exp_infected = pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav')
 sfx_exp_pelusoid = pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav')
 sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
-sfx_landing = pygame.mixer.Sound('sounds/fx/sfx_landing.wav')
 
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, 
