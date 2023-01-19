@@ -4,17 +4,17 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- sonido de messageBox
-- savegames con "pickle"
 - priorizar el salto sobre otras teclas
+- Movimiento del enemigo fanty
+- Acciones; colocar bomba, detonador
+- sonido de messageBox
 - Sonido de golpear puerta cerrada
 - Obtener SFX de opengameart.org
 - Implementar SFX
-- Movimiento del enemigo fanty
-- Acciones; colocar bomba, detonador
 
 POR HACER
 =========
+- savegames con "pickle"
 - Obtener música de opengameart.org
 - Implementar música
 - Teclas redefinibles

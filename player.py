@@ -33,6 +33,7 @@ class Player(pygame.sprite.Sprite):
         self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2 secs.)
         self.oxygen_time_from = pygame.time.get_ticks() # tick number where oxygen unit begins
         self.oxygen_time_to = constants.OXYGEN_TIME # time of each oxygen unit (2 secs.)
+        self.stacked_TNT = False # when it is true the detonator can be pressed
         # image/animation        
         self.image_list = {
             # sequences of animations for the player depending on its status
@@ -92,22 +93,28 @@ class Player(pygame.sprite.Sprite):
             self.dust_group.add(dust_sprite)
             self.all_sprites_group.add(dust_sprite)
 
+    def stack_TNT(self):
+        pass
+
+    def win(self):
+        pass
+
     def get_input(self):
         # manages keystrokes
         key_state = pygame.key.get_pressed()  
-        # press right
+        # press right ----------------------------------------------------------
         if key_state[self.config.right_key]:
             self.direction.x = 1
             self.facing_right = True
-        # press left
+        # press left -----------------------------------------------------------
         elif key_state[self.config.left_key]:
             self.direction.x = -1
             self.facing_right = False
-        # without lateral movement
+        # without lateral movement ---------------------------------------------
         elif not key_state[self.config.right_key] \
         and not key_state[self.config.left_key]:
             self.direction.x = 0
-        # press jump
+        # press jump -----------------------------------------------------------
         if key_state[self.config.jump_key] and self.on_ground \
         and not self.state == enums.JUMPING:
             self.direction.y = constants.JUMP_VALUE
@@ -119,7 +126,7 @@ class Player(pygame.sprite.Sprite):
             elif index == 2: self.sfx_jump2.play()
             elif index == 3: self.sfx_jump3.play()
             else: self.sfx_jump4.play()
-        # press fire
+        # press fire -----------------------------------------------------------
         if key_state[self.config.fire_key]:
             if self.ammo > 0:
                 if self.bullet_group.sprite == None:        
@@ -132,6 +139,22 @@ class Player(pygame.sprite.Sprite):
                     self.firing = 12 # frames drawing the image "firing".
             else: # no bullets
                 self.sfx_no_ammo.play()
+        # press action ---------------------------------------------------------
+        if key_state[self.config.action_key]:
+            # stacking explosives
+            if map.number == 44: 
+                # on the platform
+                if self.y == 100 and self.on_ground and self.TNT == 15:  
+                    self.stacked_TNT = True                  
+                    self.stack_TNT()
+                else: self.sfx_no_ammo.play()
+            # detonate explosives
+            elif map.number == 0:
+                # very close to the detonator
+                if self.x <= 16 and self.y > 200 and self.stacked_TNT:
+                    self.win()
+                else: self.sfx_no_ammo.play()
+            else: self.sfx_no_ammo.play()
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping

@@ -544,7 +544,7 @@ while True:
             if player.lives == 0 or player.oxygen < 0:
                 game_status = enums.OVER
                 game_over()
-                continue
+                #continue
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
             # change the frame of the animated tiles
