@@ -20,8 +20,10 @@ class Player(pygame.sprite.Sprite):
         self.lives = 10 # lives remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
-        self.TNT = 0 # explosives collected  
+        self.TNT = 15 # explosives collected  
         self.oxygen = constants.MAX_OXYGEN # oxygen remaining
+        self.stacked_TNT = False # the 15 TNT charges have been placed?
+        self.win = False # Detonated charge?
         self.direction = pygame.math.Vector2(0.0)
         self.x_speed = 2 # movement in the x-axis (pixels)
         self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping
@@ -33,7 +35,6 @@ class Player(pygame.sprite.Sprite):
         self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2 secs.)
         self.oxygen_time_from = pygame.time.get_ticks() # tick number where oxygen unit begins
         self.oxygen_time_to = constants.OXYGEN_TIME # time of each oxygen unit (2 secs.)
-        self.stacked_TNT = False # when it is true the detonator can be pressed
         # image/animation        
         self.image_list = {
             # sequences of animations for the player depending on its status
@@ -73,6 +74,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav')
+        self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')
         self.sfx_jump1.set_volume(0.3)
         self.sfx_jump2.set_volume(0.3)
         self.sfx_jump3.set_volume(0.3)
@@ -93,12 +95,6 @@ class Player(pygame.sprite.Sprite):
             self.dust_group.add(dust_sprite)
             self.all_sprites_group.add(dust_sprite)
 
-    def stack_TNT(self):
-        pass
-
-    def win(self):
-        pass
-
     def get_input(self):
         # manages keystrokes
         key_state = pygame.key.get_pressed()  
@@ -115,8 +111,7 @@ class Player(pygame.sprite.Sprite):
         and not key_state[self.config.left_key]:
             self.direction.x = 0
         # press jump -----------------------------------------------------------
-        if key_state[self.config.jump_key] and self.on_ground \
-        and not self.state == enums.JUMPING:
+        if key_state[self.config.jump_key] and self.on_ground:
             self.direction.y = constants.JUMP_VALUE
             self.y_jump = self.rect.y # to detect large jumps on landing            
             self.dust_effect(self.rect.center, enums.JUMPING)
@@ -142,19 +137,21 @@ class Player(pygame.sprite.Sprite):
         # press action ---------------------------------------------------------
         if key_state[self.config.action_key]:
             # stacking explosives
-            if map.number == 44: 
+            if self.map.number == 44: 
                 # on the platform
-                if self.y == 100 and self.on_ground and self.TNT == 15:  
-                    self.stacked_TNT = True                  
-                    self.stack_TNT()
+                if self.rect.x > 90 and self.rect.x < 165 \
+                and self.rect.y == 96 and self.TNT == 15:  
+                    self.stacked_TNT = True
+                    self.TNT = 0                  
+                    self.sfx_TNT.play()
                 else: self.sfx_no_ammo.play()
             # detonate explosives
-            elif map.number == 0:
+            elif self.map.number == 0:
                 # very close to the detonator
-                if self.x <= 16 and self.y > 200 and self.stacked_TNT:
-                    self.win()
+                if self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
+                    self.win = True
                 else: self.sfx_no_ammo.play()
-            else: self.sfx_no_ammo.play()
+            else: self.sfx_no_ammo.play()            
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
