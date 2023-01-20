@@ -6,7 +6,6 @@ EN PROCESO
 ==========
 - Optimizar salto (revisar onground)
 - Movimiento del enemigo fanty
-- Acciones; colocar bomba, detonador
 
 - sonido de messageBox y de golpear puerta cerrada
 - Obtener SFX de opengameart.org
@@ -95,6 +94,8 @@ HECHO
 14/01/23 - Gestión del tiempo de oxígeno
 15/01/23 - Gestión de puertas
 16/01/23 - Porcentaje % de juego completado
+20/01/23 - Acciones; colocar bomba y detonador
+20/01/23 - Pila de explosivos de la pantalla 44
 
 
 CREDITS

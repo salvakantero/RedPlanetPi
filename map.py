@@ -11,7 +11,7 @@ import constants
 import enums
 
 class Map():
-    def __init__(self, map_surf):
+    def __init__(self, map_surf, map_surf_bk):
         self.number = 0 # current map
         self.scroll = 0 # scroll direction for map_transition()
         self.last = -1 # last map loaded
@@ -19,7 +19,9 @@ class Map():
         self.tilemap_behaviour_list = [] # list of tile behaviours
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
-        self.map_surf = map_surf        
+        self.map_surf = map_surf
+        self.map_surf_bk = map_surf_bk
+        self.TNT_image = pygame.image.load('images/sprites/hotspot0.png').convert_alpha()        
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames
         self.shake = [0, 0]
@@ -152,4 +154,8 @@ class Map():
             self.scroll = enums.DOWN
             player.rect.top = 0
 
-            
+    # add the pile of explosives to the background (5 x 3)
+    def add_TNT_pile(self):
+        for y in range(80, 97, 8): # y = 80, 88, 96
+            for x in range(105, 154, 12): # x = 105, 117, 129, 141, 153
+                self.map_surf_bk.blit(self.TNT_image, (x,y))

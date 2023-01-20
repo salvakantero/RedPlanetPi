@@ -84,19 +84,12 @@ def change_map():
     if config.map_transition:
         map_surf_bk_prev.blit(map_surf_bk, (0,0))
 
-    # add the pile of explosives to the background (if necessary)
-    if (map.number == 44 and player.stacked_TNT):
-        x = 105
-        y = 76
-        for i1 in range(3):
-            for i2 in range(5):
-                map_surf.blit(hotspot_images[enums.TNT],(x,y))
-                x += 12
-            x = 105
-            y += 10
-
     # save the new empty background
     map_surf_bk.blit(map_surf, (0,0))
+
+    # add the TNT pile if necessary to the background
+    if map.number == 44 and player.stacked_TNT:
+        map.add_TNT_pile()
 
     # performs the screen transition
     if config.map_transition:
@@ -470,7 +463,7 @@ scoreboard = Scoreboard(sboard_surf, hotspot_images,
     font_FL, font_BL, font_FS, font_BS)
 
 # create the Map object
-map = Map(map_surf)
+map = Map(map_surf, map_surf_bk)
 
 game_status = enums.OVER
 music_status = enums.UNMUTED
@@ -509,7 +502,7 @@ while True:
         map.last = -1
         map.scroll = enums.RIGHT
         scoreboard.game_percent = 0
-    else: # game running or paused
+    else: # game running
         # event management
         for event in pygame.event.get():
             # exit when click on the X in the window
@@ -562,11 +555,11 @@ while True:
                 game_status = enums.OVER
                 game_over()
                 #continue
-            # draws the map free of sprites to clean it up
-            map_surf.blit(map_surf_bk, (0,0))
+            
             # change the frame of the animated tiles
             map.animate_tiles(map_surf_bk)
-            # print sprites
+            # draws the map free of sprites to clean it up
+            map_surf.blit(map_surf_bk, (0,0))
             all_sprites_group.draw(map_surf)
             # updates the scoreboard, only if needed
             scoreboard.update(player)

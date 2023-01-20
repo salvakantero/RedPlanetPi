@@ -13,8 +13,8 @@ from dust import DustEffect
 from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, dust_image_list, all_sprites_group, 
-        dust_group, bullet_group, map, scoreboard, config):
+    def __init__(self, dust_image_list, all_sprites_group, dust_group, 
+    bullet_group, map, scoreboard, config):
         super().__init__()
         # attributes
         self.lives = 10 # lives remaining
@@ -136,22 +136,25 @@ class Player(pygame.sprite.Sprite):
                 self.sfx_no_ammo.play()
         # press action ---------------------------------------------------------
         if key_state[self.config.action_key]:
+            action_taken = False
             # stacking explosives
-            if self.map.number == 44: 
-                # on the platform
-                if self.rect.x > 90 and self.rect.x < 165 \
-                and self.rect.y == 96 and self.TNT == 15:  
+            if self.map.number == 44 \
+            and self.rect.x > 90 and self.rect.x < 165 \
+            and self.rect.y == 96 and self.TNT == 15:  
                     self.stacked_TNT = True
-                    self.TNT = 0                  
+                    self.TNT = 0
+                    self.scoreboard.invalidate()
+                    self.map.add_TNT_pile()                  
                     self.sfx_TNT.play()
-                else: self.sfx_no_ammo.play()
+                    action_taken = True
             # detonate explosives
-            elif self.map.number == 0:
-                # very close to the detonator
-                if self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
+            elif self.map.number == 0 \
+            and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
                     self.win = True
-                else: self.sfx_no_ammo.play()
-            else: self.sfx_no_ammo.play()            
+                    action_taken = True
+            # no action required
+            if not action_taken:   
+                self.sfx_no_ammo.play()            
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
