@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Optimizar salto (revisar onground)
 - Movimiento del enemigo fanty
 
 - sonido de messageBox y de golpear puerta cerrada

@@ -111,8 +111,9 @@ class Player(pygame.sprite.Sprite):
         and not key_state[self.config.left_key]:
             self.direction.x = 0
         # press jump -----------------------------------------------------------
-        if key_state[self.config.jump_key] and self.on_ground:
+        if key_state[self.config.jump_key] and self.on_ground:            
             self.direction.y = constants.JUMP_VALUE
+            self.on_ground = False
             self.y_jump = self.rect.y # to detect large jumps on landing            
             self.dust_effect(self.rect.center, enums.JUMPING)
             # randomly plays one of the four jumping sounds
@@ -161,6 +162,7 @@ class Player(pygame.sprite.Sprite):
             self.state = enums.JUMPING
         elif self.direction.y > 1: # increasing Y. Falling
             self.state = enums.FALLING
+            self.on_ground = False
         else:
             if self.direction.x != 0: # is moving
                 self.state = enums.WALKING
@@ -241,7 +243,6 @@ class Player(pygame.sprite.Sprite):
 
         if not collision:
             self.rect.y = y_temp # apply the new Y position
-            self.on_ground = False
 
         # landing, creating some dust and shaking the map
         if self.state == enums.FALLING and self.on_ground:
