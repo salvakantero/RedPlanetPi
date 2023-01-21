@@ -558,7 +558,7 @@ while True:
             if player.lives == 0 or player.oxygen < 0:
                 game_status = enums.OVER
                 game_over()
-                #continue
+                continue
             
             # change the frame of the animated tiles
             map.animate_tiles(map_surf_bk)
