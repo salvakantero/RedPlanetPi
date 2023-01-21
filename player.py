@@ -20,7 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.lives = 10 # lives remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
-        self.TNT = 15 # explosives collected  
+        self.TNT = 0 # explosives collected  
         self.oxygen = constants.MAX_OXYGEN # oxygen remaining
         self.stacked_TNT = False # the 15 TNT charges have been placed?
         self.win = False # Detonated charge?

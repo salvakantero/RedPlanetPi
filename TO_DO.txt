@@ -6,10 +6,6 @@ EN PROCESO
 ==========
 - Movimiento del enemigo fanty
 
-- sonido de messageBox y de golpear puerta cerrada
-- Obtener SFX de opengameart.org
-- Implementar SFX
-
 POR HACER
 =========
 - savegames con "pickle"
@@ -95,7 +91,8 @@ HECHO
 16/01/23 - Porcentaje % de juego completado
 20/01/23 - Acciones; colocar bomba y detonador
 20/01/23 - Pila de explosivos de la pantalla 44
-
+21/01/23 - Obtener SFX de opengameart.org
+21/01/23 - Implementar SFX
 
 CREDITS
 =======

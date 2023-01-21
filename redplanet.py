@@ -187,6 +187,7 @@ def show_message(msg1, msg2):
     map_surf.blit(dim_surf, (0,0))
     map_surf.set_alpha(None)
     update_screen()
+    sfx_message.play()
 
 # displays a message to confirm exit
 def confirm_exit():
@@ -344,6 +345,7 @@ def collision_check():
                 scoreboard.game_percent += 3
                 scoreboard.invalidate()
             else: 
+                sfx_locked_door.play()
                 # shake the map (just a little in X)
                 map.shake = [4, 0]
                 map.shake_timer = 4
@@ -448,6 +450,7 @@ gate_image = pygame.image.load('images/tiles/T60.png').convert()
 
 # fx sounds
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
+sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
 sfx_exp_avirus = pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav')
 sfx_exp_fanty = pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
 sfx_exp_infected = pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav')
@@ -457,6 +460,7 @@ sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')
 sfx_key = pygame.mixer.Sound('sounds/fx/sfx_key.wav')
 sfx_ammo = pygame.mixer.Sound('sounds/fx/sfx_ammo.wav')
 sfx_oxygen = pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav')
+sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
 
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, 
