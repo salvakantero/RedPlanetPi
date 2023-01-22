@@ -33,9 +33,11 @@ class Enemy(pygame.sprite.Sprite):
         elif self.type == enums.FANTY:
             enemy_name = 'fanty'
             self.state = enums.IDLE
-            self.sight_distance = 64
-            self.acceleration = 16 #0.02
-            self.max_speed = 256 #3
+            self.sight_distance = 1
+            self.acceleration = 0.075
+            self.max_speed = 2
+            self.mx = 0
+            self.my = 0
         # images
         self.image_list = []
         for i in range(2): # 2 frames per enemy
@@ -72,12 +74,7 @@ class Enemy(pygame.sprite.Sprite):
 
     # calculates the distance between two points
     def distance (self, x1, y1, x2, y2):
-        #return math.hypot(x2 - x1, y2 - y1)
-        dx = abs (x2 - x1)
-        dy = abs (y2 - y1)
-        if dx < dy: mn = dx
-        else: mn = dy
-        return (dx + dy - (mn/2) - (mn/4) + (mn/8))
+        return math.hypot(x2 - x1, y2 - y1)
 
     # maintains a value within limits
     def limit(self, val, min, max):
@@ -100,41 +97,28 @@ class Enemy(pygame.sprite.Sprite):
             gpen_cx = self.x / 64
             gpen_cy = self.y / 64      
             if self.state == enums.IDLE:
-                # if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
-                # <= self.sight_distance: self.state = enums.CHASING
                 if self.distance (gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
                     self.state = enums.CHASING
             elif self.state == enums.CHASING:
-                # if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
-                # > self.sight_distance: self.state = enums.RETREATING
-                # else:
-                #     self.mx = self.limit(self.mx + self.addsign (self.player.rect.x - self.x, self.acceleration), -self.max_speed, self.max_speed)
-                #     self.my = self.limit(self.my + self.addsign (self.player.rect.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
-                #     self.x = self.limit(self.x + self.mx, 0, 240)
-                #     self.y = self.limit(self.y + self.my, 0, 160) 
                 if self.distance (gpx, gpy, gpen_cx, gpen_cy) > self.sight_distance:
                     self.state = enums.RETREATING
                 else:
-                    self.mx = self.limit(self.mx + self.addsign (self.player.rect.x - self.x, self.acceleration), -self.max_speed, self.max_speed)
-                    self.my = self.limit(self.my + self.addsign (self.player.rect.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
-                    self.x = self.limit(self.x + self.mx, 0, 14336)
-                    self.y = self.limit(self.y + self.my, 0, 9216)
+                    self.mx = self.limit(self.mx + self.addsign(
+                        self.player.rect.x - self.x, self.acceleration), 
+                        -self.max_speed, self.max_speed)
+                    self.my = self.limit(self.my + self.addsign(
+                        self.player.rect.y - self.y, self.acceleration), 
+                        -self.max_speed, self.max_speed)
+                    self.x = self.limit(self.x + self.mx, 0, 14336) # 224*64
+                    self.y = self.limit(self.y + self.my, 0, 9216) # 144*64
             else: # retreating
-                # self.x += self.addsign(self.x1 - self.x, 1)
-                # self.y += self.addsign(self.y1 - self.y, 1)                
-                # if self.distance(self.player.rect.x, self.player.rect.y, self.x, self.y) \
-                # <= self.sight_distance: self.state = enums.CHASING
-                self.x += self.addsign(self.x1 - gpen_cx, 64)
-                self.y += self.addsign(self.y1 - gpen_cy, 64)
+                self.x += self.addsign(self.x1 - self.x, 1)
+                self.y += self.addsign(self.y1 - self.y, 1)
                 if self.distance(gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
                     self.state = enums.CHASING		
-                        				
-            # if self.state == enums.RETREATING \
-            # and self.x == self.x1 and self.y == self.y1:
-            #     self.state = enums.IDLE
-            gpen_cx = self.x / 64
-            gpen_cy = self.y / 64
-            if self.state == enums.RETREATING and gpen_cx == self.x1 and gpen_cy == self.y1:
+
+            if self.state == enums.RETREATING \
+            and gpen_cx == self.x1 and gpen_cy == self.y1:
                 self.state = enums.IDLE
 
         self.rect.x = self.x
