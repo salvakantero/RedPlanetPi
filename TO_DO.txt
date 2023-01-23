@@ -5,10 +5,10 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Movimiento del enemigo fanty
+- savegames con "pickle"
 
 POR HACER
 =========
-- savegames con "pickle"
 - Obtener música de opengameart.org
 - Implementar música
 - Teclas redefinibles

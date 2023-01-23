@@ -6,20 +6,22 @@
 import pygame
 import math
 import enums
+import constants
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_data, player): # x1, y1, x2, y2, mx, my, type
+    def __init__(self, enemy_data, player_rect):
+        # enemy_data = (x1, y1, x2, y2, mx, my, type)
         super().__init__()
-        self.player = player
-        # max/min xy values
+        self.player = player_rect # player's current position
+        # from/to xy values
         self.x = self.x1 = enemy_data[0]
         self.y = self.y1 = enemy_data[1]
         self.x2 = enemy_data[2]
         self.y2 = enemy_data[3]
-        # movement
-        self.mx = enemy_data[4] / 2
-        self.my = enemy_data[5] / 2
+        # movement (pixels per frame)
+        self.mx = enemy_data[4]
+        self.my = enemy_data[5]
         # enemy type
         self.type = enemy_data[6]
         if self.type == enums.INFECTED:
@@ -31,13 +33,11 @@ class Enemy(pygame.sprite.Sprite):
         elif self.type == enums.PLATFORM_SPR:
             enemy_name = 'platform'
         elif self.type == enums.FANTY:
-            enemy_name = 'fanty'
-            self.state = enums.IDLE
-            self.sight_distance = 1
-            self.acceleration = 0.075
-            self.max_speed = 2
-            self.mx = 0
-            self.my = 0
+            enemy_name = 'fanty'  
+            self.state = enums.IDLE          
+            self.sight_distance = 1 # *64 pixels/frame
+            self.acceleration = 0.075 # pixels/frame
+            self.max_speed = 2 # pixels/frame
         # images
         self.image_list = []
         for i in range(2): # 2 frames per enemy
@@ -109,16 +109,16 @@ class Enemy(pygame.sprite.Sprite):
                     self.my = self.limit(self.my + self.addsign(
                         self.player.rect.y - self.y, self.acceleration), 
                         -self.max_speed, self.max_speed)
-                    self.x = self.limit(self.x + self.mx, 0, 14336) # 224*64
-                    self.y = self.limit(self.y + self.my, 0, 9216) # 144*64
+                    self.x = self.limit(self.x + self.mx, 0, constants.MAP_UNSCALED_SIZE[0])
+                    self.y = self.limit(self.y + self.my, 0, constants.MAP_UNSCALED_SIZE[1])
             else: # retreating
                 self.x += self.addsign(self.x1 - self.x, 1)
                 self.y += self.addsign(self.y1 - self.y, 1)
                 if self.distance(gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
                     self.state = enums.CHASING		
-
+            # in its original position?
             if self.state == enums.RETREATING \
-            and gpen_cx == self.x1 and gpen_cy == self.y1:
+            and self.x == self.x1 and self.y == self.y1:
                 self.state = enums.IDLE
 
         self.rect.x = self.x
