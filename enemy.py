@@ -11,7 +11,7 @@ import constants
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect):
-        # enemy_data = (x1, y1, x2, y2, mx, my, type)
+        # enemy_data = (x1, y1, x2, y2, vx, vy, type)
         super().__init__()
         self.player = player_rect # player's current position
         # from/to xy values
@@ -19,10 +19,10 @@ class Enemy(pygame.sprite.Sprite):
         self.y = self.y1 = enemy_data[1]
         self.x2 = enemy_data[2]
         self.y2 = enemy_data[3]
-        # movement (pixels per frame)
-        self.mx = enemy_data[4]
-        self.my = enemy_data[5]
-        # enemy type
+        # speed (pixels per frame)
+        self.vx = enemy_data[4]
+        self.vy = enemy_data[5]
+        # enemy type (and name, to load the image)
         self.type = enemy_data[6]
         if self.type == enums.INFECTED:
             enemy_name = 'infected'
@@ -40,7 +40,7 @@ class Enemy(pygame.sprite.Sprite):
             self.max_speed = 2 # pixels/frame
         # images
         self.image_list = []
-        for i in range(2): # 2 frames per enemy
+        for i in range(2): # only 2 frames per enemy
             # image for the frame
             self.image_list.append(pygame.image.load(
                 'images/sprites/' + enemy_name + str(i) + '.png'))
@@ -60,10 +60,12 @@ class Enemy(pygame.sprite.Sprite):
         # exceeded the number of frames?
         if self.frame_index > len(self.image_list) - 1:
             self.frame_index = 0 # reset the frame number
-        # assigns the original or inverted image
-        if self.mx > 0 or (self.mx == 0 and self.player.rect.x >= self.x):
+        # assigns the original or inverted image:
+        # moving to the right, or standing looking at the player
+        if self.vx > 0 or (self.vx == 0 and self.player.x >= self.x):
             self.image = self.image_list[self.frame_index]
-        elif self.mx < 0 or (self.mx == 0 and self.player.rect.x < self.x):
+        # moving to the left, or standing looking at the player
+        elif self.vx < 0 or (self.vx == 0 and self.player.x < self.x):
             self.image = pygame.transform.flip(
                 self.image_list[self.frame_index], True, False)
 
@@ -85,15 +87,15 @@ class Enemy(pygame.sprite.Sprite):
     def update(self):
         # movement
         if self.type != enums.FANTY: # no fanty  
-            self.x += self.mx
-            self.y += self.my
+            self.x += self.vx
+            self.y += self.vy
             if self.x == self.x1 or self.x == self.x2:
-                self.mx = -self.mx
+                self.vx = -self.vx
             if self.y == self.y1 or self.y == self.y2:
-                self.my = -self.my
+                self.vy = -self.vy
         else: # fanty
-            gpx = self.player.rect.x / 64
-            gpy = self.player.rect.y / 64  
+            gpx = self.player.x / 64
+            gpy = self.player.y / 64  
             gpen_cx = self.x / 64
             gpen_cy = self.y / 64      
             if self.state == enums.IDLE:
@@ -103,14 +105,14 @@ class Enemy(pygame.sprite.Sprite):
                 if self.distance (gpx, gpy, gpen_cx, gpen_cy) > self.sight_distance:
                     self.state = enums.RETREATING
                 else:
-                    self.mx = self.limit(self.mx + self.addsign(
-                        self.player.rect.x - self.x, self.acceleration), 
+                    self.vx = self.limit(self.vx + self.addsign(
+                        self.player.x - self.x, self.acceleration), 
                         -self.max_speed, self.max_speed)
-                    self.my = self.limit(self.my + self.addsign(
-                        self.player.rect.y - self.y, self.acceleration), 
+                    self.vy = self.limit(self.vy + self.addsign(
+                        self.player.y - self.y, self.acceleration), 
                         -self.max_speed, self.max_speed)
-                    self.x = self.limit(self.x + self.mx, 0, constants.MAP_UNSCALED_SIZE[0])
-                    self.y = self.limit(self.y + self.my, 0, constants.MAP_UNSCALED_SIZE[1])
+                    self.x = self.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
+                    self.y = self.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
             else: # retreating
                 self.x += self.addsign(self.x1 - self.x, 1)
                 self.y += self.addsign(self.y1 - self.y, 1)

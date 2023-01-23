@@ -256,13 +256,13 @@ def collision_check():
             player.direction.y = 0                    
             player.on_ground = True                                        
             # horizontal platform?
-            if platform.my == 0:
+            if platform.vy == 0:
                 # if the movement keys are not pressed
                 # takes the movement of the platform
                 key_state = pygame.key.get_pressed()
                 if not key_state[config.left_key] \
                 and not key_state[config.right_key]:
-                    player.rect.x += platform.mx
+                    player.rect.x += platform.vx
     
     # player and martians ------------------------------------------------------
     if not player.invincible and pygame.sprite.spritecollide(player, 
