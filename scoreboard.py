@@ -8,8 +8,7 @@ import constants
 import enums
 
 class Scoreboard():
-    def __init__(self, surface, hotspot_images,
-    font_FL, font_BL, font_FS, font_BS):
+    def __init__(self, surface, hotspot_images, font_FL, font_BL, font_FS, font_BS):
         # attributes
         self.surface = surface
         self.font_FL = font_FL # large foreground font
@@ -37,10 +36,8 @@ class Scoreboard():
         # print map name
         x = 0
         y = 22
-        self.font_BL.render(
-            constants.MAP_NAMES[map_number], self.surface, (x+2, y+2)) # shadow
-        self.font_FL.render(
-            constants.MAP_NAMES[map_number], self.surface, (x, y))
+        self.font_BL.render(constants.MAP_NAMES[map_number], self.surface, (x+2, y+2)) # shadow
+        self.font_FL.render(constants.MAP_NAMES[map_number], self.surface, (x, y))
         # print map number
         x = constants.SBOARD_UNSCALED_SIZE[0] - 55
         text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'        
@@ -48,10 +45,8 @@ class Scoreboard():
         self.font_FS.render(text_1, self.surface, (x, y))
         # prints a fixed text
         text_2 = 'COMPLETED..'
-        self.font_BS.render(text_2, self.surface, 
-            (x+1, y+self.font_BS.line_height+1)) # shadow
-        self.font_FS.render(text_2, self.surface, 
-            (x, y+self.font_FS.line_height))
+        self.font_BS.render(text_2, self.surface, (x+1, y+self.font_BS.line_height+1)) # shadow
+        self.font_FS.render(text_2, self.surface, (x, y+self.font_FS.line_height))
 
     # draws a text with its shadow
     def shaded_text(self, data, x, y):
@@ -80,8 +75,7 @@ class Scoreboard():
 
     # clean the previous data
     def clear_zone(self, x):
-        pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((x, 4),(13, 12)))
+        pygame.draw.rect(self.surface, constants.PALETTE['BLACK'], ((x, 4),(13, 12)))
 
     # update the data (only if it has been invalidated)
     def update(self, player):
@@ -101,8 +95,7 @@ class Scoreboard():
             # game percentage
             x = constants.SBOARD_UNSCALED_SIZE[0] - 13
             y = 30
-            pygame.draw.rect(self.surface, 
-                constants.PALETTE['BLACK'], ((x, y),(8, 8)))
+            pygame.draw.rect(self.surface, constants.PALETTE['BLACK'], ((x, y),(8, 8)))
             text = str(self.game_percent).rjust(2, '0') + ';' # ; = %
             self.font_BS.render(text, self.surface, (x+1, y+1)) # shadow
             self.font_FS.render(text, self.surface, (x, y))
