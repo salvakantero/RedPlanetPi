@@ -20,7 +20,7 @@ GRAVITY = 0.180 # acceleration of gravity for the player
 MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
 MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 25 # bullets per reload
-MAX_OXYGEN = 99 # oxygen per refill
+MAX_OXYGEN = 99 # oxygen units per refill
 OXYGEN_TIME = 2000 # time of each oxygen unit (2 secs.)
 
 # animated tiles
@@ -38,7 +38,7 @@ PALETTE = {
     'BLACK': (0, 0, 0),
     'DARK_BLUE' : (35, 50, 90),
     'PURPLE' : (126, 37, 83),
-    'DARK_GREEN' : (0, 105, 51), #(0, 135, 81)
+    'DARK_GREEN' : (0, 105, 51),
     'BROWN' : (171, 82, 54),
     'DARK_GRAY' : (95, 87, 79),
     'GRAY' : (194, 195, 199),

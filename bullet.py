@@ -10,7 +10,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, pos, facing_right):
         super().__init__()
         self.facing_right = facing_right
-        self.speed = 4
+        self.speed = 4 # pixels per frame
         self.image = pygame.image.load('images/sprites/bullet.png')
         self.image.convert_alpha()
         # positions the bullet in front of the weapon

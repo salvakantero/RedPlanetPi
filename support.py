@@ -3,6 +3,7 @@
 #===============================================================================
 
 import pygame
+import math
 import sys
 import constants
 
@@ -55,3 +56,18 @@ def message_box(msg1, msg2, surface, font_BL, font_FL, font_BS, font_FS):
 def exit():
     pygame.quit()
     sys.exit()
+
+# changes a sign value according to the sign of another value
+def addsign (n, value):
+    if n >= 0: return value
+    else: return -value
+
+# calculates the distance between two points
+def distance (x1, y1, x2, y2):
+    return math.hypot(x2 - x1, y2 - y1)
+
+# maintains a value within limits
+def limit(val, min, max):
+    if val < min: return min
+    elif val > max: return max
+    return val

@@ -36,6 +36,6 @@ class Configuration():
         # self.pause_key = config['PAUSE_KEY']
         # self.mute_key = config['MUTE_KEY']
 
-    def write_config():
+    def write_config(self):
         pass
     

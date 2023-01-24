@@ -4,9 +4,9 @@
 #===============================================================================
 
 import pygame
-import math
 import enums
 import constants
+import support
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -14,9 +14,10 @@ class Enemy(pygame.sprite.Sprite):
         # enemy_data = (x1, y1, x2, y2, vx, vy, type)
         super().__init__()
         self.player = player_rect # player's current position
-        # from/to xy values
+        # from xy values
         self.x = self.x1 = enemy_data[0]
         self.y = self.y1 = enemy_data[1]
+        # to xy values
         self.x2 = enemy_data[2]
         self.y2 = enemy_data[3]
         # speed (pixels per frame)
@@ -42,8 +43,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image_list = []
         for i in range(2): # only 2 frames per enemy
             # image for the frame
-            self.image_list.append(pygame.image.load(
-                'images/sprites/' + enemy_name + str(i) + '.png'))
+            self.image_list.append(pygame.image.load('images/sprites/' + enemy_name + str(i) + '.png'))
             self.image_list[i].convert_alpha()
         self.frame_index = 0 # frame number
         self.animation_timer = 12 # timer to change frame
@@ -61,28 +61,12 @@ class Enemy(pygame.sprite.Sprite):
         if self.frame_index > len(self.image_list) - 1:
             self.frame_index = 0 # reset the frame number
         # assigns the original or inverted image:
-        # moving to the right, or standing looking at the player
+        # moving to the right, or idle looking at the player
         if self.vx > 0 or (self.vx == 0 and self.player.x >= self.x):
             self.image = self.image_list[self.frame_index]
-        # moving to the left, or standing looking at the player
+        # moving to the left, or idle looking at the player
         elif self.vx < 0 or (self.vx == 0 and self.player.x < self.x):
-            self.image = pygame.transform.flip(
-                self.image_list[self.frame_index], True, False)
-
-    # changes a sign value according to the sign of another value
-    def addsign (self, n, value):
-        if n >= 0: return value
-        else: return -value
-
-    # calculates the distance between two points
-    def distance (self, x1, y1, x2, y2):
-        return math.hypot(x2 - x1, y2 - y1)
-
-    # maintains a value within limits
-    def limit(self, val, min, max):
-        if val < min: return min
-        elif val > max: return max
-        return val
+            self.image = pygame.transform.flip(self.image_list[self.frame_index], True, False)
 
     def update(self):
         # movement
@@ -98,29 +82,31 @@ class Enemy(pygame.sprite.Sprite):
             gpy = self.player.y / 64  
             gpen_cx = self.x / 64
             gpen_cy = self.y / 64      
-            if self.state == enums.IDLE:
-                if self.distance (gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
+            if self.state == enums.IDLE:                
+                if support.distance (gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
+                    # close to the player, chases him
                     self.state = enums.CHASING
-            elif self.state == enums.CHASING:
-                if self.distance (gpx, gpy, gpen_cx, gpen_cy) > self.sight_distance:
+            elif self.state == enums.CHASING:                
+                if support.distance (gpx, gpy, gpen_cx, gpen_cy) > self.sight_distance:
+                    # away from the player, retreats
                     self.state = enums.RETREATING
                 else:
-                    self.vx = self.limit(self.vx + self.addsign(
-                        self.player.x - self.x, self.acceleration), 
-                        -self.max_speed, self.max_speed)
-                    self.vy = self.limit(self.vy + self.addsign(
-                        self.player.y - self.y, self.acceleration), 
-                        -self.max_speed, self.max_speed)
+                    # moves according to the value of several variables
+                    self.vx = support.limit(self.vx + support.addsign(self.player.x - self.x, self.acceleration), -self.max_speed, self.max_speed)
+                    self.vy = support.limit(self.vy + support.addsign(self.player.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
+                    # applies the new position, 
+                    # but keeps it within the boundaries of the screen.
                     self.x = self.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
                     self.y = self.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
             else: # retreating
                 self.x += self.addsign(self.x1 - self.x, 1)
                 self.y += self.addsign(self.y1 - self.y, 1)
+                # close to the player, chases him again!
                 if self.distance(gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
                     self.state = enums.CHASING		
-            # in its original position?
-            if self.state == enums.RETREATING \
-            and self.x == self.x1 and self.y == self.y1:
+
+            if self.state == enums.RETREATING and self.x == self.x1 and self.y == self.y1:
+                # in its original position
                 self.state = enums.IDLE
 
         self.rect.x = self.x
