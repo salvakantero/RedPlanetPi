@@ -8,8 +8,8 @@ import pygame
 class Hotspot(pygame.sprite.Sprite):
     def __init__(self, hotspot_data, image):
         super().__init__()
-        self.type = hotspot_data[0] # TNT, ammo, key, oxygen 
         # hotspot_data = [type, x, y, _]
+        self.type = hotspot_data[0] # TNT, ammo, key, oxygen 
         self.x = hotspot_data[1]
         self.y = hotspot_data[2]
         self.y_offset = 0 # to animate the hotspot (up and down)
@@ -21,10 +21,10 @@ class Hotspot(pygame.sprite.Sprite):
         self.rect.topleft = (self.x * self.rect.width, self.y * self.rect.height)   
 
     def update(self):
-        # movement
+        # movement (up and down)
         if self.animation_timer > 1: # time to change the offset
             self.animation_timer = 0
-            if self.going_up: # goinnnng up
+            if self.going_up:
                 if self.y_offset < 5: self.y_offset += 1
                 else: self.going_up = False
             else: # going down

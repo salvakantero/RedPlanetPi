@@ -71,3 +71,19 @@ def limit(val, min, max):
     if val < min: return min
     elif val > max: return max
     return val
+
+# change one colour for another
+def swap_color(image, old_color, new_color):
+    image.set_colorkey(old_color)
+    surf = image.copy()
+    surf.fill(new_color)
+    surf.blit(image,(0,0))
+    return surf
+
+# returns a part of the surface
+def clip(surf, x, y, x_size, y_size):
+    handle_surf = surf.copy()
+    handle_surf.set_clip(pygame.Rect(x, y, x_size, y_size))
+    image = surf.subsurface(handle_surf.get_clip())
+    return image.copy()
+
