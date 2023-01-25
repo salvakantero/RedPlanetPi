@@ -34,10 +34,8 @@ from explosion import Explosion
 # makes a screen transition between the old map and the new one.
 def map_transition():
     # surfaces to save the old and the new map together
-    map_trans_horiz = pygame.Surface(
-        (constants.MAP_UNSCALED_SIZE[0]*2, constants.MAP_UNSCALED_SIZE[1]))
-    map_trans_vert = pygame.Surface(
-        (constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
+    map_trans_horiz = pygame.Surface((constants.MAP_UNSCALED_SIZE[0]*2, constants.MAP_UNSCALED_SIZE[1]))
+    map_trans_vert = pygame.Surface((constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
 
     if map.scroll == enums.UP:
         # joins the two maps on a single surface
@@ -76,30 +74,23 @@ def map_transition():
 def change_map():
     # sets the new map as the current one
     map.last = map.number
-
     # load the new map
     map.load()
-
     # preserves the previous 
     if config.map_transition:
         map_surf_bk_prev.blit(map_surf_bk, (0,0))
-
     # save the new empty background
     map_surf_bk.blit(map_surf, (0,0))
-
     # add the TNT pile if necessary to the background
     if map.number == 44 and player.stacked_TNT:
         map.add_TNT_pile()
-
     # performs the screen transition
     if config.map_transition:
         map_transition()
-    
     # refresh the scoreboard area
     scoreboard.reset()
     scoreboard.map_info(map.number)
     scoreboard.invalidate()      
-    
     # reset the sprite groups  
     all_sprites_group.empty()
     enemies_group.empty()
@@ -122,9 +113,9 @@ def change_map():
         gate_sprite = Gate(gate, gate_image)
         all_sprites_group.add(gate_sprite) # to update/draw it
         gate_group.add(gate_sprite) # to check for collisions
-    # add enemies (and mobile platforms) to the map 
-    # reading from 'ENEMIES_DATA' list (enems.h)
+    # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
     # a maximum of three enemies per map
+    # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
     for i in range(3):
         enemy_data = constants.ENEMIES_DATA[map.number*3 + i]
         if enemy_data[6] != enums.NONE:
@@ -247,11 +238,11 @@ def main_menu():
 def collision_check():
     # player and mobile platform -----------------------------------------------
     if platform_group.sprite != None \
-    and pygame.sprite.spritecollide(player, platform_group, False, 
-    pygame.sprite.collide_rect_ratio(1.15)):
+    and pygame.sprite.spritecollide(player, platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
         platform = platform_group.sprite
         # the player is above the platform?
-        if player.rect.bottom - 2 < platform.rect.top:                 
+        if player.rect.bottom - 2 < platform.rect.top:  
+            sfx_enemy_down[enums.PLATFORM_SPR].play()               
             player.rect.bottom = platform.rect.top
             player.direction.y = 0                    
             player.on_ground = True                                        
@@ -260,8 +251,7 @@ def collision_check():
                 # if the movement keys are not pressed
                 # takes the movement of the platform
                 key_state = pygame.key.get_pressed()
-                if not key_state[config.left_key] \
-                and not key_state[config.right_key]:
+                if not key_state[config.left_key] and not key_state[config.right_key]:
                     player.rect.x += platform.vx
     
     # player and martians ------------------------------------------------------
@@ -279,17 +269,17 @@ def collision_check():
                 map.shake_timer = 14
                 # creates an explosion
                 if enemy.type == enums.INFECTED:
-                    blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], 
-                        blast_animation[1])
-                    sfx_exp_infected.play()
+                    blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], blast_animation[1])
+                    # sfx_exp_infected.play()
                 else: # flying enemies
                     blast = Explosion(enemy.rect.center, blast_animation[0])
                     # explosion sounds according to enemy type
-                    if enemy.type == enums.AVIRUS: sfx_exp_avirus.play()
-                    elif enemy.type == enums.PELUSOID: sfx_exp_pelusoid.play()
-                    else: sfx_exp_fanty.play()
+                    # if enemy.type == enums.AVIRUS: sfx_exp_avirus.play()
+                    # elif enemy.type == enums.PELUSOID: sfx_exp_pelusoid.play()
+                    # else: sfx_exp_fanty.play()                
                 blast_group.add(blast)
                 all_sprites_group.add(blast)
+                sfx_enemy_down[enemy.type].play()
                 # removes objects
                 enemy.kill()
                 bullet_group.sprite.kill()
@@ -306,22 +296,23 @@ def collision_check():
             blast = Explosion(hotspot.rect.center, blast_animation[2])
             blast_group.add(blast)
             all_sprites_group.add(blast)
+            sfx_hotspot[hotspot.type].play()
             # manages the object according to the type
             if hotspot.type == enums.TNT:
-                sfx_TNT.play() 
+                # sfx_TNT.play() 
                 player.TNT += 1
                 scoreboard.game_percent += 3
             elif hotspot.type == enums.KEY: 
-                sfx_key.play()
+                # sfx_key.play()
                 player.keys += 1
                 scoreboard.game_percent += 2
             elif hotspot.type == enums.AMMO:
-                sfx_ammo.play() 
+                # sfx_ammo.play() 
                 if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
                     player.ammo += constants.AMMO_ROUND
                 else: player.ammo = constants.MAX_AMMO
             elif hotspot.type == enums.OXYGEN:
-                sfx_oxygen.play() 
+                # sfx_oxygen.play() 
                 player.oxygen = constants.MAX_OXYGEN
             scoreboard.invalidate()
             # removes objects
@@ -367,11 +358,9 @@ pygame.mouse.set_visible(False)
 config = Configuration()
 config.read()
 
-# generates a main window (or full screen) 
-# with title, icon, and 32-bit colour.
+# generates a main window (or full screen) with title, icon, and 32-bit colour.
 flags = 0
-if config.full_screen:
-    flags = pygame.FULLSCREEN
+if config.full_screen: flags = pygame.FULLSCREEN
 screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
 pygame.display.set_caption('.:: Red Planet Pi ::.')
 icon = pygame.image.load('images/assets/icon.png').convert_alpha()
@@ -451,20 +440,24 @@ gate_image = pygame.image.load('images/tiles/T60.png').convert()
 # fx sounds
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
 sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
-sfx_exp_avirus = pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav')
-sfx_exp_fanty = pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
-sfx_exp_infected = pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav')
-sfx_exp_pelusoid = pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav')
 sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
-sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')
-sfx_key = pygame.mixer.Sound('sounds/fx/sfx_key.wav')
-sfx_ammo = pygame.mixer.Sound('sounds/fx/sfx_ammo.wav')
-sfx_oxygen = pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav')
 sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
+sfx_enemy_down = {
+    enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
+    enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
+    enums.AVIRUS: pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav'),
+    enums.PLATFORM_SPR: pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav'),
+    enums.FANTY: pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
+}
+sfx_hotspot = {
+    enums.TNT: pygame.mixer.Sound('sounds/fx/sfx_TNT.wav'),
+    enums.KEY: pygame.mixer.Sound('sounds/fx/sfx_key.wav'),
+    enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
+    enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav')
+}
 
 # create the Scoreboard object
-scoreboard = Scoreboard(sboard_surf, hotspot_images, 
-    font_FL, font_BL, font_FS, font_BS)
+scoreboard = Scoreboard(sboard_surf, hotspot_images, font_FL, font_BL, font_FS, font_BS)
 
 # create the Map object
 map = Map(map_surf, map_surf_bk)
@@ -493,8 +486,7 @@ while True:
         bullet_group = pygame.sprite.GroupSingle()
         blast_group = pygame.sprite.GroupSingle()
         # create the player
-        player = Player(dust_animation, all_sprites_group, dust_group, 
-            bullet_group, map, scoreboard, config)
+        player = Player(dust_animation, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
         # ingame music
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
@@ -561,7 +553,7 @@ while True:
                 continue
             
             # change the frame of the animated tiles
-            map.animate_tiles(map_surf_bk)
+            map.animate_tiles()
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
             all_sprites_group.draw(map_surf)

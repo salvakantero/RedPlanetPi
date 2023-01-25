@@ -15,12 +15,13 @@ class Map():
         self.number = 0 # current map
         self.scroll = 0 # scroll direction for map_transition()
         self.last = -1 # last map loaded
-        self.tilemap_rect_list = [] # list of tile rects
-        self.tilemap_behaviour_list = [] # list of tile behaviours
+        self.tilemap_rect_list = [] # list of tile rects (except for transparent ones)
+        self.tilemap_behaviour_list = [] # list of tile behaviours (obstacle, platform, etc.)
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
-        self.map_surf = map_surf
-        self.map_surf_bk = map_surf_bk
+        self.map_surf = map_surf # surface for tiles and sprites
+        self.map_surf_bk = map_surf_bk # surface only for tiles (background)
+        # to generate the pile of explosives
         self.TNT_image = pygame.image.load('images/sprites/hotspot0.png').convert_alpha()        
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames
@@ -32,7 +33,7 @@ class Map():
         self.map_data = self.process_map('maps/map{}.json'.format(self.number))
         self.draw_map() # draws the tile map on the screen
 
-    # dump tiled map into 'mapdata'
+    # dump the tiled file into mapdata
     def process_map(self, map_file):
         # reads the entire contents of the json
         with open(map_file) as json_data:
@@ -113,14 +114,14 @@ class Map():
     # select some of the animated tiles on the current map to change the frame
     # and apply to the surface. 
     # anim_tiles_list = (frame_1, frame_2, x, y, num_frame)
-    def animate_tiles(self, surface):
+    def animate_tiles(self):
         for anim_tile in self.anim_tiles_list: # for each animated tile on the map
             if random.randint(0,24) == 0: # 4% chance of changing frame
                 tile = anim_tile[0+anim_tile[4]] # select image according to frame number
                 tileRect = tile.get_rect()
                 tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
-                surface.blit(tile, tileRect) # draws on the background image
-                # update frame number
+                self.map_surf_bk.blit(tile, tileRect) # draws on the background image
+                # update frame number (0,1)
                 anim_tile[4] += 1
                 if anim_tile[4] > 1:
                     anim_tile[4] = 0    

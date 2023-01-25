@@ -4,8 +4,9 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- sonido de saltar en plataforma, revisar sonido de abrir puerta
 - Movimiento del enemigo fanty
-- savegames con "pickle"
+- Notas en pantalla de juego (+1) (+25)
 
 POR HACER
 =========
@@ -19,8 +20,8 @@ POR HACER
 
 OPCIONAL
 ========
-- Notas en pantalla de juego (+1) (+25)
 - Linterna en pantallas oscuras
+- Savegames con "pickle"
 
 - Score y High
 - Highs online

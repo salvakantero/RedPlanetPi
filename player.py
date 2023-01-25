@@ -13,8 +13,7 @@ from dust import DustEffect
 from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, dust_image_list, all_sprites_group, dust_group, 
-    bullet_group, map, scoreboard, config):
+    def __init__(self, dust_image_list, all_sprites_group, dust_group, bullet_group, map, scoreboard, config):
         super().__init__()
         # attributes
         self.lives = 10 # lives remaining
@@ -24,9 +23,9 @@ class Player(pygame.sprite.Sprite):
         self.oxygen = constants.MAX_OXYGEN # oxygen remaining
         self.stacked_TNT = False # the 15 TNT charges have been placed?
         self.win = False # Detonated charge?
-        self.direction = pygame.math.Vector2(0.0)
+        self.direction = pygame.math.Vector2(0.0) # direction of movement
         self.x_speed = 2 # movement in the x-axis (pixels)
-        self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping
+        self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping (to detect large jumps)
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground   
@@ -34,7 +33,7 @@ class Player(pygame.sprite.Sprite):
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2 secs.)
         self.oxygen_time_from = pygame.time.get_ticks() # tick number where oxygen unit begins
-        self.oxygen_time_to = constants.OXYGEN_TIME # time of each oxygen unit (2 secs.)
+        self.oxygen_time_to = constants.OXYGEN_TIME # consumption time of each oxygen unit (2 secs.)
         # image/animation        
         self.image_list = {
             # sequences of animations for the player depending on its status
@@ -58,29 +57,27 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = (16,112))  # initial position
         # the FIRING state is independent of the other states and requires 
         # a specific image for a certain number of frames
-        self.firing = 0
-        self.image_firing = pygame.image.load('images/sprites/player6.png')
-        self.image_firing.convert_alpha()
+        self.firing = 0 # frame counter
+        self.image_firing = pygame.image.load('images/sprites/player6.png').convert_alpha()
         # dust effect
         self.dust_image_list = dust_image_list 
         self.dust_group = dust_group
         # sounds
-        self.sfx_jump1 = pygame.mixer.Sound('sounds/fx/sfx_jump1.wav')
-        self.sfx_jump2 = pygame.mixer.Sound('sounds/fx/sfx_jump2.wav')
-        self.sfx_jump3 = pygame.mixer.Sound('sounds/fx/sfx_jump3.wav')
-        self.sfx_jump4 = pygame.mixer.Sound('sounds/fx/sfx_jump4.wav')
+        self.sfx_jump = (
+            pygame.mixer.Sound('sounds/fx/sfx_jump1.wav'),
+            pygame.mixer.Sound('sounds/fx/sfx_jump2.wav'),
+            pygame.mixer.Sound('sounds/fx/sfx_jump3.wav'),
+            pygame.mixer.Sound('sounds/fx/sfx_jump4.wav'))
+        for i in range(4): self.sfx_jump[i].set_volume(0.3)
         self.sfx_landing = pygame.mixer.Sound('sounds/fx/sfx_landing.wav')
+        self.sfx_landing.set_volume(0.2)
         self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
+        self.sfx_no_ammo.set_volume(0.8)
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav')
-        self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')
-        self.sfx_jump1.set_volume(0.3)
-        self.sfx_jump2.set_volume(0.3)
-        self.sfx_jump3.set_volume(0.3)
-        self.sfx_jump4.set_volume(0.3)
-        self.sfx_landing.set_volume(0.2)
-        self.sfx_no_ammo.set_volume(0.8)
+        self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')        
+        
         # objects and others
         self.all_sprites_group = all_sprites_group   
         self.bullet_group = bullet_group
@@ -107,8 +104,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = -1
             self.facing_right = False
         # without lateral movement ---------------------------------------------
-        elif not key_state[self.config.right_key] \
-        and not key_state[self.config.left_key]:
+        elif not key_state[self.config.right_key] and not key_state[self.config.left_key]:
             self.direction.x = 0
         # press jump -----------------------------------------------------------
         if key_state[self.config.jump_key] and self.on_ground:            
@@ -117,15 +113,11 @@ class Player(pygame.sprite.Sprite):
             self.y_jump = self.rect.y # to detect large jumps on landing            
             self.dust_effect(self.rect.center, enums.JUMPING)
             # randomly plays one of the four jumping sounds
-            index = random.randint(1, 4)
-            if index == 1: self.sfx_jump1.play()
-            elif index == 2: self.sfx_jump2.play()
-            elif index == 3: self.sfx_jump3.play()
-            else: self.sfx_jump4.play()
+            self.sfx_jump[random.randint(0, 3)].play()
         # press fire -----------------------------------------------------------
         if key_state[self.config.fire_key]:
             if self.ammo > 0:
-                if self.bullet_group.sprite == None:        
+                if self.bullet_group.sprite == None: # no shots on screen        
                     bullet = Bullet(self.rect, self.facing_right)
                     self.bullet_group.add(bullet)
                     self.all_sprites_group.add(bullet)
@@ -144,6 +136,7 @@ class Player(pygame.sprite.Sprite):
             and self.rect.y == 96 and self.TNT == 15:  
                     self.stacked_TNT = True
                     self.TNT = 0
+                    self.scoreboard.game_percent += 5
                     self.scoreboard.invalidate()
                     self.map.add_TNT_pile()                  
                     self.sfx_TNT.play()
@@ -191,7 +184,8 @@ class Player(pygame.sprite.Sprite):
             self.rect.x = x_temp # apply the new X position
 
     def vertical_mov(self):        
-        # applies acceleration of gravity up to the vertical speed limit
+        # applies acceleration of gravity up to the vertical speed limit.
+        # a fall speed limit is necessary to avoid affecting collisions.
         if self.direction.y < constants.MAX_Y_SPEED:
             self.direction.y += constants.GRAVITY
             
@@ -208,7 +202,7 @@ class Player(pygame.sprite.Sprite):
             if tile.colliderect(temp_rect):
                 collision = True
 
-                # fixed platform, only stops from above
+                # fixed platform, only stops from above ------------------------
                 if self.map.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
                     # if the player is not jumping (if not climbing)    
                     if (self.state is not enums.JUMPING):
@@ -225,7 +219,7 @@ class Player(pygame.sprite.Sprite):
                     # if it's jumping it keeps moving
                     else: collision = False
 
-                # obstacles, stops the player from all directions      
+                # obstacles, stops the player from all directions --------------      
                 elif self.map.tilemap_behaviour_list[index] == enums.OBSTACLE:
                     self.direction.y = 0
                     # avoid the rebound
@@ -234,7 +228,7 @@ class Player(pygame.sprite.Sprite):
                         self.rect.y = tile.y - self.rect.height
                         self.on_ground = True
                         
-                # toxic waste and lava, one life less            
+                # toxic waste and lava, one life less --------------------------           
                 elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
@@ -273,8 +267,7 @@ class Player(pygame.sprite.Sprite):
             if self.facing_right:
                 self.image = self.image_list[self.state][self.frame_index]
             else: # reflects the image when looking to the left
-                self.image = pygame.transform.flip(
-                    self.image_list[self.state][self.frame_index], True, False)
+                self.image = pygame.transform.flip(self.image_list[self.state][self.frame_index], True, False)
         else: # frame firing
             self.firing -= 1
             if self.facing_right: self.image = self.image_firing
@@ -294,8 +287,7 @@ class Player(pygame.sprite.Sprite):
     # controls the invincibility time
     def invincibility_timer(self):
         if self.invincible:
-            if (pygame.time.get_ticks() - self.invincible_time_from) \
-            >= self.invincible_time_to:
+            if (pygame.time.get_ticks() - self.invincible_time_from) >= self.invincible_time_to:
                 self.invincible = False
 
     # returns the value 0 or 255 depending on the number of ticks.
@@ -305,8 +297,7 @@ class Player(pygame.sprite.Sprite):
 
     # controls the oxygen time
     def oxygen_timer(self):
-        if (pygame.time.get_ticks() - self.oxygen_time_from) \
-        >= self.oxygen_time_to:
+        if (pygame.time.get_ticks() - self.oxygen_time_from) >= self.oxygen_time_to:
             self.oxygen -= 1
             if self.oxygen <= 10: self.sfx_alarm.play()
             self.scoreboard.invalidate()
