@@ -96,13 +96,13 @@ class Enemy(pygame.sprite.Sprite):
                     self.vy = support.limit(self.vy + support.addsign(self.player.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
                     # applies the new position, 
                     # but keeps it within the boundaries of the screen.
-                    self.x = self.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
-                    self.y = self.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
+                    self.x = support.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
+                    self.y = support.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
             else: # retreating
-                self.x += self.addsign(self.x1 - self.x, 1)
-                self.y += self.addsign(self.y1 - self.y, 1)
+                self.x += support.addsign(self.x1 - self.x, 1)
+                self.y += support.addsign(self.y1 - self.y, 1)
                 # close to the player, chases him again!
-                if self.distance(gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
+                if support.distance(gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
                     self.state = enums.CHASING		
 
             if self.state == enums.RETREATING and self.x == self.x1 and self.y == self.y1:

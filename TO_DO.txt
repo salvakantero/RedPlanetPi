@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- sonido de saltar en plataforma, revisar sonido de abrir puerta
 - Movimiento del enemigo fanty
 - Notas en pantalla de juego (+1) (+25)
 

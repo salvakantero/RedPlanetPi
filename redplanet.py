@@ -241,8 +241,7 @@ def collision_check():
     and pygame.sprite.spritecollide(player, platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
         platform = platform_group.sprite
         # the player is above the platform?
-        if player.rect.bottom - 2 < platform.rect.top:  
-            sfx_enemy_down[enums.PLATFORM_SPR].play()               
+        if player.rect.bottom - 2 < platform.rect.top:               
             player.rect.bottom = platform.rect.top
             player.direction.y = 0                    
             player.on_ground = True                                        
@@ -446,7 +445,6 @@ sfx_enemy_down = {
     enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
     enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
     enums.AVIRUS: pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav'),
-    enums.PLATFORM_SPR: pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav'),
     enums.FANTY: pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')
 }
 sfx_hotspot = {
