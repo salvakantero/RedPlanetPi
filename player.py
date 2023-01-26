@@ -166,7 +166,7 @@ class Player(pygame.sprite.Sprite):
         # gets the new rectangle and check for collision
         x_temp = self.rect.x + (self.direction.x * self.x_speed)
         temp_rect = pygame.Rect((x_temp, self.rect.y),
-            (self.rect.width, self.rect.height))
+            (constants.TILE_SIZE, constants.TILE_SIZE))
 
         collision = False # True if at least one tile collides
         index = -1 # index of the colliding tile to obtain its type
@@ -192,7 +192,7 @@ class Player(pygame.sprite.Sprite):
         # gets the new rectangle and check for collision
         y_temp = self.rect.y + self.direction.y
         temp_rect = pygame.Rect((self.rect.x, y_temp), 
-            (self.rect.width, self.rect.height))  
+            (constants.TILE_SIZE, constants.TILE_SIZE))  
 
         collision = False # True if at least one tile collides
         index = -1 # index of the colliding tile to obtain its type

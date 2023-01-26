@@ -4,6 +4,7 @@
 #===============================================================================
 
 import pygame
+import constants
 
 class Hotspot(pygame.sprite.Sprite):
     def __init__(self, hotspot_data, image):
@@ -18,7 +19,7 @@ class Hotspot(pygame.sprite.Sprite):
         # image
         self.image = image
         self.rect = self.image.get_rect()
-        self.rect.topleft = (self.x * self.rect.width, self.y * self.rect.height)   
+        self.rect.topleft = (self.x*constants.TILE_SIZE, self.y*constants.TILE_SIZE)   
 
     def update(self):
         # movement (up and down)

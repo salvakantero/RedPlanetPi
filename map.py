@@ -130,7 +130,7 @@ class Map():
     def check_change(self, player):
         # player disappears on the left
         # appearing from the right on the new map
-        if player.rect.x < -(player.rect.width - 8):
+        if player.rect.x < -(constants.TILE_SIZE-8):
             self.number -= 1
             self.scroll = enums.LEFT
             player.rect.right = constants.MAP_UNSCALED_SIZE[0]
@@ -143,7 +143,7 @@ class Map():
         # player disappears over the top
         # appearing at the bottom of the new map 
         # and jumps again to facilitate the return
-        elif player.rect.y < (-16):
+        elif player.rect.y < (-constants.TILE_SIZE):
             self.number -= 5
             self.scroll = enums.UP
             player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]            
