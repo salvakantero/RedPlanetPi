@@ -7,6 +7,7 @@ import enums
 
 # game screen
 WIN_SIZE = 800, 640 # main window size
+TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
 MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)
 MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
 SBOARD_SCALED_SIZE = 720, 114 # scoreboard size (scaled x3)

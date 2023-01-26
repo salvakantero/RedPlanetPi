@@ -310,8 +310,8 @@ def collision_check():
                 player.oxygen = constants.MAX_OXYGEN
                 floating_text.text = '+99'                                
             scoreboard.invalidate()
-            floating_text.x = hotspot.x
-            floating_text.y = hotspot.y
+            floating_text.x = hotspot.x*constants.TILE_SIZE
+            floating_text.y = hotspot.y*constants.TILE_SIZE           
             # removes objects
             hotspot_group.sprite.kill()
             hotspot_data[map.number][3] = False # not visible
@@ -381,7 +381,6 @@ font_FS = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
 font_BS = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
 font_FL = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
 font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
-aux_font_L = Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], False)
 
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
@@ -453,7 +452,7 @@ sfx_hotspot = {
 }
 
 # floating texts
-floating_text = FloatingText(map_surf, font_FS)
+floating_text = FloatingText(map_surf)
 
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, font_FL, font_BL, font_FS, font_BS)
@@ -559,7 +558,7 @@ while True:
             map_surf.blit(map_surf_bk, (0,0))
             all_sprites_group.draw(map_surf)
 
-            # draws the floating texts
+            # draws the floating texts (only if inside the screen)
             floating_text.update()
 
             # updates the scoreboard, only if needed
@@ -578,7 +577,7 @@ while True:
     #    pygame.draw.rect(map_display, globalvars.PALETTE['GREEN'], 
     #       platform_group.sprite.rect, 1)
     # any other data
-    #aux_font_L.render(str(player.direction.y), sboard_surf, (124, 22))
+    #font_BL.render(str(player.direction.y), sboard_surf, (124, 22))
     #print(player.state)
     # //////////////////////////////////////////////////////////////////////////
     

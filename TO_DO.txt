@@ -4,8 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Fonts en diccionario?
 - Movimiento del enemigo fanty
-- Notas en pantalla de juego (+1) (+25)
 
 POR HACER
 =========
@@ -93,6 +93,8 @@ HECHO
 20/01/23 - Pila de explosivos de la pantalla 44
 21/01/23 - Obtener SFX de opengameart.org
 21/01/23 - Implementar SFX
+26/01/23 - Notas en pantalla de juego (foating text)
+
 
 CREDITS
 =======
