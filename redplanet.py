@@ -174,7 +174,7 @@ def show_message(msg1, msg2):
     dim_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
     dim_surf.blit(map_surf, (0,0))
     # draws the light message on the dark background
-    support.message_box(msg1, msg2, dim_surf, font_BL, font_FL, font_BS, font_FS)
+    support.message_box(msg1, msg2, dim_surf, font_dict)
     # return the copy with the message on the map surface and redraw it.
     map_surf.blit(dim_surf, (0,0))
     map_surf.set_alpha(None)
@@ -377,10 +377,12 @@ scanlines_surf = pygame.Surface(constants.WIN_SIZE)
 scanlines_surf.set_alpha(40)
 
 # fonts
-font_FS = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
-font_BS = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
-font_FL = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
-font_BL = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
+font_dict = {
+    enums.SM_GREEN_FG: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
+    enums.SM_GREEN_BG: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
+    enums.LG_WHITE_FG: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
+    enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
+}
 
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
@@ -455,7 +457,7 @@ sfx_hotspot = {
 floating_text = FloatingText(map_surf)
 
 # create the Scoreboard object
-scoreboard = Scoreboard(sboard_surf, hotspot_images, font_FL, font_BL, font_FS, font_BS)
+scoreboard = Scoreboard(sboard_surf, hotspot_images, font_dict)
 
 # create the Map object
 map = Map(map_surf, map_surf_bk)
@@ -570,15 +572,10 @@ while True:
             
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
-    #aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_surf, (124, 22))
-    # draw collision rects
-    #pygame.draw.rect(map_display, globalvars.PALETTE['YELLOW'], player.rect, 1)
-    #if platform_group.sprite != None:
-    #    pygame.draw.rect(map_display, globalvars.PALETTE['GREEN'], 
-    #       platform_group.sprite.rect, 1)
-    # any other data
-    #font_BL.render(str(player.direction.y), sboard_surf, (124, 22))
-    #print(player.state)
+    # aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_surf, (124, 22))
+    # other data
+    # font_BL.render(str(player.direction.y), sboard_surf, (124, 22))
+    # print(player.state)
     # //////////////////////////////////////////////////////////////////////////
     
     update_screen()

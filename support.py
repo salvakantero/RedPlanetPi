@@ -6,6 +6,7 @@ import pygame
 import math
 import sys
 import constants
+import enums
 
 # draws scanlines
 def scanlines(surface, height, from_x, to_x, rgb):
@@ -25,7 +26,7 @@ def make_scanlines(surface, surface_hq, config):
             constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
 
 # draws a centred message box erasing the background
-def message_box(msg1, msg2, surface, font_BL, font_FL, font_BS, font_FS):
+def message_box(msg1, msg2, surface, font):
     height = 36
     # calculates the width of the box
     message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
@@ -45,12 +46,12 @@ def message_box(msg1, msg2, surface, font_BL, font_FL, font_BS, font_FS):
     # draws the text centred inside the window (Y positions are fixed)
     text_x = (x + (width//2)) - (message1_len//2)
     text_y = y + 5
-    font_BL.render(msg1, surface, (text_x, text_y))
-    font_FL.render(msg1, surface, (text_x - 2, text_y - 2))
+    font[enums.LG_WHITE_BG].render(msg1, surface, (text_x, text_y))
+    font[enums.LG_WHITE_FG].render(msg1, surface, (text_x - 2, text_y - 2))
     text_x = (x + (width//2)) - (message2_len//2)
     text_y = y + 25
-    font_BS.render(msg2, surface, (text_x, text_y))
-    font_FS.render(msg2, surface, (text_x - 1, text_y - 1))
+    font[enums.SM_GREEN_BG].render(msg2, surface, (text_x, text_y))
+    font[enums.SM_GREEN_FG].render(msg2, surface, (text_x - 1, text_y - 1))
 
 # leaves the programme entirely
 def exit():
