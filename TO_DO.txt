@@ -178,6 +178,22 @@ door        42  14, 2
 detonator   0    0, 7
 
 
+Notas en pantalla de juego:
+===========================
+Objeto floatingText(x,y,fuente, texto); 
+Va mostrando y subiendo texto en pantalla de juego con aceleración.
+
+Se usará al coger hotspots:
+TNT: 1/15
+AMMO: +25
+KEY: +1
+OXYGEN: +99
+Se usará al matar malotes?: (puntos)
+INFECTED: +50
+ARACHNID: +75
+PELUSOID: +100
+FANTY: +150
+
 
 Fanty (tm)
 ==========

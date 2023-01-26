@@ -25,6 +25,7 @@ from gate import Gate
 from scoreboard import Scoreboard
 from config import Configuration
 from explosion import Explosion
+from floatingtext import FloatingText
 
 
 #===============================================================================
@@ -269,13 +270,8 @@ def collision_check():
                 # creates an explosion
                 if enemy.type == enums.INFECTED:
                     blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], blast_animation[1])
-                    # sfx_exp_infected.play()
                 else: # flying enemies
-                    blast = Explosion(enemy.rect.center, blast_animation[0])
-                    # explosion sounds according to enemy type
-                    # if enemy.type == enums.AVIRUS: sfx_exp_avirus.play()
-                    # elif enemy.type == enums.PELUSOID: sfx_exp_pelusoid.play()
-                    # else: sfx_exp_fanty.play()                
+                    blast = Explosion(enemy.rect.center, blast_animation[0])              
                 blast_group.add(blast)
                 all_sprites_group.add(blast)
                 sfx_enemy_down[enemy.type].play()
@@ -298,22 +294,24 @@ def collision_check():
             sfx_hotspot[hotspot.type].play()
             # manages the object according to the type
             if hotspot.type == enums.TNT:
-                # sfx_TNT.play() 
                 player.TNT += 1
                 scoreboard.game_percent += 3
+                floating_text.text = str(player.TNT) + '/15' 
             elif hotspot.type == enums.KEY: 
-                # sfx_key.play()
                 player.keys += 1
                 scoreboard.game_percent += 2
+                floating_text.text = '+1' 
             elif hotspot.type == enums.AMMO:
-                # sfx_ammo.play() 
                 if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
                     player.ammo += constants.AMMO_ROUND
                 else: player.ammo = constants.MAX_AMMO
+                floating_text.text = '+25'
             elif hotspot.type == enums.OXYGEN:
-                # sfx_oxygen.play() 
                 player.oxygen = constants.MAX_OXYGEN
+                floating_text.text = '+99'                                
             scoreboard.invalidate()
+            floating_text.x = hotspot.x
+            floating_text.y = hotspot.y
             # removes objects
             hotspot_group.sprite.kill()
             hotspot_data[map.number][3] = False # not visible
@@ -454,6 +452,9 @@ sfx_hotspot = {
     enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav')
 }
 
+# floating texts
+floating_text = FloatingText(map_surf, font_FS)
+
 # create the Scoreboard object
 scoreboard = Scoreboard(sboard_surf, hotspot_images, font_FL, font_BL, font_FS, font_BS)
 
@@ -482,7 +483,7 @@ while True:
         platform_group = pygame.sprite.GroupSingle()
         dust_group = pygame.sprite.GroupSingle()
         bullet_group = pygame.sprite.GroupSingle()
-        blast_group = pygame.sprite.GroupSingle()
+        blast_group = pygame.sprite.GroupSingle()                
         # create the player
         player = Player(dust_animation, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
         # ingame music
@@ -496,6 +497,7 @@ while True:
         map.last = -1
         map.scroll = enums.RIGHT
         scoreboard.game_percent = 0
+        floating_text.y = 0
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -552,11 +554,17 @@ while True:
             
             # change the frame of the animated tiles
             map.animate_tiles()
+
             # draws the map free of sprites to clean it up
             map_surf.blit(map_surf_bk, (0,0))
             all_sprites_group.draw(map_surf)
+
+            # draws the floating texts
+            floating_text.update()
+
             # updates the scoreboard, only if needed
             scoreboard.update(player)
+
             # check map change using player's coordinates
             # if the player leaves, the map number changes
             map.check_change(player)
