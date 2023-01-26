@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Fonts en diccionario?
 - Movimiento del enemigo fanty
 
 POR HACER

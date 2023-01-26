@@ -103,13 +103,13 @@ def change_map():
     # add the player  
     all_sprites_group.add(player)
     # add the hotspot (if available)
-    hotspot = hotspot_data[map.number]
+    hotspot = constants.HOTSPOT_DATA[map.number]
     if hotspot[3] == True: # visible/available?           
         hotspot_sprite = Hotspot(hotspot, hotspot_images[hotspot[0]])
         all_sprites_group.add(hotspot_sprite) # to update/draw it
         hotspot_group.add(hotspot_sprite) # to check for collisions
     # add the gate (if there is one visible on the map)
-    gate = gate_data.get(map.number)
+    gate = constants.GATE_DATA.get(map.number)
     if gate != None and gate[2] == True: # visible/available?
         gate_sprite = Gate(gate, gate_image)
         all_sprites_group.add(gate_sprite) # to update/draw it
@@ -314,7 +314,7 @@ def collision_check():
             floating_text.y = hotspot.y*constants.TILE_SIZE           
             # removes objects
             hotspot_group.sprite.kill()
-            hotspot_data[map.number][3] = False # not visible
+            constants.HOTSPOT_DATA[map.number][3] = False # not visible
 
     # player and gate ----------------------------------------------------------
     if gate_group.sprite != None:
@@ -328,7 +328,7 @@ def collision_check():
                 all_sprites_group.add(blast)
                 # deletes the door
                 gate_group.sprite.kill()
-                gate_data[map.number][2] = False # not visible
+                constants.GATE_DATA[map.number][2] = False # not visible
                 # increases the percentage of game play
                 scoreboard.game_percent += 3
                 scoreboard.invalidate()
@@ -491,8 +491,8 @@ while True:
         pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
         # reset variables
-        hotspot_data = constants.INIT_HOTSPOT_DATA.copy()
-        gate_data = constants.INIT_GATE_DATA.copy()
+        for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # visible hotspots
+        for gate in constants.GATE_DATA.values(): gate[2] = True # visible doors
         game_status = enums.RUNNING
         map.number = 0
         map.last = -1

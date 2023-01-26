@@ -304,7 +304,7 @@ ENEMIES_DATA = [
 
 # hotspot data
 # index = map number; (type, x, y, visible?)
-INIT_HOTSPOT_DATA = [
+HOTSPOT_DATA = [
     [enums.AMMO, 13, 3, True],
     [enums.TNT, 13, 7, True],
     [enums.OXYGEN, 5, 7, True],
@@ -353,7 +353,7 @@ INIT_HOTSPOT_DATA = [
 ]   
 
 # doors per map; map number: [x, y, visible?]
-INIT_GATE_DATA = {
+GATE_DATA = {
     8: [14, 8, True],
     13: [14, 7, True],
     14: [11, 1, True],

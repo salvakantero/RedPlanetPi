@@ -10,9 +10,9 @@ class FloatingText():
     def __init__(self, surface):
         # attributes
         self.surface = surface    
-        self.font = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
-        self.font2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True) 
-        self.acceleration = 0.06 
+        self.font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True)
+        self.font2 = Font('images/fonts/small_font.png', constants.PALETTE['BROWN'], True) 
+        self.acceleration = 0.05 
         self.x = 0
         self.y = 0    
         self.speed = 0
