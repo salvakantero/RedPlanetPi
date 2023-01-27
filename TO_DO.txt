@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Movimiento del enemigo fanty
+- Optimizar movimiento del enemigo fanty
 
 POR HACER
 =========
