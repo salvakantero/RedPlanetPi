@@ -110,6 +110,8 @@ class Enemy(pygame.sprite.Sprite):
                 and (self.y1 >= self.y-1 and self.y1 <= self.y+1):
                     # very close to the original position
                     self.state = enums.IDLE
+                    self.x = self.x1
+                    self.y = self.y1                    
 
         self.rect.x = self.x
         self.rect.y = self.y
