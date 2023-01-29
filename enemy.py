@@ -78,6 +78,7 @@ class Enemy(pygame.sprite.Sprite):
             if self.y == self.y1 or self.y == self.y2:
                 self.vy = -self.vy
         else: # fanty
+            # >>6 is equivalent to dividing by 64 (more efficient)
             gpx = int(self.player.x) >> 6
             gpy = int(self.player.y) >> 6
             gpen_cx = int(self.x) >> 6
@@ -88,7 +89,7 @@ class Enemy(pygame.sprite.Sprite):
                     self.state = enums.CHASING
             elif self.state == enums.CHASING:                
                 if support.distance (gpx, gpy, gpen_cx, gpen_cy) > self.sight_distance:
-                    # away from the player, retreats
+                    # away from the player, stops the chase and retreats
                     self.state = enums.RETREATING
                 else:
                     # moves according to the value of several variables
@@ -98,9 +99,9 @@ class Enemy(pygame.sprite.Sprite):
                     # but keeps it within the boundaries of the screen.
                     self.x = support.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
                     self.y = support.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
-            else: # retreating
-                self.x += support.addsign(self.x1 - self.x, 1)
-                self.y += support.addsign(self.y1 - self.y, 1)
+            else: # retreating; going back to the starting point
+                self.x += support.addsign(self.x1 - int(self.x), 1)
+                self.y += support.addsign(self.y1 - int(self.y), 1)
                 # close to the player, chases him again!
                 if support.distance(gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
                     self.state = enums.CHASING		
@@ -108,11 +109,12 @@ class Enemy(pygame.sprite.Sprite):
             if self.state == enums.RETREATING:
                 if (self.x1 >= self.x-1 and self.x1 <= self.x+1) \
                 and (self.y1 >= self.y-1 and self.y1 <= self.y+1):
-                    # very close to the original position
+                    # very close to the starting point; switch to IDLE
                     self.state = enums.IDLE
                     self.x = self.x1
-                    self.y = self.y1                    
+                    self.y = self.y1      
 
+        # applies the calculated position and the corresponding frame
         self.rect.x = self.x
         self.rect.y = self.y
         self.animate()

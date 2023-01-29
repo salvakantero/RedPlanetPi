@@ -4,12 +4,11 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Optimizar movimiento del enemigo fanty
+- Obtener música de opengameart.org
+- Implementar música
 
 POR HACER
 =========
-- Obtener música de opengameart.org
-- Implementar música
 - Teclas redefinibles
 - Pantalla final
 - Menu inicial
@@ -93,6 +92,7 @@ HECHO
 21/01/23 - Obtener SFX de opengameart.org
 21/01/23 - Implementar SFX
 26/01/23 - Notas en pantalla de juego (foating text)
+29/01/23 - Movimiento del enemigo fanty
 
 
 CREDITS
@@ -195,33 +195,4 @@ ARACHNID: +75
 PELUSOID: +100
 FANTY: +150
 
-
-Fanty (tm)
-==========
-si su estado es IDLE:
-    si la distancia entre la posicion player.xy y fanty.xy
-    es menor o igual que el rango de visión del fanty cambia a estado CHASING.
-
-si su estado es CHASING:
-    si la distancia entre la posicion player.xy y fanty.xy
-    es mayor que el rango de visión del fanty cambia a estado RETREATING.
-    si no:
-        aplica movimiento:
-        mx = limit(mx + addsign(player.x - x, aceleración), -velo_max, +velo_max)
-        my = limit(my + addsign(player.y - y, aceleración), -velo_max, +velo_max)
-        aplica límites:
-        x = limit (x + mx, 0, 14336)
-		y = limit (y + my, 0, 9216)
-
-si su estado es RETREATING:
-    x += addsign (x_ini - gpen_cx, 64);
-    y += addsign (y_ini - gpen_cy, 64);        
-    si la distancia entre la posicion player.xy y fanty.xy
-    es menor o igual que el rango de visión del fanty cambia a estado CHASING.
-
-    gpen_cx = en_an [gpit].x >> 6;
-	gpen_cy = en_an [gpit].y >> 6;
-
-si su estado es RETREATING y la posición actual es la inicial:
-    cambia a estado IDLE
 
