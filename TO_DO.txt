@@ -6,13 +6,13 @@ EN PROCESO
 ==========
 - Obtener música de opengameart.org
 - Implementar música
+- Menu de inicio
+- Créditos en marquesina durante el menú de inicio
 
 POR HACER
 =========
-- Teclas redefinibles
+- Teclas redefinibles y otras configuraciones en el menú
 - Pantalla final
-- Menu inicial
-- Créditos
 - Revisar, simplificar, organizar y comentar el código fuente final
 
 OPCIONAL
