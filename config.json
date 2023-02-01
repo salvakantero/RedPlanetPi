@@ -1,6 +1,6 @@
 {
     "FULL_SCREEN": 0,
-    "SCANLINES_TYPE": 2,
+    "SCANLINES_TYPE": 1,
     "MAP_TRANSITION": 1,
 
     "LEFT_KEY": 97,

@@ -7,7 +7,6 @@ EN PROCESO
 - Obtener música de opengameart.org
 - Implementar música
 - Menu de inicio
-- Créditos en marquesina durante el menú de inicio
 
 POR HACER
 =========
@@ -93,6 +92,7 @@ HECHO
 21/01/23 - Implementar SFX
 26/01/23 - Notas en pantalla de juego (foating text)
 29/01/23 - Movimiento del enemigo fanty
+01/02/23 - Créditos en marquesina durante el menú de inicio
 
 
 CREDITS

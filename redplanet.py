@@ -145,23 +145,29 @@ def clean_edges():
 
 # dumps and scales surfaces to the screen
 def update_screen():
-    # shakes the surface of the map if it has been requested
-    offset = [0,0]
-    if map.shake_timer > 0:
-        if map.shake_timer == 1: # last frame shaken            
-            clean_edges()
-        else:
-            offset[0] = random.randint(-map.shake[0], map.shake[0])
-            offset[1] = random.randint(-map.shake[1], map.shake[1])
-        map.shake_timer -= 1
-    # scale x 3 the scoreboard
-    screen.blit(pygame.transform.scale(
-        sboard_surf, constants.SBOARD_SCALED_SIZE), 
+    if game_status == enums.OVER:
+        # scale x 3 the menu
+        screen.blit(pygame.transform.scale(menu_surf, constants.MENU_SCALED_SIZE), 
         (constants.H_MARGIN, constants.V_MARGIN))
-    # scale x 3 the map
-    screen.blit(pygame.transform.scale(
-        map_surf, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
-        constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
+    else:
+        # shakes the surface of the map if it has been requested
+        offset = [0,0]
+        if map.shake_timer > 0:
+            if map.shake_timer == 1: # last frame shaken            
+                clean_edges()
+            else:
+                offset[0] = random.randint(-map.shake[0], map.shake[0])
+                offset[1] = random.randint(-map.shake[1], map.shake[1])
+            map.shake_timer -= 1
+        # scale x 3 the scoreboard
+        screen.blit(pygame.transform.scale(
+            sboard_surf, constants.SBOARD_SCALED_SIZE), 
+            (constants.H_MARGIN, constants.V_MARGIN))
+        # scale x 3 the map
+        screen.blit(pygame.transform.scale(
+            map_surf, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
+            constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
+
     support.make_scanlines(screen, scanlines_surf, config)
     pygame.display.update() # refreshes the screen
     clock.tick(60) # 60 FPS
@@ -222,12 +228,11 @@ def pause_game():
 
 # main menu
 def main_menu():
-    map_surf.fill(constants.PALETTE['BLACK'])
-    sboard_surf.fill(constants.PALETTE['BLACK'])
-    show_message('-Red Planet Pi-', 'WIP. PRESS ANY KEY TO CONTINUE')
+    menu_back = pygame.image.load('images/assets/menu_back.png').convert()
+    menu_surf.blit(menu_back, (0,0))
     marquee_text = MarqueeText(
-        map_surf, Font('images/fonts/small_font.png', constants.PALETTE['CYAN'], False),
-        map_surf.get_height() - 8, .6, constants.CREDITS, 2000)
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False),
+        menu_surf.get_height() - 8, .6, constants.CREDITS, 2600)
     pygame.event.clear(pygame.KEYDOWN)
     while True:        
         marquee_text.update() # scrolls to the left the text with the credits
@@ -369,6 +374,8 @@ pygame.display.set_caption('.:: Red Planet Pi ::.')
 icon = pygame.image.load('images/assets/icon.png').convert_alpha()
 pygame.display.set_icon(icon)  
 
+# area covered by the map
+menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
 # area covered by the map
 map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # area covered by the scoreboard
