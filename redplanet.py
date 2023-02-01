@@ -26,6 +26,7 @@ from scoreboard import Scoreboard
 from config import Configuration
 from explosion import Explosion
 from floatingtext import FloatingText
+from marqueetext import MarqueeText
 
 
 #===============================================================================
@@ -224,6 +225,7 @@ def main_menu():
     map_surf.fill(constants.PALETTE['BLACK'])
     sboard_surf.fill(constants.PALETTE['BLACK'])
     show_message('-Red Planet Pi-', 'WIP. PRESS ANY KEY TO CONTINUE')
+    marquee_text = MarqueeText(map_surf)
     pygame.event.clear(pygame.KEYDOWN)
     while True:
         for event in pygame.event.get():

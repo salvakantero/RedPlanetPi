@@ -97,19 +97,20 @@ HECHO
 
 CREDITS
 =======
-salvaKantero (programming and graphics)
-Masterklown (cover, menu music)
-Juhani Junkala; "The Essential Retro Video Game Sound Effects Collection" (fx)
 
-GREETINGS
-=========
+Programming: SalvaKantero
+Graphics: SalvaKantero
+Cover illustration: Masterklown
+Sound Effects: Juhani Junkala; "The Essential Retro Video Game Sound Effects Collection"
+
+Greetings:
 Mojon Twins (MK1 engine)
 DaFluffyPotato (Font class, screen scaling)
 Rik Cross (Raspberry Pi Foundation)
-Chris (Clear Code)
+Chris (Clear Code YT channel)
 Mark Vanstone (Raspberry Pi Press)
 Ryan Lambie (Raspberry Pi Press)
-César Gómez (Mundo Python)
+César Gómez (Mundo Python YT channel)
 ChatGPT
 
 
