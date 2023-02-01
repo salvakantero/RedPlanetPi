@@ -365,13 +365,15 @@ GATE_DATA = {
     42: [14, 2, True]
 }
 
-# credits for main menu
-CREDITS  = '.:: Red Planet Pi v1.0 ::.     '
+# credits for the main menu (marquee)
+CREDITS  = '.::Red Planet Pi v1.0::.     '
 CREDITS += 'PROGRAMMING: SalvaKantero     '
 CREDITS += 'GRAPHICS: SalvaKantero     '
-CREDITS += 'COVER ILLUSTRATION: Masterklown     '
-CREDITS += 'SOUND EFFECTS: Juhani Junkala; "The Essential Retro Video Game Sound Effects Collection"     '
+CREDITS += 'COVER ILLUSTRATION AND MENU BACKGROUNDS: Masterklown     '
+CREDITS += 'SOUND EFFECTS: Juhani Junkala. "The Essential Retro Video Game Sound Effects Collection"     '
 CREDITS += 'GREETINGS: Mojon Twins (MK1 engine)     DaFluffyPotato (Font class, screen scaling)     '
 CREDITS += 'Rik Cross (Raspberry Pi Foundation)     Chris (Clear Code YT channel)     '
 CREDITS += 'Mark Vanstone (Raspberry Pi Press)     Ryan Lambie (Raspberry Pi Press)     '
-CREDITS += 'César Gómez (Mundo Python YT channel)     ChatGPT          '
+CREDITS += 'Cesar Gomez (Mundo Python YT channel)     OpenGameArt.org     ChatGPT          '
+CREDITS += 'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi     '
+CREDITS += 'Thanks for playing!!          '

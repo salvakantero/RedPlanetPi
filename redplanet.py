@@ -225,9 +225,13 @@ def main_menu():
     map_surf.fill(constants.PALETTE['BLACK'])
     sboard_surf.fill(constants.PALETTE['BLACK'])
     show_message('-Red Planet Pi-', 'WIP. PRESS ANY KEY TO CONTINUE')
-    marquee_text = MarqueeText(map_surf)
+    marquee_text = MarqueeText(
+        map_surf, Font('images/fonts/small_font.png', constants.PALETTE['CYAN'], False),
+        map_surf.get_height() - 8, .6, constants.CREDITS, 2000)
     pygame.event.clear(pygame.KEYDOWN)
-    while True:
+    while True:        
+        marquee_text.update() # scrolls to the left the text with the credits
+        update_screen()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 support.exit()
