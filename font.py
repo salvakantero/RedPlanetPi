@@ -1,6 +1,8 @@
 
 #===============================================================================
-# Font class
+# Font class 
+# Faster and sharper at lower resolutions than the original FONT class.
+# Is a slight adaptation of the original DaFluffyPotato source code.
 #===============================================================================
 
 import pygame

@@ -226,15 +226,37 @@ def pause_game():
                 event.key == config.pause_key:
                     return
 
+# introductory scene
+def intro_scene():    
+    intro1_image = pygame.image.load('images/assets/intro1.png').convert() # background
+    intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
+    intro3_image = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
+    # Muestra el fondo con efecto flash
+    menu_surf.fill((255, 255, 255))
+    update_screen()
+    pygame.time.wait(50)
+    menu_surf.blit(intro1_image, (0, 0))
+    update_screen()
+    pygame.time.wait(50)
+    # desliza el título desde la derecha
+    for x in range(50):
+        menu_surf.blit(intro1_image, (0, 0))
+        menu_surf.blit(intro2_image, (x, 0))
+    # desliza la PI desde abajo
+    for y in range(50, 0, -1):
+        menu_surf.blit(intro1_image, (0, 0))
+        menu_surf.blit(intro3_image, (180, y))
+    pygame.time.wait(2000) 
+
 # main menu
-def main_menu():
-    menu_back = pygame.image.load('images/assets/menu_back.png').convert()
-    menu_surf.blit(menu_back, (0,0))
+def main_menu():    
+    menu_surf.blit(menu_image, (0,0))          
     marquee_text = MarqueeText(
         menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False),
         menu_surf.get_height() - 8, .6, constants.CREDITS, 2600)
+    
     pygame.event.clear(pygame.KEYDOWN)
-    while True:        
+    while True: 
         marquee_text.update() # scrolls to the left the text with the credits
         update_screen()
         for event in pygame.event.get():
@@ -374,8 +396,16 @@ pygame.display.set_caption('.:: Red Planet Pi ::.')
 icon = pygame.image.load('images/assets/icon.png').convert_alpha()
 pygame.display.set_icon(icon)  
 
-# area covered by the map
+# area covered by the menu
 menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+# surface for HQ scanlines
+scanlines_surf = pygame.Surface(constants.WIN_SIZE)
+scanlines_surf.set_alpha(40)
+# clock to control the FPS
+clock = pygame.time.Clock()
+# shows an intro while resources are being loaded
+intro_scene()
+
 # area covered by the map
 map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # area covered by the scoreboard
@@ -385,9 +415,6 @@ map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface to save the previous map (transition effect between screens)
 if config.map_transition:
     map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-# surface for HQ scanlines
-scanlines_surf = pygame.Surface(constants.WIN_SIZE)
-scanlines_surf.set_alpha(40)
 
 # fonts
 font_dict = {
@@ -447,6 +474,7 @@ blast_animation = {
 }
 
 gate_image = pygame.image.load('images/tiles/T60.png').convert()
+menu_image = pygame.image.load('images/assets/menu_back.png').convert()
 
 # fx sounds
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
@@ -477,9 +505,6 @@ map = Map(map_surf, map_surf_bk)
 
 game_status = enums.OVER
 music_status = enums.UNMUTED
-
-# clock to control the FPS
-clock = pygame.time.Clock()
 
 
 #===============================================================================
