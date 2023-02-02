@@ -6,6 +6,7 @@ EN PROCESO
 ==========
 - Obtener música de opengameart.org
 - Implementar música
+- Intro
 - Menu de inicio
 
 POR HACER
