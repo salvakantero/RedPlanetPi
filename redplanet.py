@@ -241,11 +241,12 @@ def intro_scene():
     aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
     aux_surf.blit(intro1_image, (0, 0))
     aux_surf.set_alpha(0) # totally transparent    
-    for z in range(60):
+    for z in range(50):
         aux_surf.set_alpha(z) # opacity is being applied
         menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
         update_screen() # draw menu_surf
         pygame.time.wait(8)    
+    pygame.time.wait(200)
     # slide the title "RED PLANET" from the right to its final position
     sfx_intro2.play()
     for x in range(-170, 0, 9):
@@ -260,19 +261,23 @@ def intro_scene():
         menu_surf.blit(intro3_image, (198, y))
         update_screen()
     # pause for recreation. Ooohhh how wonderful!
-    pygame.time.wait(1200)
+    pygame.time.wait(600)
 
 # main menu
 def main_menu():
     sfx_switchoff.play()    
-    menu_surf.blit(menu_image, (0,0))   
+    menu_surf.blit(menu_image, (0,0))
+    update_screen()
+    pygame.time.wait(2000) 
+    pygame.mixer.music.load('sounds/mus_menu.ogg')
+    pygame.mixer.music.play()
     # help
     marquee_help = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], False),
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False),
         menu_surf.get_height() - 16, .7, constants.HELP, 1700)
     # credits       
     marquee_credits = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['BROWN'], False),
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], False),
         menu_surf.get_height() - 8, .5, constants.CREDITS, 2800)
     
     pygame.event.clear(pygame.KEYDOWN)

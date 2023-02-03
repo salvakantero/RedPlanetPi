@@ -4,9 +4,9 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Logo POR
 - Obtener música de opengameart.org
 - Implementar música
-- Intro
 - Menu de inicio
 
 POR HACER
@@ -94,6 +94,7 @@ HECHO
 26/01/23 - Notas en pantalla de juego (foating text)
 29/01/23 - Movimiento del enemigo fanty
 01/02/23 - Créditos en marquesina durante el menú de inicio
+03/02/23 - Intro
 
 
 CREDITS
