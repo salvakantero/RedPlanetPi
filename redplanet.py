@@ -232,32 +232,42 @@ def intro_scene():
     intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
     intro3_image = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
     # Muestra el fondo con efecto flash
+    pygame.time.wait(50)
     menu_surf.fill((255, 255, 255))
     update_screen()
-    pygame.time.wait(50)
+    pygame.time.wait(100)
     menu_surf.blit(intro1_image, (0, 0))
     update_screen()
-    pygame.time.wait(50)
+    pygame.time.wait(1000)
     # desliza el título desde la derecha
-    for x in range(50):
+    for x in range(-100, 100, 4):
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (x, 0))
+        update_screen()
     # desliza la PI desde abajo
-    for y in range(50, 0, -1):
+    for y in range(150, 0, -4):
         menu_surf.blit(intro1_image, (0, 0))
-        menu_surf.blit(intro3_image, (180, y))
-    pygame.time.wait(2000) 
+        menu_surf.blit(intro2_image, (0, 0))
+        menu_surf.blit(intro3_image, (195, y))
+        update_screen()
+    pygame.time.wait(1000) 
 
 # main menu
 def main_menu():    
-    menu_surf.blit(menu_image, (0,0))          
-    marquee_text = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False),
-        menu_surf.get_height() - 8, .6, constants.CREDITS, 2600)
+    menu_surf.blit(menu_image, (0,0))   
+    # help
+    marquee_help = MarqueeText(
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], False),
+        menu_surf.get_height() - 16, .7, constants.HELP, 1800)
+    # credits       
+    marquee_credits = MarqueeText(
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['RED'], False),
+        menu_surf.get_height() - 8, .5, constants.CREDITS, 2800)
     
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
-        marquee_text.update() # scrolls to the left the text with the credits
+        marquee_help.update()
+        marquee_credits.update()
         update_screen()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -403,6 +413,7 @@ scanlines_surf = pygame.Surface(constants.WIN_SIZE)
 scanlines_surf.set_alpha(40)
 # clock to control the FPS
 clock = pygame.time.Clock()
+game_status = enums.OVER
 # shows an intro while resources are being loaded
 intro_scene()
 
@@ -503,7 +514,6 @@ scoreboard = Scoreboard(sboard_surf, hotspot_images, font_dict)
 # create the Map object
 map = Map(map_surf, map_surf_bk)
 
-game_status = enums.OVER
 music_status = enums.UNMUTED
 
 

@@ -367,6 +367,14 @@ GATE_DATA = {
     42: [14, 2, True]
 }
 
+# introductory help
+HELP = 'Lead our HERO into the underground of the old SPACE STATION to blow up '
+HELP += 'the entire complex and wipe out its evil INHABITANTS.     '
+HELP += 'To successfully complete the MISSION you must obtain the 15 EXPLOSIVES '
+HELP += 'that are scattered around the station, and place them in the explosives depot'
+HELP += ', deep inside the martian base.     Once deposited, you must RETURN '
+HELP += 'to the control centre and activate the DETONATOR. Good luck!'
+
 # credits for the main menu (marquee)
 CREDITS  = '.::Red Planet Pi v1.0::.     '
 CREDITS += 'PROGRAMMING: SalvaKantero     '
@@ -378,4 +386,4 @@ CREDITS += 'Rik Cross (Raspberry Pi Foundation)     Chris (Clear Code YT channel
 CREDITS += 'Mark Vanstone (Raspberry Pi Press)     Ryan Lambie (Raspberry Pi Press)     '
 CREDITS += 'Cesar Gomez (Mundo Python YT channel)     OpenGameArt.org     ChatGPT          '
 CREDITS += 'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi     '
-CREDITS += 'Thanks for playing!!          '
+CREDITS += 'Thanks for playing!!'
