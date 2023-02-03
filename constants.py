@@ -376,7 +376,7 @@ HELP += ', deep inside the martian base.     Once deposited, you must RETURN '
 HELP += 'to the control centre and activate the DETONATOR. Good luck!'
 
 # credits for the main menu (marquee)
-CREDITS  = '.::Red Planet Pi v1.0::.     '
+CREDITS  = '.::Red Planet Pi v1.0::.     Copyleft(C) PlayOnRetro 2023     '
 CREDITS += 'PROGRAMMING: SalvaKantero     '
 CREDITS += 'GRAPHICS: SalvaKantero     '
 CREDITS += 'COVER ILLUSTRATION AND MENU BACKGROUNDS: Masterklown     '

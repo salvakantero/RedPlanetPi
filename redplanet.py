@@ -231,37 +231,48 @@ def intro_scene():
     intro1_image = pygame.image.load('images/assets/intro1.png').convert() # background
     intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
     intro3_image = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
-    # Muestra el fondo con efecto flash
-    pygame.time.wait(50)
-    menu_surf.fill((255, 255, 255))
-    update_screen()
-    pygame.time.wait(100)
-    menu_surf.blit(intro1_image, (0, 0))
-    update_screen()
-    pygame.time.wait(1000)
-    # desliza el título desde la derecha
-    for x in range(-100, 100, 4):
+    sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
+    sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
+
+    sfx_intro1.play()
+    # white background
+    menu_surf.fill(constants.PALETTE["WHITE"])
+    # auxiliary surface with background image that changes from transparent to opaque
+    aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
+    aux_surf.blit(intro1_image, (0, 0))
+    aux_surf.set_alpha(0) # totally transparent    
+    for z in range(60):
+        aux_surf.set_alpha(z) # opacity is being applied
+        menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
+        update_screen() # draw menu_surf
+        pygame.time.wait(8)    
+    # slide the title "RED PLANET" from the right to its final position
+    sfx_intro2.play()
+    for x in range(-170, 0, 9):
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (x, 0))
         update_screen()
-    # desliza la PI desde abajo
-    for y in range(150, 0, -4):
+    # slides the PI from the bottom to its final position
+    sfx_intro2.play()
+    for y in range(140, -9, -9):
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (0, 0))
-        menu_surf.blit(intro3_image, (195, y))
+        menu_surf.blit(intro3_image, (198, y))
         update_screen()
-    pygame.time.wait(1000) 
+    # pause for recreation. Ooohhh how wonderful!
+    pygame.time.wait(1200)
 
 # main menu
-def main_menu():    
+def main_menu():
+    sfx_switchoff.play()    
     menu_surf.blit(menu_image, (0,0))   
     # help
     marquee_help = MarqueeText(
         menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], False),
-        menu_surf.get_height() - 16, .7, constants.HELP, 1800)
+        menu_surf.get_height() - 16, .7, constants.HELP, 1700)
     # credits       
     marquee_credits = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['RED'], False),
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['BROWN'], False),
         menu_surf.get_height() - 8, .5, constants.CREDITS, 2800)
     
     pygame.event.clear(pygame.KEYDOWN)
@@ -414,7 +425,7 @@ scanlines_surf.set_alpha(40)
 # clock to control the FPS
 clock = pygame.time.Clock()
 game_status = enums.OVER
-# shows an intro while resources are being loaded
+# shows an intro (resources are being loaded)
 intro_scene()
 
 # area covered by the map
@@ -492,6 +503,7 @@ sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
 sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
 sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
 sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
+sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
 sfx_enemy_down = {
     enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
     enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
