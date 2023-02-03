@@ -227,18 +227,32 @@ def pause_game():
                     return
 
 # introductory scene
-def intro_scene():    
+def intro_scene():
+    logo_image = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
     intro1_image = pygame.image.load('images/assets/intro1.png').convert() # background
     intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
     intro3_image = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
     sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
     sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
-
-    sfx_intro1.play()
-    # white background
-    menu_surf.fill(constants.PALETTE["WHITE"])
+    sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro
+    sfx_intro3.set_volume(.4)
     # auxiliary surface with background image that changes from transparent to opaque
     aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
+    
+    # PlayOnRetro logo
+    menu_surf.fill(constants.PALETTE["BLACK"]) # black background
+    aux_surf.blit(logo_image, (0, 0))
+    aux_surf.set_alpha(0) # totally transparent    
+    for z in range(50):
+        aux_surf.set_alpha(z) # opacity is being applied
+        menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
+        update_screen() # draw menu_surf
+        pygame.time.wait(8)    
+    sfx_intro3.play()
+    pygame.time.wait(1800) 
+    # RedPlanetPi
+    sfx_intro1.play()
+    menu_surf.fill(constants.PALETTE["WHITE"]) # white background
     aux_surf.blit(intro1_image, (0, 0))
     aux_surf.set_alpha(0) # totally transparent    
     for z in range(50):
@@ -249,19 +263,19 @@ def intro_scene():
     pygame.time.wait(200)
     # slide the title "RED PLANET" from the right to its final position
     sfx_intro2.play()
-    for x in range(-170, 0, 9):
+    for x in range(-170, 0, 10):
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (x, 0))
         update_screen()
     # slides the PI from the bottom to its final position
     sfx_intro2.play()
-    for y in range(140, -9, -9):
+    for y in range(140, -5, -10):
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (0, 0))
         menu_surf.blit(intro3_image, (198, y))
         update_screen()
     # pause for recreation. Ooohhh how wonderful!
-    pygame.time.wait(600)
+    pygame.time.wait(500)
 
 # main menu
 def main_menu():
