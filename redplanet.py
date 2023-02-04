@@ -294,7 +294,7 @@ def main_menu():
     menu_surf.blit(menu_image, (0,0))
     update_screen()
     pygame.time.wait(2000) 
-    pygame.mixer.music.load('sounds/mus_menu.ogg')
+    pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
     # help
     marquee_help = MarqueeText(
@@ -578,7 +578,7 @@ while True:
         # create the player
         player = Player(dust_animation, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
         # ingame music
-        pygame.mixer.music.load('sounds/ingame.ogg')
+        #pygame.mixer.music.load('sounds/ingame.ogg')
         #pygame.mixer.music.play(-1)
         # reset variables
         for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # visible hotspots

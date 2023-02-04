@@ -367,6 +367,8 @@ GATE_DATA = {
     42: [14, 2, True]
 }
 
+MUSIC_LOOPS = (2,1,2,2,2,1,1,3,1,3,2,2)
+
 # introductory help
 HELP = 'Lead our HERO into the underground of the old SPACE STATION to blow up '
 HELP += 'the entire complex and wipe out its evil INHABITANTS.     '
@@ -381,7 +383,7 @@ CREDITS += 'PROGRAMMING: salvaKantero     '
 CREDITS += 'GRAPHICS: salvaKantero     '
 CREDITS += 'COVER ILLUSTRATION AND INTRO/MENU BACKGROUNDS: Masterklown     '
 CREDITS += 'MENU MUSIC: Masterklown     '
-CREDITS += 'INGAME MUSIC: Centurion of War     '
+CREDITS += 'IN-GAME MUSIC: Centurion of war     '
 CREDITS += 'SOUND EFFECTS: Juhani Junkala     '
 CREDITS += 'GREETINGS: Mojon Twins (MK1 engine)     DaFluffyPotato (Font class, screen scaling)     '
 CREDITS += 'Rik Cross (Raspberry Pi Foundation)     Chris (Clear Code YT channel)     '
