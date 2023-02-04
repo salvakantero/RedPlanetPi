@@ -244,7 +244,7 @@ def intro_scene():
     menu_surf.fill(constants.PALETTE["BLACK"]) # black background
     aux_surf.blit(logo_image, (0, 0))
     aux_surf.set_alpha(0) # totally transparent    
-    for z in range(50):
+    for z in range(40):
         aux_surf.set_alpha(z) # opacity is being applied
         menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
         update_screen() # draw menu_surf
@@ -254,7 +254,7 @@ def intro_scene():
     # fade out
     aux_surf.fill(constants.PALETTE["BLACK"]) # black background
     aux_surf.set_alpha(0) # totally transparent    
-    for z in range(50):
+    for z in range(40):
         aux_surf.set_alpha(z) # opacity is being applied
         menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
         update_screen() # draw menu_surf
@@ -298,15 +298,16 @@ def main_menu():
     pygame.mixer.music.play()
     # help
     marquee_help = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False),
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
         menu_surf.get_height() - 16, .7, constants.HELP, 1700)
     # credits       
     marquee_credits = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], False),
+        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
         menu_surf.get_height() - 8, .5, constants.CREDITS, 2800)
     
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
+        menu_surf.blit(menu_image, (0,0))
         marquee_help.update()
         marquee_credits.update()
         update_screen()

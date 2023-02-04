@@ -19,9 +19,6 @@ class MarqueeText():
 
     # update the xy position
     def update(self):
-        # delete the last frame
-        pygame.draw.rect(self.surface, constants.PALETTE['BLACK'], ((0, self.y),
-            (self.surface.get_width(), self.surface.get_height())))
         # draws the text in the new position       
         self.x -= self.speed
         self.font.render(self.text, self.surface, (self.x, self.y))
