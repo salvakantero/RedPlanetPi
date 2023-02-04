@@ -236,10 +236,11 @@ def intro_scene():
     sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
     sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro
     sfx_intro3.set_volume(.4)
-    # auxiliary surface with background image that changes from transparent to opaque
+    # auxiliary surface for fading and flashing visual effects
     aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
     
     # PlayOnRetro logo
+    # fade in
     menu_surf.fill(constants.PALETTE["BLACK"]) # black background
     aux_surf.blit(logo_image, (0, 0))
     aux_surf.set_alpha(0) # totally transparent    
@@ -247,9 +248,19 @@ def intro_scene():
         aux_surf.set_alpha(z) # opacity is being applied
         menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
         update_screen() # draw menu_surf
-        pygame.time.wait(8)    
+        pygame.time.wait(12)    
     sfx_intro3.play()
-    pygame.time.wait(1800) 
+    pygame.time.wait(1500)
+    # fade out
+    aux_surf.fill(constants.PALETTE["BLACK"]) # black background
+    aux_surf.set_alpha(0) # totally transparent    
+    for z in range(50):
+        aux_surf.set_alpha(z) # opacity is being applied
+        menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
+        update_screen() # draw menu_surf
+        pygame.time.wait(12)    
+    pygame.time.wait(1500)
+
     # RedPlanetPi
     sfx_intro1.play()
     menu_surf.fill(constants.PALETTE["WHITE"]) # white background

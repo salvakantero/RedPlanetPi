@@ -4,6 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Avanzar en la intro al pulsar una tecla
 - Obtener música de opengameart.org
 - Implementar música
 - Menu de inicio
