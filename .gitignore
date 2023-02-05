@@ -1,3 +1,4 @@
+__pycache__
 __pycache__/config.cpython-39.pyc
 __pycache__/constants.cpython-39.pyc
 __pycache__/enemy.cpython-39.pyc
@@ -17,3 +18,4 @@ __pycache__/hotspot.cpython-39.pyc
 __pycache__/gate.cpython-39.pyc
 __pycache__/floatingtext.cpython-39.pyc
 __pycache__/marqueetext.cpython-39.pyc
+__pycache__/jukebox.cpython-39.pyc

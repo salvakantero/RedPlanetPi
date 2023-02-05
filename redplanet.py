@@ -558,6 +558,8 @@ scoreboard = Scoreboard(sboard_surf, hotspot_images, font_dict)
 # create the Map object
 map = Map(map_surf, map_surf_bk)
 
+ # creates a playlist with the 12 available music tracks
+jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
 music_status = enums.UNMUTED
 
 
@@ -579,8 +581,9 @@ while True:
         blast_group = pygame.sprite.GroupSingle()                
         # create the player
         player = Player(dust_animation, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
-        # creates a playlist with the 12 available music tracks
-        jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
+        # new playlist with the 12 available music tracks
+        pygame.mixer.music.stop()
+        jukebox.shuffle()
         # reset variables
         for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # visible hotspots
         for gate in constants.GATE_DATA.values(): gate[2] = True # visible doors
@@ -660,6 +663,10 @@ while True:
             # check map change using player's coordinates
             # if the player leaves, the map number changes
             map.check_change(player)
+
+            # check music
+            if music_status == enums.UNMUTED:
+                jukebox.update()
             
     # TEST /////////////////////////////////////////////////////////////////////
     # FPS counter using the clock   
