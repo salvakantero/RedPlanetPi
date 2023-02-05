@@ -27,6 +27,7 @@ from config import Configuration
 from explosion import Explosion
 from floatingtext import FloatingText
 from marqueetext import MarqueeText
+from jukebox import Jukebox
 
 
 #===============================================================================
@@ -578,9 +579,8 @@ while True:
         blast_group = pygame.sprite.GroupSingle()                
         # create the player
         player = Player(dust_animation, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
-        # ingame music
-        #pygame.mixer.music.load('sounds/ingame.ogg')
-        #pygame.mixer.music.play(-1)
+        # creates a playlist with the 12 available music tracks
+        jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
         # reset variables
         for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # visible hotspots
         for gate in constants.GATE_DATA.values(): gate[2] = True # visible doors
