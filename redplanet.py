@@ -135,15 +135,6 @@ def change_map():
 # Main functions
 #===============================================================================
 
-# it's necessary to clean the edges of the map after shaking it
-def clean_edges():
-    pygame.draw.rect(screen, constants.PALETTE['BLACK'], 
-        (20, 120 , 20 , 500))
-    pygame.draw.rect(screen, constants.PALETTE['BLACK'], 
-        (760, 120 , 20 , 500))
-    pygame.draw.rect(screen, constants.PALETTE['BLACK'],
-        (40, 610 , 720 , 20))
-
 # dumps and scales surfaces to the screen
 def update_screen():
     if game_status == enums.OVER:
@@ -154,8 +145,11 @@ def update_screen():
         # shakes the surface of the map if it has been requested
         offset = [0,0]
         if map.shake_timer > 0:
-            if map.shake_timer == 1: # last frame shaken            
-                clean_edges()
+            if map.shake_timer == 1: # last frame shaken   
+                # it's necessary to clean the edges of the map after shaking it         
+                pygame.draw.rect(screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500))
+                pygame.draw.rect(screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
+                pygame.draw.rect(screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
             else:
                 offset[0] = random.randint(-map.shake[0], map.shake[0])
                 offset[1] = random.randint(-map.shake[1], map.shake[1])
@@ -204,8 +198,8 @@ def confirm_exit():
 
 # displays a 'game over' message and waits
 def game_over(): 
-    pygame.mixer.music.stop() 
     show_message('G a m e  O v e r', 'PRESS ANY KEY')
+    pygame.mixer.stop()
     sfx_game_over.play()
     pygame.event.clear(pygame.KEYDOWN)
     while True:
@@ -224,9 +218,15 @@ def pause_game():
             if event.type == pygame.QUIT:
                 support.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE or \
-                event.key == config.pause_key:
+                if event.key == pygame.K_ESCAPE or event.key == config.pause_key:
                     return
+
+# the ESC, RETURN or SPACE key has been pressed.
+def main_key_pressed():
+    for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    return True
 
 # introductory scene
 def intro_scene():
@@ -252,7 +252,9 @@ def intro_scene():
         update_screen() # draw menu_surf
         pygame.time.wait(12)    
     sfx_intro3.play()
+    if main_key_pressed(): return
     pygame.time.wait(1500)
+    if main_key_pressed(): return
     # fade out
     aux_surf.fill(constants.PALETTE["BLACK"]) # black background
     aux_surf.set_alpha(0) # totally transparent    
@@ -260,9 +262,10 @@ def intro_scene():
         aux_surf.set_alpha(z) # opacity is being applied
         menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
         update_screen() # draw menu_surf
-        pygame.time.wait(12)    
+        pygame.time.wait(12)  
+    if main_key_pressed(): return  
     pygame.time.wait(1500)
-
+    if main_key_pressed(): return
     # RedPlanetPi
     sfx_intro1.play()
     menu_surf.fill(constants.PALETTE["WHITE"]) # white background
@@ -280,6 +283,7 @@ def intro_scene():
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (x, 0))
         update_screen()
+    if main_key_pressed(): return
     # slides the PI from the bottom to its final position
     sfx_intro2.play()
     for y in range(140, -5, -10):
@@ -287,6 +291,7 @@ def intro_scene():
         menu_surf.blit(intro2_image, (0, 0))
         menu_surf.blit(intro3_image, (198, y))
         update_screen()
+    if main_key_pressed(): return
     # pause for recreation. Ooohhh how wonderful!
     pygame.time.wait(500)
 
@@ -295,6 +300,7 @@ def main_menu():
     sfx_switchoff.play()    
     menu_surf.blit(menu_image, (0,0))
     update_screen()
+    if main_key_pressed(): return
     pygame.time.wait(2000) 
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
