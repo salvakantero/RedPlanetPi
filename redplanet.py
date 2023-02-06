@@ -300,8 +300,6 @@ def main_menu():
     sfx_switchoff.play()    
     menu_surf.blit(menu_image, (0,0))
     update_screen()
-    #if main_key_pressed(): return
-    #pygame.time.wait(2000) 
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
     # help
