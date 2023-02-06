@@ -5,18 +5,14 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Menu de inicio
+- Teclas redefinibles y otras configuraciones en el menú
 
 POR HACER
 =========
-- Teclas redefinibles y otras configuraciones en el menú
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
-
-OPCIONAL
-========
 - Linterna en pantallas oscuras
-- Savegames con "pickle"
-
+- Grabar punto de control con "pickle"
 - Score y High
 - Highs online
 - Tabla de mejores puntuaciones
@@ -103,8 +99,8 @@ CREDITS
 Programming: SalvaKantero
 Graphics: SalvaKantero
 Cover illustration: Masterklown
+Menu Music: Masterklown
 Sound Effects: Juhani Junkala; "The Essential Retro Video Game Sound Effects Collection"
-
 Greetings:
 Mojon Twins (MK1 engine)
 DaFluffyPotato (Font class, screen scaling)
