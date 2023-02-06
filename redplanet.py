@@ -179,12 +179,12 @@ def show_message(msg1, msg2):
     map_surf.set_alpha(120)
     update_screen()
     # saves a copy of the darkened screen
-    dim_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
-    dim_surf.blit(map_surf, (0,0))
+    aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
+    aux_surf.blit(map_surf, (0,0))
     # draws the light message on the dark background
-    support.message_box(msg1, msg2, dim_surf, font_dict)
+    support.message_box(msg1, msg2, aux_surf, font_dict)
     # return the copy with the message on the map surface and redraw it.
-    map_surf.blit(dim_surf, (0,0))
+    map_surf.blit(aux_surf, (0,0))
     map_surf.set_alpha(None)
     update_screen()
     sfx_message.play()
@@ -203,7 +203,8 @@ def confirm_exit():
                 return False
 
 # displays a 'game over' message and waits
-def game_over():  
+def game_over(): 
+    pygame.mixer.music.stop() 
     show_message('G a m e  O v e r', 'PRESS ANY KEY')
     sfx_game_over.play()
     pygame.event.clear(pygame.KEYDOWN)
@@ -427,6 +428,15 @@ def collision_check():
                 if player.facing_right: player.rect.x -= 5
                 else: player.rect.x += 5
 
+# stops the music when the game is paused and a message is displayed.
+def pause_music():
+    if music_status == enums.UNMUTED:
+        pygame.mixer.music.pause()
+
+# restores music if it returns from a message
+def restore_music():
+    if music_status == enums.UNMUTED:
+        pygame.mixer.music.unpause()
 
 #===============================================================================
 # Main
@@ -558,7 +568,7 @@ scoreboard = Scoreboard(sboard_surf, hotspot_images, font_dict)
 # create the Map object
 map = Map(map_surf, map_surf_bk)
 
- # creates a playlist with the 12 available music tracks
+ # creates a playlist with the 12 available tracks
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
 music_status = enums.UNMUTED
 
@@ -581,7 +591,7 @@ while True:
         blast_group = pygame.sprite.GroupSingle()                
         # create the player
         player = Player(dust_animation, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
-        # new playlist with the 12 available music tracks
+        # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         jukebox.shuffle()
         # reset variables
@@ -597,23 +607,20 @@ while True:
         # event management
         for event in pygame.event.get():
             # exit when click on the X in the window
-            if event.type == pygame.QUIT: 
+            if event.type == pygame.QUIT:
                 support.exit()
             if event.type == pygame.KEYDOWN:
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
+                    pause_music()
                     if confirm_exit():
                         game_status = enums.OVER # go to the main menu
-
+                    else: restore_music()
                 # pause main loop
                 if event.key == config.pause_key:
-                    # mute the music if necessary
-                    if music_status == enums.UNMUTED:
-                        pygame.mixer.music.fadeout(1200)
+                    pause_music()
                     pause_game()
-                    if music_status == enums.UNMUTED:
-                        pygame.mixer.music.play()
-                                
+                    restore_music()                                
                 # mute music
                 if event.key == config.mute_key :
                     if music_status == enums.MUTED:
@@ -639,8 +646,10 @@ while True:
         if game_status == enums.RUNNING:
             # update sprites
             all_sprites_group.update()
+
             # collision between the player and an enemy or moving platform
             collision_check()
+
             # game over?
             if player.lives == 0 or player.oxygen < 0:
                 game_status = enums.OVER
@@ -654,7 +663,7 @@ while True:
             map_surf.blit(map_surf_bk, (0,0))
             all_sprites_group.draw(map_surf)
 
-            # draws the floating texts (only if inside the screen)
+            # draws the floating texts, only if needed
             floating_text.update()
 
             # updates the scoreboard, only if needed
@@ -664,7 +673,7 @@ while True:
             # if the player leaves, the map number changes
             map.check_change(player)
 
-            # check music
+            # next track in the playlist if the music has been stopped
             if music_status == enums.UNMUTED:
                 jukebox.update()
             

@@ -368,6 +368,7 @@ GATE_DATA = {
 }
 
 # repetitions for each ingame music track
+# is necessary, due to the large differences in the length of each track.
 MUSIC_LOOP_LIST = (2,1,2,2,2,1,1,3,1,3,2,2)
 
 # introductory help
