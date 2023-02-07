@@ -14,7 +14,7 @@ class Scoreboard():
         self.font = font_dict
         self.needs_updating = False # redrawing of the data if True
         # icons
-        self.lives_icon = pygame.image.load('images/assets/lives.png').convert()
+        self.lives_icon = pygame.image.load('images/sprites/player0.png').convert()
         self.hotspot_images = hotspot_images
 
         # Game Percentage %

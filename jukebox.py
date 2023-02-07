@@ -18,6 +18,7 @@ class Jukebox():
     # generates a new random list of the x available tracks
     def shuffle(self):
         random.shuffle(self.track_list)
+        self.track_index = 0
 
     # load the next track from the playlist
     # for example: 'sounds/music/'+'mus_ingame_'+'9' + '.ogg'
@@ -31,7 +32,7 @@ class Jukebox():
             self.track_index = 0
 
     def update(self):
-        if not pygame.mixer.music.get_busy(): # if a track is not playing..
+        if not pygame.mixer.music.get_busy(): # if a track is not playing...
             self.load_next() # obviously load in memory the following track
             # applies the number of repetitions assigned to the track and plays it
             pygame.mixer.music.play(self.loop_list[self.track_list[self.track_index]])

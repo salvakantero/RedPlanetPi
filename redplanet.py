@@ -460,7 +460,7 @@ flags = 0
 if config.full_screen: flags = pygame.FULLSCREEN
 screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
 pygame.display.set_caption('.:: Red Planet Pi ::.')
-icon = pygame.image.load('images/assets/icon.png').convert_alpha()
+icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
 pygame.display.set_icon(icon)  
 
 # area covered by the menu

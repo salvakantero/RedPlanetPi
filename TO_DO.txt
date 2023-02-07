@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- revisar nº de repeticiones de los temas
 - revisar movimiento de FANTY
 - Menu de inicio
 - Teclas redefinibles y otras configuraciones en el menú
