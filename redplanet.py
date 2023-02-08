@@ -370,7 +370,14 @@ def collision_check():
                 enemy.kill()
                 bullet_group.sprite.kill()
                 break
-    
+
+    # bullets and map tiles ----------------------------------------------------
+    if not bullet_group.sprite == None:
+        bullet_rect = bullet_group.sprite.rect
+        for tile in map.tilemap_rect_list:
+            if tile.colliderect(bullet_rect):
+                bullet_group.sprite.kill()
+                
     # player and hotspot -------------------------------------------------------
     if not hotspot_group.sprite == None:
         if player.rect.colliderect(hotspot_group.sprite):

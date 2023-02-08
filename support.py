@@ -64,15 +64,15 @@ def addsign (n, value):
     else: return -value
 
 # calculates the distance between two points
-#def distance (x1, y1, x2, y2):
-#    return math.hypot(x2 - x1, y2 - y1)
+def distance (x1, y1, x2, y2):
+    return math.hypot(x2 - x1, y2 - y1)
 
-def distance(x1, y1, x2, y2):
-    dx = abs(x2 - x1)
-    dy = abs(y2 - y1)
-    if dx < dy: mn = dx
-    else: mn = dy
-    return (dx + dy - (int(mn) >> 1) - (int(mn) >> 2) + (int(mn) >> 4))
+# def distance(x1, y1, x2, y2):
+#     dx = abs(x2 - x1)
+#     dy = abs(y2 - y1)
+#     if dx < dy: mn = dx
+#     else: mn = dy
+#     return (dx + dy - (int(mn) >> 1) - (int(mn) >> 2) + (int(mn) >> 4))
 
 # maintains a value within limits
 def limit(val, min, max):
