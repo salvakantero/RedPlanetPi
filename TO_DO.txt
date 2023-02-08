@@ -6,10 +6,10 @@ EN PROCESO
 ==========
 - revisar movimiento de FANTY
 - Menu de inicio
-- Teclas redefinibles y otras configuraciones en el menú
 
 POR HACER
 =========
+- Teclas redefinibles y otras configuraciones en el menú
 - Pantalla final
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Linterna en pantallas oscuras

@@ -583,6 +583,7 @@ music_status = enums.UNMUTED
 
 while True:    
     if game_status == enums.OVER: # game not running
+        pygame.mouse.set_visible(True)
         main_menu()
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
@@ -608,6 +609,7 @@ while True:
         scoreboard.game_percent = 0
         floating_text.y = 0
     else: # game running
+        pygame.mouse.set_visible(False)
         # event management
         for event in pygame.event.get():
             # exit when click on the X in the window

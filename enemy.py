@@ -36,7 +36,7 @@ class Enemy(pygame.sprite.Sprite):
         elif self.type == enums.FANTY:
             enemy_name = 'fanty'  
             self.state = enums.IDLE          
-            self.sight_distance = 1 # *64 pixels/frame
+            self.sight_distance = 64 #1 # *64 pixels/frame
             self.acceleration = 0.05 # pixels/frame
             self.max_speed = 2 # pixels/frame
         # images
@@ -97,15 +97,17 @@ class Enemy(pygame.sprite.Sprite):
                     self.vy = support.limit(self.vy + support.addsign(self.player.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
                     # applies the new position, 
                     # but keeps it within the boundaries of the screen.
-                    self.x = support.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
-                    self.y = support.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
+                    self.x = support.limit(self.x + self.vx, 0, 1436) #constants.MAP_UNSCALED_SIZE[0])
+                    self.y = support.limit(self.y + self.vy, 0, 9216) #constants.MAP_UNSCALED_SIZE[1])
             else: # retreating; going back to the starting point
-                self.x += support.addsign(self.x1 - int(self.x), 1)
-                self.y += support.addsign(self.y1 - int(self.y), 1)
+                self.x += support.addsign(self.x1 - gpen_cx, 64) #int(self.x), 1)
+                self.y += support.addsign(self.y1 - gpen_cy, 64) #int(self.y), 1)
                 # close to the player, chases him again!
                 if support.distance(gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
                     self.state = enums.CHASING		
 
+            gpen_cx = int(self.x) >> 6
+            gpen_cy = int(self.y) >> 6
             if self.state == enums.RETREATING:
                 if (self.x1 >= self.x-1 and self.x1 <= self.x+1) \
                 and (self.y1 >= self.y-1 and self.y1 <= self.y+1):
@@ -113,7 +115,7 @@ class Enemy(pygame.sprite.Sprite):
                     self.state = enums.IDLE
                     self.x = self.x1
                     self.y = self.y1      
-
+						
         # applies the calculated position and the corresponding frame
         self.rect.x = self.x
         self.rect.y = self.y
