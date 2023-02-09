@@ -299,9 +299,28 @@ def intro_scene():
 def main_menu():
     sfx_switchoff.play()    
     menu_surf.blit(menu_image, (0,0))
-    update_screen()
+    update_screen()    
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
+    # buttons
+    Button_images = {
+        enums.START: [
+            pygame.image.load('images/assets/button1_1.png').convert_alpha(),
+            pygame.image.load('images/assets/button1_2.png').convert_alpha(),                              
+            pygame.image.load('images/assets/button1_3.png').convert_alpha()],
+        enums.LOAD: [
+            pygame.image.load('images/assets/button2_1.png').convert_alpha(),
+            pygame.image.load('images/assets/button2_2.png').convert_alpha(),
+            pygame.image.load('images/assets/button2_3.png').convert_alpha()],
+        enums.OPTIONS: [
+            pygame.image.load('images/assets/button3_1.png').convert_alpha(),
+            pygame.image.load('images/assets/button3_2.png').convert_alpha(),
+            pygame.image.load('images/assets/button3_3.png').convert_alpha()],
+        enums.EXIT: [
+            pygame.image.load('images/assets/button4_1.png').convert_alpha(),
+            pygame.image.load('images/assets/button4_2.png').convert_alpha(),
+            pygame.image.load('images/assets/button4_3.png').convert_alpha()]
+}
     # help
     marquee_help = MarqueeText(
         menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
@@ -313,9 +332,36 @@ def main_menu():
     
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
+        # background image
         menu_surf.blit(menu_image, (0,0))
+        # marquee
         marquee_help.update()
         marquee_credits.update()
+        # menu options        
+        menu_x = 70
+        menu_y = 70
+        font_FG = Font('images/fonts/large_font.png', constants.PALETTE['GREEN'], True)
+        font_BG = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GREEN'], True)
+        text = 'Start New Game'
+        font_BG.render(text, menu_surf, (menu_x, menu_y))
+        font_FG.render(text, menu_surf, (menu_x-2, menu_y-2))
+        text = 'Load Last Checkpoint'
+        font_BG.render(text, menu_surf, (menu_x, menu_y+20))
+        font_FG.render(text, menu_surf, (menu_x-2, menu_y+18))
+        text = 'Options'
+        font_BG.render(text, menu_surf, (menu_x, menu_y+40))
+        font_FG.render(text, menu_surf, (menu_x-2, menu_y+38))
+        text = 'Exit'
+        font_BG.render(text, menu_surf, (menu_x, menu_y+60))
+        font_FG.render(text, menu_surf, (menu_x-2, menu_y+58))
+        # menu buttons
+        menu_x = 40
+        menu_y = 60
+        menu_surf.blit(Button_images[enums.START][0], (menu_x, menu_y))
+        menu_surf.blit(Button_images[enums.LOAD][0], (menu_x, menu_y+20))
+        menu_surf.blit(Button_images[enums.OPTIONS][0], (menu_x, menu_y+40))
+        menu_surf.blit(Button_images[enums.EXIT][0], (menu_x, menu_y+60))
+
         update_screen()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

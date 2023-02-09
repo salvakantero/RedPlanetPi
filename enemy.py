@@ -36,9 +36,9 @@ class Enemy(pygame.sprite.Sprite):
         elif self.type == enums.FANTY:
             enemy_name = 'fanty'  
             self.state = enums.IDLE          
-            self.sight_distance = 1 # x64 pixels/frame
+            self.sight_distance = 1.0 # x64 pixels/frame
             self.acceleration = 0.05 # pixels/frame
-            self.max_speed = 2 # pixels/frame
+            self.max_speed = 2.0 # pixels/frame
         # images
         self.image_list = []
         for i in range(2): # only 2 frames per enemy
@@ -79,12 +79,17 @@ class Enemy(pygame.sprite.Sprite):
                 self.vy = -self.vy
         else: # fanty
             # >>6 is equivalent to dividing by 64 (more efficient)
-            gpx = int(self.player.x) >> 6
-            gpy = int(self.player.y) >> 6
-            gpen_cx = int(self.x) >> 6
-            gpen_cy = int(self.y) >> 6
+            # gpx = int(self.player.x) >> 6
+            # gpy = int(self.player.y) >> 6
+            # gpen_cx = int(self.x) >> 6
+            # gpen_cy = int(self.y) >> 6
+            gpx = self.player.x / 64
+            gpy = self.player.y / 64
+            gpen_cx = self.x / 64
+            gpen_cy = self.y / 64
             if self.state == enums.IDLE:                
                 if support.distance (gpx, gpy, gpen_cx, gpen_cy) <= self.sight_distance:
+                    print (support.distance (gpx, gpy, gpen_cx, gpen_cy))
                     # close to the player, chases him
                     self.state = enums.CHASING
             elif self.state == enums.CHASING:
