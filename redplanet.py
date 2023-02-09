@@ -338,29 +338,29 @@ def main_menu():
         marquee_help.update()
         marquee_credits.update()
         # menu options        
-        menu_x = 70
-        menu_y = 70
-        font_FG = Font('images/fonts/large_font.png', constants.PALETTE['GREEN'], True)
-        font_BG = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GREEN'], True)
-        text = 'Start New Game'
+        menu_x = 75
+        menu_y = 68
+        font_FG = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
+        font_BG = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
+        text = '1-Start New Game'
         font_BG.render(text, menu_surf, (menu_x, menu_y))
         font_FG.render(text, menu_surf, (menu_x-2, menu_y-2))
-        text = 'Load Last Checkpoint'
-        font_BG.render(text, menu_surf, (menu_x, menu_y+20))
-        font_FG.render(text, menu_surf, (menu_x-2, menu_y+18))
-        text = 'Options'
-        font_BG.render(text, menu_surf, (menu_x, menu_y+40))
-        font_FG.render(text, menu_surf, (menu_x-2, menu_y+38))
-        text = 'Exit'
-        font_BG.render(text, menu_surf, (menu_x, menu_y+60))
-        font_FG.render(text, menu_surf, (menu_x-2, menu_y+58))
+        text = '2-Load Checkpoint'
+        font_BG.render(text, menu_surf, (menu_x, menu_y+25))
+        font_FG.render(text, menu_surf, (menu_x-2, menu_y+23))
+        text = '3-Options'
+        font_BG.render(text, menu_surf, (menu_x, menu_y+50))
+        font_FG.render(text, menu_surf, (menu_x-2, menu_y+48))
+        text = 'ESC-Exit'
+        font_BG.render(text, menu_surf, (menu_x, menu_y+75))
+        font_FG.render(text, menu_surf, (menu_x-2, menu_y+73))
         # menu buttons
         menu_x = 40
         menu_y = 60
         menu_surf.blit(Button_images[enums.START][0], (menu_x, menu_y))
-        menu_surf.blit(Button_images[enums.LOAD][0], (menu_x, menu_y+20))
-        menu_surf.blit(Button_images[enums.OPTIONS][0], (menu_x, menu_y+40))
-        menu_surf.blit(Button_images[enums.EXIT][0], (menu_x, menu_y+60))
+        menu_surf.blit(Button_images[enums.LOAD][0], (menu_x, menu_y+25))
+        menu_surf.blit(Button_images[enums.OPTIONS][0], (menu_x, menu_y+50))
+        menu_surf.blit(Button_images[enums.EXIT][0], (menu_x, menu_y+75))
 
         update_screen()
         for event in pygame.event.get():
