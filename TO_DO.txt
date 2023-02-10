@@ -6,6 +6,7 @@ EN PROCESO
 ==========
 - revisar movimiento de FANTY
 - Menu de inicio
+- FPS en opciones
 
 POR HACER
 =========
@@ -190,9 +191,9 @@ AMMO: +25
 KEY: +1
 OXYGEN: +99
 Se usará al matar malotes?: (puntos)
-INFECTED: +50
-ARACHNID: +75
-PELUSOID: +100
-FANTY: +150
+INFECTED: +25
+ARACHNID: +50
+PELUSOID: +75
+FANTY: +100
 
 

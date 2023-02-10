@@ -297,11 +297,21 @@ def intro_scene():
 
 # main menu
 def main_menu():
-    sfx_switchoff.play()    
-    menu_surf.blit(menu_image, (0,0))
-    update_screen()    
-    pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-    pygame.mixer.music.play()
+    # page 1: menu options
+    # page 2: enemy information
+    # page 3: hotspot information
+    page1_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    page2_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    page3_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    # transparent backgrounds
+    page1_surf.set_colorkey(constants.PALETTE['BLACK'])
+    page2_surf.set_colorkey(constants.PALETTE['BLACK'])
+    page3_surf.set_colorkey(constants.PALETTE['BLACK'])
+    # menu fonts
+    fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
+    fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
+    fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
+    fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
     # buttons
     Button_images = {
         enums.START: [
@@ -319,8 +329,66 @@ def main_menu():
         enums.EXIT: [
             pygame.image.load('images/assets/button4_1.png').convert_alpha(),
             pygame.image.load('images/assets/button4_2.png').convert_alpha(),
-            pygame.image.load('images/assets/button4_3.png').convert_alpha()]
-}
+            pygame.image.load('images/assets/button4_3.png').convert_alpha()]}
+    # enemies
+    infected_image = pygame.image.load('images/sprites/infected0.png').convert_alpha()
+    avirus_image = pygame.image.load('images/sprites/avirus0.png').convert_alpha()
+    pelusoid_image = pygame.image.load('images/sprites/pelusoid0.png').convert_alpha()
+    fanty_image = pygame.image.load('images/sprites/fanty0.png').convert_alpha()
+
+    # page 1 (menu options) ----------------------------------------------------
+    x = 75
+    y = 68
+    support.shaded_text(fnt_LB, fnt_LF, '1-Start New Game', page1_surf, x, y, 2)
+    support.shaded_text(fnt_LB, fnt_LF, '2-Load Checkpoint', page1_surf, x, y+25, 2)
+    support.shaded_text(fnt_LB, fnt_LF, '3-Options', page1_surf, x, y+50, 2)
+    support.shaded_text(fnt_LB, fnt_LF, 'ESC-Exit', page1_surf, x, y+75, 2)
+    # menu buttons
+    x = 40
+    y = 60
+    page1_surf.blit(Button_images[enums.START][0], (x, y))
+    page1_surf.blit(Button_images[enums.LOAD][0], (x, y+25))
+    page1_surf.blit(Button_images[enums.OPTIONS][0], (x, y+50))
+    page1_surf.blit(Button_images[enums.EXIT][0], (x, y+75))
+    
+    # page 2 (enemies info) ----------------------------------------------------
+    x = 85
+    y = 65
+    support.shaded_text(fnt_LB, fnt_LF, 'The Baddies', page2_surf, x, y, 1)
+    y = 96
+    support.shaded_text(fnt_SB, fnt_SF, 'Infected', page2_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '+25', page2_surf, x+75, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Arachnovirus', page2_surf, x, y+20, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '+50', page2_surf, x+75, y+20, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid', page2_surf, x, y+40, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '+75', page2_surf, x+75, y+40, 1)    
+    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid Fanty', page2_surf, x, y+60, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '+100', page2_surf, x+71, y+60, 1)
+    # enemy images
+    x = 60
+    y = 90
+    page2_surf.blit(infected_image, (x, y))
+    page2_surf.blit(avirus_image, (x, y+20))
+    page2_surf.blit(pelusoid_image, (x, y+40))
+    page2_surf.blit(fanty_image, (x, y+60))
+
+    # page 3 (hotspot info) ----------------------------------------------------
+    x = 85
+    y = 65
+    support.shaded_text(fnt_LB, fnt_LF, 'The Hotspots', page3_surf, x, y, 1)
+    y = 96
+    support.shaded_text(fnt_SB, fnt_SF, 'Explosives', page3_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Ammunition', page3_surf, x, y+20, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Key Card', page3_surf, x, y+40, 1) 
+    support.shaded_text(fnt_SB, fnt_SF, 'Oxygen bottle', page3_surf, x, y+60, 1)
+    # enemy images
+    x = 60
+    y = 90
+    page3_surf.blit(hotspot_images[enums.TNT], (x, y))
+    page3_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
+    page3_surf.blit(hotspot_images[enums.KEY], (x, y+40))
+    page3_surf.blit(hotspot_images[enums.OXYGEN], (x, y+60))
+
     # help
     marquee_help = MarqueeText(
         menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
@@ -329,39 +397,21 @@ def main_menu():
     marquee_credits = MarqueeText(
         menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
         menu_surf.get_height() - 8, .5, constants.CREDITS, 2800)
-    
+        
+    sfx_switchoff.play()    
+    pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+    pygame.mixer.music.play()
+
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
         # background image
         menu_surf.blit(menu_image, (0,0))
         # marquee
         marquee_help.update()
-        marquee_credits.update()
-        # menu options        
-        menu_x = 75
-        menu_y = 68
-        font_FG = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
-        font_BG = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
-        text = '1-Start New Game'
-        font_BG.render(text, menu_surf, (menu_x, menu_y))
-        font_FG.render(text, menu_surf, (menu_x-2, menu_y-2))
-        text = '2-Load Checkpoint'
-        font_BG.render(text, menu_surf, (menu_x, menu_y+25))
-        font_FG.render(text, menu_surf, (menu_x-2, menu_y+23))
-        text = '3-Options'
-        font_BG.render(text, menu_surf, (menu_x, menu_y+50))
-        font_FG.render(text, menu_surf, (menu_x-2, menu_y+48))
-        text = 'ESC-Exit'
-        font_BG.render(text, menu_surf, (menu_x, menu_y+75))
-        font_FG.render(text, menu_surf, (menu_x-2, menu_y+73))
-        # menu buttons
-        menu_x = 40
-        menu_y = 60
-        menu_surf.blit(Button_images[enums.START][0], (menu_x, menu_y))
-        menu_surf.blit(Button_images[enums.LOAD][0], (menu_x, menu_y+25))
-        menu_surf.blit(Button_images[enums.OPTIONS][0], (menu_x, menu_y+50))
-        menu_surf.blit(Button_images[enums.EXIT][0], (menu_x, menu_y+75))
-
+        marquee_credits.update()        
+        # menu pages
+        menu_surf.blit(page3_surf, (0, 0))        
+        
         update_screen()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

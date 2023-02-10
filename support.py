@@ -96,3 +96,7 @@ def clip(surf, x, y, x_size, y_size):
     image = surf.subsurface(handle_surf.get_clip())
     return image.copy()
 
+# draws a text with its shadow
+def shaded_text(font_BG, font_FG, text, surface, x, y, offset):       
+    font_BG.render(text, surface, (x, y))  # shadow
+    font_FG.render(text, surface, (x-offset, y-offset))
