@@ -339,8 +339,8 @@ def main_menu():
     fanty_image = pygame.image.load('images/sprites/fanty0.png').convert()
 
     # page 1 (menu options) ----------------------------------------------------
-    x = 85
-    y = 68
+    x = 83
+    y = 67
     support.shaded_text(fnt_LB, fnt_LF, '1-Start New Game', page1_surf, x, y, 1)
     support.shaded_text(fnt_LB, fnt_LF, '2-Load Checkpoint', page1_surf, x, y+25, 1)
     support.shaded_text(fnt_LB, fnt_LF, '3-Options', page1_surf, x, y+50, 1)
