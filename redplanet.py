@@ -246,7 +246,7 @@ def intro_scene():
     menu_surf.fill(constants.PALETTE["BLACK"]) # black background
     aux_surf.blit(logo_image, (0, 0))
     aux_surf.set_alpha(0) # totally transparent    
-    for z in range(40):
+    for z in range(45):
         aux_surf.set_alpha(z) # opacity is being applied
         menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
         update_screen() # draw menu_surf
@@ -258,7 +258,7 @@ def intro_scene():
     # fade out
     aux_surf.fill(constants.PALETTE["BLACK"]) # black background
     aux_surf.set_alpha(0) # totally transparent    
-    for z in range(40):
+    for z in range(45):
         aux_surf.set_alpha(z) # opacity is being applied
         menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
         update_screen() # draw menu_surf
@@ -339,14 +339,14 @@ def main_menu():
     fanty_image = pygame.image.load('images/sprites/fanty0.png').convert_alpha()
 
     # page 1 (menu options) ----------------------------------------------------
-    x = 75
+    x = 80
     y = 68
-    support.shaded_text(fnt_LB, fnt_LF, '1-Start New Game', page1_surf, x, y, 2)
-    support.shaded_text(fnt_LB, fnt_LF, '2-Load Checkpoint', page1_surf, x, y+25, 2)
-    support.shaded_text(fnt_LB, fnt_LF, '3-Options', page1_surf, x, y+50, 2)
-    support.shaded_text(fnt_LB, fnt_LF, 'ESC-Exit', page1_surf, x, y+75, 2)
+    support.shaded_text(fnt_LB, fnt_LF, '1-Start New Game', page1_surf, x, y, 1)
+    support.shaded_text(fnt_LB, fnt_LF, '2-Load Checkpoint', page1_surf, x, y+25, 1)
+    support.shaded_text(fnt_LB, fnt_LF, '3-Options', page1_surf, x, y+50, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'ESC-Exit', page1_surf, x, y+75, 1)
     # menu buttons
-    x = 40
+    x = 45
     y = 60
     page1_surf.blit(Button_images[enums.START][0], (x, y))
     page1_surf.blit(Button_images[enums.LOAD][0], (x, y+25))
@@ -354,21 +354,21 @@ def main_menu():
     page1_surf.blit(Button_images[enums.EXIT][0], (x, y+75))
     
     # page 2 (enemies info) ----------------------------------------------------
-    x = 85
-    y = 65
+    x = 78
+    y = 60
     support.shaded_text(fnt_LB2, fnt_LF2, 'The Baddies', page2_surf, x, y, 1)
-    y = 96
-    support.shaded_text(fnt_SB, fnt_SF, 'Infected', page2_surf, x, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '+25', page2_surf, x+75, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Arachnovirus', page2_surf, x, y+20, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '+50', page2_surf, x+75, y+20, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid', page2_surf, x, y+40, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '+75', page2_surf, x+75, y+40, 1)    
-    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid Fanty', page2_surf, x, y+60, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '+100', page2_surf, x+71, y+60, 1)
+    y = 87
+    support.shaded_text(fnt_LB, fnt_LF, 'Infected', page2_surf, x, y, 1)
+    support.shaded_text(fnt_LB, fnt_LF, '+25', page2_surf, x+110, y, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Arachnovirus', page2_surf, x, y+20, 1)
+    support.shaded_text(fnt_LB, fnt_LF, '+50', page2_surf, x+110, y+20, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Pelusoid', page2_surf, x, y+40, 1)
+    support.shaded_text(fnt_LB, fnt_LF, '+75', page2_surf, x+110, y+40, 1)    
+    support.shaded_text(fnt_LB, fnt_LF, 'Pelusoid Fanty', page2_surf, x, y+60, 1)
+    support.shaded_text(fnt_LB, fnt_LF, '+100', page2_surf, x+102, y+60, 1)
     # enemy images
-    x = 62
-    y = 90
+    x = 55
+    y = 84
     page2_surf.blit(infected_image, (x, y))
     page2_surf.blit(avirus_image, (x, y+20))
     page2_surf.blit(pelusoid_image, (x, y+40))
@@ -376,17 +376,17 @@ def main_menu():
 
     # page 3 (hotspot info) ----------------------------------------------------
     x = 80
-    y = 65
+    y = 60
     support.shaded_text(fnt_LB2, fnt_LF2, 'The Hotspots', page3_surf, x, y, 1)
-    x = 110
-    y = 96
-    support.shaded_text(fnt_SB, fnt_SF, 'Explosives', page3_surf, x, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Ammunition', page3_surf, x, y+20, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Key Card', page3_surf, x, y+40, 1) 
-    support.shaded_text(fnt_SB, fnt_SF, 'Oxygen bottle', page3_surf, x, y+60, 1)
-    # enemy images
-    x = 85
-    y = 89
+    x = 100
+    y = 87
+    support.shaded_text(fnt_LB, fnt_LF, 'Explosives', page3_surf, x, y, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Ammunition', page3_surf, x, y+20, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Key Card', page3_surf, x, y+40, 1) 
+    support.shaded_text(fnt_LB, fnt_LF, 'Oxygen bottle', page3_surf, x, y+60, 1)
+    # hotspot images
+    x = 75
+    y = 84
     page3_surf.blit(hotspot_images[enums.TNT], (x, y))
     page3_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
     page3_surf.blit(hotspot_images[enums.KEY], (x, y+40))
