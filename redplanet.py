@@ -405,16 +405,33 @@ def main_menu():
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
 
+    # number of ticks the page remains on screen
+    page_time_from = pygame.time.get_ticks()
+    page_time_to = 5000
+    menu_page = 0
+
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
         # background image
         menu_surf.blit(menu_image, (0,0))
         # marquee
         marquee_help.update()
-        marquee_credits.update()        
+        marquee_credits.update()  
+
         # menu pages
-        menu_surf.blit(page1_surf, (0, 0))        
-        
+        if (pygame.time.get_ticks() - page_time_from) >= page_time_to:
+            menu_page += 1
+            page_time_from = pygame.time.get_ticks()
+
+        if menu_page == 1:
+            menu_surf.blit(page1_surf, (0, 0))        
+        elif menu_page == 2:
+            menu_surf.blit(page2_surf, (0, 0))
+        elif menu_page == 3:
+            menu_surf.blit(page3_surf, (0, 0))  
+        else:
+            menu_page = 1
+
         update_screen()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
