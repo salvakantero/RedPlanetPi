@@ -11,6 +11,7 @@ class Configuration():
         self.full_screen = 0 # 0 = no, 1 = yes
         self.scanlines_type = 0 # 0 = none, 1 = fast, 2 = HQ   
         self.map_transition = 0 # 0 = no, 1 = yes
+        self.show_fps = 1 # 0 = no, 1 = yes
         # keyboard
         self.left_key = pygame.K_o
         self.right_key = pygame.K_p
@@ -28,6 +29,7 @@ class Configuration():
         self.full_screen = config['FULL_SCREEN']
         self.scanlines_type = config['SCANLINES_TYPE']
         self.map_transition = config['MAP_TRANSITION']
+        self.show_fps = config['SHOW_FPS']
         # self.left_key = config['LEFT_KEY']
         # self.right_key = config['RIGHT_KEY']
         # self.jump_key = config['JUMP_KEY']
