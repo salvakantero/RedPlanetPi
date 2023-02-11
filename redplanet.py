@@ -333,20 +333,20 @@ def main_menu():
             pygame.image.load('images/assets/button4_1.png').convert_alpha(),
             pygame.image.load('images/assets/button4_2.png').convert_alpha()]}
     # enemies
-    infected_image = pygame.image.load('images/sprites/infected0.png').convert_alpha()
-    avirus_image = pygame.image.load('images/sprites/avirus0.png').convert_alpha()
-    pelusoid_image = pygame.image.load('images/sprites/pelusoid0.png').convert_alpha()
-    fanty_image = pygame.image.load('images/sprites/fanty0.png').convert_alpha()
+    infected_image = pygame.image.load('images/sprites/infected0.png').convert()
+    avirus_image = pygame.image.load('images/sprites/avirus0.png').convert()
+    pelusoid_image = pygame.image.load('images/sprites/pelusoid0.png').convert()
+    fanty_image = pygame.image.load('images/sprites/fanty0.png').convert()
 
     # page 1 (menu options) ----------------------------------------------------
-    x = 80
+    x = 85
     y = 68
     support.shaded_text(fnt_LB, fnt_LF, '1-Start New Game', page1_surf, x, y, 1)
     support.shaded_text(fnt_LB, fnt_LF, '2-Load Checkpoint', page1_surf, x, y+25, 1)
     support.shaded_text(fnt_LB, fnt_LF, '3-Options', page1_surf, x, y+50, 1)
     support.shaded_text(fnt_LB, fnt_LF, 'ESC-Exit', page1_surf, x, y+75, 1)
     # menu buttons
-    x = 45
+    x = 50
     y = 60
     page1_surf.blit(Button_images[enums.START][0], (x, y))
     page1_surf.blit(Button_images[enums.LOAD][0], (x, y+25))
@@ -354,9 +354,10 @@ def main_menu():
     page1_surf.blit(Button_images[enums.EXIT][0], (x, y+75))
     
     # page 2 (enemies info) ----------------------------------------------------
-    x = 78
+    x = 80
     y = 60
     support.shaded_text(fnt_LB2, fnt_LF2, 'The Baddies', page2_surf, x, y, 1)
+    x = 65
     y = 87
     support.shaded_text(fnt_LB, fnt_LF, 'Infected', page2_surf, x, y, 1)
     support.shaded_text(fnt_LB, fnt_LF, '+25', page2_surf, x+110, y, 1)
@@ -365,9 +366,9 @@ def main_menu():
     support.shaded_text(fnt_LB, fnt_LF, 'Pelusoid', page2_surf, x, y+40, 1)
     support.shaded_text(fnt_LB, fnt_LF, '+75', page2_surf, x+110, y+40, 1)    
     support.shaded_text(fnt_LB, fnt_LF, 'Pelusoid Fanty', page2_surf, x, y+60, 1)
-    support.shaded_text(fnt_LB, fnt_LF, '+100', page2_surf, x+102, y+60, 1)
+    support.shaded_text(fnt_LB, fnt_LF, '+100', page2_surf, x+103, y+60, 1)
     # enemy images
-    x = 55
+    x = 40
     y = 84
     page2_surf.blit(infected_image, (x, y))
     page2_surf.blit(avirus_image, (x, y+20))
@@ -378,14 +379,14 @@ def main_menu():
     x = 80
     y = 60
     support.shaded_text(fnt_LB2, fnt_LF2, 'The Hotspots', page3_surf, x, y, 1)
-    x = 100
+    x = 95
     y = 87
     support.shaded_text(fnt_LB, fnt_LF, 'Explosives', page3_surf, x, y, 1)
     support.shaded_text(fnt_LB, fnt_LF, 'Ammunition', page3_surf, x, y+20, 1)
     support.shaded_text(fnt_LB, fnt_LF, 'Key Card', page3_surf, x, y+40, 1) 
     support.shaded_text(fnt_LB, fnt_LF, 'Oxygen bottle', page3_surf, x, y+60, 1)
     # hotspot images
-    x = 75
+    x = 70
     y = 84
     page3_surf.blit(hotspot_images[enums.TNT], (x, y))
     page3_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
@@ -407,9 +408,10 @@ def main_menu():
 
     # number of ticks the page remains on screen
     page_time_from = pygame.time.get_ticks()
-    page_time_to = 5000
+    page_time_to = 8000
     menu_page = 0
 
+    x = constants.MENU_UNSCALED_SIZE[0]
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
         # background image
@@ -422,13 +424,18 @@ def main_menu():
         if (pygame.time.get_ticks() - page_time_from) >= page_time_to:
             menu_page += 1
             page_time_from = pygame.time.get_ticks()
+            x = constants.MENU_UNSCALED_SIZE[0]
+        elif (pygame.time.get_ticks() - page_time_from) >= page_time_to - 1000:
+            x -= 6
+        elif x > 0:
+            x -= 6
 
         if menu_page == 1:
-            menu_surf.blit(page1_surf, (0, 0))        
+            menu_surf.blit(page1_surf, (x, 0))        
         elif menu_page == 2:
-            menu_surf.blit(page2_surf, (0, 0))
+            menu_surf.blit(page2_surf, (x, 0))
         elif menu_page == 3:
-            menu_surf.blit(page3_surf, (0, 0))  
+            menu_surf.blit(page3_surf, (x, 0))  
         else:
             menu_page = 1
 
