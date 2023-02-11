@@ -4,9 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- revisar movimiento de FANTY
 - Menu de inicio
-- FPS en opciones
 
 POR HACER
 =========
@@ -93,6 +91,7 @@ HECHO
 03/02/23 - Logo POR
 04/02/23 - Obtener música de opengameart.org
 05/02/23 - Implementar música
+11/02/23 - FPS en opciones
 
 
 CREDITS

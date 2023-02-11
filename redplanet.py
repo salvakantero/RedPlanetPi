@@ -310,26 +310,28 @@ def main_menu():
     # menu fonts
     fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
     fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
+    fnt_LF2 = Font('images/fonts/large_font.png', constants.PALETTE['GREEN'], True)
+    fnt_LB2 = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GREEN'], True)
     fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
     fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
     # buttons
     Button_images = {
         enums.START: [
-            pygame.image.load('images/assets/button1_1.png').convert_alpha(),
-            pygame.image.load('images/assets/button1_2.png').convert_alpha(),                              
-            pygame.image.load('images/assets/button1_3.png').convert_alpha()],
+            pygame.image.load('images/assets/button1_0.png').convert_alpha(),
+            pygame.image.load('images/assets/button1_1.png').convert_alpha(),                              
+            pygame.image.load('images/assets/button1_2.png').convert_alpha()],
         enums.LOAD: [
+            pygame.image.load('images/assets/button2_0.png').convert_alpha(),
             pygame.image.load('images/assets/button2_1.png').convert_alpha(),
-            pygame.image.load('images/assets/button2_2.png').convert_alpha(),
-            pygame.image.load('images/assets/button2_3.png').convert_alpha()],
+            pygame.image.load('images/assets/button2_2.png').convert_alpha()],
         enums.OPTIONS: [
+            pygame.image.load('images/assets/button3_0.png').convert_alpha(),
             pygame.image.load('images/assets/button3_1.png').convert_alpha(),
-            pygame.image.load('images/assets/button3_2.png').convert_alpha(),
-            pygame.image.load('images/assets/button3_3.png').convert_alpha()],
+            pygame.image.load('images/assets/button3_2.png').convert_alpha()],
         enums.EXIT: [
+            pygame.image.load('images/assets/button4_0.png').convert_alpha(),
             pygame.image.load('images/assets/button4_1.png').convert_alpha(),
-            pygame.image.load('images/assets/button4_2.png').convert_alpha(),
-            pygame.image.load('images/assets/button4_3.png').convert_alpha()]}
+            pygame.image.load('images/assets/button4_2.png').convert_alpha()]}
     # enemies
     infected_image = pygame.image.load('images/sprites/infected0.png').convert_alpha()
     avirus_image = pygame.image.load('images/sprites/avirus0.png').convert_alpha()
@@ -354,7 +356,7 @@ def main_menu():
     # page 2 (enemies info) ----------------------------------------------------
     x = 85
     y = 65
-    support.shaded_text(fnt_LB, fnt_LF, 'The Baddies', page2_surf, x, y, 1)
+    support.shaded_text(fnt_LB2, fnt_LF2, 'The Baddies', page2_surf, x, y, 1)
     y = 96
     support.shaded_text(fnt_SB, fnt_SF, 'Infected', page2_surf, x, y, 1)
     support.shaded_text(fnt_SB, fnt_SF, '+25', page2_surf, x+75, y, 1)
@@ -365,7 +367,7 @@ def main_menu():
     support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid Fanty', page2_surf, x, y+60, 1)
     support.shaded_text(fnt_SB, fnt_SF, '+100', page2_surf, x+71, y+60, 1)
     # enemy images
-    x = 60
+    x = 62
     y = 90
     page2_surf.blit(infected_image, (x, y))
     page2_surf.blit(avirus_image, (x, y+20))
@@ -373,17 +375,18 @@ def main_menu():
     page2_surf.blit(fanty_image, (x, y+60))
 
     # page 3 (hotspot info) ----------------------------------------------------
-    x = 85
+    x = 80
     y = 65
-    support.shaded_text(fnt_LB, fnt_LF, 'The Hotspots', page3_surf, x, y, 1)
+    support.shaded_text(fnt_LB2, fnt_LF2, 'The Hotspots', page3_surf, x, y, 1)
+    x = 110
     y = 96
     support.shaded_text(fnt_SB, fnt_SF, 'Explosives', page3_surf, x, y, 1)
     support.shaded_text(fnt_SB, fnt_SF, 'Ammunition', page3_surf, x, y+20, 1)
     support.shaded_text(fnt_SB, fnt_SF, 'Key Card', page3_surf, x, y+40, 1) 
     support.shaded_text(fnt_SB, fnt_SF, 'Oxygen bottle', page3_surf, x, y+60, 1)
     # enemy images
-    x = 60
-    y = 90
+    x = 85
+    y = 89
     page3_surf.blit(hotspot_images[enums.TNT], (x, y))
     page3_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
     page3_surf.blit(hotspot_images[enums.KEY], (x, y+40))
@@ -410,7 +413,7 @@ def main_menu():
         marquee_help.update()
         marquee_credits.update()        
         # menu pages
-        menu_surf.blit(page3_surf, (0, 0))        
+        menu_surf.blit(page1_surf, (0, 0))        
         
         update_screen()
         for event in pygame.event.get():
@@ -592,7 +595,8 @@ font_dict = {
     enums.SM_GREEN_FG: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
     enums.SM_GREEN_BG: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
     enums.LG_WHITE_FG: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
-    enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)
+    enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
+    enums.SM_TEST: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False)
 }
 
 # The following image lists are created here, not in their corresponding classes, 
@@ -785,13 +789,9 @@ while True:
             # next track in the playlist if the music has been stopped
             if music_status == enums.UNMUTED:
                 jukebox.update()
+
+            # display FPS (using the clock)
+            if config.show_fps:
+                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), map_surf, (233, 154))
             
-    # TEST /////////////////////////////////////////////////////////////////////
-    # FPS counter using the clock   
-    # aux_font_L.render(str(int(clock.get_fps())).rjust(3, '0') + ' FPS', sboard_surf, (124, 22))
-    # other data
-    # font_BL.render(str(player.direction.y), sboard_surf, (124, 22))
-    # print(player.state)
-    # //////////////////////////////////////////////////////////////////////////
-    
     update_screen()
