@@ -298,15 +298,18 @@ def intro_scene():
 # main menu
 def main_menu():
     # page 1: menu options
-    # page 2: enemy information
-    # page 3: hotspot information
     page1_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    page1_surf.set_colorkey(constants.PALETTE['BLACK']) # transparent background
+    # page 2: enemy/hotspot information
     page2_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-    page3_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-    # transparent backgrounds
-    page1_surf.set_colorkey(constants.PALETTE['BLACK'])
     page2_surf.set_colorkey(constants.PALETTE['BLACK'])
+    # page 3: control information
+    page3_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
     page3_surf.set_colorkey(constants.PALETTE['BLACK'])
+    # page 4: high scores
+    page4_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    page4_surf.set_colorkey(constants.PALETTE['BLACK'])
+    
     # menu fonts
     fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
     fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
@@ -341,10 +344,10 @@ def main_menu():
     # page 1 (menu options) ----------------------------------------------------
     x = 83
     y = 67
-    support.shaded_text(fnt_LB, fnt_LF, '1-Start New Game', page1_surf, x, y, 1)
-    support.shaded_text(fnt_LB, fnt_LF, '2-Load Checkpoint', page1_surf, x, y+25, 1)
-    support.shaded_text(fnt_LB, fnt_LF, '3-Options', page1_surf, x, y+50, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'ESC-Exit', page1_surf, x, y+75, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Start New Game', page1_surf, x, y, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Load Checkpoint', page1_surf, x, y+25, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Options', page1_surf, x, y+50, 1)
+    support.shaded_text(fnt_LB, fnt_LF, 'Exit', page1_surf, x, y+75, 1)
     # menu buttons
     x = 50
     y = 60
@@ -353,29 +356,36 @@ def main_menu():
     page1_surf.blit(Button_images[enums.OPTIONS][0], (x, y+50))
     page1_surf.blit(Button_images[enums.EXIT][0], (x, y+75))
     
-    # page 2 (enemies info) ----------------------------------------------------
-    x = 80
+    # page 2 (enemies/hotspot info) --------------------------------------------
+    x = 20
     y = 60
-    support.shaded_text(fnt_LB2, fnt_LF2, 'The Baddies', page2_surf, x, y, 1)
-    x = 65
-    y = 87
-    support.shaded_text(fnt_LB, fnt_LF, 'Infected', page2_surf, x, y, 1)
-    support.shaded_text(fnt_LB, fnt_LF, '+25', page2_surf, x+110, y, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'Arachnovirus', page2_surf, x, y+20, 1)
-    support.shaded_text(fnt_LB, fnt_LF, '+50', page2_surf, x+110, y+20, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'Pelusoid', page2_surf, x, y+40, 1)
-    support.shaded_text(fnt_LB, fnt_LF, '+75', page2_surf, x+110, y+40, 1)    
-    support.shaded_text(fnt_LB, fnt_LF, 'Pelusoid Fanty', page2_surf, x, y+60, 1)
-    support.shaded_text(fnt_LB, fnt_LF, '+100', page2_surf, x+103, y+60, 1)
-    # enemy images
+    support.shaded_text(fnt_LB2, fnt_LF2, 'The Baddies       The Hotspots', page2_surf, x, y, 1)
     x = 40
+    y = 90
+    support.shaded_text(fnt_SB, fnt_SF, 'Infected (+25)', page2_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Arachnovirus (+50)', page2_surf, x, y+20, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid (+75)', page2_surf, x, y+40, 1)   
+    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid Fanty (+100)', page2_surf, x, y+60, 1)
+    x = 163
+    support.shaded_text(fnt_SB, fnt_SF, 'Explosives', page2_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Ammunition', page2_surf, x, y+20, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Key Card', page2_surf, x, y+40, 1) 
+    support.shaded_text(fnt_SB, fnt_SF, 'Oxygen bottle', page2_surf, x, y+60, 1)
+    # enemy images
+    x = 17
     y = 84
     page2_surf.blit(infected_image, (x, y))
     page2_surf.blit(avirus_image, (x, y+20))
     page2_surf.blit(pelusoid_image, (x, y+40))
     page2_surf.blit(fanty_image, (x, y+60))
+    # hotspot images
+    x = 140
+    page2_surf.blit(hotspot_images[enums.TNT], (x, y))
+    page2_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
+    page2_surf.blit(hotspot_images[enums.KEY], (x, y+40))
+    page2_surf.blit(hotspot_images[enums.OXYGEN], (x, y+60))
 
-    # page 3 (hotspot info) ----------------------------------------------------
+    # page 3 (control info) ----------------------------------------------------
     x = 80
     y = 60
     support.shaded_text(fnt_LB2, fnt_LF2, 'The Hotspots', page3_surf, x, y, 1)
@@ -425,17 +435,17 @@ def main_menu():
             menu_page += 1
             page_time_from = pygame.time.get_ticks()
             x = constants.MENU_UNSCALED_SIZE[0]
-        elif (pygame.time.get_ticks() - page_time_from) >= page_time_to - 1000:
-            x -= 6
+        elif (pygame.time.get_ticks() - page_time_from) >= page_time_to - 800:
+            x -= 8
         elif x > 0:
-            x -= 6
+            x -= 8
 
         if menu_page == 1:
             menu_surf.blit(page1_surf, (x, 0))        
         elif menu_page == 2:
             menu_surf.blit(page2_surf, (x, 0))
-        elif menu_page == 3:
-            menu_surf.blit(page3_surf, (x, 0))  
+        #elif menu_page == 3:
+        #    menu_surf.blit(page3_surf, (x, 0))  
         else:
             menu_page = 1
 
@@ -484,11 +494,18 @@ def collision_check():
                 # creates an explosion
                 if enemy.type == enums.INFECTED:
                     blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], blast_animation[1])
+                    floating_text.text = '+25'
                 else: # flying enemies
-                    blast = Explosion(enemy.rect.center, blast_animation[0])              
+                    blast = Explosion(enemy.rect.center, blast_animation[0])
+                    if enemy.type == enums.AVIRUS: floating_text.text = '+50'
+                    elif enemy.type == enums.PELUSOID: floating_text.text = '+75'
+                    else: floating_text.text = '+100' # fanty           
                 blast_group.add(blast)
                 all_sprites_group.add(blast)
                 sfx_enemy_down[enemy.type].play()
+                # floating text position                                
+                floating_text.x = enemy.rect.x
+                floating_text.y = enemy.rect.y
                 # removes objects
                 enemy.kill()
                 bullet_group.sprite.kill()
