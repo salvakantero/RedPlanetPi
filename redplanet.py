@@ -384,7 +384,7 @@ def main_menu():
     page2_surf.blit(pelusoid_image, (x, y+40))
     page2_surf.blit(fanty_image, (x, y+60))
     # hotspot images
-    x = 140
+    x = 139
     page2_surf.blit(hotspot_images[enums.TNT], (x, y))
     page2_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
     page2_surf.blit(hotspot_images[enums.KEY], (x, y+40))
@@ -410,10 +410,10 @@ def main_menu():
     support.shaded_text(fnt_SB, fnt_SF, 'Common keys', page3_surf, x-52, y+15, 1)
 
     # page 4 (high scores) --------------------------------------------
-    x = 80
+    x = 90
     y = 60
     support.shaded_text(fnt_LB2, fnt_LF2, 'High Scores', page4_surf, x, y, 1)
-    x = 45
+    x = 50
     y = 90
     # names
     support.shaded_text(fnt_SB, fnt_SF, 'Lukas', page4_surf, x, y, 1)
@@ -425,15 +425,15 @@ def main_menu():
     support.shaded_text(fnt_SB, fnt_SF, 'Irenita', page4_surf, x, y+60, 1)
     support.shaded_text(fnt_SB, fnt_SF, 'salvaKantero', page4_surf, x, y+70, 1)
     # dates and scores
-    x = 100
-    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '     00195325', page4_surf, x, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '     00195290', page4_surf, x, y+10, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '11/02/2023' + '     00195290', page4_surf, x, y+20, 1)   
-    support.shaded_text(fnt_SB, fnt_SF, '28/01/2023' + '     00147755', page4_surf, x, y+30, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '     00097430', page4_surf, x, y+40, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '21/01/2023' + '     00042940', page4_surf, x, y+50, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '01/02/2023' + '     00008255', page4_surf, x, y+60, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '     00001985', page4_surf, x, y+70, 1)
+    x = 110
+    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '    00195325', page4_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '    00195290', page4_surf, x, y+10, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '11/02/2023' + '    00195290', page4_surf, x, y+20, 1)   
+    support.shaded_text(fnt_SB, fnt_SF, '28/01/2023' + '    00147755', page4_surf, x, y+30, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '    00097430', page4_surf, x, y+40, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '21/01/2023' + '    00042940', page4_surf, x, y+50, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '01/02/2023' + '    00008255', page4_surf, x, y+60, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '    00001985', page4_surf, x, y+70, 1)
 
     # help
     marquee_help = MarqueeText(
@@ -442,7 +442,7 @@ def main_menu():
     # credits       
     marquee_credits = MarqueeText(
         menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
-        menu_surf.get_height() - 8, .5, constants.CREDITS, 2800)
+        menu_surf.get_height() - 8, .5, constants.CREDITS, 2900)
         
     sfx_switchoff.play()    
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
