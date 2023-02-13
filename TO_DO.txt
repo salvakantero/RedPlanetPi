@@ -4,15 +4,14 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Menu de inicio
+- Páginas del menu de inicio
     - Page 1: usar botones
     - Page 2: unificar malotes y hotspots
     - Page 3: controles predefinidos
-        - Classic: Cursores-SPACE-LMOUSE
-        - Retro: QAOP-SPACE-LMOUSE
-        - Gamer: WASD-SPACE-LMOUSE
-        - Custom
-        - ESC / H / M
+        - Classic: Cursores
+        - Retro: QAOP
+        - Gamer: WASD
+        - ESC / H / M / SPACE / LMOUSE
     - Page 4: tabla de High Scores
 
 POR HACER
@@ -24,8 +23,10 @@ POR HACER
 - Score y High
 - Highs online
 - Tabla de mejores puntuaciones
+- Introducción de high scores
 - Objetos para puntuar (diamantes, joyas, regalos)
 - Revisar, simplificar, organizar y comentar el código fuente final
+- Licencia
 
 HECHO
 =====

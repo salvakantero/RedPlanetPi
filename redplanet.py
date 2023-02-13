@@ -340,6 +340,11 @@ def main_menu():
     avirus_image = pygame.image.load('images/sprites/avirus0.png').convert()
     pelusoid_image = pygame.image.load('images/sprites/pelusoid0.png').convert()
     fanty_image = pygame.image.load('images/sprites/fanty0.png').convert()
+    # controls
+    classic = pygame.image.load('images/assets/key_cursor.png').convert_alpha()
+    gamer = pygame.image.load('images/assets/key_wasd.png').convert_alpha()
+    retro = pygame.image.load('images/assets/key_qaop.png').convert_alpha()
+    common = pygame.image.load('images/assets/key_aux.png').convert_alpha()
 
     # page 1 (menu options) ----------------------------------------------------
     x = 83
@@ -386,22 +391,52 @@ def main_menu():
     page2_surf.blit(hotspot_images[enums.OXYGEN], (x, y+60))
 
     # page 3 (control info) ----------------------------------------------------
-    x = 80
-    y = 60
-    support.shaded_text(fnt_LB2, fnt_LF2, 'The Hotspots', page3_surf, x, y, 1)
+    x = 100
+    y = 55
+    support.shaded_text(fnt_LB2, fnt_LF2, 'Controls', page3_surf, x, y, 1)
     x = 95
     y = 87
-    support.shaded_text(fnt_LB, fnt_LF, 'Explosives', page3_surf, x, y, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'Ammunition', page3_surf, x, y+20, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'Key Card', page3_surf, x, y+40, 1) 
-    support.shaded_text(fnt_LB, fnt_LF, 'Oxygen bottle', page3_surf, x, y+60, 1)
-    # hotspot images
-    x = 70
-    y = 84
-    page3_surf.blit(hotspot_images[enums.TNT], (x, y))
-    page3_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
-    page3_surf.blit(hotspot_images[enums.KEY], (x, y+40))
-    page3_surf.blit(hotspot_images[enums.OXYGEN], (x, y+60))
+    support.shaded_text(fnt_SB, fnt_SF, 'Classic:', page3_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Gamer:', page3_surf, x, y+20, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Retro:', page3_surf, x, y+40, 1) 
+    support.shaded_text(fnt_SB, fnt_SF, 'Common keys:', page3_surf, x, y+60, 1)
+    # control images
+    x = 0
+    y = 70
+    page3_surf.blit(classic, (x, y))
+    page3_surf.blit(gamer, (x, y+60))
+    x = 130
+    y = 80
+    page3_surf.blit(retro, (x, y))
+    x = 85
+    y = 135
+    page3_surf.blit(common, (x, y))
+
+    # page 4 (high scores) --------------------------------------------
+    x = 80
+    y = 60
+    support.shaded_text(fnt_LB2, fnt_LF2, 'High Scores', page4_surf, x, y, 1)
+    x = 45
+    y = 90
+    # names
+    support.shaded_text(fnt_SB, fnt_SF, 'Lukas', page4_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Dany', page4_surf, x, y+10, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Marina', page4_surf, x, y+20, 1)   
+    support.shaded_text(fnt_SB, fnt_SF, 'Paula', page4_surf, x, y+30, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Irenita', page4_surf, x, y+40, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Luna_314', page4_surf, x, y+50, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'Laura', page4_surf, x, y+60, 1)
+    support.shaded_text(fnt_SB, fnt_SF, 'salvaKantero', page4_surf, x, y+70, 1)
+    # dates and scores
+    x = 100
+    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '     00195325', page4_surf, x, y, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '     00195290', page4_surf, x, y+10, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '11/02/2023' + '     00195290', page4_surf, x, y+20, 1)   
+    support.shaded_text(fnt_SB, fnt_SF, '28/01/2023' + '     00147755', page4_surf, x, y+30, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '     00097430', page4_surf, x, y+40, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '21/01/2023' + '     00042940', page4_surf, x, y+50, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '01/02/2023' + '     00008255', page4_surf, x, y+60, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '     00001985', page4_surf, x, y+70, 1)
 
     # help
     marquee_help = MarqueeText(
@@ -441,11 +476,13 @@ def main_menu():
             x -= 8
 
         if menu_page == 1:
-            menu_surf.blit(page1_surf, (x, 0))        
+            menu_surf.blit(page3_surf, (x, 0))        
         elif menu_page == 2:
-            menu_surf.blit(page2_surf, (x, 0))
-        #elif menu_page == 3:
-        #    menu_surf.blit(page3_surf, (x, 0))  
+            menu_surf.blit(page4_surf, (x, 0))
+        elif menu_page == 3:
+            menu_surf.blit(page3_surf, (x, 0))
+        elif menu_page == 4:
+            menu_surf.blit(page4_surf, (x, 0))              
         else:
             menu_page = 1
 
