@@ -318,7 +318,7 @@ def main_menu():
     fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
     fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
     # buttons
-    Button_images = {
+    button_images = {
         enums.START: [
             pygame.image.load('images/assets/button1_0.png').convert_alpha(),
             pygame.image.load('images/assets/button1_1.png').convert_alpha(),                              
@@ -356,10 +356,10 @@ def main_menu():
     # menu buttons
     x = 50
     y = 60
-    page1_surf.blit(Button_images[enums.START][0], (x, y))
-    page1_surf.blit(Button_images[enums.LOAD][0], (x, y+25))
-    page1_surf.blit(Button_images[enums.OPTIONS][0], (x, y+50))
-    page1_surf.blit(Button_images[enums.EXIT][0], (x, y+75))
+    page1_surf.blit(button_images[enums.START][0], (x, y))
+    page1_surf.blit(button_images[enums.LOAD][0], (x, y+25))
+    page1_surf.blit(button_images[enums.OPTIONS][0], (x, y+50))
+    page1_surf.blit(button_images[enums.EXIT][0], (x, y+75))
     
     # page 2 (enemies/hotspot info) --------------------------------------------
     x = 20
@@ -447,15 +447,13 @@ def main_menu():
     sfx_switchoff.play()    
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
-
-    # number of ticks the page remains on screen
-    page_time_from = pygame.time.get_ticks()
-    page_time_to = 8000
+    
     menu_page = 0
-
+    page_timer = 0 # number of loops the page remains on screen
     x = constants.MENU_UNSCALED_SIZE[0]
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
+        page_timer += 1
         # background image
         menu_surf.blit(menu_image, (0,0))
         # marquee
@@ -463,11 +461,11 @@ def main_menu():
         marquee_credits.update()  
 
         # menu pages
-        if (pygame.time.get_ticks() - page_time_from) >= page_time_to:
+        if page_timer >= 500:
             menu_page += 1
-            page_time_from = pygame.time.get_ticks()
+            page_timer = 0
             x = constants.MENU_UNSCALED_SIZE[0]
-        elif (pygame.time.get_ticks() - page_time_from) >= page_time_to - 800:
+        elif page_timer >= 450:
             x -= 8
         elif x > 0:
             x -= 8
@@ -482,8 +480,22 @@ def main_menu():
             menu_surf.blit(page4_surf, (x, 0))              
         else:
             menu_page = 1
+        
+        # button dimensions = 25x25 pixels
+        pos = pygame.mouse.get_pos()
+        if menu_page == 1 and page_timer < 450:
+            if pos[0] > 190 and pos[0] < 260:
+                if pos[1] > 200 and pos[1] < 280: # START
+                    menu_surf.blit(button_images[enums.START][1], (50, 60))
+                elif pos[1] > 280 and pos[1] < 350: # LOAD
+                    menu_surf.blit(button_images[enums.LOAD][1], (50, 85))
+                elif pos[1] > 350 and pos[1] < 430: # OPTIONS
+                    menu_surf.blit(button_images[enums.OPTIONS][1], (50, 110))
+                elif pos[1] > 430 and pos[1] < 510: # EXIT
+                    menu_surf.blit(button_images[enums.EXIT][1], (50, 135))
 
         update_screen()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 support.exit()
@@ -491,7 +503,9 @@ def main_menu():
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
                     support.exit()
-                return
+                elif menu_page != 1:
+                    menu_page = 1
+                    page_timer = 0                
 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():

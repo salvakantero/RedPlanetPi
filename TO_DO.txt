@@ -4,27 +4,19 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Páginas del menu de inicio
-    - Page 1: usar botones
-    - Page 2: unificar malotes y hotspots
-    - Page 3: controles predefinidos
-        - Classic: Cursores
-        - Retro: QAOP
-        - Gamer: WASD
-        - ESC / H / M / SPACE / LMOUSE
-    - Page 4: tabla de High Scores
+- Pulsación de botones de menú
+- Teclas redefinibles y otras configuraciones en el menú
+- Grabar/Cargar punto de control con "pickle"
 
 POR HACER
 =========
-- Grabar/Cargar punto de control con "pickle"
-- Teclas redefinibles y otras configuraciones en el menú
 - Pantalla final
 - Linterna en pantallas oscuras
 - Score y High
 - Highs online
 - Tabla de mejores puntuaciones
 - Introducción de high scores
-- Objetos para puntuar (diamantes, joyas, regalos)
+- Objetos para puntuar (diamantes, joyas, regalos, chuches)
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
 
@@ -102,7 +94,7 @@ HECHO
 04/02/23 - Obtener música de opengameart.org
 05/02/23 - Implementar música
 11/02/23 - FPS en opciones
-
+13/02/23 - Páginas del menu de inicio
 
 CREDITS
 =======
