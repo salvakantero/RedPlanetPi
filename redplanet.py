@@ -345,6 +345,9 @@ def main_menu():
     gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
     retro = pygame.image.load('images/assets/retro.png').convert_alpha()
     common = pygame.image.load('images/assets/common.png').convert_alpha()
+    # sounds
+    sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
+    sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
 
     # page 1 (menu options) ----------------------------------------------------
     x = 83
@@ -448,6 +451,7 @@ def main_menu():
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
     
+    pygame.mouse.set_pos((constants.MENU_SCALED_SIZE[0]//2, constants.MENU_SCALED_SIZE[1]//2))
     menu_page = 0
     page_timer = 0 # number of loops the page remains on screen
     x = constants.MENU_UNSCALED_SIZE[0]
@@ -481,20 +485,28 @@ def main_menu():
         else:
             menu_page = 1
         
-        # button dimensions = 25x25 pixels
         pos = pygame.mouse.get_pos()
-        if menu_page == 1 and page_timer < 450:
+        on_button = 0
+        if menu_page == 1 and x == 0:
             if pos[0] > 190 and pos[0] < 260:
                 if pos[1] > 200 and pos[1] < 280: # START
                     menu_surf.blit(button_images[enums.START][1], (50, 60))
+                    on_button = 1
                 elif pos[1] > 280 and pos[1] < 350: # LOAD
                     menu_surf.blit(button_images[enums.LOAD][1], (50, 85))
+                    on_button = 2
                 elif pos[1] > 350 and pos[1] < 430: # OPTIONS
                     menu_surf.blit(button_images[enums.OPTIONS][1], (50, 110))
+                    on_button = 3
                 elif pos[1] > 430 and pos[1] < 510: # EXIT
                     menu_surf.blit(button_images[enums.EXIT][1], (50, 135))
-
-        update_screen()
+                    on_button = 4
+                if pygame.mouse.get_pressed() == (1,0,0):
+                    sfx_menu_click.play()
+                    if on_button == 1:
+                        return
+                    elif on_button == 4:
+                        support.exit()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -505,7 +517,9 @@ def main_menu():
                     support.exit()
                 elif menu_page != 1:
                     menu_page = 1
-                    page_timer = 0                
+                    page_timer = 0    
+
+        update_screen()
 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
@@ -745,7 +759,6 @@ sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
 sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
 sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
 sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
-sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
 sfx_enemy_down = {
     enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
     enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
