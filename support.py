@@ -89,6 +89,13 @@ def clip(surf, x, y, x_size, y_size):
     return image.copy()
 
 # draws a text with its shadow
-def shaded_text(font_BG, font_FG, text, surface, x, y, offset):       
+def shaded_text(font_BG, font_FG, text, surface, x, y, offset):           
     font_BG.render(text, surface, (x, y))  # shadow
     font_FG.render(text, surface, (x-offset, y-offset))
+
+# the ESC, RETURN or SPACE key has been pressed.
+def main_key_pressed():
+    for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    return True

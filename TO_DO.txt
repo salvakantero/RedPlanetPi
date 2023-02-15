@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Pulsación de botones de menú
+- probar fondo azul kenney en la página 3 del menú
 - Teclas redefinibles y otras configuraciones en el menú
 - Grabar/Cargar punto de control con "pickle"
 
@@ -95,6 +95,8 @@ HECHO
 05/02/23 - Implementar música
 11/02/23 - FPS en opciones
 13/02/23 - Páginas del menu de inicio
+15/02/23 - Pulsación de botones de menú
+
 
 CREDITS
 =======

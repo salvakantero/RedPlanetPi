@@ -221,12 +221,13 @@ def pause_game():
                 if event.key == pygame.K_ESCAPE or event.key == config.pause_key:
                     return
 
-# the ESC, RETURN or SPACE key has been pressed.
-def main_key_pressed():
-    for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                    return True
+def fades_surface(target_surf, aux_surf, opacity, delay):
+    aux_surf.set_alpha(0) # totally transparent    
+    for z in range(opacity):
+        aux_surf.set_alpha(z) # opacity is being applied
+        target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
+        update_screen() # draw target_surf
+        pygame.time.wait(delay) # speed of transition
 
 # introductory scene
 def intro_scene():
@@ -240,50 +241,34 @@ def intro_scene():
     sfx_intro3.set_volume(.4)
     # auxiliary surface for fading and flashing visual effects
     aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
-    
     # PlayOnRetro logo
     # fade in
     menu_surf.fill(constants.PALETTE["BLACK"]) # black background
     aux_surf.blit(logo_image, (0, 0))
-    aux_surf.set_alpha(0) # totally transparent    
-    for z in range(45):
-        aux_surf.set_alpha(z) # opacity is being applied
-        menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
-        update_screen() # draw menu_surf
-        pygame.time.wait(12)    
+    fades_surface(menu_surf, aux_surf, 45, 12)
+    if support.main_key_pressed(): return # allows skipping the intro
     sfx_intro3.play()
-    if main_key_pressed(): return
     pygame.time.wait(1500)
-    if main_key_pressed(): return
+    if support.main_key_pressed(): return
     # fade out
     aux_surf.fill(constants.PALETTE["BLACK"]) # black background
-    aux_surf.set_alpha(0) # totally transparent    
-    for z in range(45):
-        aux_surf.set_alpha(z) # opacity is being applied
-        menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
-        update_screen() # draw menu_surf
-        pygame.time.wait(12)  
-    if main_key_pressed(): return  
+    fades_surface(menu_surf, aux_surf, 45, 12)
+    if support.main_key_pressed(): return # allows skipping the intro 
     pygame.time.wait(1500)
-    if main_key_pressed(): return
+    if support.main_key_pressed(): return
     # RedPlanetPi
     sfx_intro1.play()
     menu_surf.fill(constants.PALETTE["WHITE"]) # white background
     aux_surf.blit(intro1_image, (0, 0))
-    aux_surf.set_alpha(0) # totally transparent    
-    for z in range(50):
-        aux_surf.set_alpha(z) # opacity is being applied
-        menu_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
-        update_screen() # draw menu_surf
-        pygame.time.wait(8)    
+    fades_surface(menu_surf, aux_surf, 50, 8)
     pygame.time.wait(200)
+    if support.main_key_pressed(): return # allows skipping the intro
     # slide the title "RED PLANET" from the right to its final position
     sfx_intro2.play()
     for x in range(-170, 0, 10):
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (x, 0))
         update_screen()
-    if main_key_pressed(): return
     # slides the PI from the bottom to its final position
     sfx_intro2.play()
     for y in range(140, -5, -10):
@@ -291,7 +276,7 @@ def intro_scene():
         menu_surf.blit(intro2_image, (0, 0))
         menu_surf.blit(intro3_image, (198, y))
         update_screen()
-    if main_key_pressed(): return
+    if support.main_key_pressed(): return # allows skipping the intro
     # pause for recreation. Ooohhh how wonderful!
     pygame.time.wait(500)
 
@@ -379,14 +364,14 @@ def main_menu():
     support.shaded_text(fnt_SB, fnt_SF, 'Ammunition', page2_surf, x, y+20, 1)
     support.shaded_text(fnt_SB, fnt_SF, 'Key Card', page2_surf, x, y+40, 1) 
     support.shaded_text(fnt_SB, fnt_SF, 'Oxygen bottle', page2_surf, x, y+60, 1)
-    # enemy images
+    # images of enemies
     x = 17
     y = 84
     page2_surf.blit(infected_image, (x, y))
     page2_surf.blit(avirus_image, (x, y+20))
     page2_surf.blit(pelusoid_image, (x, y+40))
     page2_surf.blit(fanty_image, (x, y+60))
-    # hotspot images
+    # images of the hotspots
     x = 139
     page2_surf.blit(hotspot_images[enums.TNT], (x, y))
     page2_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
@@ -399,17 +384,17 @@ def main_menu():
     support.shaded_text(fnt_LB2, fnt_LF2, 'Controls', page3_surf, x, y, 1)
     x = 35
     y = 82
-    page3_surf.blit(classic, (x, y))
+    page3_surf.blit(classic, (x, y)) # image of the classic layout
     support.shaded_text(fnt_SB, fnt_SF, 'Classic', page3_surf, x+10, y+38, 1)
     x = 100
-    page3_surf.blit(gamer, (x, y))
+    page3_surf.blit(gamer, (x, y)) # image of the gamer layout
     support.shaded_text(fnt_SB, fnt_SF, 'Gamer', page3_surf, x+12, y+38, 1)
     x = 165
-    page3_surf.blit(retro, (x, y))
+    page3_surf.blit(retro, (x, y)) # image of the retro layout
     support.shaded_text(fnt_SB, fnt_SF, 'Retro', page3_surf, x+18, y+38, 1) 
     x = 110
     y = 140
-    page3_surf.blit(common, (x, y))
+    page3_surf.blit(common, (x, y)) # image of the common keys
     support.shaded_text(fnt_SB, fnt_SF, 'Common keys', page3_surf, x-52, y+15, 1)
 
     # page 4 (high scores) --------------------------------------------
@@ -451,44 +436,43 @@ def main_menu():
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
     pygame.mixer.music.play()
     
-    pygame.mouse.set_pos((constants.MENU_SCALED_SIZE[0]//2, constants.MENU_SCALED_SIZE[1]//2))
-    menu_page = 0
+    menu_page = 0 # page displayed (1 to 4)
     page_timer = 0 # number of loops the page remains on screen
-    x = constants.MENU_UNSCALED_SIZE[0]
+    x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
+
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
-        page_timer += 1
-        # background image
-        menu_surf.blit(menu_image, (0,0))
+        page_timer += 1        
+        menu_surf.blit(menu_image, (0,0)) # blue background image
         # marquee
         marquee_help.update()
         marquee_credits.update()  
 
-        # menu pages
-        if page_timer >= 500:
-            menu_page += 1
-            page_timer = 0
-            x = constants.MENU_UNSCALED_SIZE[0]
-        elif page_timer >= 450:
-            x -= 8
-        elif x > 0:
-            x -= 8
+        # transition of menu pages
+        if page_timer >= 500: # time exceeded?
+            menu_page += 1 # change the page
+            page_timer = 0 # and reset the timer
+            x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
+        elif page_timer >= 450: # time almost exceeded?
+            x -= 8 # scrolls the page to the left        
+        elif x > 0: # as long as the page does not reach the left margin
+            x -= 8 # scrolls the page to the left  
 
-        if menu_page == 1:
-            menu_surf.blit(page1_surf, (x, 0))        
-        elif menu_page == 2:
-            menu_surf.blit(page2_surf, (x, 0))
-        elif menu_page == 3:
-            menu_surf.blit(page3_surf, (x, 0))
-        elif menu_page == 4:
-            menu_surf.blit(page4_surf, (x, 0))              
-        else:
-            menu_page = 1
+        # draws the main menu
+        if menu_page == 1: menu_surf.blit(page1_surf, (x, 0))
+        # draws enemy and hotspot information        
+        elif menu_page == 2: menu_surf.blit(page2_surf, (x, 0))
+        # draws enemy and hotspot information
+        elif menu_page == 3: menu_surf.blit(page3_surf, (x, 0))
+        # draw the score table
+        elif menu_page == 4: menu_surf.blit(page4_surf, (x, 0))              
+        else: menu_page = 1
         
+        # mouse management
         pos = pygame.mouse.get_pos()
         on_button = 0
-        if menu_page == 1 and x == 0:
-            if pos[0] > 190 and pos[0] < 260:
+        if menu_page == 1 and x == 0: # main menu active?
+            if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
                 if pos[1] > 200 and pos[1] < 280: # START
                     menu_surf.blit(button_images[enums.START][1], (50, 60))
                     on_button = 1
@@ -501,20 +485,28 @@ def main_menu():
                 elif pos[1] > 430 and pos[1] < 510: # EXIT
                     menu_surf.blit(button_images[enums.EXIT][1], (50, 135))
                     on_button = 4
+                # click with the left button?
                 if pygame.mouse.get_pressed() == (1,0,0):
                     sfx_menu_click.play()
-                    if on_button == 1:
+                    if on_button == 1: # START
+                        menu_surf.blit(button_images[enums.START][2], (50, 60))
+                        update_screen()
+                        pygame.time.wait(350)
                         return
-                    elif on_button == 4:
+                    elif on_button == 4: # EXIT
+                        menu_surf.blit(button_images[enums.EXIT][2], (50, 135))
+                        update_screen()
+                        pygame.time.wait(350)
                         support.exit()
 
+        # keyboard management
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 support.exit()
-            if event.type == pygame.KEYDOWN:
-                # exit by pressing ESC key
-                if event.key == pygame.K_ESCAPE:
+            if event.type == pygame.KEYDOWN:                
+                if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
                     support.exit()
+                # pressing any key returns to the main menu
                 elif menu_page != 1:
                     menu_page = 1
                     page_timer = 0    
@@ -692,6 +684,11 @@ map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface to save the previous map (transition effect between screens)
 if config.map_transition:
     map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+
+# mouse cursor
+cursor_image = pygame.image.load('images/assets/cursor.png').convert_alpha()
+custom_cursor = pygame.mouse.set_cursor((24, 24), (0, 0), cursor_image.get_pixels(), cursor_image.get_masks())
+pygame.mouse.set_cursor(custom_cursor)
 
 # fonts
 font_dict = {
