@@ -12,6 +12,7 @@ POR HACER
 =========
 - Pantalla final
 - Linterna en pantallas oscuras
+- Grabar configuración
 - Score y High
 - Highs online
 - Tabla de mejores puntuaciones
