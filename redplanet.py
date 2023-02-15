@@ -302,6 +302,8 @@ def main_menu():
     fnt_LB2 = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GREEN'], True)
     fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
     fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
+    fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['CYAN'], True)
+    fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_BLUE'], True)
     # buttons
     button_images = {
         enums.START: [
@@ -380,7 +382,7 @@ def main_menu():
 
     # page 3 (control info) ----------------------------------------------------
     x = 95
-    y = 60
+    y = 57
     support.shaded_text(fnt_LB2, fnt_LF2, 'Controls', page3_surf, x, y, 1)
     x = 35
     y = 82
@@ -405,23 +407,23 @@ def main_menu():
     y = 90
     # names
     support.shaded_text(fnt_SB, fnt_SF, 'Lukas', page4_surf, x, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Dany', page4_surf, x, y+10, 1)
+    support.shaded_text(fnt_SB2, fnt_SF2, 'Dany', page4_surf, x, y+10, 1)
     support.shaded_text(fnt_SB, fnt_SF, 'Marina', page4_surf, x, y+20, 1)   
-    support.shaded_text(fnt_SB, fnt_SF, 'Alvaro', page4_surf, x, y+30, 1)
+    support.shaded_text(fnt_SB2, fnt_SF2, 'Alvaro', page4_surf, x, y+30, 1)
     support.shaded_text(fnt_SB, fnt_SF, 'Julita', page4_surf, x, y+40, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Luna_314', page4_surf, x, y+50, 1)
+    support.shaded_text(fnt_SB2, fnt_SF2, 'Luna_314', page4_surf, x, y+50, 1)
     support.shaded_text(fnt_SB, fnt_SF, 'Irenita', page4_surf, x, y+60, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'salvaKantero', page4_surf, x, y+70, 1)
+    support.shaded_text(fnt_SB2, fnt_SF2, 'salvaKantero', page4_surf, x, y+70, 1)
     # dates and scores
     x = 110
     support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '    00195325', page4_surf, x, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '    00195290', page4_surf, x, y+10, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '11/02/2023' + '    00195290', page4_surf, x, y+20, 1)   
-    support.shaded_text(fnt_SB, fnt_SF, '28/01/2023' + '    00147755', page4_surf, x, y+30, 1)
+    support.shaded_text(fnt_SB2, fnt_SF2, '14/02/2023' + '    00195290', page4_surf, x, y+10, 1)
+    support.shaded_text(fnt_SB, fnt_SF, '11/02/2023' + '    00152645', page4_surf, x, y+20, 1)   
+    support.shaded_text(fnt_SB2, fnt_SF2, '28/01/2023' + '    00147755', page4_surf, x, y+30, 1)
     support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '    00097430', page4_surf, x, y+40, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '21/01/2023' + '    00042940', page4_surf, x, y+50, 1)
+    support.shaded_text(fnt_SB2, fnt_SF2, '21/01/2023' + '    00042940', page4_surf, x, y+50, 1)
     support.shaded_text(fnt_SB, fnt_SF, '01/02/2023' + '    00008255', page4_surf, x, y+60, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '    00001985', page4_surf, x, y+70, 1)
+    support.shaded_text(fnt_SB2, fnt_SF2, '30/12/2022' + '    00001985', page4_surf, x, y+70, 1)
 
     # help
     marquee_help = MarqueeText(
@@ -491,12 +493,12 @@ def main_menu():
                     if on_button == 1: # START
                         menu_surf.blit(button_images[enums.START][2], (50, 60))
                         update_screen()
-                        pygame.time.wait(350)
+                        pygame.time.wait(320)
                         return
                     elif on_button == 4: # EXIT
                         menu_surf.blit(button_images[enums.EXIT][2], (50, 135))
                         update_screen()
-                        pygame.time.wait(350)
+                        pygame.time.wait(320)
                         support.exit()
 
         # keyboard management
@@ -684,11 +686,6 @@ map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 # surface to save the previous map (transition effect between screens)
 if config.map_transition:
     map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-
-# mouse cursor
-cursor_image = pygame.image.load('images/assets/cursor.png').convert_alpha()
-custom_cursor = pygame.mouse.set_cursor((24, 24), (0, 0), cursor_image.get_pixels(), cursor_image.get_masks())
-pygame.mouse.set_cursor(custom_cursor)
 
 # fonts
 font_dict = {

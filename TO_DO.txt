@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- probar fondo azul kenney en la página 3 del menú
 - Teclas redefinibles y otras configuraciones en el menú
 - Grabar/Cargar punto de control con "pickle"
 
