@@ -234,7 +234,6 @@ def intro_scene():
     logo_image = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
     intro1_image = pygame.image.load('images/assets/intro1.png').convert() # background
     intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
-    intro3_image = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
     sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
     sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
     sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro
@@ -274,7 +273,7 @@ def intro_scene():
     for y in range(140, -5, -10):
         menu_surf.blit(intro1_image, (0, 0))
         menu_surf.blit(intro2_image, (0, 0))
-        menu_surf.blit(intro3_image, (198, y))
+        menu_surf.blit(icon, (198, y)) # Pi
         update_screen()
     if support.main_key_pressed(): return # allows skipping the intro
     # pause for recreation. Ooohhh how wonderful!
