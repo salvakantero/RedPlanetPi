@@ -27,10 +27,12 @@ import constants
 import enums
 
 class Screen():
-    def __init__(self, menu_surf, map_surf, sboard_surf, clock, config, game_status):
+    def __init__(self, clock, config):
+        self.menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+        self.map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        self.sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         self.clock = clock
         self.config = config
-        self.game_status = game_status
         # generates a main window (or full screen) with title, icon, and 32-bit colour.
         flags = 0
         if self.config.full_screen: flags = pygame.FULLSCREEN
@@ -60,8 +62,8 @@ class Screen():
                 constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
 
     # dumps and scales surfaces to the screen
-    def update(self):
-        if self.game_status == enums.OVER:
+    def update(self, game_status):
+        if game_status == enums.OVER:
             # scale x 3 the menu
             self.screen.blit(pygame.transform.scale(
                 self.menu_surf, constants.MENU_SCALED_SIZE),
