@@ -245,310 +245,249 @@ def pause_game():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE or event.key == config.pause_key:
                     return
-
-# def fades_surface(target_surf, aux_surf, opacity, delay):
-#     aux_surf.set_alpha(0) # totally transparent    
-#     for z in range(opacity):
-#         aux_surf.set_alpha(z) # opacity is being applied
-#         target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
-#         #update_screen() # draw target_surf
-#         screen.update(game_status)
-#         pygame.time.wait(delay) # speed of transition
-
-# # introductory scene
-# def intro_scene():
-#     logo_image = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
-#     intro1_image = pygame.image.load('images/assets/intro1.png').convert() # background
-#     intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
-#     intro3_image = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
-#     sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
-#     sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
-#     sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro
-#     sfx_intro3.set_volume(.4)
-#     # auxiliary surface for fading and flashing visual effects
-#     aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
-#     # PlayOnRetro logo
-#     # fade in
-#     screen.menu_surf.fill(constants.PALETTE["BLACK"]) # black background
-#     aux_surf.blit(logo_image, (0, 0))
-#     fades_surface(screen.menu_surf, aux_surf, 45, 12)
-#     if support.main_key_pressed(): return # allows skipping the intro
-#     sfx_intro3.play()
-#     pygame.time.wait(1500)
-#     if support.main_key_pressed(): return
-#     # fade out
-#     aux_surf.fill(constants.PALETTE["BLACK"]) # black background
-#     fades_surface(screen.menu_surf, aux_surf, 45, 12)
-#     if support.main_key_pressed(): return # allows skipping the intro 
-#     pygame.time.wait(1500)
-#     if support.main_key_pressed(): return
-#     # RedPlanetPi
-#     sfx_intro1.play()
-#     screen.menu_surf.fill(constants.PALETTE["WHITE"]) # white background
-#     aux_surf.blit(intro1_image, (0, 0))
-#     fades_surface(screen.menu_surf, aux_surf, 50, 8)
-#     pygame.time.wait(200)
-#     if support.main_key_pressed(): return # allows skipping the intro
-#     # slide the title "RED PLANET" from the right to its final position
-#     sfx_intro2.play()
-#     for x in range(-170, 0, 10):
-#         screen.menu_surf.blit(intro1_image, (0, 0))
-#         screen.menu_surf.blit(intro2_image, (x, 0))
-#         #update_screen()
-#         screen.update(game_status)
-#     # slides the PI from the bottom to its final position
-#     sfx_intro2.play()
-#     for y in range(140, -5, -10):
-#         screen.menu_surf.blit(intro1_image, (0, 0))
-#         screen.menu_surf.blit(intro2_image, (0, 0))
-#         screen.menu_surf.blit(intro3_image, (198, y))
-#         #update_screen()
-#         screen.update(game_status)
-#     if support.main_key_pressed(): return # allows skipping the intro
-#     # pause for recreation. Ooohhh how wonderful!
-#     pygame.time.wait(500)
-
+                
 # main menu
 def main_menu():
-    # page 1: menu options
-    page1_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-    page1_surf.set_colorkey(constants.PALETTE['BLACK']) # transparent background
-    # page 2: enemy/hotspot information
-    page2_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-    page2_surf.set_colorkey(constants.PALETTE['BLACK'])
-    # page 3: control information
-    page3_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-    page3_surf.set_colorkey(constants.PALETTE['BLACK'])
-    # page 4: high scores
-    page4_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-    page4_surf.set_colorkey(constants.PALETTE['BLACK'])
+    pass
+    # # page 1: menu options
+    # page1_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    # page1_surf.set_colorkey(constants.PALETTE['BLACK']) # transparent background
+    # # page 2: enemy/hotspot information
+    # page2_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    # page2_surf.set_colorkey(constants.PALETTE['BLACK'])
+    # # page 3: control information
+    # page3_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    # page3_surf.set_colorkey(constants.PALETTE['BLACK'])
+    # # page 4: high scores
+    # page4_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+    # page4_surf.set_colorkey(constants.PALETTE['BLACK'])
     
-    # menu fonts
-    fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
-    fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
-    fnt_LF2 = Font('images/fonts/large_font.png', constants.PALETTE['GREEN'], True)
-    fnt_LB2 = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GREEN'], True)
-    fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
-    fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
-    fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['CYAN'], True)
-    fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_BLUE'], True)
+    # # menu fonts
+    # fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
+    # fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
+    # fnt_LF2 = Font('images/fonts/large_font.png', constants.PALETTE['GREEN'], True)
+    # fnt_LB2 = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GREEN'], True)
+    # fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
+    # fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
+    # fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['CYAN'], True)
+    # fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_BLUE'], True)
 
-    # buttons
-    button_images = {
-        enums.START: [
-            pygame.image.load('images/assets/button1_0.png').convert_alpha(),
-            pygame.image.load('images/assets/button1_1.png').convert_alpha(),                              
-            pygame.image.load('images/assets/button1_2.png').convert_alpha()],
-        enums.LOAD: [
-            pygame.image.load('images/assets/button2_0.png').convert_alpha(),
-            pygame.image.load('images/assets/button2_1.png').convert_alpha(),
-            pygame.image.load('images/assets/button2_2.png').convert_alpha()],
-        enums.OPTIONS: [
-            pygame.image.load('images/assets/button3_0.png').convert_alpha(),
-            pygame.image.load('images/assets/button3_1.png').convert_alpha(),
-            pygame.image.load('images/assets/button3_2.png').convert_alpha()],
-        enums.EXIT: [
-            pygame.image.load('images/assets/button4_0.png').convert_alpha(),
-            pygame.image.load('images/assets/button4_1.png').convert_alpha(),
-            pygame.image.load('images/assets/button4_2.png').convert_alpha()]}
+    # # buttons
+    # button_images = {
+    #     enums.START: [
+    #         pygame.image.load('images/assets/button1_0.png').convert_alpha(),
+    #         pygame.image.load('images/assets/button1_1.png').convert_alpha(),                              
+    #         pygame.image.load('images/assets/button1_2.png').convert_alpha()],
+    #     enums.LOAD: [
+    #         pygame.image.load('images/assets/button2_0.png').convert_alpha(),
+    #         pygame.image.load('images/assets/button2_1.png').convert_alpha(),
+    #         pygame.image.load('images/assets/button2_2.png').convert_alpha()],
+    #     enums.OPTIONS: [
+    #         pygame.image.load('images/assets/button3_0.png').convert_alpha(),
+    #         pygame.image.load('images/assets/button3_1.png').convert_alpha(),
+    #         pygame.image.load('images/assets/button3_2.png').convert_alpha()],
+    #     enums.EXIT: [
+    #         pygame.image.load('images/assets/button4_0.png').convert_alpha(),
+    #         pygame.image.load('images/assets/button4_1.png').convert_alpha(),
+    #         pygame.image.load('images/assets/button4_2.png').convert_alpha()]}
     
-    menu_image = pygame.image.load('images/assets/menu_back.png').convert()
-    # enemies
-    infected_image = pygame.image.load('images/sprites/infected0.png').convert()
-    avirus_image = pygame.image.load('images/sprites/avirus0.png').convert()
-    pelusoid_image = pygame.image.load('images/sprites/pelusoid0.png').convert()
-    fanty_image = pygame.image.load('images/sprites/fanty0.png').convert()
-    # controls
-    classic = pygame.image.load('images/assets/classic.png').convert_alpha()
-    gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
-    retro = pygame.image.load('images/assets/retro.png').convert_alpha()
-    common = pygame.image.load('images/assets/common.png').convert_alpha()
+    # menu_image = pygame.image.load('images/assets/menu_back.png').convert()
+    # # enemies
+    # infected_image = pygame.image.load('images/sprites/infected0.png').convert()
+    # avirus_image = pygame.image.load('images/sprites/avirus0.png').convert()
+    # pelusoid_image = pygame.image.load('images/sprites/pelusoid0.png').convert()
+    # fanty_image = pygame.image.load('images/sprites/fanty0.png').convert()
+    # # controls
+    # classic = pygame.image.load('images/assets/classic.png').convert_alpha()
+    # gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
+    # retro = pygame.image.load('images/assets/retro.png').convert_alpha()
+    # common = pygame.image.load('images/assets/common.png').convert_alpha()
 
-    # sounds
-    sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
-    sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
+    # # sounds
+    # sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
+    # sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
 
-    # page 1 (menu options) ----------------------------------------------------
-    x = 83
-    y = 67
-    support.shaded_text(fnt_LB, fnt_LF, 'Start New Game', page1_surf, x, y, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'Load Checkpoint', page1_surf, x, y+25, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'Options', page1_surf, x, y+50, 1)
-    support.shaded_text(fnt_LB, fnt_LF, 'Exit', page1_surf, x, y+75, 1)
-    # menu buttons
-    x = 50
-    y = 60
-    page1_surf.blit(button_images[enums.START][0], (x, y))
-    page1_surf.blit(button_images[enums.LOAD][0], (x, y+25))
-    page1_surf.blit(button_images[enums.OPTIONS][0], (x, y+50))
-    page1_surf.blit(button_images[enums.EXIT][0], (x, y+75))
+    # # page 1 (menu options) ----------------------------------------------------
+    # x = 83
+    # y = 67
+    # support.shaded_text(fnt_LB, fnt_LF, 'Start New Game', page1_surf, x, y, 1)
+    # support.shaded_text(fnt_LB, fnt_LF, 'Load Checkpoint', page1_surf, x, y+25, 1)
+    # support.shaded_text(fnt_LB, fnt_LF, 'Options', page1_surf, x, y+50, 1)
+    # support.shaded_text(fnt_LB, fnt_LF, 'Exit', page1_surf, x, y+75, 1)
+    # # menu buttons
+    # x = 50
+    # y = 60
+    # page1_surf.blit(button_images[enums.START][0], (x, y))
+    # page1_surf.blit(button_images[enums.LOAD][0], (x, y+25))
+    # page1_surf.blit(button_images[enums.OPTIONS][0], (x, y+50))
+    # page1_surf.blit(button_images[enums.EXIT][0], (x, y+75))
     
-    # page 2 (enemies/hotspot info) --------------------------------------------
-    x = 20
-    y = 60
-    support.shaded_text(fnt_LB2, fnt_LF2, 'The Baddies       The Hotspots', page2_surf, x, y, 1)
-    x = 40
-    y = 90
-    support.shaded_text(fnt_SB, fnt_SF, 'Infected (+25)', page2_surf, x, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Arachnovirus (+50)', page2_surf, x, y+20, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid (+75)', page2_surf, x, y+40, 1)   
-    support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid Fanty (+100)', page2_surf, x, y+60, 1)
-    x = 163
-    support.shaded_text(fnt_SB, fnt_SF, 'Explosives', page2_surf, x, y, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Ammunition', page2_surf, x, y+20, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Key Card', page2_surf, x, y+40, 1) 
-    support.shaded_text(fnt_SB, fnt_SF, 'Oxygen bottle', page2_surf, x, y+60, 1)
-    # images of enemies
-    x = 17
-    y = 84
-    page2_surf.blit(infected_image, (x, y))
-    page2_surf.blit(avirus_image, (x, y+20))
-    page2_surf.blit(pelusoid_image, (x, y+40))
-    page2_surf.blit(fanty_image, (x, y+60))
-    # images of the hotspots
-    x = 139
-    page2_surf.blit(hotspot_images[enums.TNT], (x, y))
-    page2_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
-    page2_surf.blit(hotspot_images[enums.KEY], (x, y+40))
-    page2_surf.blit(hotspot_images[enums.OXYGEN], (x, y+60))
+    # # page 2 (enemies/hotspot info) --------------------------------------------
+    # x = 20
+    # y = 60
+    # support.shaded_text(fnt_LB2, fnt_LF2, 'The Baddies       The Hotspots', page2_surf, x, y, 1)
+    # x = 40
+    # y = 90
+    # support.shaded_text(fnt_SB, fnt_SF, 'Infected (+25)', page2_surf, x, y, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, 'Arachnovirus (+50)', page2_surf, x, y+20, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid (+75)', page2_surf, x, y+40, 1)   
+    # support.shaded_text(fnt_SB, fnt_SF, 'Pelusoid Fanty (+100)', page2_surf, x, y+60, 1)
+    # x = 163
+    # support.shaded_text(fnt_SB, fnt_SF, 'Explosives', page2_surf, x, y, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, 'Ammunition', page2_surf, x, y+20, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, 'Key Card', page2_surf, x, y+40, 1) 
+    # support.shaded_text(fnt_SB, fnt_SF, 'Oxygen bottle', page2_surf, x, y+60, 1)
+    # # images of enemies
+    # x = 17
+    # y = 84
+    # page2_surf.blit(infected_image, (x, y))
+    # page2_surf.blit(avirus_image, (x, y+20))
+    # page2_surf.blit(pelusoid_image, (x, y+40))
+    # page2_surf.blit(fanty_image, (x, y+60))
+    # # images of the hotspots
+    # x = 139
+    # page2_surf.blit(hotspot_images[enums.TNT], (x, y))
+    # page2_surf.blit(hotspot_images[enums.AMMO], (x, y+20))
+    # page2_surf.blit(hotspot_images[enums.KEY], (x, y+40))
+    # page2_surf.blit(hotspot_images[enums.OXYGEN], (x, y+60))
 
-    # page 3 (control info) ----------------------------------------------------
-    x = 95
-    y = 57
-    support.shaded_text(fnt_LB2, fnt_LF2, 'Controls', page3_surf, x, y, 1)
-    x = 35
-    y = 82
-    page3_surf.blit(classic, (x, y)) # image of the classic layout
-    support.shaded_text(fnt_SB, fnt_SF, 'Classic', page3_surf, x+10, y+38, 1)
-    x = 100
-    page3_surf.blit(gamer, (x, y)) # image of the gamer layout
-    support.shaded_text(fnt_SB, fnt_SF, 'Gamer', page3_surf, x+12, y+38, 1)
-    x = 165
-    page3_surf.blit(retro, (x, y)) # image of the retro layout
-    support.shaded_text(fnt_SB, fnt_SF, 'Retro', page3_surf, x+18, y+38, 1) 
-    x = 110
-    y = 140
-    page3_surf.blit(common, (x, y)) # image of the common keys
-    support.shaded_text(fnt_SB, fnt_SF, 'Common keys', page3_surf, x-52, y+15, 1)
+    # # page 3 (control info) ----------------------------------------------------
+    # x = 95
+    # y = 57
+    # support.shaded_text(fnt_LB2, fnt_LF2, 'Controls', page3_surf, x, y, 1)
+    # x = 35
+    # y = 82
+    # page3_surf.blit(classic, (x, y)) # image of the classic layout
+    # support.shaded_text(fnt_SB, fnt_SF, 'Classic', page3_surf, x+10, y+38, 1)
+    # x = 100
+    # page3_surf.blit(gamer, (x, y)) # image of the gamer layout
+    # support.shaded_text(fnt_SB, fnt_SF, 'Gamer', page3_surf, x+12, y+38, 1)
+    # x = 165
+    # page3_surf.blit(retro, (x, y)) # image of the retro layout
+    # support.shaded_text(fnt_SB, fnt_SF, 'Retro', page3_surf, x+18, y+38, 1) 
+    # x = 110
+    # y = 140
+    # page3_surf.blit(common, (x, y)) # image of the common keys
+    # support.shaded_text(fnt_SB, fnt_SF, 'Common keys', page3_surf, x-52, y+15, 1)
 
-    # page 4 (high scores) --------------------------------------------
-    x = 90
-    y = 60
-    support.shaded_text(fnt_LB2, fnt_LF2, 'High Scores', page4_surf, x, y, 1)
-    x = 50
-    y = 90
-    # names
-    support.shaded_text(fnt_SB, fnt_SF, 'Lukas', page4_surf, x, y, 1)
-    support.shaded_text(fnt_SB2, fnt_SF2, 'Dany', page4_surf, x, y+10, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Marina', page4_surf, x, y+20, 1)   
-    support.shaded_text(fnt_SB2, fnt_SF2, 'Alvaro', page4_surf, x, y+30, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Julita', page4_surf, x, y+40, 1)
-    support.shaded_text(fnt_SB2, fnt_SF2, 'Luna_314', page4_surf, x, y+50, 1)
-    support.shaded_text(fnt_SB, fnt_SF, 'Irenita', page4_surf, x, y+60, 1)
-    support.shaded_text(fnt_SB2, fnt_SF2, 'salvaKantero', page4_surf, x, y+70, 1)
-    # dates and scores
-    x = 110
-    support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '    00195325', page4_surf, x, y, 1)
-    support.shaded_text(fnt_SB2, fnt_SF2, '14/02/2023' + '    00195290', page4_surf, x, y+10, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '11/02/2023' + '    00152645', page4_surf, x, y+20, 1)   
-    support.shaded_text(fnt_SB2, fnt_SF2, '28/01/2023' + '    00147755', page4_surf, x, y+30, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '    00097430', page4_surf, x, y+40, 1)
-    support.shaded_text(fnt_SB2, fnt_SF2, '21/01/2023' + '    00042940', page4_surf, x, y+50, 1)
-    support.shaded_text(fnt_SB, fnt_SF, '01/02/2023' + '    00008255', page4_surf, x, y+60, 1)
-    support.shaded_text(fnt_SB2, fnt_SF2, '30/12/2022' + '    00001985', page4_surf, x, y+70, 1)
+    # # page 4 (high scores) --------------------------------------------
+    # x = 90
+    # y = 60
+    # support.shaded_text(fnt_LB2, fnt_LF2, 'High Scores', page4_surf, x, y, 1)
+    # x = 50
+    # y = 90
+    # # names
+    # support.shaded_text(fnt_SB, fnt_SF, 'Lukas', page4_surf, x, y, 1)
+    # support.shaded_text(fnt_SB2, fnt_SF2, 'Dany', page4_surf, x, y+10, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, 'Marina', page4_surf, x, y+20, 1)   
+    # support.shaded_text(fnt_SB2, fnt_SF2, 'Alvaro', page4_surf, x, y+30, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, 'Julita', page4_surf, x, y+40, 1)
+    # support.shaded_text(fnt_SB2, fnt_SF2, 'Luna_314', page4_surf, x, y+50, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, 'Irenita', page4_surf, x, y+60, 1)
+    # support.shaded_text(fnt_SB2, fnt_SF2, 'salvaKantero', page4_surf, x, y+70, 1)
+    # # dates and scores
+    # x = 110
+    # support.shaded_text(fnt_SB, fnt_SF, '14/02/2023' + '    00195325', page4_surf, x, y, 1)
+    # support.shaded_text(fnt_SB2, fnt_SF2, '14/02/2023' + '    00195290', page4_surf, x, y+10, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, '11/02/2023' + '    00152645', page4_surf, x, y+20, 1)   
+    # support.shaded_text(fnt_SB2, fnt_SF2, '28/01/2023' + '    00147755', page4_surf, x, y+30, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, '30/12/2022' + '    00097430', page4_surf, x, y+40, 1)
+    # support.shaded_text(fnt_SB2, fnt_SF2, '21/01/2023' + '    00042940', page4_surf, x, y+50, 1)
+    # support.shaded_text(fnt_SB, fnt_SF, '01/02/2023' + '    00008255', page4_surf, x, y+60, 1)
+    # support.shaded_text(fnt_SB2, fnt_SF2, '30/12/2022' + '    00001985', page4_surf, x, y+70, 1)
 
-    # help
-    marquee_help = MarqueeText(
-        screen.menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
-        screen.menu_surf.get_height() - 16, .7, constants.HELP, 1700)
-    # credits       
-    marquee_credits = MarqueeText(
-        screen.menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
-        screen.menu_surf.get_height() - 8, .5, constants.CREDITS, 2900)
+    # # help
+    # marquee_help = MarqueeText(
+    #     screen.menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
+    #     screen.menu_surf.get_height() - 16, .7, constants.HELP, 1700)
+    # # credits       
+    # marquee_credits = MarqueeText(
+    #     screen.menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
+    #     screen.menu_surf.get_height() - 8, .5, constants.CREDITS, 2900)
         
-    sfx_switchoff.play()    
-    pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-    pygame.mixer.music.play()
+    # sfx_switchoff.play()    
+    # pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+    # pygame.mixer.music.play()
     
-    menu_page = 0 # page displayed (1 to 4)
-    page_timer = 0 # number of loops the page remains on screen
-    x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
+    # menu_page = 0 # page displayed (1 to 4)
+    # page_timer = 0 # number of loops the page remains on screen
+    # x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
 
-    pygame.event.clear(pygame.KEYDOWN)
-    while True: 
-        page_timer += 1        
-        screen.menu_surf.blit(menu_image, (0,0)) # blue background image
-        # marquee
-        marquee_help.update()
-        marquee_credits.update()  
+    # pygame.event.clear(pygame.KEYDOWN)
+    # while True: 
+    #     page_timer += 1        
+    #     screen.menu_surf.blit(menu_image, (0,0)) # blue background image
+    #     # marquee
+    #     marquee_help.update()
+    #     marquee_credits.update()  
 
-        # transition of menu pages
-        if page_timer >= 500: # time exceeded?
-            menu_page += 1 # change the page
-            page_timer = 0 # and reset the timer
-            x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
-        elif page_timer >= 450: # time almost exceeded?
-            x -= 8 # scrolls the page to the left        
-        elif x > 0: # as long as the page does not reach the left margin
-            x -= 8 # scrolls the page to the left  
+    #     # transition of menu pages
+    #     if page_timer >= 500: # time exceeded?
+    #         menu_page += 1 # change the page
+    #         page_timer = 0 # and reset the timer
+    #         x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
+    #     elif page_timer >= 450: # time almost exceeded?
+    #         x -= 8 # scrolls the page to the left        
+    #     elif x > 0: # as long as the page does not reach the left margin
+    #         x -= 8 # scrolls the page to the left  
 
-        # draws the main menu
-        if menu_page == 1: screen.menu_surf.blit(page1_surf, (x, 0))
-        # draws enemy and hotspot information        
-        elif menu_page == 2: screen.menu_surf.blit(page2_surf, (x, 0))
-        # draws enemy and hotspot information
-        elif menu_page == 3: screen.menu_surf.blit(page3_surf, (x, 0))
-        # draw the score table
-        elif menu_page == 4: screen.menu_surf.blit(page4_surf, (x, 0))              
-        else: menu_page = 1
+    #     # draws the main menu
+    #     if menu_page == 1: screen.menu_surf.blit(page1_surf, (x, 0))
+    #     # draws enemy and hotspot information        
+    #     elif menu_page == 2: screen.menu_surf.blit(page2_surf, (x, 0))
+    #     # draws enemy and hotspot information
+    #     elif menu_page == 3: screen.menu_surf.blit(page3_surf, (x, 0))
+    #     # draw the score table
+    #     elif menu_page == 4: screen.menu_surf.blit(page4_surf, (x, 0))              
+    #     else: menu_page = 1
         
-        # mouse management
-        pos = pygame.mouse.get_pos()
-        on_button = 0
-        if menu_page == 1 and x == 0: # main menu active?
-            if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
-                if pos[1] > 200 and pos[1] < 280: # START
-                    screen.menu_surf.blit(button_images[enums.START][1], (50, 60))
-                    on_button = 1
-                elif pos[1] > 280 and pos[1] < 350: # LOAD
-                    screen.menu_surf.blit(button_images[enums.LOAD][1], (50, 85))
-                    on_button = 2
-                elif pos[1] > 350 and pos[1] < 430: # OPTIONS
-                    screen.menu_surf.blit(button_images[enums.OPTIONS][1], (50, 110))
-                    on_button = 3
-                elif pos[1] > 430 and pos[1] < 510: # EXIT
-                    screen.menu_surf.blit(button_images[enums.EXIT][1], (50, 135))
-                    on_button = 4
-                # click with the left button?
-                if pygame.mouse.get_pressed() == (1,0,0):
-                    sfx_menu_click.play()
-                    if on_button == 1: # START
-                        screen.menu_surf.blit(button_images[enums.START][2], (50, 60))
-                        #update_screen()
-                        screen.update(game_status)
-                        pygame.time.wait(320)
-                        return
-                    elif on_button == 4: # EXIT
-                        screen.menu_surf.blit(button_images[enums.EXIT][2], (50, 135))
-                        #update_screen()
-                        screen.update(game_status)
-                        pygame.time.wait(320)
-                        support.exit()
+    #     # mouse management
+    #     pos = pygame.mouse.get_pos()
+    #     on_button = 0
+    #     if menu_page == 1 and x == 0: # main menu active?
+    #         if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
+    #             if pos[1] > 200 and pos[1] < 280: # START
+    #                 screen.menu_surf.blit(button_images[enums.START][1], (50, 60))
+    #                 on_button = 1
+    #             elif pos[1] > 280 and pos[1] < 350: # LOAD
+    #                 screen.menu_surf.blit(button_images[enums.LOAD][1], (50, 85))
+    #                 on_button = 2
+    #             elif pos[1] > 350 and pos[1] < 430: # OPTIONS
+    #                 screen.menu_surf.blit(button_images[enums.OPTIONS][1], (50, 110))
+    #                 on_button = 3
+    #             elif pos[1] > 430 and pos[1] < 510: # EXIT
+    #                 screen.menu_surf.blit(button_images[enums.EXIT][1], (50, 135))
+    #                 on_button = 4
+    #             # click with the left button?
+    #             if pygame.mouse.get_pressed() == (1,0,0):
+    #                 sfx_menu_click.play()
+    #                 if on_button == 1: # START
+    #                     screen.menu_surf.blit(button_images[enums.START][2], (50, 60))
+    #                     #update_screen()
+    #                     screen.update(game_status)
+    #                     pygame.time.wait(320)
+    #                     return
+    #                 elif on_button == 4: # EXIT
+    #                     screen.menu_surf.blit(button_images[enums.EXIT][2], (50, 135))
+    #                     #update_screen()
+    #                     screen.update(game_status)
+    #                     pygame.time.wait(320)
+    #                     support.exit()
 
-        # keyboard management
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                support.exit()
-            if event.type == pygame.KEYDOWN:                
-                if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
-                    support.exit()
-                # pressing any key returns to the main menu
-                elif menu_page != 1:
-                    menu_page = 1
-                    page_timer = 0    
+    #     # keyboard management
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             support.exit()
+    #         if event.type == pygame.KEYDOWN:                
+    #             if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
+    #                 support.exit()
+    #             # pressing any key returns to the main menu
+    #             elif menu_page != 1:
+    #                 menu_page = 1
+    #                 page_timer = 0    
 
-        #update_screen()
-        screen.update(game_status)
+    #     #update_screen()
+    #     screen.update(game_status)
 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
@@ -697,31 +636,7 @@ config.read()
 clock = pygame.time.Clock()
 
 # display object for easy scaling and filtering
-screen = Screen(clock, config)
-
-# generates a main window (or full screen) with title, icon, and 32-bit colour.
-# flags = 0
-# if config.full_screen: flags = pygame.FULLSCREEN
-# screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
-# pygame.display.set_caption('.:: Red Planet Pi ::.')
-# icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-# pygame.display.set_icon(icon)  
-
-# area covered by the menu
-# menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-# # surface for HQ scanlines
-# scanlines_surf = pygame.Surface(constants.WIN_SIZE)
-# scanlines_surf.set_alpha(40)
-
-# area covered by the map
-# map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-# # area covered by the scoreboard
-# sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
-# # surface to save the generated map without sprites
-# map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-# # surface to save the previous map (transition effect between screens)
-# if config.map_transition:
-#     map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+screen = Screen(clock, config) 
 
 # fonts
 font_dict = {
@@ -779,7 +694,6 @@ blast_animation = {
         pygame.image.load('images/sprites/blast16.png').convert_alpha()],                                 
 }
 gate_image = pygame.image.load('images/tiles/T60.png').convert()
-#menu_image = pygame.image.load('images/assets/menu_back.png').convert()
 
 # fx sounds
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
@@ -800,13 +714,13 @@ sfx_hotspot = {
 }
 
 # floating texts
-floating_text = FloatingText(screen.map_surf)
+floating_text = FloatingText(screen.srf_map)
 
 # create the Scoreboard object
-scoreboard = Scoreboard(screen.sboard_surf, hotspot_images, font_dict)
+scoreboard = Scoreboard(screen.srf_sboard, hotspot_images, font_dict)
 
 # create the Map object
-map = Map(screen.map_surf, screen.map_surf_bk)
+map = Map(screen.srf_map, screen.srf_map_bk)
 
  # creates a playlist with the 12 available tracks
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
@@ -928,5 +842,4 @@ while True:
             if config.show_fps:
                 font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), screen.map_surf, (233, 154))
             
-    #update_screen()
     screen.update(game_status)

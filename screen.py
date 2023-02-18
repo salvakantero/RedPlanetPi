@@ -31,16 +31,16 @@ class Screen():
         self.clock = clock # game clock for FPS and timers
         self.config = config
         # area covered by the menu
-        self.menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+        self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
-        self.map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        self.srf_map = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # surface to save the generated map without sprites
-        self.map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        self.srf_map_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # area covered by the scoreboard
-        self.sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
+        self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # surface to save the previous map (transition effect between screens)
         if config.map_transition:
-            map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+            self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 
         # generates a main window (or full screen) with title, icon, and 32-bit colour.
         flags = 0
@@ -50,25 +50,26 @@ class Screen():
         icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
         pygame.display.set_icon(icon)
         # surface for HQ scanlines
-        self.scanlines_surf = pygame.Surface(constants.WIN_SIZE)
-        self.scanlines_surf.set_alpha(40)
+        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
+        self.srf_scanlines.set_alpha(40)
 
     # draws scanlines
-    def scanlines(self, surface, height, from_x, to_x, rgb):
-        j = constants.V_MARGIN # Y axis
-        while j < height:
-            j+=3
-            pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, j), (to_x, j))
+    def scanlines(self, surface, rgb):
+        height = constants.WIN_SIZE[1]-30
+        from_x = constants.H_MARGIN
+        to_x = constants.WIN_SIZE[0]-constants.H_MARGIN-1
+        y = constants.V_MARGIN
+        while y < height:
+            y+=3
+            pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, y), (to_x, y))
 
     # applies scanlines according to the configuration
     def apply_scanlines(self):
         if self.config.scanlines_type == 2: # HQ
-            self.scanlines(self.scanlines_surf, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
-                constants.WIN_SIZE[0]-constants.H_MARGIN-1, 200)
-            self.screen.blit(self.scanlines_surf, (0, 0))
+            self.scanlines(self.srf_scanlines, 200)
+            self.screen.blit(self.srf_scanlines, (0, 0))
         elif self.config.scanlines_type == 1: # fast
-            self.scanlines(self.screen, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
-                constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
+            self.scanlines(self.screen, 15)
     
     # it's necessary to clean the edges of the map after shaking it
     def clean_edges(self):         
@@ -81,7 +82,7 @@ class Screen():
         if game_status == enums.OVER:
             # scale x 3 the menu
             self.screen.blit(pygame.transform.scale(
-                self.menu_surf, constants.MENU_SCALED_SIZE),
+                self.srf_menu, constants.MENU_SCALED_SIZE),
                 (constants.H_MARGIN, constants.V_MARGIN))
         else:
             # shakes the surface of the map if it has been requested
@@ -95,11 +96,11 @@ class Screen():
                 map.shake_timer -= 1
             # scale x 3 the scoreboard
             self.screen.blit(pygame.transform.scale(
-                self.sboard_surf, constants.SBOARD_SCALED_SIZE), 
+                self.srf_sboard, constants.SBOARD_SCALED_SIZE), 
                 (constants.H_MARGIN, constants.V_MARGIN))
             # scale x 3 the map
             self.screen.blit(pygame.transform.scale(
-                self.map_surf, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
+                self.srf_map, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
                 constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
 
         self.apply_scanlines()
