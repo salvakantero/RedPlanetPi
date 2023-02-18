@@ -33,14 +33,16 @@ import constants, enums
 import support # generic functions
 
 # classes
+from config import Configuration
+from screen import Screen
+from intro import Intro
 from map import Map
+from scoreboard import Scoreboard
 from font import Font
 from player import Player
 from enemy import Enemy
 from hotspot import Hotspot
 from gate import Gate
-from scoreboard import Scoreboard
-from config import Configuration
 from explosion import Explosion
 from floatingtext import FloatingText
 from marqueetext import MarqueeText
@@ -59,36 +61,40 @@ def map_transition():
 
     if map.scroll == enums.UP:
         # joins the two maps on a single surface
-        map_trans_vert.blit(map_surf_bk, (0,0))
-        map_trans_vert.blit(map_surf_bk_prev, (0, constants.MAP_UNSCALED_SIZE[1]))
+        map_trans_vert.blit(screen.map_surf_bk, (0,0))
+        map_trans_vert.blit(screen.map_surf_bk_prev, (0, constants.MAP_UNSCALED_SIZE[1]))
         # scrolls the two maps across the screen
         for y in range(-constants.MAP_UNSCALED_SIZE[1], 0, 4):
-            map_surf.blit(map_trans_vert, (0, y))
-            update_screen()
+            screen.map_surf.blit(map_trans_vert, (0, y))
+            #update_screen()
+            screen.update(game_status)
     elif map.scroll == enums.DOWN:
         # joins the two maps on a single surface
-        map_trans_vert.blit(map_surf_bk_prev, (0,0))
-        map_trans_vert.blit(map_surf_bk, (0, constants.MAP_UNSCALED_SIZE[1]))
+        map_trans_vert.blit(screen.map_surf_bk_prev, (0,0))
+        map_trans_vert.blit(screen.map_surf_bk, (0, constants.MAP_UNSCALED_SIZE[1]))
         # scrolls the two maps across the screen
         for y in range(0, -constants.MAP_UNSCALED_SIZE[1], -4):
-            map_surf.blit(map_trans_vert, (0, y))
-            update_screen()
+            screen.map_surf.blit(map_trans_vert, (0, y))
+            #update_screen()
+            screen.update(game_status)
     elif map.scroll == enums.LEFT:
         # joins the two maps on a single surface
-        map_trans_horiz.blit(map_surf_bk, (0,0))
-        map_trans_horiz.blit(map_surf_bk_prev, (constants.MAP_UNSCALED_SIZE[0], 0))
+        map_trans_horiz.blit(screen.map_surf_bk, (0,0))
+        map_trans_horiz.blit(screen.map_surf_bk_prev, (constants.MAP_UNSCALED_SIZE[0], 0))
         # scrolls the two maps across the screen
         for x in range(-constants.MAP_UNSCALED_SIZE[0], 0, 6):
-            map_surf.blit(map_trans_horiz, (x, 0))
-            update_screen()
+            screen.map_surf.blit(map_trans_horiz, (x, 0))
+            #update_screen()
+            screen.update(game_status)
     else: # right
         # joins the two maps on a single surface
-        map_trans_horiz.blit(map_surf_bk_prev, (0,0))
-        map_trans_horiz.blit(map_surf_bk, (constants.MAP_UNSCALED_SIZE[0], 0))
+        map_trans_horiz.blit(screen.map_surf_bk_prev, (0,0))
+        map_trans_horiz.blit(screen.map_surf_bk, (constants.MAP_UNSCALED_SIZE[0], 0))
         # scrolls the two maps across the screen
         for x in range(0, -constants.MAP_UNSCALED_SIZE[0], -6):
-            map_surf.blit(map_trans_horiz, (x, 0))
-            update_screen()
+            screen.map_surf.blit(map_trans_horiz, (x, 0))
+            #update_screen()
+            screen.update(game_status)
 
 # does everything necessary to change the map
 def change_map():
@@ -98,9 +104,9 @@ def change_map():
     map.load()
     # preserves the previous 
     if config.map_transition:
-        map_surf_bk_prev.blit(map_surf_bk, (0,0))
+        screen.map_surf_bk_prev.blit(screen.map_surf_bk, (0,0))
     # save the new empty background
-    map_surf_bk.blit(map_surf, (0,0))
+    screen.map_surf_bk.blit(screen.map_surf, (0,0))
     # add the TNT pile if necessary to the background
     if map.number == 44 and player.stacked_TNT:
         map.add_TNT_pile()
@@ -152,52 +158,54 @@ def change_map():
 # Main functions
 #===============================================================================
 
-# dumps and scales surfaces to the screen
-def update_screen():
-    if game_status == enums.OVER:
-        # scale x 3 the menu
-        screen.blit(pygame.transform.scale(menu_surf, constants.MENU_SCALED_SIZE), 
-        (constants.H_MARGIN, constants.V_MARGIN))
-    else:
-        # shakes the surface of the map if it has been requested
-        offset = [0,0]
-        if map.shake_timer > 0:
-            if map.shake_timer == 1: # last frame shaken   
-                # it's necessary to clean the edges of the map after shaking it         
-                pygame.draw.rect(screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500))
-                pygame.draw.rect(screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
-                pygame.draw.rect(screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
-            else:
-                offset[0] = random.randint(-map.shake[0], map.shake[0])
-                offset[1] = random.randint(-map.shake[1], map.shake[1])
-            map.shake_timer -= 1
-        # scale x 3 the scoreboard
-        screen.blit(pygame.transform.scale(
-            sboard_surf, constants.SBOARD_SCALED_SIZE), 
-            (constants.H_MARGIN, constants.V_MARGIN))
-        # scale x 3 the map
-        screen.blit(pygame.transform.scale(
-            map_surf, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
-            constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
+# # dumps and scales surfaces to the screen
+# def update_screen():
+#     if game_status == enums.OVER:
+#         # scale x 3 the menu
+#         screen.blit(pygame.transform.scale(menu_surf, constants.MENU_SCALED_SIZE), 
+#         (constants.H_MARGIN, constants.V_MARGIN))
+#     else:
+#         # shakes the surface of the map if it has been requested
+#         offset = [0,0]
+#         if map.shake_timer > 0:
+#             if map.shake_timer == 1: # last frame shaken   
+#                 # it's necessary to clean the edges of the map after shaking it         
+#                 pygame.draw.rect(screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500))
+#                 pygame.draw.rect(screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
+#                 pygame.draw.rect(screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
+#             else:
+#                 offset[0] = random.randint(-map.shake[0], map.shake[0])
+#                 offset[1] = random.randint(-map.shake[1], map.shake[1])
+#             map.shake_timer -= 1
+#         # scale x 3 the scoreboard
+#         screen.blit(pygame.transform.scale(
+#             sboard_surf, constants.SBOARD_SCALED_SIZE), 
+#             (constants.H_MARGIN, constants.V_MARGIN))
+#         # scale x 3 the map
+#         screen.blit(pygame.transform.scale(
+#             map_surf, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
+#             constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
 
-    support.make_scanlines(screen, scanlines_surf, config)
-    pygame.display.update() # refreshes the screen
-    clock.tick(60) # 60 FPS
+#     support.make_scanlines(screen, scanlines_surf, config)
+#     pygame.display.update() # refreshes the screen
+#     clock.tick(60) # 60 FPS
 
 # displays a message, darkening the screen
 def show_message(msg1, msg2):
     # obscures the surface of the map
-    map_surf.set_alpha(120)
-    update_screen()
+    screen.map_surf.set_alpha(120)
+    #update_screen()
+    screen.update(game_status)
     # saves a copy of the darkened screen
     aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
-    aux_surf.blit(map_surf, (0,0))
+    aux_surf.blit(screen.map_surf, (0,0))
     # draws the light message on the dark background
     support.message_box(msg1, msg2, aux_surf, font_dict)
     # return the copy with the message on the map surface and redraw it.
-    map_surf.blit(aux_surf, (0,0))
-    map_surf.set_alpha(None)
-    update_screen()
+    screen.map_surf.blit(aux_surf, (0,0))
+    screen.map_surf.set_alpha(None)
+    #update_screen()
+    screen.update(game_status)
     sfx_message.play()
 
 # displays a message to confirm exit
@@ -238,63 +246,67 @@ def pause_game():
                 if event.key == pygame.K_ESCAPE or event.key == config.pause_key:
                     return
 
-def fades_surface(target_surf, aux_surf, opacity, delay):
-    aux_surf.set_alpha(0) # totally transparent    
-    for z in range(opacity):
-        aux_surf.set_alpha(z) # opacity is being applied
-        target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
-        update_screen() # draw target_surf
-        pygame.time.wait(delay) # speed of transition
+# def fades_surface(target_surf, aux_surf, opacity, delay):
+#     aux_surf.set_alpha(0) # totally transparent    
+#     for z in range(opacity):
+#         aux_surf.set_alpha(z) # opacity is being applied
+#         target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
+#         #update_screen() # draw target_surf
+#         screen.update(game_status)
+#         pygame.time.wait(delay) # speed of transition
 
-# introductory scene
-def intro_scene():
-    logo_image = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
-    intro1_image = pygame.image.load('images/assets/intro1.png').convert() # background
-    intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
-    sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
-    sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
-    sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro
-    sfx_intro3.set_volume(.4)
-    # auxiliary surface for fading and flashing visual effects
-    aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
-    # PlayOnRetro logo
-    # fade in
-    menu_surf.fill(constants.PALETTE["BLACK"]) # black background
-    aux_surf.blit(logo_image, (0, 0))
-    fades_surface(menu_surf, aux_surf, 45, 12)
-    if support.main_key_pressed(): return # allows skipping the intro
-    sfx_intro3.play()
-    pygame.time.wait(1500)
-    if support.main_key_pressed(): return
-    # fade out
-    aux_surf.fill(constants.PALETTE["BLACK"]) # black background
-    fades_surface(menu_surf, aux_surf, 45, 12)
-    if support.main_key_pressed(): return # allows skipping the intro 
-    pygame.time.wait(1500)
-    if support.main_key_pressed(): return
-    # RedPlanetPi
-    sfx_intro1.play()
-    menu_surf.fill(constants.PALETTE["WHITE"]) # white background
-    aux_surf.blit(intro1_image, (0, 0))
-    fades_surface(menu_surf, aux_surf, 50, 8)
-    pygame.time.wait(200)
-    if support.main_key_pressed(): return # allows skipping the intro
-    # slide the title "RED PLANET" from the right to its final position
-    sfx_intro2.play()
-    for x in range(-170, 0, 10):
-        menu_surf.blit(intro1_image, (0, 0))
-        menu_surf.blit(intro2_image, (x, 0))
-        update_screen()
-    # slides the PI from the bottom to its final position
-    sfx_intro2.play()
-    for y in range(140, -5, -10):
-        menu_surf.blit(intro1_image, (0, 0))
-        menu_surf.blit(intro2_image, (0, 0))
-        menu_surf.blit(icon, (198, y)) # Pi
-        update_screen()
-    if support.main_key_pressed(): return # allows skipping the intro
-    # pause for recreation. Ooohhh how wonderful!
-    pygame.time.wait(500)
+# # introductory scene
+# def intro_scene():
+#     logo_image = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
+#     intro1_image = pygame.image.load('images/assets/intro1.png').convert() # background
+#     intro2_image = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
+#     intro3_image = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
+#     sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
+#     sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
+#     sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro
+#     sfx_intro3.set_volume(.4)
+#     # auxiliary surface for fading and flashing visual effects
+#     aux_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
+#     # PlayOnRetro logo
+#     # fade in
+#     screen.menu_surf.fill(constants.PALETTE["BLACK"]) # black background
+#     aux_surf.blit(logo_image, (0, 0))
+#     fades_surface(screen.menu_surf, aux_surf, 45, 12)
+#     if support.main_key_pressed(): return # allows skipping the intro
+#     sfx_intro3.play()
+#     pygame.time.wait(1500)
+#     if support.main_key_pressed(): return
+#     # fade out
+#     aux_surf.fill(constants.PALETTE["BLACK"]) # black background
+#     fades_surface(screen.menu_surf, aux_surf, 45, 12)
+#     if support.main_key_pressed(): return # allows skipping the intro 
+#     pygame.time.wait(1500)
+#     if support.main_key_pressed(): return
+#     # RedPlanetPi
+#     sfx_intro1.play()
+#     screen.menu_surf.fill(constants.PALETTE["WHITE"]) # white background
+#     aux_surf.blit(intro1_image, (0, 0))
+#     fades_surface(screen.menu_surf, aux_surf, 50, 8)
+#     pygame.time.wait(200)
+#     if support.main_key_pressed(): return # allows skipping the intro
+#     # slide the title "RED PLANET" from the right to its final position
+#     sfx_intro2.play()
+#     for x in range(-170, 0, 10):
+#         screen.menu_surf.blit(intro1_image, (0, 0))
+#         screen.menu_surf.blit(intro2_image, (x, 0))
+#         #update_screen()
+#         screen.update(game_status)
+#     # slides the PI from the bottom to its final position
+#     sfx_intro2.play()
+#     for y in range(140, -5, -10):
+#         screen.menu_surf.blit(intro1_image, (0, 0))
+#         screen.menu_surf.blit(intro2_image, (0, 0))
+#         screen.menu_surf.blit(intro3_image, (198, y))
+#         #update_screen()
+#         screen.update(game_status)
+#     if support.main_key_pressed(): return # allows skipping the intro
+#     # pause for recreation. Ooohhh how wonderful!
+#     pygame.time.wait(500)
 
 # main menu
 def main_menu():
@@ -320,6 +332,7 @@ def main_menu():
     fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
     fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['CYAN'], True)
     fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_BLUE'], True)
+
     # buttons
     button_images = {
         enums.START: [
@@ -338,6 +351,8 @@ def main_menu():
             pygame.image.load('images/assets/button4_0.png').convert_alpha(),
             pygame.image.load('images/assets/button4_1.png').convert_alpha(),
             pygame.image.load('images/assets/button4_2.png').convert_alpha()]}
+    
+    menu_image = pygame.image.load('images/assets/menu_back.png').convert()
     # enemies
     infected_image = pygame.image.load('images/sprites/infected0.png').convert()
     avirus_image = pygame.image.load('images/sprites/avirus0.png').convert()
@@ -348,6 +363,7 @@ def main_menu():
     gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
     retro = pygame.image.load('images/assets/retro.png').convert_alpha()
     common = pygame.image.load('images/assets/common.png').convert_alpha()
+
     # sounds
     sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
     sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
@@ -443,12 +459,12 @@ def main_menu():
 
     # help
     marquee_help = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
-        menu_surf.get_height() - 16, .7, constants.HELP, 1700)
+        screen.menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
+        screen.menu_surf.get_height() - 16, .7, constants.HELP, 1700)
     # credits       
     marquee_credits = MarqueeText(
-        menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
-        menu_surf.get_height() - 8, .5, constants.CREDITS, 2900)
+        screen.menu_surf, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
+        screen.menu_surf.get_height() - 8, .5, constants.CREDITS, 2900)
         
     sfx_switchoff.play()    
     pygame.mixer.music.load('sounds/music/mus_menu.ogg')
@@ -461,7 +477,7 @@ def main_menu():
     pygame.event.clear(pygame.KEYDOWN)
     while True: 
         page_timer += 1        
-        menu_surf.blit(menu_image, (0,0)) # blue background image
+        screen.menu_surf.blit(menu_image, (0,0)) # blue background image
         # marquee
         marquee_help.update()
         marquee_credits.update()  
@@ -477,13 +493,13 @@ def main_menu():
             x -= 8 # scrolls the page to the left  
 
         # draws the main menu
-        if menu_page == 1: menu_surf.blit(page1_surf, (x, 0))
+        if menu_page == 1: screen.menu_surf.blit(page1_surf, (x, 0))
         # draws enemy and hotspot information        
-        elif menu_page == 2: menu_surf.blit(page2_surf, (x, 0))
+        elif menu_page == 2: screen.menu_surf.blit(page2_surf, (x, 0))
         # draws enemy and hotspot information
-        elif menu_page == 3: menu_surf.blit(page3_surf, (x, 0))
+        elif menu_page == 3: screen.menu_surf.blit(page3_surf, (x, 0))
         # draw the score table
-        elif menu_page == 4: menu_surf.blit(page4_surf, (x, 0))              
+        elif menu_page == 4: screen.menu_surf.blit(page4_surf, (x, 0))              
         else: menu_page = 1
         
         # mouse management
@@ -492,28 +508,30 @@ def main_menu():
         if menu_page == 1 and x == 0: # main menu active?
             if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
                 if pos[1] > 200 and pos[1] < 280: # START
-                    menu_surf.blit(button_images[enums.START][1], (50, 60))
+                    screen.menu_surf.blit(button_images[enums.START][1], (50, 60))
                     on_button = 1
                 elif pos[1] > 280 and pos[1] < 350: # LOAD
-                    menu_surf.blit(button_images[enums.LOAD][1], (50, 85))
+                    screen.menu_surf.blit(button_images[enums.LOAD][1], (50, 85))
                     on_button = 2
                 elif pos[1] > 350 and pos[1] < 430: # OPTIONS
-                    menu_surf.blit(button_images[enums.OPTIONS][1], (50, 110))
+                    screen.menu_surf.blit(button_images[enums.OPTIONS][1], (50, 110))
                     on_button = 3
                 elif pos[1] > 430 and pos[1] < 510: # EXIT
-                    menu_surf.blit(button_images[enums.EXIT][1], (50, 135))
+                    screen.menu_surf.blit(button_images[enums.EXIT][1], (50, 135))
                     on_button = 4
                 # click with the left button?
                 if pygame.mouse.get_pressed() == (1,0,0):
                     sfx_menu_click.play()
                     if on_button == 1: # START
-                        menu_surf.blit(button_images[enums.START][2], (50, 60))
-                        update_screen()
+                        screen.menu_surf.blit(button_images[enums.START][2], (50, 60))
+                        #update_screen()
+                        screen.update(game_status)
                         pygame.time.wait(320)
                         return
                     elif on_button == 4: # EXIT
-                        menu_surf.blit(button_images[enums.EXIT][2], (50, 135))
-                        update_screen()
+                        screen.menu_surf.blit(button_images[enums.EXIT][2], (50, 135))
+                        #update_screen()
+                        screen.update(game_status)
                         pygame.time.wait(320)
                         support.exit()
 
@@ -529,7 +547,8 @@ def main_menu():
                     menu_page = 1
                     page_timer = 0    
 
-        update_screen()
+        #update_screen()
+        screen.update(game_status)
 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
@@ -674,34 +693,35 @@ pygame.mouse.set_visible(False)
 config = Configuration()
 config.read()
 
+# clock to control the FPS and timers
+clock = pygame.time.Clock()
+
+# display object for easy scaling and filtering
+screen = Screen(clock, config)
+
 # generates a main window (or full screen) with title, icon, and 32-bit colour.
-flags = 0
-if config.full_screen: flags = pygame.FULLSCREEN
-screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
-pygame.display.set_caption('.:: Red Planet Pi ::.')
-icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-pygame.display.set_icon(icon)  
+# flags = 0
+# if config.full_screen: flags = pygame.FULLSCREEN
+# screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
+# pygame.display.set_caption('.:: Red Planet Pi ::.')
+# icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
+# pygame.display.set_icon(icon)  
 
 # area covered by the menu
-menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-# surface for HQ scanlines
-scanlines_surf = pygame.Surface(constants.WIN_SIZE)
-scanlines_surf.set_alpha(40)
-# clock to control the FPS
-clock = pygame.time.Clock()
-game_status = enums.OVER
-# shows an intro
-intro_scene()
+# menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+# # surface for HQ scanlines
+# scanlines_surf = pygame.Surface(constants.WIN_SIZE)
+# scanlines_surf.set_alpha(40)
 
 # area covered by the map
-map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-# area covered by the scoreboard
-sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
-# surface to save the generated map without sprites
-map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-# surface to save the previous map (transition effect between screens)
-if config.map_transition:
-    map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+# map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+# # area covered by the scoreboard
+# sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
+# # surface to save the generated map without sprites
+# map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+# # surface to save the previous map (transition effect between screens)
+# if config.map_transition:
+#     map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
 
 # fonts
 font_dict = {
@@ -720,7 +740,6 @@ hotspot_images = {
     enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
     enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()
 }
-
 dust_animation = {
     enums.JUMPING: [
         pygame.image.load('images/sprites/dust0.png').convert_alpha(),
@@ -734,7 +753,6 @@ dust_animation = {
         pygame.image.load('images/sprites/dust7.png').convert_alpha(),
         pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
-
 blast_animation = {
     0: [ # explosion 1: on the air
         pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -760,9 +778,8 @@ blast_animation = {
         pygame.image.load('images/sprites/blast15.png').convert_alpha(),
         pygame.image.load('images/sprites/blast16.png').convert_alpha()],                                 
 }
-
 gate_image = pygame.image.load('images/tiles/T60.png').convert()
-menu_image = pygame.image.load('images/assets/menu_back.png').convert()
+#menu_image = pygame.image.load('images/assets/menu_back.png').convert()
 
 # fx sounds
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
@@ -783,18 +800,23 @@ sfx_hotspot = {
 }
 
 # floating texts
-floating_text = FloatingText(map_surf)
+floating_text = FloatingText(screen.map_surf)
 
 # create the Scoreboard object
-scoreboard = Scoreboard(sboard_surf, hotspot_images, font_dict)
+scoreboard = Scoreboard(screen.sboard_surf, hotspot_images, font_dict)
 
 # create the Map object
-map = Map(map_surf, map_surf_bk)
+map = Map(screen.map_surf, screen.map_surf_bk)
 
  # creates a playlist with the 12 available tracks
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
+
+game_status = enums.OVER
 music_status = enums.UNMUTED
 
+# shows an intro
+intro = Intro(screen, game_status)
+intro.play()
 
 #===============================================================================
 # Main loop
@@ -885,8 +907,8 @@ while True:
             map.animate_tiles()
 
             # draws the map free of sprites to clean it up
-            map_surf.blit(map_surf_bk, (0,0))
-            all_sprites_group.draw(map_surf)
+            screen.map_surf.blit(screen.map_surf_bk, (0,0))
+            all_sprites_group.draw(screen.map_surf)
 
             # draws the floating texts, only if needed
             floating_text.update()
@@ -904,6 +926,7 @@ while True:
 
             # display FPS (using the clock)
             if config.show_fps:
-                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), map_surf, (233, 154))
+                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), screen.map_surf, (233, 154))
             
-    update_screen()
+    #update_screen()
+    screen.update(game_status)

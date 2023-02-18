@@ -28,11 +28,20 @@ import enums
 
 class Screen():
     def __init__(self, clock, config):
-        self.menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-        self.map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-        self.sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
-        self.clock = clock
+        self.clock = clock # game clock for FPS and timers
         self.config = config
+        # area covered by the menu
+        self.menu_surf = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+        # area covered by the map
+        self.map_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        # surface to save the generated map without sprites
+        self.map_surf_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        # area covered by the scoreboard
+        self.sboard_surf = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
+        # surface to save the previous map (transition effect between screens)
+        if config.map_transition:
+            map_surf_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+
         # generates a main window (or full screen) with title, icon, and 32-bit colour.
         flags = 0
         if self.config.full_screen: flags = pygame.FULLSCREEN
@@ -60,6 +69,12 @@ class Screen():
         elif self.config.scanlines_type == 1: # fast
             self.scanlines(self.screen, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
                 constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
+    
+    # it's necessary to clean the edges of the map after shaking it
+    def clean_edges(self):         
+        pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500))
+        pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
+        pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
 
     # dumps and scales surfaces to the screen
     def update(self, game_status):
@@ -73,10 +88,7 @@ class Screen():
             offset = [0,0]
             if map.shake_timer > 0:
                 if map.shake_timer == 1: # last frame shaken   
-                    # it's necessary to clean the edges of the map after shaking it         
-                    pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500))
-                    pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
-                    pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
+                    self.clean_edges()
                 else:
                     offset[0] = random.randint(-map.shake[0], map.shake[0])
                     offset[1] = random.randint(-map.shake[1], map.shake[1])
