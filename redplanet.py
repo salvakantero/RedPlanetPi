@@ -1,6 +1,7 @@
 
 # ==============================================================================
 # .::Red Planet Pi::. v1.0
+# Initialization and main loop
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero

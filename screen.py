@@ -1,7 +1,7 @@
 
 # ==============================================================================
 # .::Screen class::.
-# refreshes the screen, scaling its content x 3 and applying scanlines.
+# Refreshes the screen, scaling its content x 3 and applying scanlines.
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero

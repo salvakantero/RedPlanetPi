@@ -1,41 +1,37 @@
 
-#===============================================================================
-# Font class 
+# ==============================================================================
+# .::Font class::.
 # Faster and sharper at lower resolutions than the original FONT class.
 # Is a slight adaptation of the original DaFluffyPotato source code.
-#===============================================================================
+# ==============================================================================
+#
+#  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU Lesser General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# ==============================================================================
 
 import pygame
 import support
 
-# generates the letters (and letter spacing) from the font image
-def load_font_img(path, font_color, is_transparent):
-    fg_color = (255, 0, 0) # original red
-    bg_color = (0, 0, 0) # black
-    font_img = pygame.image.load(path).convert() # load font image
-    font_img = support.swap_color(font_img, fg_color, font_color) # apply the requested font colour
-    last_x = 0
-    letters = []
-    letter_spacing = []
-    for x in range(font_img.get_width()): # for the entire width of the image
-        if font_img.get_at((x, 0))[0] == 127: # gray separator
-            # saves in the array the portion of the image with the letter we are interested in.
-            letters.append(support.clip(font_img, last_x, 0, x - last_x, font_img.get_height()))
-            # saves the width of the letter
-            letter_spacing.append(x - last_x)
-            last_x = x + 1
-        x += 1
-    if is_transparent:
-        # erases the background colour of each letter in the array
-        for letter in letters:
-            letter.set_colorkey(bg_color) 
-
-    return letters, letter_spacing, font_img.get_height()
-
 # creates a new font from an image path and a colour
 class Font():
     def __init__(self, path, color, transparent):
-        self.letters, self.letter_spacing, self.line_height = load_font_img(path, color, transparent)
+        self.path = path
+        self.color = color
+        self.transparent = transparent
+        self.letters, self.letter_spacing, self.line_height = self.load_font_img()
         self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
         'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e',
         'f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w',
@@ -44,6 +40,30 @@ class Font():
         self.space_width = self.letter_spacing[0]
         self.base_spacing = 1
         self.line_spacing = 2
+
+    # generates the letters (and letter spacing) from the font image
+    def load_font_img(self):
+        fg_color = (255, 0, 0) # original red
+        bg_color = (0, 0, 0) # black
+        font_img = pygame.image.load(self.path).convert() # load font image
+        font_img = support.swap_color(font_img, fg_color, self.color) # apply the requested font colour
+        last_x = 0
+        letters = []
+        letter_spacing = []
+        for x in range(font_img.get_width()): # for the entire width of the image
+            if font_img.get_at((x, 0))[0] == 127: # gray separator
+                # saves in the array the portion of the image with the letter we are interested in.
+                letters.append(support.clip(font_img, last_x, 0, x - last_x, font_img.get_height()))
+                # saves the width of the letter
+                letter_spacing.append(x - last_x)
+                last_x = x + 1
+            x += 1
+        if self.transparent:
+            # erases the background colour of each letter in the array
+            for letter in letters:
+                letter.set_colorkey(bg_color) 
+
+        return letters, letter_spacing, font_img.get_height()
 
     # draw the text
     def render(self, text, surf, loc):
