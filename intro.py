@@ -24,11 +24,11 @@
 import pygame
 import support
 import constants
+import enums
 
 class Intro():
-    def __init__(self, screen, game_status):
+    def __init__(self, screen):
         self.screen = screen
-        self.game_status = game_status
         self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
         self.img_intro1 = pygame.image.load('images/assets/intro1.png').convert() # background
         self.img_intro2 = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
@@ -45,7 +45,7 @@ class Intro():
         for z in range(opacity):
             aux_surf.set_alpha(z) # opacity is being applied
             target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
-            self.screen.update(self.game_status) # draw target_surf
+            self.screen.update(enums.OVER) # draw target_surf
             pygame.time.wait(delay) # speed of transition
 
     def play(self):
@@ -77,14 +77,14 @@ class Intro():
         for x in range(-170, 0, 10):
             self.screen.srf_menu.blit(self.img_intro1, (0, 0))
             self.screen.srf_menu.blit(self.img_intro2, (x, 0))
-            self.screen.update(self.game_status)
+            self.screen.update(enums.OVER)
         # slides the PI from the bottom to its final position
         self.sfx_intro2.play()
         for y in range(140, -5, -10):
             self.screen.srf_menu.blit(self.img_intro1, (0, 0))
             self.screen.srf_menu.blit(self.img_intro2, (0, 0))
             self.screen.srf_menu.blit(self.img_intro3, (198, y))
-            self.screen.update(self.game_status)
+            self.screen.update(enums.OVER)
         if support.main_key_pressed(): return # allows skipping the intro
         # pause for recreation. Ooohhh how wonderful!
         pygame.time.wait(500)
