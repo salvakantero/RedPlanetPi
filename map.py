@@ -31,7 +31,8 @@ import constants
 import enums
 
 class Map():
-    def __init__(self, map_surf, map_surf_bk):
+    def __init__(self, screen):
+        self.screen = screen
         self.number = 0 # current map
         self.scroll = 0 # scroll direction for map_transition()
         self.last = -1 # last map loaded
@@ -39,14 +40,8 @@ class Map():
         self.tilemap_behaviour_list = [] # list of tile behaviours (obstacle, platform, etc.)
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
-        self.map_surf = map_surf # surface for tiles and sprites
-        self.map_surf_bk = map_surf_bk # surface only for tiles (background)
         # to generate the pile of explosives
-        self.TNT_image = pygame.image.load('images/sprites/hotspot0.png').convert_alpha()        
-        # modifies the XY position of the map on the screen to create 
-        # a shaking effect for a given number of frames
-        self.shake = [0, 0]
-        self.shake_timer = 0
+        self.img_tnt = pygame.image.load('images/sprites/hotspot0.png').convert_alpha()    
 
     # loads a map and draws it on screen
     def load(self):
@@ -107,7 +102,7 @@ class Map():
                 tile = pygame.image.load('images/tiles/' + t['image']).convert()
                 tileRect = tile.get_rect()
                 tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
-                self.map_surf.blit(tile, tileRect)
+                self.screen.srf_map.blit(tile, tileRect)
 
                 # generates the list of rects and behaviour of the current map
                 # from T16.png to T35.png: blocking tiles (OBSTABLE)
@@ -140,7 +135,7 @@ class Map():
                 tile = anim_tile[0+anim_tile[4]] # select image according to frame number
                 tileRect = tile.get_rect()
                 tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
-                self.map_surf_bk.blit(tile, tileRect) # draws on the background image
+                self.screen.srf_map_bk.blit(tile, tileRect) # draws on the background image
                 # update frame number (0,1)
                 anim_tile[4] += 1
                 if anim_tile[4] > 1:
@@ -175,8 +170,50 @@ class Map():
             self.scroll = enums.DOWN
             player.rect.top = 0
 
+    # makes a screen transition between the old map and the new one.
+    def transition(self):
+        # surfaces to save the old and the new map together
+        srf_map_t_h = pygame.Surface((constants.MAP_UNSCALED_SIZE[0]*2, constants.MAP_UNSCALED_SIZE[1]))
+        srf_map_t_v = pygame.Surface((constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
+
+        if self.scroll == enums.UP:
+            # joins the two maps on a single surface
+            srf_map_t_v.blit(self.screen.srf_map_bk, (0,0))
+            srf_map_t_v.blit(self.screen.srf_map_bk_prev, (0, constants.MAP_UNSCALED_SIZE[1]))
+            # scrolls the two maps across the screen
+            for y in range(-constants.MAP_UNSCALED_SIZE[1], 0, 4):
+                self.screen.srf_map.blit(srf_map_t_v, (0, y))
+                self.screen.update(enums.RUNNING)
+        elif self.scroll == enums.DOWN:
+            # joins the two maps on a single surface
+            srf_map_t_v.blit(self.screen.srf_map_bk_prev, (0,0))
+            srf_map_t_v.blit(self.screen.srf_map_bk, (0, constants.MAP_UNSCALED_SIZE[1]))
+            # scrolls the two maps across the screen
+            for y in range(0, -constants.MAP_UNSCALED_SIZE[1], -4):
+                self.screen.srf_map.blit(srf_map_t_v, (0, y))
+                self.screen.update(enums.RUNNING)
+        elif self.scroll == enums.LEFT:
+            # joins the two maps on a single surface
+            srf_map_t_h.blit(self.screen.srf_map_bk, (0,0))
+            srf_map_t_h.blit(self.screen.srf_map_bk_prev, (constants.MAP_UNSCALED_SIZE[0], 0))
+            # scrolls the two maps across the screen
+            for x in range(-constants.MAP_UNSCALED_SIZE[0], 0, 6):
+                self.screen.srf_map.blit(srf_map_t_h, (x, 0))
+                self.screen.update(enums.RUNNING)
+        else: # right
+            # joins the two maps on a single surface
+            srf_map_t_h.blit(self.screen.srf_map_bk_prev, (0,0))
+            srf_map_t_h.blit(self.screen.srf_map_bk, (constants.MAP_UNSCALED_SIZE[0], 0))
+            # scrolls the two maps across the screen
+            for x in range(0, -constants.MAP_UNSCALED_SIZE[0], -6):
+                self.screen.srf_map.blit(srf_map_t_h, (x, 0))
+                self.screen.update(enums.RUNNING)
+
     # add the pile of explosives to the background (5 x 3)
     def add_TNT_pile(self):
         for y in range(80, 97, 8): # y = 80, 88, 96
             for x in range(105, 154, 12): # x = 105, 117, 129, 141, 153
-                self.map_surf_bk.blit(self.TNT_image, (x,y))
+                self.screen.srf_map_bk.blit(self.TNT_image, (x,y))
+
+
+

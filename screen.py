@@ -25,6 +25,7 @@ import pygame
 import random
 import constants
 import enums
+import support
 
 class Screen():
     def __init__(self, clock, config):
@@ -41,7 +42,15 @@ class Screen():
         # surface to save the previous map (transition effect between screens)
         if config.map_transition:
             self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-
+        # surface for HQ scanlines
+        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
+        self.srf_scanlines.set_alpha(40)
+        # sound effect when displaying a message on the screen
+        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')   
+        # modifies the XY position of the map on the screen to create 
+        # a shaking effect for a given number of frames (explosions, big jumps)
+        self.shake = [0, 0]
+        self.shake_timer = 0
         # generates a main window (or full screen) with title, icon, and 32-bit colour.
         flags = 0
         if self.config.full_screen: flags = pygame.FULLSCREEN
@@ -49,9 +58,6 @@ class Screen():
         pygame.display.set_caption('.:: Red Planet Pi ::.')
         icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
         pygame.display.set_icon(icon)
-        # surface for HQ scanlines
-        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
-        self.srf_scanlines.set_alpha(40)
 
     # draws scanlines
     def scanlines(self, surface, rgb):
@@ -77,6 +83,22 @@ class Screen():
         pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
         pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
 
+    # displays a message, darkening the screen
+    def message(self, msg1, msg2, font_dict):
+        # obscures the surface of the map
+        self.srf_map.set_alpha(120)
+        self.update(enums.PAUSED)
+        # saves a copy of the darkened screen
+        aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
+        aux_surf.blit(self.srf_map, (0,0))
+        # draws the light message on the dark background
+        support.message_box(msg1, msg2, aux_surf, font_dict)
+        # return the copy with the message on the map surface and redraw it.
+        self.srf_map.blit(aux_surf, (0,0))
+        self.srf_map.set_alpha(None)
+        self.update(enums.PAUSED)        
+        self.sfx_message.play()
+
     # dumps and scales surfaces to the screen
     def update(self, game_status):
         if game_status == enums.OVER:
@@ -87,13 +109,13 @@ class Screen():
         else:
             # shakes the surface of the map if it has been requested
             offset = [0,0]
-            if map.shake_timer > 0:
-                if map.shake_timer == 1: # last frame shaken   
+            if self.shake_timer > 0:
+                if self.shake_timer == 1: # last frame shaken   
                     self.clean_edges()
                 else:
-                    offset[0] = random.randint(-map.shake[0], map.shake[0])
-                    offset[1] = random.randint(-map.shake[1], map.shake[1])
-                map.shake_timer -= 1
+                    offset[0] = random.randint(-self.shake[0], self.shake[0])
+                    offset[1] = random.randint(-self.shake[1], self.shake[1])
+                self.shake_timer -= 1
             # scale x 3 the scoreboard
             self.screen.blit(pygame.transform.scale(
                 self.srf_sboard, constants.SBOARD_SCALED_SIZE), 

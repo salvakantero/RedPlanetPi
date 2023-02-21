@@ -49,51 +49,8 @@ from jukebox import Jukebox
 
 
 #===============================================================================
-# Map functions
+# Main functions
 #===============================================================================
-
-# makes a screen transition between the old map and the new one.
-def map_transition():
-    # surfaces to save the old and the new map together
-    map_trans_horiz = pygame.Surface((constants.MAP_UNSCALED_SIZE[0]*2, constants.MAP_UNSCALED_SIZE[1]))
-    map_trans_vert = pygame.Surface((constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
-
-    if map.scroll == enums.UP:
-        # joins the two maps on a single surface
-        map_trans_vert.blit(screen.map_surf_bk, (0,0))
-        map_trans_vert.blit(screen.map_surf_bk_prev, (0, constants.MAP_UNSCALED_SIZE[1]))
-        # scrolls the two maps across the screen
-        for y in range(-constants.MAP_UNSCALED_SIZE[1], 0, 4):
-            screen.map_surf.blit(map_trans_vert, (0, y))
-            #update_screen()
-            screen.update(game_status)
-    elif map.scroll == enums.DOWN:
-        # joins the two maps on a single surface
-        map_trans_vert.blit(screen.map_surf_bk_prev, (0,0))
-        map_trans_vert.blit(screen.map_surf_bk, (0, constants.MAP_UNSCALED_SIZE[1]))
-        # scrolls the two maps across the screen
-        for y in range(0, -constants.MAP_UNSCALED_SIZE[1], -4):
-            screen.map_surf.blit(map_trans_vert, (0, y))
-            #update_screen()
-            screen.update(game_status)
-    elif map.scroll == enums.LEFT:
-        # joins the two maps on a single surface
-        map_trans_horiz.blit(screen.map_surf_bk, (0,0))
-        map_trans_horiz.blit(screen.map_surf_bk_prev, (constants.MAP_UNSCALED_SIZE[0], 0))
-        # scrolls the two maps across the screen
-        for x in range(-constants.MAP_UNSCALED_SIZE[0], 0, 6):
-            screen.map_surf.blit(map_trans_horiz, (x, 0))
-            #update_screen()
-            screen.update(game_status)
-    else: # right
-        # joins the two maps on a single surface
-        map_trans_horiz.blit(screen.map_surf_bk_prev, (0,0))
-        map_trans_horiz.blit(screen.map_surf_bk, (constants.MAP_UNSCALED_SIZE[0], 0))
-        # scrolls the two maps across the screen
-        for x in range(0, -constants.MAP_UNSCALED_SIZE[0], -6):
-            screen.map_surf.blit(map_trans_horiz, (x, 0))
-            #update_screen()
-            screen.update(game_status)
 
 # does everything necessary to change the map
 def change_map():
@@ -103,15 +60,15 @@ def change_map():
     map.load()
     # preserves the previous 
     if config.map_transition:
-        screen.map_surf_bk_prev.blit(screen.map_surf_bk, (0,0))
+        screen.srf_map_bk_prev.blit(screen.srf_map_bk, (0,0))
     # save the new empty background
-    screen.map_surf_bk.blit(screen.map_surf, (0,0))
+    screen.srf_map_bk.blit(screen.srf_map, (0,0))
     # add the TNT pile if necessary to the background
     if map.number == 44 and player.stacked_TNT:
         map.add_TNT_pile()
     # performs the screen transition
     if config.map_transition:
-        map_transition()
+        map.transition()
     # refresh the scoreboard area
     scoreboard.reset()
     scoreboard.map_info(map.number)
@@ -152,32 +109,9 @@ def change_map():
             else: # platform sprite? add to the platform group
                 platform_group.add(enemy) # to check for collisions
 
-
-#===============================================================================
-# Main functions
-#===============================================================================
-
-# displays a message, darkening the screen
-def show_message(msg1, msg2):
-    # obscures the surface of the map
-    screen.map_surf.set_alpha(120)
-    #update_screen()
-    screen.update(game_status)
-    # saves a copy of the darkened screen
-    aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
-    aux_surf.blit(screen.map_surf, (0,0))
-    # draws the light message on the dark background
-    support.message_box(msg1, msg2, aux_surf, font_dict)
-    # return the copy with the message on the map surface and redraw it.
-    screen.map_surf.blit(aux_surf, (0,0))
-    screen.map_surf.set_alpha(None)
-    #update_screen()
-    screen.update(game_status)
-    sfx_message.play()
-
 # displays a message to confirm exit
 def confirm_exit():
-    show_message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE')
+    screen.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', font_dict)
     pygame.event.clear(pygame.KEYDOWN)
     while True:
         for event in pygame.event.get():
@@ -190,7 +124,7 @@ def confirm_exit():
 
 # displays a 'game over' message and waits
 def game_over(): 
-    show_message('G a m e  O v e r', 'PRESS ANY KEY')
+    screen.message('G a m e  O v e r', 'PRESS ANY KEY', font_dict)
     pygame.mixer.stop()
     sfx_game_over.play()
     pygame.event.clear(pygame.KEYDOWN)
@@ -203,7 +137,7 @@ def game_over():
 
 # displays a 'pause' message and waits
 def pause_game():
-    show_message('P a u s e', 'THE MASSACRE CAN WAIT!')
+    screen.message('P a u s e', 'THE MASSACRE CAN WAIT!', font_dict)
     pygame.event.clear(pygame.KEYDOWN)
     while True:
         for event in pygame.event.get():
@@ -243,8 +177,8 @@ def collision_check():
         for enemy in enemies_group:
             if enemy.rect.colliderect(bullet_group.sprite):
                 # shake the map
-                map.shake = [10, 6]
-                map.shake_timer = 14
+                screen.shake = [10, 6]
+                screen.shake_timer = 14
                 # creates an explosion
                 if enemy.type == enums.INFECTED:
                     blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], blast_animation[1])
@@ -277,8 +211,8 @@ def collision_check():
         if player.rect.colliderect(hotspot_group.sprite):
             hotspot = hotspot_group.sprite
             # shake the map (just a little)
-            map.shake = [4, 4]
-            map.shake_timer = 4
+            screen.shake = [4, 4]
+            screen.shake_timer = 4
             # creates a magic halo
             blast = Explosion(hotspot.rect.center, blast_animation[2])
             blast_group.add(blast)
@@ -327,8 +261,8 @@ def collision_check():
             else: 
                 sfx_locked_door.play()
                 # shake the map (just a little in X)
-                map.shake = [4, 0]
-                map.shake_timer = 4
+                screen.shake = [4, 0]
+                screen.shake_timer = 4
                 # bounces the player
                 if player.facing_right: player.rect.x -= 5
                 else: player.rect.x += 5
@@ -423,7 +357,6 @@ gate_image = pygame.image.load('images/tiles/T60.png').convert()
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
 sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
 sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
-sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
 sfx_enemy_down = {
     enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
     enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
@@ -438,19 +371,18 @@ sfx_hotspot = {
 }
 
 # shows an intro
-intro = Intro(screen)
-intro.play()
-
-# floating texts
+#intro = Intro(screen)
+#intro.play()
+# create the Floating texts
 floating_text = FloatingText(screen.srf_map)
 # create the Scoreboard object
 scoreboard = Scoreboard(screen.srf_sboard, hotspot_images, font_dict)
 # create the Map object
-map = Map(screen.srf_map, screen.srf_map_bk)
+map = Map(screen)
  # creates a playlist with the 12 available tracks
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
-# creates the initial menu object
-main_menu = Menu(screen)
+# creates the initial Menu object
+menu = Menu(screen)
 
 game_status = enums.OVER
 music_status = enums.UNMUTED
@@ -462,7 +394,7 @@ music_status = enums.UNMUTED
 while True:    
     if game_status == enums.OVER: # game not running
         pygame.mouse.set_visible(True)
-        main_menu.show()
+        menu.show()
         # sprite control groups
         all_sprites_group = pygame.sprite.Group()     
         enemies_group = pygame.sprite.Group()
@@ -478,8 +410,8 @@ while True:
         pygame.mixer.music.stop()
         jukebox.shuffle()
         # reset variables
-        for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # visible hotspots
-        for gate in constants.GATE_DATA.values(): gate[2] = True # visible doors
+        for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
+        for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors
         game_status = enums.RUNNING
         map.number = 0
         map.last = -1
@@ -544,8 +476,8 @@ while True:
             map.animate_tiles()
 
             # draws the map free of sprites to clean it up
-            screen.map_surf.blit(screen.map_surf_bk, (0,0))
-            all_sprites_group.draw(screen.map_surf)
+            screen.srf_map.blit(screen.srf_map_bk, (0,0))
+            all_sprites_group.draw(screen.srf_map)
 
             # draws the floating texts, only if needed
             floating_text.update()
@@ -563,6 +495,6 @@ while True:
 
             # display FPS (using the clock)
             if config.show_fps:
-                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), screen.map_surf, (233, 154))
+                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), screen.srf_map, (233, 154))
             
     screen.update(game_status)

@@ -263,16 +263,16 @@ class Menu():
                             pygame.time.wait(320)
                             support.exit()
 
-                # keyboard management
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
+            # keyboard management
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    support.exit()
+                if event.type == pygame.KEYDOWN:                
+                    if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
                         support.exit()
-                    if event.type == pygame.KEYDOWN:                
-                        if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
-                            support.exit()
-                        # pressing any key returns to the main menu
-                        elif menu_page != 1:
-                            menu_page = 1
-                            page_timer = 0    
+                    # pressing any key returns to the main menu
+                    elif menu_page != 1:
+                        menu_page = 1
+                        page_timer = 0    
 
             self.screen.update(enums.OVER)
