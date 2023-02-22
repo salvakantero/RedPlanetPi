@@ -110,42 +110,42 @@ def change_map():
                 platform_group.add(enemy) # to check for collisions
 
 # displays a message to confirm exit
-def confirm_exit():
-    screen.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', font_dict)
-    pygame.event.clear(pygame.KEYDOWN)
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                support.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:                    
-                    return True 
-                return False
+# def confirm_exit():
+#     screen.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', font_dict)
+#     pygame.event.clear(pygame.KEYDOWN)
+#     while True:
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 support.exit()
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_ESCAPE:                    
+#                     return True 
+#                 return False
 
-# displays a 'game over' message and waits
-def game_over(): 
-    screen.message('G a m e  O v e r', 'PRESS ANY KEY', font_dict)
-    pygame.mixer.stop()
-    sfx_game_over.play()
-    pygame.event.clear(pygame.KEYDOWN)
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                support.exit()
-            if event.type == pygame.KEYDOWN:                  
-                return
+# # displays a 'game over' message and waits
+# def game_over(): 
+#     screen.message('G a m e  O v e r', 'PRESS ANY KEY', font_dict)
+#     pygame.mixer.stop()
+#     sfx_game_over.play()
+#     pygame.event.clear(pygame.KEYDOWN)
+#     while True:
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 support.exit()
+#             if event.type == pygame.KEYDOWN:                  
+#                 return
 
-# displays a 'pause' message and waits
-def pause_game():
-    screen.message('P a u s e', 'THE MASSACRE CAN WAIT!', font_dict)
-    pygame.event.clear(pygame.KEYDOWN)
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                support.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE or event.key == config.pause_key:
-                    return
+# # displays a 'pause' message and waits
+# def pause_game():
+#     screen.message('P a u s e', 'THE MASSACRE CAN WAIT!', font_dict)
+#     pygame.event.clear(pygame.KEYDOWN)
+#     while True:
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 support.exit()
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_ESCAPE or event.key == config.pause_key:
+#                     return
                 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
@@ -267,15 +267,15 @@ def collision_check():
                 if player.facing_right: player.rect.x -= 5
                 else: player.rect.x += 5
 
-# stops the music when the game is paused and a message is displayed.
-def pause_music():
-    if music_status == enums.UNMUTED:
-        pygame.mixer.music.pause()
+# # stops the music when the game is paused and a message is displayed.
+# def pause_music():
+#     if music_status == enums.UNMUTED:
+#         pygame.mixer.music.pause()
 
-# restores music if it returns from a message
-def restore_music():
-    if music_status == enums.UNMUTED:
-        pygame.mixer.music.unpause()
+# # restores music if it returns from a message
+# def restore_music():
+#     if music_status == enums.UNMUTED:
+#         pygame.mixer.music.unpause()
 
 #===============================================================================
 # Main
@@ -293,9 +293,6 @@ config.read()
 # clock to control the FPS and timers
 clock = pygame.time.Clock()
 
-# display object for easy scaling and filtering
-screen = Screen(clock, config) 
-
 # fonts
 font_dict = {
     enums.SM_GREEN_FG: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
@@ -304,6 +301,12 @@ font_dict = {
     enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
     enums.SM_TEST: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False)
 }
+
+game_status = enums.OVER
+music_status = enums.UNMUTED
+
+# screen object, for easy scaling and filtering
+screen = Screen(clock, config, font_dict, music_status) 
 
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
@@ -371,8 +374,8 @@ sfx_hotspot = {
 }
 
 # shows an intro
-#intro = Intro(screen)
-#intro.play()
+intro = Intro(screen)
+intro.play()
 # create the Floating texts
 floating_text = FloatingText(screen.srf_map)
 # create the Scoreboard object
@@ -383,9 +386,6 @@ map = Map(screen)
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
 # creates the initial Menu object
 menu = Menu(screen)
-
-game_status = enums.OVER
-music_status = enums.UNMUTED
 
 #===============================================================================
 # Main loop
@@ -428,15 +428,15 @@ while True:
             if event.type == pygame.KEYDOWN:
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
-                    pause_music()
-                    if confirm_exit():
+                    screen.pause_music()
+                    if screen.confirm_exit():
                         game_status = enums.OVER # go to the main menu
-                    else: restore_music()
+                    else: screen.restore_music()
                 # pause main loop
                 if event.key == config.pause_key:
-                    pause_music()
-                    pause_game()
-                    restore_music()                                
+                    screen.pause_music()
+                    screen.pause_game()
+                    screen.restore_music()                                
                 # mute music
                 if event.key == config.mute_key :
                     if music_status == enums.MUTED:
@@ -469,7 +469,7 @@ while True:
             # game over?
             if player.lives == 0 or player.oxygen < 0:
                 game_status = enums.OVER
-                game_over()
+                screen.game_over()
                 continue
             
             # change the frame of the animated tiles

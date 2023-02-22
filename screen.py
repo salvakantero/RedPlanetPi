@@ -28,9 +28,11 @@ import enums
 import support
 
 class Screen():
-    def __init__(self, clock, config):
+    def __init__(self, clock, config, font_dict, music_status):
         self.clock = clock # game clock for FPS and timers
         self.config = config
+        self.font_dict = font_dict
+        self.music_status = music_status
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
@@ -45,8 +47,9 @@ class Screen():
         # surface for HQ scanlines
         self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
         self.srf_scanlines.set_alpha(40)
-        # sound effect when displaying a message on the screen
-        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')   
+        # sound effects
+        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
+        self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')  
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
@@ -83,22 +86,6 @@ class Screen():
         pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
         pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
 
-    # displays a message, darkening the screen
-    def message(self, msg1, msg2, font_dict):
-        # obscures the surface of the map
-        self.srf_map.set_alpha(120)
-        self.update(enums.PAUSED)
-        # saves a copy of the darkened screen
-        aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
-        aux_surf.blit(self.srf_map, (0,0))
-        # draws the light message on the dark background
-        support.message_box(msg1, msg2, aux_surf, font_dict)
-        # return the copy with the message on the map surface and redraw it.
-        self.srf_map.blit(aux_surf, (0,0))
-        self.srf_map.set_alpha(None)
-        self.update(enums.PAUSED)        
-        self.sfx_message.play()
-
     # dumps and scales surfaces to the screen
     def update(self, game_status):
         if game_status == enums.OVER:
@@ -128,3 +115,67 @@ class Screen():
         self.apply_scanlines()
         pygame.display.update() # refreshes the screen
         self.clock.tick(60) # 60 FPS
+
+    # displays a message, darkening the screen
+    def message(self, msg1, msg2, font_dict):
+        # obscures the surface of the map
+        self.srf_map.set_alpha(120)
+        self.update(enums.PAUSED)
+        # saves a copy of the darkened screen
+        aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
+        aux_surf.blit(self.srf_map, (0,0))
+        # draws the light message on the dark background
+        support.message_box(msg1, msg2, aux_surf, font_dict)
+        # return the copy with the message on the map surface and redraw it.
+        self.srf_map.blit(aux_surf, (0,0))
+        self.srf_map.set_alpha(None)
+        self.update(enums.PAUSED)        
+        self.sfx_message.play()
+
+    # displays a message to confirm exit
+    def confirm_exit(self):
+        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', self.font_dict)
+        pygame.event.clear(pygame.KEYDOWN)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    support.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:                    
+                        return True 
+                    return False
+                
+    # displays a 'game over' message and waits
+    def game_over(self): 
+        self.message('G a m e  O v e r', 'PRESS ANY KEY', self.font_dict)
+        pygame.mixer.stop()
+        self.sfx_game_over.play()
+        pygame.event.clear(pygame.KEYDOWN)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    support.exit()
+                if event.type == pygame.KEYDOWN:                  
+                    return
+                
+    # displays a 'pause' message and waits
+    def pause_game(self):
+        self.message('P a u s e', 'THE MASSACRE CAN WAIT!', self.font_dict)
+        pygame.event.clear(pygame.KEYDOWN)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    support.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE or event.key == self.config.pause_key:
+                        return
+                    
+    # stops the music when the game is paused and a message is displayed.
+    def pause_music(self):
+        if self.music_status == enums.UNMUTED:
+            pygame.mixer.music.pause()
+
+    # restores music if it returns from a message
+    def restore_music(self):
+        if self.music_status == enums.UNMUTED:
+            pygame.mixer.music.unpause()
