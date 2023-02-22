@@ -27,23 +27,6 @@ import sys
 import constants
 import enums
 
-# draws scanlines
-def scanlines(surface, height, from_x, to_x, rgb):
-    j = constants.V_MARGIN # Y axis
-    while j < height:
-        j+=3
-        pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, j), (to_x, j))
-
-# applies scanlines according to the configuration
-def make_scanlines(surface, surface_hq, config):
-    if config.scanlines_type == 2: # HQ
-        scanlines(surface_hq, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
-            constants.WIN_SIZE[0]-constants.H_MARGIN-1, 200)
-        surface.blit(surface_hq, (0, 0))
-    elif config.scanlines_type == 1: # fast
-        scanlines(surface, constants.WIN_SIZE[1]-30, constants.H_MARGIN, 
-            constants.WIN_SIZE[0]-constants.H_MARGIN-1, 15)
-
 # draws a centred message box erasing the background
 def message_box(msg1, msg2, surface, font):
     height = 36

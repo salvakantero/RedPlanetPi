@@ -1,7 +1,7 @@
 
 # ==============================================================================
 # .::Hotspot class::.
-# Creates a hotspot sprite at given coordinates. Is destroyed externally
+# Creates a hotspot sprite at given coordinates (is destroyed externally)
 # and animates it with an up-and-down movement.
 # ==============================================================================
 #

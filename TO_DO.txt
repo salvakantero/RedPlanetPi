@@ -118,4 +118,178 @@ ChatGPT
 
 
 
+LISTA DE CLASES
+===============
 
+# .::Red Planet Pi::. v1.0
+# Initialization and main loop
+# ==============================================================================
+
+
+# .::Configuration class::.
+# Reads and writes to the json configuration file.
+# Makes the configuration accessible from the attributes of class.
+# ==============================================================================
+__init__(self)
+read(self)
+write(self)
+
+
+# .::Font class::.
+# Faster and sharper at lower resolutions than the original FONT class.
+# Is a slight adaptation of the original DaFluffyPotato source code.
+# ==============================================================================
+__init__(self, path, color, transparent)
+load_font_img(self)
+render(self, text, surf, loc)
+
+
+# .::Screen class::.
+# Refreshes the screen, scaling its content x 3 and applying scanlines.
+# ==============================================================================
+__init__(self, clock, config)
+scanlines(self, surface, rgb)
+apply_scanlines(self)
+clean_edges(self)
+message(self, msg1, msg2, font_dict)
+update(self, game_status)
+
+
+# .::MarqueeText class::.
+# Generates a text that scrolls from right to left, 
+# at a given position and speed.
+# ==============================================================================
+__init__(self, surface, font, y, speed, text, text_width)
+update(self)
+
+
+# .::Intro class::.
+# An introduction with graphics and sound as an introduction to the game
+# ==============================================================================
+__init__(self, screen)
+fades_surface(self, target_surf, aux_surf, opacity, delay)
+play(self)
+
+
+# .::Menu class::.
+# Initial menu and additional information displayed on sliding pages
+# ==============================================================================
+__init__(self, screen)
+page_1(self)
+page_2(self)
+page_3(self)
+page_4(self)
+show(self)
+
+
+# .::Map class::.
+# Everything related to the drawing of the tile map.
+# This game uses levels made with the "Tiled" program.
+# Each screen is a JSON file exported from "Tiled".
+# ==============================================================================
+__init__(self, screen)
+load(self)
+process_map(self, map_file)
+get_tile_number(self, tile_name)
+find_data(self, lst, key, value)
+draw_map(self)
+animate_tiles(self)
+check_change(self, player)
+transition(self)
+add_TNT_pile(self)
+
+
+# .::Scoreboard class::.
+# Draws the scoreboard and refreshes its data.
+# ==============================================================================
+__init__(self, surface, hotspot_images, font_dict)
+map_info(self, map_number)
+shaded_text(self, data, x, y)
+reset(self)
+invalidate(self)
+clear_zone(self, x)
+update(self, player)
+
+
+# .::Player class::.
+# Create the main sprite and manage keyboard/mouse control, 
+# movement and animation according to its state.
+# ==============================================================================
+__init__(self, dust_image_list, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
+dust_effect(self, pos, state)
+get_input(self)
+get_state(self)
+horizontal_mov(self)
+vertical_mov(self)
+animate(self)
+loses_life(self)
+invincibility_timer(self)
+wave_value(self)
+oxygen_timer(self)
+update(self)
+
+
+# .::Jukebox class::.
+# Create a playlist with the tracks randomly shuffled and repeated 
+# a certain number of times according to their duration.
+# ==============================================================================
+__init__(self, path, base_filename, tracks, loop_list)
+shuffle(self)
+load_next(self)
+update(self)
+
+
+# .::FloatingText class::.
+# Generates a text in the play area with the score obtained (or other data) 
+# that disappears at the top of the screen..
+# ==============================================================================
+__init__(self, surface)
+update(self)
+
+
+# .::Hotspot class::.
+# Creates a hotspot sprite at given coordinates (is destroyed externally)
+# and animates it with an up-and-down movement.
+# ==============================================================================
+__init__(self, hotspot_data, image)
+update(self)
+
+
+# .::Enemy class::.
+# Creates an enemy based on its graphics and characteristics. 
+# It animates it and gives it movement based on a movement type 
+# and boundary coordinates.
+# Mobile platforms are also considered in this class, to save resources.
+# ==============================================================================
+__init__(self, enemy_data, player_rect)
+animate(self)
+update(self)
+
+
+# .::Bullet class::.
+# Creates, destroys, and draws during its lifecycle a player-fired projectile.
+# ==============================================================================
+__init__(self, pos, facing_right)
+update(self)
+
+
+# .::Dust effect class::.
+# Creates, destroys, and draws during its lifecycle a dust cloud effect.
+# ==============================================================================
+__init__(self, pos, dust_animation)
+animate(self)
+update(self)
+
+
+# .::Explosion class::.
+# Creates, destroys, and draws during its lifecycle an explosion.
+# ==============================================================================
+__init__(self, pos, blast_animation)
+animate(self)
+update(self)
+
+
+# .::Gate class::.
+# Creates a door sprite at given coordinates. Is destroyed externally
+# ==============================================================================
+__init__(self, gate_data, gate_image)
