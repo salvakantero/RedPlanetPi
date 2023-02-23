@@ -26,12 +26,12 @@ import random
 import constants
 import enums
 import support
+from font import Font
 
 class Game():
-    def __init__(self, clock, config, font_dict):
+    def __init__(self, clock, config):
         self.clock = clock # game clock for FPS and timers
         self.config = config
-        self.font_dict = font_dict
         self.status = enums.OVER
         self.music_status = enums.UNMUTED
         # area covered by the menu
@@ -62,6 +62,14 @@ class Game():
         pygame.display.set_caption('.:: Red Planet Pi ::.')
         icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
         pygame.display.set_icon(icon)
+        # fonts
+        self.font_dict = {
+            enums.SM_GREEN_FG: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
+            enums.SM_GREEN_BG: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
+            enums.LG_WHITE_FG: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
+            enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
+            enums.SM_TEST: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False)
+        }
 
     # draws scanlines
     def scanlines(self, surface, rgb):
@@ -121,7 +129,7 @@ class Game():
     def message(self, msg1, msg2, font_dict):
         # obscures the surface of the map
         self.srf_map.set_alpha(120)
-        self.update(enums.PAUSED)
+        self.update_screen()
         # saves a copy of the darkened screen
         aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
         aux_surf.blit(self.srf_map, (0,0))
@@ -130,7 +138,7 @@ class Game():
         # return the copy with the message on the map surface and redraw it.
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
-        self.update(enums.PAUSED)        
+        self.update_screen()        
         self.sfx_message.play()
 
     # displays a message to confirm exit

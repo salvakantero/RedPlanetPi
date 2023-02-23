@@ -245,6 +245,9 @@ config.read()
 # clock to control the FPS and timers
 clock = pygame.time.Clock()
 
+# game object, for common or general tasks
+game = Game(clock, config)
+ 
 # fonts
 font_dict = {
     enums.SM_GREEN_FG: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
@@ -253,9 +256,6 @@ font_dict = {
     enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
     enums.SM_TEST: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False)
 }
-
-# game object, for common or general tasks
-game = Game(clock, config, font_dict) 
 
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
