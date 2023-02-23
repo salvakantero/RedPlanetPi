@@ -33,7 +33,7 @@ import support # generic functions
 
 # classes
 from config import Configuration
-from screen import Screen
+from game import Game
 from intro import Intro
 from menu import Menu
 from map import Map
@@ -60,9 +60,9 @@ def change_map():
     map.load()
     # preserves the previous 
     if config.map_transition:
-        screen.srf_map_bk_prev.blit(screen.srf_map_bk, (0,0))
+        game.srf_map_bk_prev.blit(game.srf_map_bk, (0,0))
     # save the new empty background
-    screen.srf_map_bk.blit(screen.srf_map, (0,0))
+    game.srf_map_bk.blit(game.srf_map, (0,0))
     # add the TNT pile if necessary to the background
     if map.number == 44 and player.stacked_TNT:
         map.add_TNT_pile()
@@ -109,44 +109,6 @@ def change_map():
             else: # platform sprite? add to the platform group
                 platform_group.add(enemy) # to check for collisions
 
-# displays a message to confirm exit
-# def confirm_exit():
-#     screen.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', font_dict)
-#     pygame.event.clear(pygame.KEYDOWN)
-#     while True:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 support.exit()
-#             if event.type == pygame.KEYDOWN:
-#                 if event.key == pygame.K_ESCAPE:                    
-#                     return True 
-#                 return False
-
-# # displays a 'game over' message and waits
-# def game_over(): 
-#     screen.message('G a m e  O v e r', 'PRESS ANY KEY', font_dict)
-#     pygame.mixer.stop()
-#     sfx_game_over.play()
-#     pygame.event.clear(pygame.KEYDOWN)
-#     while True:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 support.exit()
-#             if event.type == pygame.KEYDOWN:                  
-#                 return
-
-# # displays a 'pause' message and waits
-# def pause_game():
-#     screen.message('P a u s e', 'THE MASSACRE CAN WAIT!', font_dict)
-#     pygame.event.clear(pygame.KEYDOWN)
-#     while True:
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 support.exit()
-#             if event.type == pygame.KEYDOWN:
-#                 if event.key == pygame.K_ESCAPE or event.key == config.pause_key:
-#                     return
-                
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
     # player and mobile platform -----------------------------------------------
@@ -177,8 +139,8 @@ def collision_check():
         for enemy in enemies_group:
             if enemy.rect.colliderect(bullet_group.sprite):
                 # shake the map
-                screen.shake = [10, 6]
-                screen.shake_timer = 14
+                game.shake = [10, 6]
+                game.shake_timer = 14
                 # creates an explosion
                 if enemy.type == enums.INFECTED:
                     blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], blast_animation[1])
@@ -211,8 +173,8 @@ def collision_check():
         if player.rect.colliderect(hotspot_group.sprite):
             hotspot = hotspot_group.sprite
             # shake the map (just a little)
-            screen.shake = [4, 4]
-            screen.shake_timer = 4
+            game.shake = [4, 4]
+            game.shake_timer = 4
             # creates a magic halo
             blast = Explosion(hotspot.rect.center, blast_animation[2])
             blast_group.add(blast)
@@ -261,21 +223,11 @@ def collision_check():
             else: 
                 sfx_locked_door.play()
                 # shake the map (just a little in X)
-                screen.shake = [4, 0]
-                screen.shake_timer = 4
+                game.shake = [4, 0]
+                game.shake_timer = 4
                 # bounces the player
                 if player.facing_right: player.rect.x -= 5
                 else: player.rect.x += 5
-
-# # stops the music when the game is paused and a message is displayed.
-# def pause_music():
-#     if music_status == enums.UNMUTED:
-#         pygame.mixer.music.pause()
-
-# # restores music if it returns from a message
-# def restore_music():
-#     if music_status == enums.UNMUTED:
-#         pygame.mixer.music.unpause()
 
 #===============================================================================
 # Main
@@ -302,11 +254,8 @@ font_dict = {
     enums.SM_TEST: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False)
 }
 
-game_status = enums.OVER
-music_status = enums.UNMUTED
-
-# screen object, for easy scaling and filtering
-screen = Screen(clock, config, font_dict, music_status) 
+# game object, for common or general tasks
+game = Game(clock, config, font_dict) 
 
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
@@ -359,7 +308,6 @@ gate_image = pygame.image.load('images/tiles/T60.png').convert()
 # fx sounds
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
 sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
-sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
 sfx_enemy_down = {
     enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
     enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
@@ -374,25 +322,25 @@ sfx_hotspot = {
 }
 
 # shows an intro
-intro = Intro(screen)
+intro = Intro(game)
 intro.play()
 # create the Floating texts
-floating_text = FloatingText(screen.srf_map)
+floating_text = FloatingText(game.srf_map)
 # create the Scoreboard object
-scoreboard = Scoreboard(screen.srf_sboard, hotspot_images, font_dict)
+scoreboard = Scoreboard(game.srf_sboard, hotspot_images, font_dict)
 # create the Map object
-map = Map(screen)
+map = Map(game)
  # creates a playlist with the 12 available tracks
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
 # creates the initial Menu object
-menu = Menu(screen)
+menu = Menu(game)
 
 #===============================================================================
 # Main loop
 #===============================================================================
 
 while True:    
-    if game_status == enums.OVER: # game not running
+    if game.status == enums.OVER: # game not running
         pygame.mouse.set_visible(True)
         menu.show()
         # sprite control groups
@@ -412,7 +360,7 @@ while True:
         # reset variables
         for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
         for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors
-        game_status = enums.RUNNING
+        game.status = enums.RUNNING
         map.number = 0
         map.last = -1
         map.scroll = enums.RIGHT
@@ -428,22 +376,22 @@ while True:
             if event.type == pygame.KEYDOWN:
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
-                    screen.pause_music()
-                    if screen.confirm_exit():
-                        game_status = enums.OVER # go to the main menu
-                    else: screen.restore_music()
+                    game.pause_music()
+                    if game.confirm_exit():
+                        game.status = enums.OVER # go to the main menu
+                    else: game.restore_music()
                 # pause main loop
                 if event.key == config.pause_key:
-                    screen.pause_music()
-                    screen.pause_game()
-                    screen.restore_music()                                
+                    game.pause_music()
+                    game.pause()
+                    game.restore_music()                                
                 # mute music
                 if event.key == config.mute_key :
-                    if music_status == enums.MUTED:
-                        music_status = enums.UNMUTED
+                    if game.music_status == enums.MUTED:
+                        game.music_status = enums.UNMUTED
                         pygame.mixer.music.play()
                     else:
-                        music_status = enums.MUTED
+                        game.music_status = enums.MUTED
                         pygame.mixer.music.fadeout(1200)
 
                 # temp code ================
@@ -459,7 +407,7 @@ while True:
         if map.number != map.last:
             change_map()
 
-        if game_status == enums.RUNNING:
+        if game.status == enums.RUNNING:
             # update sprites
             all_sprites_group.update()
 
@@ -468,16 +416,16 @@ while True:
 
             # game over?
             if player.lives == 0 or player.oxygen < 0:
-                game_status = enums.OVER
-                screen.game_over()
+                game.status = enums.OVER
+                game.over()
                 continue
             
             # change the frame of the animated tiles
             map.animate_tiles()
 
             # draws the map free of sprites to clean it up
-            screen.srf_map.blit(screen.srf_map_bk, (0,0))
-            all_sprites_group.draw(screen.srf_map)
+            game.srf_map.blit(game.srf_map_bk, (0,0))
+            all_sprites_group.draw(game.srf_map)
 
             # draws the floating texts, only if needed
             floating_text.update()
@@ -490,11 +438,11 @@ while True:
             map.check_change(player)
 
             # next track in the playlist if the music has been stopped
-            if music_status == enums.UNMUTED:
+            if game.music_status == enums.UNMUTED:
                 jukebox.update()
 
             # display FPS (using the clock)
             if config.show_fps:
-                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), screen.srf_map, (233, 154))
+                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), game.srf_map, (233, 154))
             
-    screen.update(game_status)
+    game.update_screen()

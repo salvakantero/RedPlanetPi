@@ -1,7 +1,7 @@
 
 # ==============================================================================
-# .::Screen class::.
-# Refreshes the screen, scaling its content x 3 and applying scanlines.
+# .::Game class::.
+# -
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
@@ -27,12 +27,13 @@ import constants
 import enums
 import support
 
-class Screen():
-    def __init__(self, clock, config, font_dict, music_status):
+class Game():
+    def __init__(self, clock, config, font_dict):
         self.clock = clock # game clock for FPS and timers
         self.config = config
         self.font_dict = font_dict
-        self.music_status = music_status
+        self.status = enums.OVER
+        self.music_status = enums.UNMUTED
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
@@ -87,8 +88,8 @@ class Screen():
         pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
 
     # dumps and scales surfaces to the screen
-    def update(self, game_status):
-        if game_status == enums.OVER:
+    def update_screen(self):
+        if self.status == enums.OVER:
             # scale x 3 the menu
             self.screen.blit(pygame.transform.scale(
                 self.srf_menu, constants.MENU_SCALED_SIZE),
@@ -146,7 +147,7 @@ class Screen():
                     return False
                 
     # displays a 'game over' message and waits
-    def game_over(self): 
+    def over(self): 
         self.message('G a m e  O v e r', 'PRESS ANY KEY', self.font_dict)
         pygame.mixer.stop()
         self.sfx_game_over.play()
@@ -159,7 +160,7 @@ class Screen():
                     return
                 
     # displays a 'pause' message and waits
-    def pause_game(self):
+    def pause(self):
         self.message('P a u s e', 'THE MASSACRE CAN WAIT!', self.font_dict)
         pygame.event.clear(pygame.KEYDOWN)
         while True:
