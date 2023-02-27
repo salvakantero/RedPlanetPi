@@ -28,7 +28,7 @@ import constants
 import enums
 
 # draws a centred message box erasing the background
-def message_box(msg1, msg2, surface, font):
+def message_box(msg1, msg2, surface, fonts):
     height = 36
     # calculates the width of the box
     message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
@@ -48,12 +48,12 @@ def message_box(msg1, msg2, surface, font):
     # draws the text centred inside the window (Y positions are fixed)
     text_x = (x + (width//2)) - (message1_len//2)
     text_y = y + 5
-    font[enums.LG_WHITE_BG].render(msg1, surface, (text_x, text_y))
-    font[enums.LG_WHITE_FG].render(msg1, surface, (text_x - 2, text_y - 2))
+    fonts[enums.L_B_WHITE].render(msg1, surface, (text_x, text_y))
+    fonts[enums.L_F_WHITE].render(msg1, surface, (text_x - 2, text_y - 2))
     text_x = (x + (width//2)) - (message2_len//2)
     text_y = y + 25
-    font[enums.SM_GREEN_BG].render(msg2, surface, (text_x, text_y))
-    font[enums.SM_GREEN_FG].render(msg2, surface, (text_x - 1, text_y - 1))
+    fonts[enums.S_B_GREEN].render(msg2, surface, (text_x, text_y))
+    fonts[enums.S_F_GREEN].render(msg2, surface, (text_x - 1, text_y - 1))
 
 # leaves the programme entirely
 def exit():

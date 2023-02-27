@@ -397,7 +397,7 @@ while True:
             # update sprites
             all_sprites_group.update()
 
-            # collision between the player and an enemy or moving platform
+            # collision between all entities
             collision_check()
 
             # game over?

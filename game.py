@@ -124,7 +124,7 @@ class Game():
         self.clock.tick(60) # 60 FPS
 
     # displays a message, darkening the screen
-    def message(self, msg1, msg2, font_dict):
+    def message(self, msg1, msg2):
         # obscures the surface of the map
         self.srf_map.set_alpha(120)
         self.update_screen()
@@ -132,7 +132,7 @@ class Game():
         aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
         aux_surf.blit(self.srf_map, (0,0))
         # draws the light message on the dark background
-        support.message_box(msg1, msg2, aux_surf, font_dict)
+        support.message_box(msg1, msg2, aux_surf, self.fonts)
         # return the copy with the message on the map surface and redraw it.
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
@@ -141,7 +141,7 @@ class Game():
 
     # displays a message to confirm exit
     def confirm_exit(self):
-        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', self.font_dict)
+        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE')
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
@@ -154,7 +154,7 @@ class Game():
                 
     # displays a 'game over' message and waits
     def over(self): 
-        self.message('G a m e  O v e r', 'PRESS ANY KEY', self.font_dict)
+        self.message('G a m e  O v e r', 'PRESS ANY KEY')
         pygame.mixer.stop()
         self.sfx_game_over.play()
         pygame.event.clear(pygame.KEYDOWN)
@@ -167,7 +167,7 @@ class Game():
                 
     # displays a 'pause' message and waits
     def pause(self):
-        self.message('P a u s e', 'THE MASSACRE CAN WAIT!', self.font_dict)
+        self.message('P a u s e', 'THE MASSACRE CAN WAIT!')
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
