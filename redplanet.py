@@ -248,15 +248,6 @@ clock = pygame.time.Clock()
 # game object, for common or general tasks
 game = Game(clock, config)
  
-# fonts
-font_dict = {
-    enums.SM_GREEN_FG: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
-    enums.SM_GREEN_BG: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
-    enums.LG_WHITE_FG: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
-    enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
-    enums.SM_TEST: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False)
-}
-
 # The following image lists are created here, not in their corresponding classes, 
 # as hundreds of DUST and EXPLOSION objects can be generated per game.
 hotspot_images = {
@@ -264,19 +255,6 @@ hotspot_images = {
     enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
     enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
     enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()
-}
-dust_animation = {
-    enums.JUMPING: [
-        pygame.image.load('images/sprites/dust0.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust1.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust2.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust3.png').convert_alpha(),                                
-        pygame.image.load('images/sprites/dust4.png').convert_alpha()],
-    enums.FALLING: [
-        pygame.image.load('images/sprites/dust5.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust6.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust7.png').convert_alpha(),
-        pygame.image.load('images/sprites/dust8.png').convert_alpha()],
 }
 blast_animation = {
     0: [ # explosion 1: on the air
@@ -324,16 +302,24 @@ sfx_hotspot = {
 # shows an intro
 intro = Intro(game)
 intro.play()
+
 # create the Floating texts
 floating_text = FloatingText(game.srf_map)
+
 # create the Scoreboard object
-scoreboard = Scoreboard(game.srf_sboard, hotspot_images, font_dict)
+scoreboard = Scoreboard(game.srf_sboard, game.fonts, hotspot_images)
+
 # create the Map object
 map = Map(game)
+
  # creates a playlist with the 12 available tracks
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
+
 # creates the initial Menu object
 menu = Menu(game)
+
+# small, opaque font for the FPS counter
+test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
 
 #===============================================================================
 # Main loop
@@ -353,7 +339,7 @@ while True:
         bullet_group = pygame.sprite.GroupSingle()
         blast_group = pygame.sprite.GroupSingle()                
         # create the player
-        player = Player(dust_animation, all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
+        player = Player(all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         jukebox.shuffle()
@@ -366,8 +352,8 @@ while True:
         map.scroll = enums.RIGHT
         scoreboard.game_percent = 0
         floating_text.y = 0
-    else: # game running
         pygame.mouse.set_visible(False)
+    else: # game running
         # event management
         for event in pygame.event.get():
             # exit when click on the X in the window
@@ -407,7 +393,7 @@ while True:
         if map.number != map.last:
             change_map()
 
-        if game.status == enums.RUNNING:
+        if game.status == enums.RUNNING: # (not paused)
             # update sprites
             all_sprites_group.update()
 
@@ -443,6 +429,6 @@ while True:
 
             # display FPS (using the clock)
             if config.show_fps:
-                font_dict[enums.SM_TEST].render(str(int(clock.get_fps())), game.srf_map, (233, 154))
+                test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
             
     game.update_screen()

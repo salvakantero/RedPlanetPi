@@ -31,7 +31,7 @@ from dust import DustEffect
 from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, dust_image_list, all_sprites_group, dust_group, bullet_group, map, scoreboard, config):
+    def __init__(self, all_sprites_group, dust_group, bullet_group, map, scoreboard, config):
         super().__init__()
         # attributes
         self.lives = 10 # lives remaining
@@ -66,8 +66,7 @@ class Player(pygame.sprite.Sprite):
             enums.JUMPING: [
                 pygame.image.load('images/sprites/player4.png').convert_alpha()],
             enums.FALLING: [
-                pygame.image.load('images/sprites/player5.png').convert_alpha()]
-        }
+                pygame.image.load('images/sprites/player5.png').convert_alpha()]}
         self.frame_index = 0 # frame number
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
@@ -78,7 +77,18 @@ class Player(pygame.sprite.Sprite):
         self.firing = 0 # frame counter
         self.image_firing = pygame.image.load('images/sprites/player6.png').convert_alpha()
         # dust effect
-        self.dust_image_list = dust_image_list 
+        self.dust_image_list = {
+            enums.JUMPING: [
+                pygame.image.load('images/sprites/dust0.png').convert_alpha(),
+                pygame.image.load('images/sprites/dust1.png').convert_alpha(),
+                pygame.image.load('images/sprites/dust2.png').convert_alpha(),
+                pygame.image.load('images/sprites/dust3.png').convert_alpha(),                                
+                pygame.image.load('images/sprites/dust4.png').convert_alpha()],
+            enums.FALLING: [
+                pygame.image.load('images/sprites/dust5.png').convert_alpha(),
+                pygame.image.load('images/sprites/dust6.png').convert_alpha(),
+                pygame.image.load('images/sprites/dust7.png').convert_alpha(),
+                pygame.image.load('images/sprites/dust8.png').convert_alpha()]}
         self.dust_group = dust_group
         # sounds
         self.sfx_jump = (
@@ -95,7 +105,6 @@ class Player(pygame.sprite.Sprite):
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav')
         self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')        
-        
         # objects and others
         self.all_sprites_group = all_sprites_group   
         self.bullet_group = bullet_group

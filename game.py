@@ -62,14 +62,12 @@ class Game():
         pygame.display.set_caption('.:: Red Planet Pi ::.')
         icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
         pygame.display.set_icon(icon)
-        # fonts
-        self.font_dict = {
-            enums.SM_GREEN_FG: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
-            enums.SM_GREEN_BG: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
-            enums.LG_WHITE_FG: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
-            enums.LG_WHITE_BG: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
-            enums.SM_TEST: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False)
-        }
+        # common fonts
+        self.fonts = {
+            enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
+            enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
+            enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
+            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)}
 
     # draws scanlines
     def scanlines(self, surface, rgb):
