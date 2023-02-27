@@ -25,9 +25,9 @@
 # ==============================================================================
 
 import pygame
+import math
 import enums
 import constants
-import support
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -72,6 +72,21 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.image_list[0]
         self.rect = self.image.get_rect()
 
+    # changes a sign value according to the sign of another value
+    def addsign (self, n, value):
+        if n >= 0: return value
+        else: return -value
+
+    # calculates the distance between two points
+    def distance (self, x1, y1, x2, y2):
+        return math.hypot(x2 - x1, y2 - y1)
+
+    # maintains a value within limits
+    def limit(self, val, min, max):
+        if val < min: return min
+        elif val > max: return max
+        return val
+
     def animate(self):
         self.animation_timer += 1
         # exceeded the frame time?
@@ -100,23 +115,23 @@ class Enemy(pygame.sprite.Sprite):
                 self.vy = -self.vy
         else: # fanty
             if self.state == enums.IDLE:                
-                if support.distance (self.player.x, self.player.y, self.x, self.y) <= self.sight_distance:                    
+                if self.distance (self.player.x, self.player.y, self.x, self.y) <= self.sight_distance:                    
                     self.state = enums.CHASING # close to the player, chases him
             elif self.state == enums.CHASING:
-                if support.distance (self.player.x, self.player.y, self.x, self.y) > self.sight_distance:                    
+                if self.distance (self.player.x, self.player.y, self.x, self.y) > self.sight_distance:                    
                     self.state = enums.RETREATING # away from the player, stops the chase and retreats
                 else:
                     # moves according to the value of several variables
-                    self.vx = support.limit(self.vx + support.addsign(self.player.x - self.x, self.acceleration), -self.max_speed, self.max_speed)
-                    self.vy = support.limit(self.vy + support.addsign(self.player.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
+                    self.vx = self.limit(self.vx + self.addsign(self.player.x - self.x, self.acceleration), -self.max_speed, self.max_speed)
+                    self.vy = self.limit(self.vy + self.addsign(self.player.y - self.y, self.acceleration), -self.max_speed, self.max_speed)
                     # applies the new position, but keeps it within the boundaries of the screen.
-                    self.x = support.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
-                    self.y = support.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
+                    self.x = self.limit(self.x + self.vx, 0, constants.MAP_UNSCALED_SIZE[0])
+                    self.y = self.limit(self.y + self.vy, 0, constants.MAP_UNSCALED_SIZE[1])
             else: # retreating; going back to the starting point
-                self.x += support.addsign(self.x1 - int(self.x), 1)
-                self.y += support.addsign(self.y1 - int(self.y), 1)
+                self.x += self.addsign(self.x1 - int(self.x), 1)
+                self.y += self.addsign(self.y1 - int(self.y), 1)
                 # close to the player? chases him again!
-                if support.distance(self.player.x, self.player.y, self.x, self.y) <= self.sight_distance:
+                if self.distance(self.player.x, self.player.y, self.x, self.y) <= self.sight_distance:
                     self.state = enums.CHASING		
 
             if self.state == enums.RETREATING:

@@ -22,9 +22,7 @@
 # ==============================================================================
 
 import pygame
-import support
 import constants
-import enums
 
 class Intro():
     def __init__(self, game):
@@ -40,6 +38,13 @@ class Intro():
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 
+    # the ESC, RETURN or SPACE key has been pressed.
+    def main_key_pressed(self):
+        for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        return True
+
     def fades_surface(self, target_surf, aux_surf, opacity, delay):
         aux_surf.set_alpha(0) # totally transparent    
         for z in range(opacity):
@@ -54,16 +59,16 @@ class Intro():
         self.game.srf_menu.fill(constants.PALETTE["BLACK"]) # black background
         self.srf_aux.blit(self.img_logo, (0, 0))
         self.fades_surface(self.game.srf_menu, self.srf_aux, 45, 12)
-        if support.main_key_pressed(): return # allows skipping the intro
+        if self.main_key_pressed(): return # allows skipping the intro
         self.sfx_intro3.play()
         pygame.time.wait(1500)
-        if support.main_key_pressed(): return
+        if self.main_key_pressed(): return
         # fade out
         self.srf_aux.fill(constants.PALETTE["BLACK"]) # black background
         self.fades_surface(self.game.srf_menu, self.srf_aux, 45, 12)
-        if support.main_key_pressed(): return # allows skipping the intro 
+        if self.main_key_pressed(): return # allows skipping the intro 
         pygame.time.wait(1500)
-        if support.main_key_pressed(): return
+        if self.main_key_pressed(): return
 
         # RedPlanetPi
         self.sfx_intro1.play()
@@ -71,7 +76,7 @@ class Intro():
         self.srf_aux.blit(self.img_intro1, (0, 0))
         self.fades_surface(self.game.srf_menu, self.srf_aux, 50, 8)
         pygame.time.wait(200)
-        if support.main_key_pressed(): return # allows skipping the intro
+        if self.main_key_pressed(): return # allows skipping the intro
         # slide the title "RED PLANET" from the right to its final position
         self.sfx_intro2.play()
         for x in range(-170, 0, 10):
@@ -85,6 +90,6 @@ class Intro():
             self.game.srf_menu.blit(self.img_intro2, (0, 0))
             self.game.srf_menu.blit(self.img_intro3, (198, y))
             self.game.update_screen()
-        if support.main_key_pressed(): return # allows skipping the intro
+        if self.main_key_pressed(): return # allows skipping the intro
         # pause for recreation. Ooohhh how wonderful!
         pygame.time.wait(500)

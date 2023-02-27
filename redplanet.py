@@ -29,7 +29,6 @@ from pygame.constants import *
 
 # own code
 import constants, enums
-import support # generic functions
 
 # classes
 from config import Configuration
@@ -358,7 +357,7 @@ while True:
         for event in pygame.event.get():
             # exit when click on the X in the window
             if event.type == pygame.QUIT:
-                support.exit()
+                game.exit()
             if event.type == pygame.KEYDOWN:
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:

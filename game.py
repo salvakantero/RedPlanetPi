@@ -1,7 +1,7 @@
 
 # ==============================================================================
 # .::Game class::.
-# -
+# Main class 
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
@@ -23,9 +23,9 @@
 
 import pygame
 import random
+import sys
 import constants
 import enums
-import support
 from font import Font
 
 class Game():
@@ -68,6 +68,11 @@ class Game():
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)}
+
+    # exits to the operating system
+    def exit(self):
+        pygame.quit()
+        sys.exit()
 
     # draws scanlines
     def scanlines(self, surface, rgb):
@@ -123,6 +128,34 @@ class Game():
         pygame.display.update() # refreshes the screen
         self.clock.tick(60) # 60 FPS
 
+    # draws a centred message box erasing the background
+    def message_box(self, msg1, msg2, surface):
+        height = 36
+        # calculates the width of the box
+        message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
+        message2_len = len(msg2) * 4 # approximate length of text 2 in pixels
+        # width = length of the longest text + margin
+        if message1_len > message2_len:
+            width = message1_len + constants.V_MARGIN
+        else:
+            width = message2_len + constants.V_MARGIN
+        # calculates the position of the box
+        x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
+        y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
+        # black window
+        pygame.draw.rect(surface, constants.PALETTE['BLACK'],(x, y, width, height))
+        # blue border
+        pygame.draw.rect(surface, constants.PALETTE['DARK_BLUE'],(x, y, width, height), 1)
+        # draws the text centred inside the window (Y positions are fixed)
+        text_x = (x + (width//2)) - (message1_len//2)
+        text_y = y + 5
+        self.fonts[enums.L_B_WHITE].render(msg1, surface, (text_x, text_y))
+        self.fonts[enums.L_F_WHITE].render(msg1, surface, (text_x - 2, text_y - 2))
+        text_x = (x + (width//2)) - (message2_len//2)
+        text_y = y + 25
+        self.fonts[enums.S_B_GREEN].render(msg2, surface, (text_x, text_y))
+        self.fonts[enums.S_F_GREEN].render(msg2, surface, (text_x - 1, text_y - 1))
+
     # displays a message, darkening the screen
     def message(self, msg1, msg2):
         # obscures the surface of the map
@@ -132,7 +165,31 @@ class Game():
         aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
         aux_surf.blit(self.srf_map, (0,0))
         # draws the light message on the dark background
-        support.message_box(msg1, msg2, aux_surf, self.fonts)
+        height = 36
+        # calculates the width of the box
+        message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
+        message2_len = len(msg2) * 4 # approximate length of text 2 in pixels
+        # width = length of the longest text + margin
+        if message1_len > message2_len:
+            width = message1_len + constants.V_MARGIN
+        else:
+            width = message2_len + constants.V_MARGIN
+        # calculates the position of the box
+        x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
+        y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
+        # black window
+        pygame.draw.rect(aux_surf, constants.PALETTE['BLACK'],(x, y, width, height))
+        # blue border
+        pygame.draw.rect(aux_surf, constants.PALETTE['DARK_BLUE'],(x, y, width, height), 1)
+        # draws the text centred inside the window (Y positions are fixed)
+        text_x = (x + (width//2)) - (message1_len//2)
+        text_y = y + 5
+        self.fonts[enums.L_B_WHITE].render(msg1, aux_surf, (text_x, text_y))
+        self.fonts[enums.L_F_WHITE].render(msg1, aux_surf, (text_x - 2, text_y - 2))
+        text_x = (x + (width//2)) - (message2_len//2)
+        text_y = y + 25
+        self.fonts[enums.S_B_GREEN].render(msg2, aux_surf, (text_x, text_y))
+        self.fonts[enums.S_F_GREEN].render(msg2, aux_surf, (text_x - 1, text_y - 1))
         # return the copy with the message on the map surface and redraw it.
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
@@ -146,7 +203,7 @@ class Game():
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    support.exit()
+                    self.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:                    
                         return True 
@@ -161,7 +218,7 @@ class Game():
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    support.exit()
+                    self.exit()
                 if event.type == pygame.KEYDOWN:                  
                     return
                 
@@ -172,7 +229,7 @@ class Game():
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    support.exit()
+                    self.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE or event.key == self.config.pause_key:
                         return

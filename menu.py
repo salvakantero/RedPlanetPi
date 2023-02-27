@@ -22,7 +22,6 @@
 # ==============================================================================
 
 import pygame
-import support
 import constants
 import enums
 from font import Font
@@ -86,14 +85,19 @@ class Menu():
         self.page_3()
         self.page_4()
         
+    # draws a text with its shadow
+    def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):           
+        font_BG.render(text, surface, (x, y))  # shadow
+        font_FG.render(text, surface, (x-offset, y-offset))
+
     def page_1(self): # menu options
         # menu options      
         x = 83
         y = 67
-        support.shaded_text(self.fnt_LB, self.fnt_LF, 'Start New Game', self.srf_page1, x, y, 1)
-        support.shaded_text(self.fnt_LB, self.fnt_LF, 'Load Checkpoint', self.srf_page1, x, y+25, 1)
-        support.shaded_text(self.fnt_LB, self.fnt_LF, 'Options', self.srf_page1, x, y+50, 1)
-        support.shaded_text(self.fnt_LB, self.fnt_LF, 'Exit', self.srf_page1, x, y+75, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Start New Game', self.srf_page1, x, y, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Load Checkpoint', self.srf_page1, x, y+25, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Options', self.srf_page1, x, y+50, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Exit', self.srf_page1, x, y+75, 1)
         # menu buttons
         x = 50
         y = 60
@@ -115,18 +119,18 @@ class Menu():
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert()}
         x = 20
         y = 60
-        support.shaded_text(self.fnt_LB2, self.fnt_LF2, 'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
+        self.shaded_text(self.fnt_LB2, self.fnt_LF2, 'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
         x = 40
         y = 90
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Infected (+25)', self.srf_page2, x, y, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Arachnovirus (+50)', self.srf_page2, x, y+20, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Pelusoid (+75)', self.srf_page2, x, y+40, 1)   
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Pelusoid Fanty (+100)', self.srf_page2, x, y+60, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Infected (+25)', self.srf_page2, x, y, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Arachnovirus (+50)', self.srf_page2, x, y+20, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Pelusoid (+75)', self.srf_page2, x, y+40, 1)   
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Pelusoid Fanty (+100)', self.srf_page2, x, y+60, 1)
         x = 163
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Explosives', self.srf_page2, x, y, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Ammunition', self.srf_page2, x, y+20, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Key Card', self.srf_page2, x, y+40, 1) 
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Explosives', self.srf_page2, x, y, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Ammunition', self.srf_page2, x, y+20, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Key Card', self.srf_page2, x, y+40, 1) 
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
         # images of enemies
         x = 17
         y = 84
@@ -144,47 +148,47 @@ class Menu():
     def page_3(self): # control info
         x = 95
         y = 57
-        support.shaded_text(self.fnt_LB2, self.fnt_LF2, 'Controls', self.srf_page3, x, y, 1)
+        self.shaded_text(self.fnt_LB2, self.fnt_LF2, 'Controls', self.srf_page3, x, y, 1)
         x = 35
         y = 82
         self.srf_page3.blit(self.img_classic, (x, y)) # image of the classic layout
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Classic', self.srf_page3, x+10, y+38, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Classic', self.srf_page3, x+10, y+38, 1)
         x = 100
         self.srf_page3.blit(self.img_gamer, (x, y)) # image of the gamer layout
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Gamer', self.srf_page3, x+12, y+38, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Gamer', self.srf_page3, x+12, y+38, 1)
         x = 165
         self.srf_page3.blit(self.img_retro, (x, y)) # image of the retro layout
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Retro', self.srf_page3, x+18, y+38, 1) 
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Retro', self.srf_page3, x+18, y+38, 1) 
         x = 110
         y = 140
         self.srf_page3.blit(self.img_common, (x, y)) # image of the common keys
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Common keys', self.srf_page3, x-52, y+15, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Common keys', self.srf_page3, x-52, y+15, 1)
 
     def page_4(self): # high scores
         x = 90
         y = 60
-        support.shaded_text(self.fnt_LB2, self.fnt_LF2, 'High Scores', self.srf_page4, x, y, 1)
+        self.shaded_text(self.fnt_LB2, self.fnt_LF2, 'High Scores', self.srf_page4, x, y, 1)
         x = 50
         y = 90
         # names
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Lukas', self.srf_page4, x, y, 1)
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Dany', self.srf_page4, x, y+10, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Marina', self.srf_page4, x, y+20, 1)   
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Alvaro', self.srf_page4, x, y+30, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Julita', self.srf_page4, x, y+40, 1)
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Luna_314', self.srf_page4, x, y+50, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, 'Irenita', self.srf_page4, x, y+60, 1)
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, 'salvaKantero', self.srf_page4, x, y+70, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Lukas', self.srf_page4, x, y, 1)
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Dany', self.srf_page4, x, y+10, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Marina', self.srf_page4, x, y+20, 1)   
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Alvaro', self.srf_page4, x, y+30, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Julita', self.srf_page4, x, y+40, 1)
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Luna_314', self.srf_page4, x, y+50, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Irenita', self.srf_page4, x, y+60, 1)
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'salvaKantero', self.srf_page4, x, y+70, 1)
         # dates and scores
         x = 110
-        support.shaded_text(self.fnt_SB, self.fnt_SF, '14/02/2023' + '    00195325', self.srf_page4, x, y, 1)
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, '14/02/2023' + '    00195290', self.srf_page4, x, y+10, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, '11/02/2023' + '    00152645', self.srf_page4, x, y+20, 1)   
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, '28/01/2023' + '    00147755', self.srf_page4, x, y+30, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, '30/12/2022' + '    00097430', self.srf_page4, x, y+40, 1)
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, '21/01/2023' + '    00042940', self.srf_page4, x, y+50, 1)
-        support.shaded_text(self.fnt_SB, self.fnt_SF, '01/02/2023' + '    00008255', self.srf_page4, x, y+60, 1)
-        support.shaded_text(self.fnt_SB2, self.fnt_SF2, '30/12/2022' + '    00001985', self.srf_page4, x, y+70, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, '14/02/2023' + '    00195325', self.srf_page4, x, y, 1)
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '14/02/2023' + '    00195290', self.srf_page4, x, y+10, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, '11/02/2023' + '    00152645', self.srf_page4, x, y+20, 1)   
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '28/01/2023' + '    00147755', self.srf_page4, x, y+30, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, '30/12/2022' + '    00097430', self.srf_page4, x, y+40, 1)
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '21/01/2023' + '    00042940', self.srf_page4, x, y+50, 1)
+        self.shaded_text(self.fnt_SB, self.fnt_SF, '01/02/2023' + '    00008255', self.srf_page4, x, y+60, 1)
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '30/12/2022' + '    00001985', self.srf_page4, x, y+70, 1)
 
     def show(self):
         # help
@@ -261,15 +265,15 @@ class Menu():
                             self.game.srf_menu.blit(self.img_buttons[enums.EXIT][2], (50, 135))
                             self.game.update_screen()
                             pygame.time.wait(320)
-                            support.exit()
+                            self.game.exit()
 
             # keyboard management
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    support.exit()
+                    self.game.exit()
                 if event.type == pygame.KEYDOWN:                
                     if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
-                        support.exit()
+                        self.game.exit()
                     # pressing any key returns to the main menu
                     elif menu_page != 1:
                         menu_page = 1
