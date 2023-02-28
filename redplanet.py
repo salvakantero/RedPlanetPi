@@ -68,6 +68,7 @@ def collision_check():
     game.enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
         player.loses_life()        
         scoreboard.invalidate() # redraws the scoreboard
+        return
     
     # bullets and martians -----------------------------------------------------
     if not game.bullet_group.sprite == None:
@@ -102,6 +103,7 @@ def collision_check():
         for tile in map.tilemap_rect_list:
             if tile.colliderect(bullet_rect):
                 game.bullet_group.sprite.kill()
+                break
                 
     # player and hotspot -------------------------------------------------------
     if not game.hotspot_group.sprite == None:
@@ -138,6 +140,7 @@ def collision_check():
             # removes objects
             game.hotspot_group.sprite.kill()
             constants.HOTSPOT_DATA[map.number][3] = False # not visible
+            return
 
     # player and gate ----------------------------------------------------------
     if game.gate_group.sprite != None:
