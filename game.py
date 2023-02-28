@@ -1,7 +1,7 @@
 
 # ==============================================================================
 # .::Game class::.
-# Main class 
+# One class to rule them all
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
@@ -48,6 +48,15 @@ class Game():
         # surface for HQ scanlines
         self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
         self.srf_scanlines.set_alpha(40)
+        # sprite control groups
+        self.all_sprites_group = pygame.sprite.Group()     
+        self.enemies_group = pygame.sprite.Group()
+        self.hotspot_group = pygame.sprite.GroupSingle()
+        self.gate_group = pygame.sprite.GroupSingle()
+        self.platform_group = pygame.sprite.GroupSingle()
+        self.dust_group = pygame.sprite.GroupSingle()
+        self.bullet_group = pygame.sprite.GroupSingle()
+        self.blast_group = pygame.sprite.GroupSingle()    
         # sound effects
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
         self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')  

@@ -73,27 +73,27 @@ def change_map():
     scoreboard.map_info(map.number)
     scoreboard.invalidate()      
     # reset the sprite groups  
-    all_sprites_group.empty()
-    enemies_group.empty()
-    hotspot_group.empty()
-    gate_group.empty()
-    platform_group.empty()
-    dust_group.empty()
-    blast_group.empty()
+    game.all_sprites_group.empty()
+    game.enemies_group.empty()
+    game.hotspot_group.empty()
+    game.gate_group.empty()
+    game.platform_group.empty()
+    game.dust_group.empty()
+    game.blast_group.empty()
     # add the player  
-    all_sprites_group.add(player)
+    game.all_sprites_group.add(player)
     # add the hotspot (if available)
     hotspot = constants.HOTSPOT_DATA[map.number]
     if hotspot[3] == True: # visible/available?           
         hotspot_sprite = Hotspot(hotspot, hotspot_images[hotspot[0]])
-        all_sprites_group.add(hotspot_sprite) # to update/draw it
-        hotspot_group.add(hotspot_sprite) # to check for collisions
+        game.all_sprites_group.add(hotspot_sprite) # to update/draw it
+        game.hotspot_group.add(hotspot_sprite) # to check for collisions
     # add the gate (if there is one visible on the map)
     gate = constants.GATE_DATA.get(map.number)
     if gate != None and gate[2] == True: # visible/available?
         gate_sprite = Gate(gate, gate_image)
-        all_sprites_group.add(gate_sprite) # to update/draw it
-        gate_group.add(gate_sprite) # to check for collisions
+        game.all_sprites_group.add(gate_sprite) # to update/draw it
+        game.gate_group.add(gate_sprite) # to check for collisions
     # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
     # a maximum of three enemies per map
     # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
@@ -101,19 +101,19 @@ def change_map():
         enemy_data = constants.ENEMIES_DATA[map.number*3 + i]
         if enemy_data[6] != enums.NONE:
             enemy = Enemy(enemy_data, player.rect)
-            all_sprites_group.add(enemy) # to update/draw it
+            game.all_sprites_group.add(enemy) # to update/draw it
             # enemy sprite? add to the enemy group (to check for collisions)
             if enemy_data[6] != enums.PLATFORM_SPR:
-                enemies_group.add(enemy) # to check for collisions
+                game.enemies_group.add(enemy) # to check for collisions
             else: # platform sprite? add to the platform group
-                platform_group.add(enemy) # to check for collisions
+                game.platform_group.add(enemy) # to check for collisions
 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
     # player and mobile platform -----------------------------------------------
-    if platform_group.sprite != None \
-    and pygame.sprite.spritecollide(player, platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
-        platform = platform_group.sprite
+    if game.platform_group.sprite != None \
+    and pygame.sprite.spritecollide(player, game.platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
+        platform = game.platform_group.sprite
         # the player is above the platform?
         if player.rect.bottom - 2 < platform.rect.top:               
             player.rect.bottom = platform.rect.top
@@ -129,14 +129,14 @@ def collision_check():
     
     # player and martians ------------------------------------------------------
     if not player.invincible and pygame.sprite.spritecollide(player, 
-    enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
+    game.enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
         player.loses_life()        
         scoreboard.invalidate() # redraws the scoreboard
     
     # bullets and martians -----------------------------------------------------
-    if not bullet_group.sprite == None:
-        for enemy in enemies_group:
-            if enemy.rect.colliderect(bullet_group.sprite):
+    if not game.bullet_group.sprite == None:
+        for enemy in game.enemies_group:
+            if enemy.rect.colliderect(game.bullet_group.sprite):
                 # shake the map
                 game.shake = [10, 6]
                 game.shake_timer = 14
@@ -149,35 +149,35 @@ def collision_check():
                     if enemy.type == enums.AVIRUS: floating_text.text = '+50'
                     elif enemy.type == enums.PELUSOID: floating_text.text = '+75'
                     else: floating_text.text = '+100' # fanty           
-                blast_group.add(blast)
-                all_sprites_group.add(blast)
+                game.blast_group.add(blast)
+                game.all_sprites_group.add(blast)
                 sfx_enemy_down[enemy.type].play()
                 # floating text position                                
                 floating_text.x = enemy.rect.x
                 floating_text.y = enemy.rect.y
                 # removes objects
                 enemy.kill()
-                bullet_group.sprite.kill()
+                game.bullet_group.sprite.kill()
                 break
 
     # bullets and map tiles ----------------------------------------------------
-    if not bullet_group.sprite == None:
-        bullet_rect = bullet_group.sprite.rect
+    if not game.bullet_group.sprite == None:
+        bullet_rect = game.bullet_group.sprite.rect
         for tile in map.tilemap_rect_list:
             if tile.colliderect(bullet_rect):
-                bullet_group.sprite.kill()
+                game.bullet_group.sprite.kill()
                 
     # player and hotspot -------------------------------------------------------
-    if not hotspot_group.sprite == None:
-        if player.rect.colliderect(hotspot_group.sprite):
-            hotspot = hotspot_group.sprite
+    if not game.hotspot_group.sprite == None:
+        if player.rect.colliderect(game.hotspot_group.sprite):
+            hotspot = game.hotspot_group.sprite
             # shake the map (just a little)
             game.shake = [4, 4]
             game.shake_timer = 4
             # creates a magic halo
             blast = Explosion(hotspot.rect.center, blast_animation[2])
-            blast_group.add(blast)
-            all_sprites_group.add(blast)
+            game.blast_group.add(blast)
+            game.all_sprites_group.add(blast)
             sfx_hotspot[hotspot.type].play()
             # manages the object according to the type
             if hotspot.type == enums.TNT:
@@ -200,21 +200,21 @@ def collision_check():
             floating_text.x = hotspot.x*constants.TILE_SIZE
             floating_text.y = hotspot.y*constants.TILE_SIZE           
             # removes objects
-            hotspot_group.sprite.kill()
+            game.hotspot_group.sprite.kill()
             constants.HOTSPOT_DATA[map.number][3] = False # not visible
 
     # player and gate ----------------------------------------------------------
-    if gate_group.sprite != None:
-        if player.rect.colliderect(gate_group.sprite):
+    if game.gate_group.sprite != None:
+        if player.rect.colliderect(game.gate_group.sprite):
             if player.keys > 0:
                 player.keys -= 1
                 sfx_open_door.play()
                 # creates a magic halo
-                blast = Explosion(gate_group.sprite.rect.center, blast_animation[2])
-                blast_group.add(blast)
-                all_sprites_group.add(blast)
+                blast = Explosion(game.gate_group.sprite.rect.center, blast_animation[2])
+                game.blast_group.add(blast)
+                game.all_sprites_group.add(blast)
                 # deletes the door
-                gate_group.sprite.kill()
+                game.gate_group.sprite.kill()
                 constants.GATE_DATA[map.number][2] = False # not visible
                 # increases the percentage of game play
                 scoreboard.game_percent += 3
@@ -327,18 +327,9 @@ test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], Fals
 while True:    
     if game.status == enums.OVER: # game not running
         pygame.mouse.set_visible(True)
-        menu.show()
-        # sprite control groups
-        all_sprites_group = pygame.sprite.Group()     
-        enemies_group = pygame.sprite.Group()
-        hotspot_group = pygame.sprite.GroupSingle()
-        gate_group = pygame.sprite.GroupSingle()
-        platform_group = pygame.sprite.GroupSingle()
-        dust_group = pygame.sprite.GroupSingle()
-        bullet_group = pygame.sprite.GroupSingle()
-        blast_group = pygame.sprite.GroupSingle()                
+        menu.show()             
         # create the player
-        player = Player(all_sprites_group, dust_group, bullet_group, map, scoreboard, config)
+        player = Player(game.all_sprites_group, game.dust_group, game.bullet_group, map, scoreboard, config)
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         jukebox.shuffle()
@@ -394,7 +385,7 @@ while True:
 
         if game.status == enums.RUNNING: # (not paused)
             # update sprites
-            all_sprites_group.update()
+            game.all_sprites_group.update()
 
             # collision between all entities
             collision_check()
@@ -410,7 +401,7 @@ while True:
 
             # draws the map free of sprites to clean it up
             game.srf_map.blit(game.srf_map_bk, (0,0))
-            all_sprites_group.draw(game.srf_map)
+            game.all_sprites_group.draw(game.srf_map)
 
             # draws the floating texts, only if needed
             floating_text.update()
