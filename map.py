@@ -30,6 +30,11 @@ import random
 import constants
 import enums
 
+from hotspot import Hotspot
+from gate import Gate
+from enemy import Enemy
+
+
 class Map():
     def __init__(self, game):
         self.game = game
@@ -170,6 +175,63 @@ class Map():
             self.scroll = enums.DOWN
             player.rect.top = 0
 
+    # does everything necessary to change the map and add enemies and hotspots.
+    def change(self, player, scoreboard):
+        # sets the new map as the current one
+        self.last = self.number
+        # load the new map
+        self.load()
+        # preserves the previous map
+        if self.game.config.map_transition:
+            self.game.srf_map_bk_prev.blit(self.game.srf_map_bk, (0,0))
+        # save the new empty background
+        self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
+        # add the TNT pile if necessary to the background
+        if self.number == 44 and player.stacked_TNT:
+            self.add_TNT_pile()
+        # performs the screen transition
+        if self.game.config.map_transition:
+            self.transition()
+        # refresh the scoreboard area
+        scoreboard.reset()
+        scoreboard.map_info(self.number)
+        scoreboard.invalidate()      
+        # reset the sprite groups  
+        self.game.all_sprites_group.empty()
+        self.game.enemies_group.empty()
+        self.game.hotspot_group.empty()
+        self.game.gate_group.empty()
+        self.game.platform_group.empty()
+        self.game.dust_group.empty()
+        self.game.blast_group.empty()
+        # add the player  
+        self.game.all_sprites_group.add(player)
+        # add the hotspot (if available)
+        hotspot = constants.HOTSPOT_DATA[self.number]
+        if hotspot[3] == True: # visible/available?           
+            hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
+            self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
+            self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
+        # add the gate (if there is one visible on the map)
+        gate = constants.GATE_DATA.get(self.number)
+        if gate != None and gate[2] == True: # visible/available?
+            gate_sprite = Gate(gate, self.game.gate_image)
+            self.game.all_sprites_group.add(gate_sprite) # to update/draw it
+            self.game.gate_group.add(gate_sprite) # to check for collisions
+        # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
+        # a maximum of three enemies per map
+        # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
+        for i in range(3):
+            enemy_data = constants.ENEMIES_DATA[self.number*3 + i]
+            if enemy_data[6] != enums.NONE:
+                enemy = Enemy(enemy_data, player.rect)
+                self.game.all_sprites_group.add(enemy) # to update/draw it
+                # enemy sprite? add to the enemy group (to check for collisions)
+                if enemy_data[6] != enums.PLATFORM_SPR:
+                    self.game.enemies_group.add(enemy) # to check for collisions
+                else: # platform sprite? add to the platform group
+                    self.game.platform_group.add(enemy) # to check for collisions
+
     # makes a screen transition between the old map and the new one.
     def transition(self):
         # surfaces to save the old and the new map together
@@ -213,7 +275,7 @@ class Map():
     def add_TNT_pile(self):
         for y in range(80, 97, 8): # y = 80, 88, 96
             for x in range(105, 154, 12): # x = 105, 117, 129, 141, 153
-                self.screen.srf_map_bk.blit(self.TNT_image, (x,y))
+                self.game.srf_map_bk.blit(self.TNT_image, (x,y))
 
 
 

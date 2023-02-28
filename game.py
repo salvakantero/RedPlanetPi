@@ -26,7 +26,9 @@ import random
 import sys
 import constants
 import enums
+
 from font import Font
+
 
 class Game():
     def __init__(self, clock, config):
@@ -56,14 +58,7 @@ class Game():
         self.platform_group = pygame.sprite.GroupSingle()
         self.dust_group = pygame.sprite.GroupSingle()
         self.bullet_group = pygame.sprite.GroupSingle()
-        self.blast_group = pygame.sprite.GroupSingle()    
-        # sound effects
-        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
-        self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')  
-        # modifies the XY position of the map on the screen to create 
-        # a shaking effect for a given number of frames (explosions, big jumps)
-        self.shake = [0, 0]
-        self.shake_timer = 0
+        self.blast_group = pygame.sprite.GroupSingle()
         # generates a main window (or full screen) with title, icon, and 32-bit colour.
         flags = 0
         if self.config.full_screen: flags = pygame.FULLSCREEN
@@ -77,6 +72,21 @@ class Game():
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)}
+        # The following image lists are created here, not in their corresponding classes, 
+        # as hundreds of DUST and EXPLOSION objects can be generated per game.
+        self.hotspot_images = {
+            enums.TNT: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
+            enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
+            enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
+            enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()} 
+        self.gate_image = pygame.image.load('images/tiles/T60.png').convert()  
+        # sound effects
+        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
+        self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')  
+        # modifies the XY position of the map on the screen to create 
+        # a shaking effect for a given number of frames (explosions, big jumps)
+        self.shake = [0, 0]
+        self.shake_timer = 0
 
     # exits to the operating system
     def exit(self):
@@ -252,3 +262,4 @@ class Game():
     def restore_music(self):
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
+

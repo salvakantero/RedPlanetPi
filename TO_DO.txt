@@ -5,6 +5,7 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Evitar segundo disparo inmediato
+- Evitar cargas de imágenes y sonido de disco durante el juego
 - Teclas redefinibles y otras configuraciones en el menú
 - Grabar/Cargar punto de control con "pickle"
 

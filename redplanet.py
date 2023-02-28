@@ -39,74 +39,10 @@ from map import Map
 from scoreboard import Scoreboard
 from font import Font
 from player import Player
-from enemy import Enemy
-from hotspot import Hotspot
-from gate import Gate
 from explosion import Explosion
 from floatingtext import FloatingText
 from jukebox import Jukebox
 
-
-#===============================================================================
-# Main functions
-#===============================================================================
-
-# does everything necessary to change the map
-def change_map():
-    # sets the new map as the current one
-    map.last = map.number
-    # load the new map
-    map.load()
-    # preserves the previous 
-    if config.map_transition:
-        game.srf_map_bk_prev.blit(game.srf_map_bk, (0,0))
-    # save the new empty background
-    game.srf_map_bk.blit(game.srf_map, (0,0))
-    # add the TNT pile if necessary to the background
-    if map.number == 44 and player.stacked_TNT:
-        map.add_TNT_pile()
-    # performs the screen transition
-    if config.map_transition:
-        map.transition()
-    # refresh the scoreboard area
-    scoreboard.reset()
-    scoreboard.map_info(map.number)
-    scoreboard.invalidate()      
-    # reset the sprite groups  
-    game.all_sprites_group.empty()
-    game.enemies_group.empty()
-    game.hotspot_group.empty()
-    game.gate_group.empty()
-    game.platform_group.empty()
-    game.dust_group.empty()
-    game.blast_group.empty()
-    # add the player  
-    game.all_sprites_group.add(player)
-    # add the hotspot (if available)
-    hotspot = constants.HOTSPOT_DATA[map.number]
-    if hotspot[3] == True: # visible/available?           
-        hotspot_sprite = Hotspot(hotspot, hotspot_images[hotspot[0]])
-        game.all_sprites_group.add(hotspot_sprite) # to update/draw it
-        game.hotspot_group.add(hotspot_sprite) # to check for collisions
-    # add the gate (if there is one visible on the map)
-    gate = constants.GATE_DATA.get(map.number)
-    if gate != None and gate[2] == True: # visible/available?
-        gate_sprite = Gate(gate, gate_image)
-        game.all_sprites_group.add(gate_sprite) # to update/draw it
-        game.gate_group.add(gate_sprite) # to check for collisions
-    # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
-    # a maximum of three enemies per map
-    # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
-    for i in range(3):
-        enemy_data = constants.ENEMIES_DATA[map.number*3 + i]
-        if enemy_data[6] != enums.NONE:
-            enemy = Enemy(enemy_data, player.rect)
-            game.all_sprites_group.add(enemy) # to update/draw it
-            # enemy sprite? add to the enemy group (to check for collisions)
-            if enemy_data[6] != enums.PLATFORM_SPR:
-                game.enemies_group.add(enemy) # to check for collisions
-            else: # platform sprite? add to the platform group
-                game.platform_group.add(enemy) # to check for collisions
 
 # collisions (mobile platforms, enemies, bullets, hotspots, gates)
 def collision_check():
@@ -229,7 +165,7 @@ def collision_check():
                 else: player.rect.x += 5
 
 #===============================================================================
-# Main
+# Initialisation and creation of the main objects
 #===============================================================================
 
 # initialisation
@@ -244,17 +180,9 @@ config.read()
 # clock to control the FPS and timers
 clock = pygame.time.Clock()
 
-# game object, for common or general tasks
+# game object, container for common variables and functions
 game = Game(clock, config)
  
-# The following image lists are created here, not in their corresponding classes, 
-# as hundreds of DUST and EXPLOSION objects can be generated per game.
-hotspot_images = {
-    enums.TNT: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
-    enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
-    enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
-    enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()
-}
 blast_animation = {
     0: [ # explosion 1: on the air
         pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -280,7 +208,6 @@ blast_animation = {
         pygame.image.load('images/sprites/blast15.png').convert_alpha(),
         pygame.image.load('images/sprites/blast16.png').convert_alpha()],                                 
 }
-gate_image = pygame.image.load('images/tiles/T60.png').convert()
 
 # fx sounds
 sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
@@ -306,16 +233,16 @@ intro.play()
 floating_text = FloatingText(game.srf_map)
 
 # create the Scoreboard object
-scoreboard = Scoreboard(game.srf_sboard, game.fonts, hotspot_images)
+scoreboard = Scoreboard(game)
 
 # create the Map object
 map = Map(game)
 
- # creates a playlist with the 12 available tracks
-jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
-
 # creates the initial Menu object
 menu = Menu(game)
+
+ # playlist with the 12 available tracks
+jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
 
 # small, opaque font for the FPS counter
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
@@ -381,7 +308,7 @@ while True:
 
         # change map if neccessary
         if map.number != map.last:
-            change_map()
+            map.change(player, scoreboard)
 
         if game.status == enums.RUNNING: # (not paused)
             # update sprites
