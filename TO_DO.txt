@@ -4,9 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Reclamar menú principal con botones del ratón
-- breaks y return en check_collisions()
-- Evitar uso excesivo de GAME, pasar a datos locales al inicializar clases
 - Evitar segundo disparo inmediato
 - Evitar cargas de imágenes y sonido de disco durante el juego
 - Teclas redefinibles y otras configuraciones en el menú
@@ -120,3 +117,9 @@ Mark Vanstone (Raspberry Pi Press)
 Ryan Lambie (Raspberry Pi Press)
 César Gómez (Mundo Python YT channel)
 ChatGPT
+
+
+Cambiar fondo a negro:
+"workbench.colorCustomizations": {
+    "editor.background": "#000000"
+}

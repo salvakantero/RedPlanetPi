@@ -267,6 +267,10 @@ class Menu():
                             self.game.update_screen()
                             pygame.time.wait(320)
                             self.game.exit()
+            # by clicking the left mouse button returns to the main menu
+            elif pygame.mouse.get_pressed() == (1,0,0):
+                menu_page = 1
+                page_timer = 0      
 
             # keyboard management
             for event in pygame.event.get():
