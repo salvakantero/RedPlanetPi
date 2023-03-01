@@ -27,6 +27,7 @@ import constants
 class Intro():
     def __init__(self, game):
         self.game = game
+        self.srf_menu = game.srf_menu
         self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
         self.img_intro1 = pygame.image.load('images/assets/intro1.png').convert() # background
         self.img_intro2 = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
@@ -56,39 +57,39 @@ class Intro():
     def play(self):
         # PlayOnRetro logo
         # fade in
-        self.game.srf_menu.fill(constants.PALETTE["BLACK"]) # black background
+        self.srf_menu.fill(constants.PALETTE["BLACK"]) # black background
         self.srf_aux.blit(self.img_logo, (0, 0))
-        self.fades_surface(self.game.srf_menu, self.srf_aux, 45, 12)
+        self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
         if self.main_key_pressed(): return # allows skipping the intro
         self.sfx_intro3.play()
         pygame.time.wait(1500)
         if self.main_key_pressed(): return
         # fade out
         self.srf_aux.fill(constants.PALETTE["BLACK"]) # black background
-        self.fades_surface(self.game.srf_menu, self.srf_aux, 45, 12)
+        self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
         if self.main_key_pressed(): return # allows skipping the intro 
         pygame.time.wait(1500)
         if self.main_key_pressed(): return
 
         # RedPlanetPi
         self.sfx_intro1.play()
-        self.game.srf_menu.fill(constants.PALETTE["WHITE"]) # white background
+        self.srf_menu.fill(constants.PALETTE["WHITE"]) # white background
         self.srf_aux.blit(self.img_intro1, (0, 0))
-        self.fades_surface(self.game.srf_menu, self.srf_aux, 50, 8)
+        self.fades_surface(self.srf_menu, self.srf_aux, 50, 8)
         pygame.time.wait(200)
         if self.main_key_pressed(): return # allows skipping the intro
         # slide the title "RED PLANET" from the right to its final position
         self.sfx_intro2.play()
         for x in range(-170, 0, 10):
-            self.game.srf_menu.blit(self.img_intro1, (0, 0))
-            self.game.srf_menu.blit(self.img_intro2, (x, 0))
+            self.srf_menu.blit(self.img_intro1, (0, 0))
+            self.srf_menu.blit(self.img_intro2, (x, 0))
             self.game.update_screen()
         # slides the PI from the bottom to its final position
         self.sfx_intro2.play()
         for y in range(140, -5, -10):
-            self.game.srf_menu.blit(self.img_intro1, (0, 0))
-            self.game.srf_menu.blit(self.img_intro2, (0, 0))
-            self.game.srf_menu.blit(self.img_intro3, (198, y))
+            self.srf_menu.blit(self.img_intro1, (0, 0))
+            self.srf_menu.blit(self.img_intro2, (0, 0))
+            self.srf_menu.blit(self.img_intro3, (198, y))
             self.game.update_screen()
         if self.main_key_pressed(): return # allows skipping the intro
         # pause for recreation. Ooohhh how wonderful!

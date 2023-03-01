@@ -30,6 +30,7 @@ from marqueetext import MarqueeText
 class Menu():
     def __init__(self, game):
         self.game = game
+        self.srf_menu = game.srf_menu
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page1.set_colorkey(constants.PALETTE['BLACK']) # transparent background
@@ -193,12 +194,12 @@ class Menu():
     def show(self):
         # help
         marquee_help = MarqueeText(
-            self.game.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
-            self.game.srf_menu.get_height() - 16, .7, constants.HELP, 1700)
+            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
+            self.srf_menu.get_height() - 16, .7, constants.HELP, 1700)
         # credits       
         marquee_credits = MarqueeText(
-            self.game.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
-            self.game.srf_menu.get_height() - 8, .5, constants.CREDITS, 2900)
+            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
+            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2900)
         
         self.sfx_switchoff.play()    
         pygame.mixer.music.load('sounds/music/mus_menu.ogg')
@@ -211,7 +212,7 @@ class Menu():
         pygame.event.clear(pygame.KEYDOWN)
         while True: 
             page_timer += 1        
-            self.game.srf_menu.blit(self.img_menu, (0,0)) # blue background image
+            self.srf_menu.blit(self.img_menu, (0,0)) # blue background image
             # marquee
             marquee_help.update()
             marquee_credits.update()  
@@ -227,13 +228,13 @@ class Menu():
                 x -= 8 # scrolls the page to the left  
 
             # draws the main menu
-            if menu_page == 1: self.game.srf_menu.blit(self.srf_page1, (x, 0))
+            if menu_page == 1: self.srf_menu.blit(self.srf_page1, (x, 0))
             # draws enemy and hotspot information        
-            elif menu_page == 2: self.game.srf_menu.blit(self.srf_page2, (x, 0))
+            elif menu_page == 2: self.srf_menu.blit(self.srf_page2, (x, 0))
             # draws enemy and hotspot information
-            elif menu_page == 3: self.game.srf_menu.blit(self.srf_page3, (x, 0))
+            elif menu_page == 3: self.srf_menu.blit(self.srf_page3, (x, 0))
             # draw the score table
-            elif menu_page == 4: self.game.srf_menu.blit(self.srf_page4, (x, 0))              
+            elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))              
             else: menu_page = 1
             
             # mouse management
@@ -242,27 +243,27 @@ class Menu():
             if menu_page == 1 and x == 0: # main menu active?
                 if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
                     if pos[1] > 200 and pos[1] < 280: # START
-                        self.game.srf_menu.blit(self.img_buttons[enums.START][1], (50, 60))
+                        self.srf_menu.blit(self.img_buttons[enums.START][1], (50, 60))
                         on_button = 1
                     elif pos[1] > 280 and pos[1] < 350: # LOAD
-                        self.game.srf_menu.blit(self.img_buttons[enums.LOAD][1], (50, 85))
+                        self.srf_menu.blit(self.img_buttons[enums.LOAD][1], (50, 85))
                         on_button = 2
                     elif pos[1] > 350 and pos[1] < 430: # OPTIONS
-                        self.game.srf_menu.blit(self.img_buttons[enums.OPTIONS][1], (50, 110))
+                        self.srf_menu.blit(self.img_buttons[enums.OPTIONS][1], (50, 110))
                         on_button = 3
                     elif pos[1] > 430 and pos[1] < 510: # EXIT
-                        self.game.srf_menu.blit(self.img_buttons[enums.EXIT][1], (50, 135))
+                        self.srf_menu.blit(self.img_buttons[enums.EXIT][1], (50, 135))
                         on_button = 4
                     # click with the left button?
                     if pygame.mouse.get_pressed() == (1,0,0):
                         self.sfx_menu_click.play()
                         if on_button == 1: # START
-                            self.game.srf_menu.blit(self.img_buttons[enums.START][2], (50, 60))
+                            self.srf_menu.blit(self.img_buttons[enums.START][2], (50, 60))
                             self.game.update_screen()
                             pygame.time.wait(320)
                             return
                         elif on_button == 4: # EXIT
-                            self.game.srf_menu.blit(self.img_buttons[enums.EXIT][2], (50, 135))
+                            self.srf_menu.blit(self.img_buttons[enums.EXIT][2], (50, 135))
                             self.game.update_screen()
                             pygame.time.wait(320)
                             self.game.exit()
