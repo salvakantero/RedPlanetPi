@@ -31,7 +31,7 @@ import constants
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, enemy_data, player_rect):
+    def __init__(self, enemy_data, player_rect, enemy_images):
         # enemy_data = (x1, y1, x2, y2, vx, vy, type)
         super().__init__()
         self.player = player_rect # player's current position
@@ -44,28 +44,15 @@ class Enemy(pygame.sprite.Sprite):
         # speed (pixels per frame)
         self.vx = enemy_data[4]
         self.vy = enemy_data[5]
-        # enemy type (and name, to load the image)
+        # enemy type; Infected, Avirus, Pelusoid, Fanty, Platform
         self.type = enemy_data[6]
-        if self.type == enums.INFECTED:
-            enemy_name = 'infected'
-        elif self.type == enums.PELUSOID:
-            enemy_name = 'pelusoid'
-        elif self.type == enums.AVIRUS:
-            enemy_name = 'avirus'
-        elif self.type == enums.PLATFORM_SPR:
-            enemy_name = 'platform'
-        elif self.type == enums.FANTY:
-            enemy_name = 'fanty'  
+        if self.type == enums.FANTY:
             self.state = enums.IDLE          
             self.sight_distance = 64 # pixels/frame
             self.acceleration = 0.05 # pixels/frame
             self.max_speed = 2 # pixels/frame
         # images
-        self.image_list = []
-        for i in range(2): # only 2 frames per enemy
-            # image for the frame
-            self.image_list.append(pygame.image.load('images/sprites/' + enemy_name + str(i) + '.png'))
-            self.image_list[i].convert_alpha()
+        self.image_list = enemy_images
         self.frame_index = 0 # frame number
         self.animation_timer = 12 # timer to change frame
         self.animation_speed = 12 # frame dwell time

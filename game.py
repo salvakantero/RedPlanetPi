@@ -73,7 +73,24 @@ class Game():
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)}
         # The following image lists are created here, not in their corresponding classes, 
-        # as hundreds of DUST and EXPLOSION objects can be generated per game.
+        # to avoid loading from disk during game play.
+        self.enemy_images = {
+            # animation sequence of the enemies depending on their type
+            enums.INFECTED: [
+                pygame.image.load('images/sprites/infected0.png').convert_alpha(),
+                pygame.image.load('images/sprites/infected1.png').convert_alpha()],
+            enums.PELUSOID: [
+                pygame.image.load('images/sprites/pelusoid0.png').convert_alpha(),
+                pygame.image.load('images/sprites/pelusoid1.png').convert_alpha()],
+            enums.AVIRUS: [
+                pygame.image.load('images/sprites/avirus0.png').convert_alpha(),
+                pygame.image.load('images/sprites/avirus1.png').convert_alpha()],
+            enums.PLATFORM_SPR: [
+                pygame.image.load('images/sprites/platform0.png').convert_alpha(),
+                pygame.image.load('images/sprites/platform1.png').convert_alpha()],
+            enums.FANTY: [
+                pygame.image.load('images/sprites/fanty0.png').convert_alpha(),
+                pygame.image.load('images/sprites/fanty1.png').convert_alpha()]}
         self.hotspot_images = {
             enums.TNT: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
             enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),

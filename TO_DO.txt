@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Evitar carga de imágenes y sonido de disco en "enemy"
 - Teclas redefinibles y otras configuraciones en el menú
 - Grabar/Cargar punto de control con "pickle"
 

@@ -224,7 +224,7 @@ class Map():
         for i in range(3):
             enemy_data = constants.ENEMIES_DATA[self.number*3 + i]
             if enemy_data[6] != enums.NONE:
-                enemy = Enemy(enemy_data, player.rect)
+                enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[6]])
                 self.game.all_sprites_group.add(enemy) # to update/draw it
                 # enemy sprite? add to the enemy group (to check for collisions)
                 if enemy_data[6] != enums.PLATFORM_SPR:
