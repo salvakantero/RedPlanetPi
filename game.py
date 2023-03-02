@@ -28,6 +28,7 @@ import constants
 import enums
 
 from font import Font
+from explosion import Explosion
 
 
 class Game():
@@ -96,10 +97,36 @@ class Game():
             enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()} 
+        self.blast_animation = {
+            0: [ # explosion 1: on the air
+                pygame.image.load('images/sprites/blast0.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast1.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast2.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast3.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast4.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
+                pygame.image.load('images/sprites/blast6.png').convert_alpha()],
+            1: [ # explosion 2: on the ground
+                pygame.image.load('images/sprites/blast7.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast8.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast9.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast10.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast4.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
+                pygame.image.load('images/sprites/blast6.png').convert_alpha()],
+            2: [ # explosion 3: magic halo for hotspots
+                pygame.image.load('images/sprites/blast11.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast12.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast13.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast14.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast15.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast16.png').convert_alpha()]}
         self.gate_image = pygame.image.load('images/tiles/T60.png').convert()  
         # sound effects
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
-        self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')  
+        self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
+        self.sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
+        self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')  
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
@@ -252,3 +279,79 @@ class Game():
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
 
+    def check_collisions(self, player, scoreboard):
+        # player and mobile platform -----------------------------------------------
+        if self.platform_group.sprite != None \
+        and pygame.sprite.spritecollide(player, self.platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
+            platform = self.platform_group.sprite
+            # the player is above the platform?
+            if player.rect.bottom - 2 < platform.rect.top:               
+                player.rect.bottom = platform.rect.top
+                player.direction.y = 0                    
+                player.on_ground = True                                        
+                # horizontal platform?
+                if platform.vy == 0:
+                    # if the movement keys are not pressed
+                    # takes the movement of the platform
+                    key_state = pygame.key.get_pressed()
+                    if not key_state[self.config.left_key] and not key_state[self.config.right_key]:
+                        player.rect.x += platform.vx
+
+        # player and martians ------------------------------------------------------
+        if not player.invincible and pygame.sprite.spritecollide(player, 
+        self.enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
+            player.loses_life()        
+            scoreboard.invalidate() # redraws the scoreboard
+            return
+        
+        # bullets and martians -----------------------------------------------------
+        if not game.bullet_group.sprite == None:
+            for enemy in game.enemies_group:
+                if enemy.rect.colliderect(game.bullet_group.sprite):
+                    # shake the map
+                    game.shake = [10, 6]
+                    game.shake_timer = 14
+                    # creates an explosion
+                    if enemy.type == enums.INFECTED:
+                        blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], blast_animation[1])
+                        floating_text.text = '+25'
+                    else: # flying enemies
+                        blast = Explosion(enemy.rect.center, blast_animation[0])
+                        if enemy.type == enums.AVIRUS: floating_text.text = '+50'
+                        elif enemy.type == enums.PELUSOID: floating_text.text = '+75'
+                        else: floating_text.text = '+100' # fanty           
+                    game.blast_group.add(blast)
+                    game.all_sprites_group.add(blast)
+                    sfx_enemy_down[enemy.type].play()
+                    # floating text position                                
+                    floating_text.x = enemy.rect.x
+                    floating_text.y = enemy.rect.y
+                    # removes objects
+                    enemy.kill()
+                    game.bullet_group.sprite.kill()
+                    break
+
+        # ========================= player and gate ============================
+        if self.gate_group.sprite != None:
+            if player.rect.colliderect(self.gate_group.sprite):
+                if player.keys > 0:
+                    player.keys -= 1
+                    self.sfx_open_door.play()
+                    # creates a magic halo
+                    blast = Explosion(self.gate_group.sprite.rect.center, self.blast_animation[2])
+                    self.blast_group.add(blast)
+                    self.all_sprites_group.add(blast)
+                    # deletes the door
+                    self.gate_group.sprite.kill()
+                    constants.GATE_DATA[map.number][2] = False # not visible
+                    # increases the percentage of game play
+                    scoreboard.game_percent += 3
+                    scoreboard.invalidate()
+                else:
+                    self.sfx_locked_door.play()
+                    # shake the map (just a little in X)
+                    self.shake = [4, 0]
+                    self.shake_timer = 4
+                    # bounces the player
+                    if player.facing_right: player.rect.x -= 5
+                    else: player.rect.x += 5
