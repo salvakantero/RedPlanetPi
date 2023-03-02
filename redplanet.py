@@ -321,9 +321,9 @@ while True:
             collision_check()
 
             # game over?
-            if player.lives == 0 or player.oxygen < 0:
-                game.status = enums.OVER
+            if player.lives == 0 or player.oxygen < 0:                
                 game.over()
+                game.status = enums.OVER
                 continue
             
             # change the frame of the animated tiles

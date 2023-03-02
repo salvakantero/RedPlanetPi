@@ -75,7 +75,8 @@ class Player(pygame.sprite.Sprite):
         # the FIRING state is independent of the other states and requires 
         # a specific image for a certain number of frames
         self.firing = 0 # frame counter
-        self.image_firing = pygame.image.load('images/sprites/player6.png').convert_alpha()
+        self.img_firing = pygame.image.load('images/sprites/player6.png').convert_alpha()
+        self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
         # dust effect
         self.dust_image_list = {
             enums.JUMPING: [
@@ -143,9 +144,9 @@ class Player(pygame.sprite.Sprite):
             self.sfx_jump[random.randint(0, 3)].play()
         # press fire -----------------------------------------------------------
         if key_state[self.config.fire_key]:
-            if self.ammo > 0:
+            if self.ammo > 0 and self.firing <= 0:
                 if self.bullet_group.sprite == None: # no shots on screen        
-                    bullet = Bullet(self.rect, self.facing_right)
+                    bullet = Bullet(self.rect, self.facing_right, self.img_bullet)
                     self.bullet_group.add(bullet)
                     self.all_sprites_group.add(bullet)
                     self.sfx_shot.play()
@@ -297,8 +298,8 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(self.image_list[self.state][self.frame_index], True, False)
         else: # frame firing
             self.firing -= 1
-            if self.facing_right: self.image = self.image_firing
-            else: self.image = pygame.transform.flip(self.image_firing, True, False)            
+            if self.facing_right: self.image = self.img_firing
+            else: self.image = pygame.transform.flip(self.img_firing, True, False)            
         # invincible effect (the player blinks)
         if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255
         else: self.image.set_alpha(255) # without transparency

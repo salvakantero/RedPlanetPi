@@ -147,34 +147,6 @@ class Game():
         pygame.display.update() # refreshes the screen
         self.clock.tick(60) # 60 FPS
 
-    # draws a centred message box erasing the background
-    def message_box(self, msg1, msg2, surface):
-        height = 36
-        # calculates the width of the box
-        message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
-        message2_len = len(msg2) * 4 # approximate length of text 2 in pixels
-        # width = length of the longest text + margin
-        if message1_len > message2_len:
-            width = message1_len + constants.V_MARGIN
-        else:
-            width = message2_len + constants.V_MARGIN
-        # calculates the position of the box
-        x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
-        y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
-        # black window
-        pygame.draw.rect(surface, constants.PALETTE['BLACK'],(x, y, width, height))
-        # blue border
-        pygame.draw.rect(surface, constants.PALETTE['DARK_BLUE'],(x, y, width, height), 1)
-        # draws the text centred inside the window (Y positions are fixed)
-        text_x = (x + (width//2)) - (message1_len//2)
-        text_y = y + 5
-        self.fonts[enums.L_B_WHITE].render(msg1, surface, (text_x, text_y))
-        self.fonts[enums.L_F_WHITE].render(msg1, surface, (text_x - 2, text_y - 2))
-        text_x = (x + (width//2)) - (message2_len//2)
-        text_y = y + 25
-        self.fonts[enums.S_B_GREEN].render(msg2, surface, (text_x, text_y))
-        self.fonts[enums.S_F_GREEN].render(msg2, surface, (text_x - 1, text_y - 1))
-
     # displays a message, darkening the screen
     def message(self, msg1, msg2):
         # obscures the surface of the map
