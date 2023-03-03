@@ -44,5 +44,3 @@ class FloatingText():
             self.y -= self.speed
             self.font2.render(self.text, self.surface, (self.x+1, self.y+1))
             self.font.render(self.text, self.surface, (self.x, self.y))
-        else:
-            self.speed = 0

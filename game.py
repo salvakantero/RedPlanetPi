@@ -340,6 +340,7 @@ class Game():
                     # floating text position                                
                     self.floating_text.x = enemy.rect.x
                     self.floating_text.y = enemy.rect.y
+                    self.floating_text.speed = 0
                     # removes objects
                     enemy.kill()
                     self.bullet_group.sprite.kill()
@@ -385,6 +386,7 @@ class Game():
                 scoreboard.invalidate()
                 self.floating_text.x = hotspot.x*constants.TILE_SIZE
                 self.floating_text.y = hotspot.y*constants.TILE_SIZE
+                self.floating_text.speed = 0
                 # removes objects
                 self.hotspot_group.sprite.kill()
                 constants.HOTSPOT_DATA[map_number][3] = False # not visible

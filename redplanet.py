@@ -154,7 +154,7 @@ while True:
             game.srf_map.blit(game.srf_map_bk, (0,0))
             game.all_sprites_group.draw(game.srf_map)
 
-            # draws the floating texts, only if needed
+            # updates the floating text, only if needed
             game.floating_text.update()
 
             # updates the scoreboard, only if needed

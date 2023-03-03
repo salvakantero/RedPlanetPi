@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Reparar salto grande
+- Fondo animado con las pantallas del juego
 - Teclas redefinibles y otras configuraciones en el menú
 - Grabar/Cargar punto de control con "pickle"
 
