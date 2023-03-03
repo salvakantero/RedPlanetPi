@@ -29,6 +29,7 @@ import enums
 
 from font import Font
 from explosion import Explosion
+from floatingtext import FloatingText
 
 
 class Game():
@@ -73,6 +74,8 @@ class Game():
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)}
+        # create floating texts
+        self.floating_text = FloatingText(self.srf_map)
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
         self.enemy_images = {
@@ -97,7 +100,7 @@ class Game():
             enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()} 
-        self.blast_animation = {
+        self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast1.png').convert_alpha(),
@@ -126,7 +129,17 @@ class Game():
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
         self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
         self.sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
-        self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')  
+        self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
+        self.sfx_enemy_down = {
+            enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
+            enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
+            enums.AVIRUS: pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav'),
+            enums.FANTY: pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')}
+        self.sfx_hotspot = {
+            enums.TNT: pygame.mixer.Sound('sounds/fx/sfx_TNT.wav'),
+            enums.KEY: pygame.mixer.Sound('sounds/fx/sfx_key.wav'),
+            enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
+            enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
@@ -279,8 +292,9 @@ class Game():
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
 
-    def check_collisions(self, player, scoreboard):
-        # player and mobile platform -----------------------------------------------
+    # collisions with mobile platforms, enemies, bullets, hotspots, gates
+    def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):
+        # ==================== player and mobile platform ======================
         if self.platform_group.sprite != None \
         and pygame.sprite.spritecollide(player, self.platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
             platform = self.platform_group.sprite
@@ -297,53 +311,98 @@ class Game():
                     if not key_state[self.config.left_key] and not key_state[self.config.right_key]:
                         player.rect.x += platform.vx
 
-        # player and martians ------------------------------------------------------
+        # ======================== player and martians =========================
         if not player.invincible and pygame.sprite.spritecollide(player, 
         self.enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
             player.loses_life()        
             scoreboard.invalidate() # redraws the scoreboard
             return
         
-        # bullets and martians -----------------------------------------------------
-        if not game.bullet_group.sprite == None:
-            for enemy in game.enemies_group:
-                if enemy.rect.colliderect(game.bullet_group.sprite):
+        # ======================= bullets and martians =========================
+        if not self.bullet_group.sprite == None:
+            for enemy in self.enemies_group:
+                if enemy.rect.colliderect(self.bullet_group.sprite):
                     # shake the map
-                    game.shake = [10, 6]
-                    game.shake_timer = 14
+                    self.shake = [10, 6]
+                    self.shake_timer = 14
                     # creates an explosion
                     if enemy.type == enums.INFECTED:
-                        blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], blast_animation[1])
-                        floating_text.text = '+25'
+                        blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
+                        self.floating_text.text = '+25'
                     else: # flying enemies
-                        blast = Explosion(enemy.rect.center, blast_animation[0])
-                        if enemy.type == enums.AVIRUS: floating_text.text = '+50'
-                        elif enemy.type == enums.PELUSOID: floating_text.text = '+75'
-                        else: floating_text.text = '+100' # fanty           
-                    game.blast_group.add(blast)
-                    game.all_sprites_group.add(blast)
-                    sfx_enemy_down[enemy.type].play()
+                        blast = Explosion(enemy.rect.center, self.blast_images[0])
+                        if enemy.type == enums.AVIRUS: self.floating_text.text = '+50'
+                        elif enemy.type == enums.PELUSOID: self.floating_text.text = '+75'
+                        else: self.floating_text.text = '+100' # fanty           
+                    self.blast_group.add(blast)
+                    self.all_sprites_group.add(blast)
+                    self.sfx_enemy_down[enemy.type].play()
                     # floating text position                                
-                    floating_text.x = enemy.rect.x
-                    floating_text.y = enemy.rect.y
+                    self.floating_text.x = enemy.rect.x
+                    self.floating_text.y = enemy.rect.y
                     # removes objects
                     enemy.kill()
-                    game.bullet_group.sprite.kill()
+                    self.bullet_group.sprite.kill()
                     break
 
-        # ========================= player and gate ============================
+        # ====================== bullets and map tiles =========================
+        if not self.bullet_group.sprite == None:
+            bullet_rect = self.bullet_group.sprite.rect
+            for tile in tilemap_rect_list:
+                if tile.colliderect(bullet_rect):
+                    self.bullet_group.sprite.kill()
+                    break
+
+        # ======================== player and hotspot ==========================
+        if not self.hotspot_group.sprite == None:
+            if player.rect.colliderect(self.hotspot_group.sprite):
+                hotspot = self.hotspot_group.sprite
+                # shake the map (just a little)
+                self.shake = [4, 4]
+                self.shake_timer = 4
+                # creates a magic halo
+                blast = Explosion(hotspot.rect.center, self.blast_images[2])
+                self.blast_group.add(blast)
+                self.all_sprites_group.add(blast)
+                self.sfx_hotspot[hotspot.type].play()
+                # manages the object according to the type
+                if hotspot.type == enums.TNT:
+                    player.TNT += 1
+                    scoreboard.game_percent += 3
+                    self.floating_text.text = str(player.TNT) + '/15' 
+                elif hotspot.type == enums.KEY: 
+                    player.keys += 1
+                    scoreboard.game_percent += 2
+                    self.floating_text.text = '+1'
+                elif hotspot.type == enums.AMMO:
+                    if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
+                        player.ammo += constants.AMMO_ROUND
+                    else: player.ammo = constants.MAX_AMMO
+                    self.floating_text.text = '+25'
+                elif hotspot.type == enums.OXYGEN:
+                    player.oxygen = constants.MAX_OXYGEN
+                    self.floating_text.text = '+99'                                
+                scoreboard.invalidate()
+                self.floating_text.x = hotspot.x*constants.TILE_SIZE
+                self.floating_text.y = hotspot.y*constants.TILE_SIZE
+                # removes objects
+                self.hotspot_group.sprite.kill()
+                constants.HOTSPOT_DATA[map_number][3] = False # not visible
+                return
+
+        # ========================= player and gates ===========================
         if self.gate_group.sprite != None:
             if player.rect.colliderect(self.gate_group.sprite):
                 if player.keys > 0:
                     player.keys -= 1
                     self.sfx_open_door.play()
                     # creates a magic halo
-                    blast = Explosion(self.gate_group.sprite.rect.center, self.blast_animation[2])
+                    blast = Explosion(self.gate_group.sprite.rect.center, self.blast_images[2])
                     self.blast_group.add(blast)
                     self.all_sprites_group.add(blast)
                     # deletes the door
                     self.gate_group.sprite.kill()
-                    constants.GATE_DATA[map.number][2] = False # not visible
+                    constants.GATE_DATA[map_number][2] = False # not visible
                     # increases the percentage of game play
                     scoreboard.game_percent += 3
                     scoreboard.invalidate()
@@ -355,3 +414,4 @@ class Game():
                     # bounces the player
                     if player.facing_right: player.rect.x -= 5
                     else: player.rect.x += 5
+

@@ -4,6 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Reparar salto grande
+- Simplificar parámetros de la clase Player
 - Teclas redefinibles y otras configuraciones en el menú
 - Grabar/Cargar punto de control con "pickle"
 

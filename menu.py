@@ -24,8 +24,10 @@
 import pygame
 import constants
 import enums
+
 from font import Font
 from marqueetext import MarqueeText
+
 
 class Menu():
     def __init__(self, game):

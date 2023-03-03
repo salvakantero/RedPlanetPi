@@ -204,6 +204,8 @@ class Map():
         self.game.platform_group.empty()
         self.game.dust_group.empty()
         self.game.blast_group.empty()
+        # deletes the active floating text
+        self.game.floating_text.y = 0
         # add the player  
         self.game.all_sprites_group.add(player)
         # add the hotspot (if available)
