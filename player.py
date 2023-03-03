@@ -31,7 +31,7 @@ from dust import DustEffect
 from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, all_sprites_group, dust_group, bullet_group, map, scoreboard, config):
+    def __init__(self, game, map, scoreboard):
         super().__init__()
         # attributes
         self.lives = 10 # lives remaining
@@ -90,7 +90,7 @@ class Player(pygame.sprite.Sprite):
                 pygame.image.load('images/sprites/dust6.png').convert_alpha(),
                 pygame.image.load('images/sprites/dust7.png').convert_alpha(),
                 pygame.image.load('images/sprites/dust8.png').convert_alpha()]}
-        self.dust_group = dust_group
+        self.dust_group = game.dust_group
         # sounds
         self.sfx_jump = (
             pygame.mixer.Sound('sounds/fx/sfx_jump1.wav'),
@@ -107,35 +107,33 @@ class Player(pygame.sprite.Sprite):
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav')
         self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')        
         # objects and others
-        self.all_sprites_group = all_sprites_group   
-        self.bullet_group = bullet_group
+        self.game = game
         self.map = map
         self.scoreboard = scoreboard
-        self.config = config
 
     # dust effect when jumping or landing
     def dust_effect(self, pos, state):
-        if self.dust_group.sprite == None:        
+        if self.game.dust_group.sprite == None:        
             dust_sprite = DustEffect(pos, self.dust_image_list[state])
-            self.dust_group.add(dust_sprite)
-            self.all_sprites_group.add(dust_sprite)
+            self.game.dust_group.add(dust_sprite)
+            self.game.all_sprites_group.add(dust_sprite)
 
     def get_input(self):
         # manages keystrokes
         key_state = pygame.key.get_pressed()  
         # press right ----------------------------------------------------------
-        if key_state[self.config.right_key]:
+        if key_state[self.game.config.right_key]:
             self.direction.x = 1
             self.facing_right = True
         # press left -----------------------------------------------------------
-        elif key_state[self.config.left_key]:
+        elif key_state[self.game.config.left_key]:
             self.direction.x = -1
             self.facing_right = False
         # without lateral movement ---------------------------------------------
-        elif not key_state[self.config.right_key] and not key_state[self.config.left_key]:
+        elif not key_state[self.game.config.right_key] and not key_state[self.game.config.left_key]:
             self.direction.x = 0
         # press jump -----------------------------------------------------------
-        if key_state[self.config.jump_key] and self.on_ground:            
+        if key_state[self.game.config.jump_key] and self.on_ground:            
             self.direction.y = constants.JUMP_VALUE
             self.on_ground = False
             self.y_jump = self.rect.y # to detect large jumps on landing            
@@ -143,12 +141,12 @@ class Player(pygame.sprite.Sprite):
             # randomly plays one of the four jumping sounds
             self.sfx_jump[random.randint(0, 3)].play()
         # press fire -----------------------------------------------------------
-        if key_state[self.config.fire_key]:
+        if key_state[self.game.config.fire_key]:
             if self.ammo > 0 and self.firing <= 0:
-                if self.bullet_group.sprite == None: # no shots on screen        
+                if self.game.bullet_group.sprite == None: # no shots on screen        
                     bullet = Bullet(self.rect, self.facing_right, self.img_bullet)
-                    self.bullet_group.add(bullet)
-                    self.all_sprites_group.add(bullet)
+                    self.game.bullet_group.add(bullet)
+                    self.game.all_sprites_group.add(bullet)
                     self.sfx_shot.play()
                     self.ammo -= 1
                     self.scoreboard.invalidate()
@@ -156,7 +154,7 @@ class Player(pygame.sprite.Sprite):
             else: # no bullets
                 self.sfx_no_ammo.play()
         # press action ---------------------------------------------------------
-        if key_state[self.config.action_key]:
+        if key_state[self.game.config.action_key]:
             action_taken = False
             # stacking explosives
             if self.map.number == 44 \
@@ -272,8 +270,8 @@ class Player(pygame.sprite.Sprite):
             self.sfx_landing.play()
             # large jump?
             if self.rect.y > self.y_jump:                
-                self.map.shake = [0, 4]
-                self.map.shake_timer = 4
+                self.game.shake = [0, 4]
+                self.game.shake_timer = 4
                 self.y_jump = constants.MAP_UNSCALED_SIZE[1]
                 
     def animate(self):

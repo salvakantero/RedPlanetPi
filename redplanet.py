@@ -80,7 +80,7 @@ while True:
         pygame.mouse.set_visible(True)
         menu.show()             
         # create the player
-        player = Player(game.all_sprites_group, game.dust_group, game.bullet_group, map, scoreboard, config)
+        player = Player(game, map, scoreboard)
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         jukebox.shuffle()
