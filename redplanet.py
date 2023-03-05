@@ -32,7 +32,6 @@ import constants, enums
 # own classes
 from config import Configuration
 from game import Game
-from intro import Intro
 from menu import Menu
 from map import Map
 from scoreboard import Scoreboard
@@ -58,8 +57,7 @@ clock = pygame.time.Clock()
 # game object, container for common variables and functions
 game = Game(clock, config)
 # shows an intro
-intro = Intro(game)
-intro.play()
+game.show_intro()
 # create the Scoreboard object
 scoreboard = Scoreboard(game)
 # creates the Map object

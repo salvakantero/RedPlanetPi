@@ -28,6 +28,7 @@ import constants
 import enums
 
 from font import Font
+from intro import Intro
 from explosion import Explosion
 from floatingtext import FloatingText
 
@@ -149,6 +150,10 @@ class Game():
     def exit(self):
         pygame.quit()
         sys.exit()
+
+    def show_intro(self):
+        intro = Intro(self)
+        intro.play()
 
     # draws scanlines
     def scanlines(self, surface, rgb):
