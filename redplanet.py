@@ -32,12 +32,10 @@ import constants, enums
 # own classes
 from config import Configuration
 from game import Game
-from menu import Menu
 from map import Map
 from scoreboard import Scoreboard
 from font import Font
 from player import Player
-from jukebox import Jukebox
 
 
 #===============================================================================
@@ -56,18 +54,15 @@ config.read()
 clock = pygame.time.Clock()
 # game object, container for common variables and functions
 game = Game(clock, config)
-# shows an intro
-game.show_intro()
 # create the Scoreboard object
 scoreboard = Scoreboard(game)
 # creates the Map object
 map = Map(game)
-# creates the initial Menu object
-menu = Menu(game)
- # playlist with the 12 available tracks
-jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
 # small, opaque font for the FPS counter
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
+
+# shows an intro
+game.show_intro()
 
 #===============================================================================
 # Main loop
@@ -76,12 +71,13 @@ test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], Fals
 while True:    
     if game.status == enums.OVER: # game not running
         pygame.mouse.set_visible(True)
-        menu.show()             
+        #menu.show()
+        game.show_menu()         
         # create the player
         player = Player(game, map, scoreboard)
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
-        jukebox.shuffle()
+        game.jukebox.shuffle()
         # reset variables
         for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
         for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors
@@ -164,7 +160,7 @@ while True:
 
             # next track in the playlist if the music has been stopped
             if game.music_status == enums.UNMUTED:
-                jukebox.update()
+                game.jukebox.update()
 
             # display FPS (using the clock)
             if config.show_fps:

@@ -29,6 +29,8 @@ import enums
 
 from font import Font
 from intro import Intro
+from menu import Menu
+from jukebox import Jukebox
 from explosion import Explosion
 from floatingtext import FloatingText
 
@@ -77,6 +79,8 @@ class Game():
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)}
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
+         # playlist with the 12 available tracks
+        self.jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
         self.enemy_images = {
@@ -151,9 +155,15 @@ class Game():
         pygame.quit()
         sys.exit()
 
+    # shows an intro
     def show_intro(self):
         intro = Intro(self)
         intro.play()
+
+    # creates the initial Menu object
+    def show_menu(self):
+        menu = Menu(self)
+        menu.show()
 
     # draws scanlines
     def scanlines(self, surface, rgb):
