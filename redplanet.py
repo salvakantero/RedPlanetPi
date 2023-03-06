@@ -71,7 +71,7 @@ game.show_intro()
 while True:    
     if game.status == enums.OVER: # game not running
         pygame.mouse.set_visible(True)
-        #menu.show()
+        # creates and displays the initial menu
         game.show_menu()         
         # create the player
         player = Player(game, map, scoreboard)
@@ -82,11 +82,11 @@ while True:
         for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
         for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors
         game.status = enums.RUNNING
+        game.floating_text.y = 0
         map.number = 0
         map.last = -1
         map.scroll = enums.RIGHT
         scoreboard.game_percent = 0
-        game.floating_text.y = 0
         pygame.mouse.set_visible(False)
     else: # game running
         # event management
@@ -124,15 +124,15 @@ while True:
                         map.number -= 1
                 # ==========================
 
-        # change map if neccessary
+        # change the map if necessary
         if map.number != map.last:
             map.change(player, scoreboard)
 
         if game.status == enums.RUNNING: # (not paused)
-            # update sprites
+            # update sprites (player, enemies, hotspots, explosions, etc...)
             game.all_sprites_group.update()
 
-            # collision between all entities
+            # collision between all entities that may collide
             game.check_collisions(player, scoreboard, map.number, map.tilemap_rect_list)
 
             # game over?
@@ -146,17 +146,14 @@ while True:
 
             # draws the map free of sprites to clean it up
             game.srf_map.blit(game.srf_map_bk, (0,0))
+            # draws the sprites in their new positions
             game.all_sprites_group.draw(game.srf_map)
 
-            # updates the floating text, only if needed
+            # updates the floating text, only if needed (y>0)
             game.floating_text.update()
 
-            # updates the scoreboard, only if needed
+            # updates the scoreboard, only if needed (needs_updating = True)
             scoreboard.update(player)
-
-            # check map change using player's coordinates
-            # if the player leaves, the map number changes
-            map.check_change(player)
 
             # next track in the playlist if the music has been stopped
             if game.music_status == enums.UNMUTED:
@@ -165,5 +162,9 @@ while True:
             # display FPS (using the clock)
             if config.show_fps:
                 test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
+                
+            # check map change using player's coordinates
+            # if the player leaves, the map number changes
+            map.check_change(player)
             
     game.update_screen()
