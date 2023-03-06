@@ -22,15 +22,21 @@
 # ==============================================================================
 
 import pickle
-import os
 
 
 class Checkpoint():
-    def __init__(self):
+    def __init__(self, game, player, map):
+        self.filename = 'checkpoint.dat'
         self.data = []
         pass
 
+    def save(self):
+        with open(self.filename, "wb") as f:
+            pickle.dump(self.data, f)
 
+    def load_game(self):
+        with open(self.filename, "rb") as f:
+            return pickle.load(f)
 
 
 # import pygame

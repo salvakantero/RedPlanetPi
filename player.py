@@ -111,6 +111,23 @@ class Player(pygame.sprite.Sprite):
         self.map = map
         self.scoreboard = scoreboard
 
+    # resets the player to the initial values
+    def reset(self):
+        self.lives = 10
+        self.ammo = 5
+        self.keys = 0
+        self.TNT = 0
+        self.oxygen = constants.MAX_OXYGEN
+        self.stacked_TNT = False
+        self.win = False
+        self.state = enums.IDLE
+        self.facing_right = True
+        self.on_ground = False  
+        self.invincible = False
+        self.direction = pygame.math.Vector2(0.0)
+        self.rect = self.image.get_rect(topleft = (16,112))
+        self.firing = 0
+
     # dust effect when jumping or landing
     def dust_effect(self, pos, state):
         if self.game.dust_group.sprite == None:        

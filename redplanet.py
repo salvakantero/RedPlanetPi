@@ -36,6 +36,7 @@ from map import Map
 from scoreboard import Scoreboard
 from font import Font
 from player import Player
+from checkpoint import Checkpoint
 
 
 #===============================================================================
@@ -58,6 +59,10 @@ game = Game(clock, config)
 scoreboard = Scoreboard(game)
 # creates the Map object
 map = Map(game)
+# creates the player
+player = Player(game, map, scoreboard)
+# creates the checkpoint object to save/load game status
+checkpoint = Checkpoint(game, player, map)
 # small, opaque font for the FPS counter
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
 
@@ -73,12 +78,11 @@ while True:
         pygame.mouse.set_visible(True)
         # creates and displays the initial menu
         game.show_menu()         
-        # create the player
-        player = Player(game, map, scoreboard)
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         game.jukebox.shuffle()
         # reset variables
+        player.reset()
         for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
         for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors
         game.status = enums.RUNNING
