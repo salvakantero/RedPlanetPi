@@ -61,8 +61,6 @@ scoreboard = Scoreboard(game)
 map = Map(game)
 # creates the player
 player = Player(game, map, scoreboard)
-# creates the checkpoint object to save/load game status
-checkpoint = Checkpoint(game, player, map)
 # small, opaque font for the FPS counter
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
 

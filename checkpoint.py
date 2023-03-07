@@ -25,14 +25,32 @@ import pickle
 
 
 class Checkpoint():
-    def __init__(self, game, player, map):
+    def __init__(self, map_number, player, game):
         self.filename = 'checkpoint.dat'
-        self.data = []
-        pass
+        self.data = [
+            map_number,
+            player.lives,
+            player.ammo,
+            player.keys,
+            player.TNT,
+            player.oxygen,
+            player.stacked_TNT,
+            player.state,
+            player.facing_right,
+            player.on_ground,
+            player.direction,
+            player.rect,
+            game.music_status,
+            game.all_sprites_group,     
+            game.enemies_group,
+            game.hotspot_group,
+            game.gate_group,
+            game.platform_group
+        ]
 
     def save(self):
         with open(self.filename, "wb") as f:
-            pickle.dump(self.data, f)
+            pickle.dump(self, f)
 
     def load_game(self):
         with open(self.filename, "rb") as f:
