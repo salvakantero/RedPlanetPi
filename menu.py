@@ -30,9 +30,10 @@ from marqueetext import MarqueeText
 
 
 class Menu():
-    def __init__(self, game):
+    def __init__(self, game, map):
         self.game = game
-        self.srf_menu = game.srf_menu
+        self.map = map
+        self.srf_menu = game.srf_menu    
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page1.set_colorkey(constants.PALETTE['BLACK']) # transparent background
@@ -208,13 +209,20 @@ class Menu():
         pygame.mixer.music.play()
     
         menu_page = 0 # page displayed (1 to 4)
+        map_number = 0
         page_timer = 0 # number of loops the page remains on screen
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
 
         pygame.event.clear(pygame.KEYDOWN)
         while True: 
+            # change map in background
+            if page_timer == 0 or page_timer == 250:
+                map.change(map_number)
+                map_number += 1
+
             page_timer += 1        
-            self.srf_menu.blit(self.img_menu, (0,0)) # blue background image
+            #self.srf_menu.blit(self.img_menu, (0,0)) # blue background image
+            self.srf_menu.blit(self.srf_map, (0,38)) # blue background image
             # marquee
             marquee_help.update()
             marquee_credits.update()  
