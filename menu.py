@@ -30,9 +30,8 @@ from marqueetext import MarqueeText
 
 
 class Menu():
-    def __init__(self, game, map):
+    def __init__(self, game):
         self.game = game
-        self.map = map
         self.srf_menu = game.srf_menu    
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
@@ -49,12 +48,12 @@ class Menu():
         # menu fonts
         self.fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
         self.fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
-        self.fnt_LF2 = Font('images/fonts/large_font.png', constants.PALETTE['GREEN'], True)
-        self.fnt_LB2 = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GREEN'], True)
+        self.fnt_LF2 = Font('images/fonts/large_font.png', constants.PALETTE['SAND'], True)
+        self.fnt_LB2 = Font('images/fonts/large_font.png', constants.PALETTE['BROWN'], True)
         self.fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
         self.fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
-        self.fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['CYAN'], True)
-        self.fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_BLUE'], True)
+        self.fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
+        self.fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], True)
         # button images
         self.img_buttons = {
             enums.START: [
@@ -122,10 +121,10 @@ class Menu():
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert(),
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert()}
         x = 20
-        y = 60
+        y = 65
         self.shaded_text(self.fnt_LB2, self.fnt_LF2, 'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
         x = 40
-        y = 90
+        y = 95
         self.shaded_text(self.fnt_SB, self.fnt_SF, 'Infected (+25)', self.srf_page2, x, y, 1)
         self.shaded_text(self.fnt_SB, self.fnt_SF, 'Arachnovirus (+50)', self.srf_page2, x, y+20, 1)
         self.shaded_text(self.fnt_SB, self.fnt_SF, 'Pelusoid (+75)', self.srf_page2, x, y+40, 1)   
@@ -137,7 +136,7 @@ class Menu():
         self.shaded_text(self.fnt_SB, self.fnt_SF, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
         # images of enemies
         x = 17
-        y = 84
+        y = 89
         self.srf_page2.blit(img_enemies[enums.INFECTED], (x, y))
         self.srf_page2.blit(img_enemies[enums.AVIRUS], (x, y+20))
         self.srf_page2.blit(img_enemies[enums.PELUSOID], (x, y+40))
@@ -209,20 +208,13 @@ class Menu():
         pygame.mixer.music.play()
     
         menu_page = 0 # page displayed (1 to 4)
-        map_number = 0
         page_timer = 0 # number of loops the page remains on screen
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
 
         pygame.event.clear(pygame.KEYDOWN)
-        while True: 
-            # change map in background
-            if page_timer == 0 or page_timer == 250:
-                map.change(map_number)
-                map_number += 1
-
+        while True:
             page_timer += 1        
-            #self.srf_menu.blit(self.img_menu, (0,0)) # blue background image
-            self.srf_menu.blit(self.srf_map, (0,38)) # blue background image
+            self.srf_menu.blit(self.img_menu, (0,0)) # blue background image
             # marquee
             marquee_help.update()
             marquee_credits.update()  
