@@ -52,7 +52,7 @@ class Checkpoint():
         with open(self.filename, "wb") as f:
             pickle.dump(self, f)
 
-    def load_game(self):
+    def load(self):
         with open(self.filename, "rb") as f:
             return pickle.load(f)
 
