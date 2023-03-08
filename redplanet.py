@@ -61,6 +61,8 @@ scoreboard = Scoreboard(game)
 map = Map(game)
 # creates the player
 player = Player(game, map, scoreboard)
+# creates a checkpoint object to load/record game
+checkpoint = Checkpoint(map, player, game)
 # small, opaque font for the FPS counter
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
 
@@ -105,17 +107,19 @@ while True:
                     else: game.restore_music()
                 # pause main loop
                 if event.key == config.pause_key:
+                    checkpoint.save()
                     game.pause_music()
                     game.pause()
                     game.restore_music()                                
                 # mute music
                 if event.key == config.mute_key :
-                    if game.music_status == enums.MUTED:
-                        game.music_status = enums.UNMUTED
-                        pygame.mixer.music.play()
-                    else:
-                        game.music_status = enums.MUTED
-                        pygame.mixer.music.fadeout(1200)
+                    checkpoint.load()
+                    # if game.music_status == enums.MUTED:
+                    #     game.music_status = enums.UNMUTED
+                    #     pygame.mixer.music.play()
+                    # else:
+                    #     game.music_status = enums.MUTED
+                    #     pygame.mixer.music.fadeout(1200)
 
                 # temp code ================
                 if event.key == pygame.K_RIGHT:
