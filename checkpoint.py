@@ -23,28 +23,32 @@
 
 import pickle
 import os
+import constants
+import enums
 
 
 class Checkpoint():
-    def __init__(self, map, player, game):
+    def __init__(self):
         self.filename = 'checkpoint.dat'
-        self.map = map
-        self.player = player
-        self.game = game
+        self.data = {
+            'map_number' : 0,
+            'player_lives' : 10,
+            'player_ammo' : 5,
+            'player_keys' : 0,
+            'player_TNT' : 0,
+            'player_oxygen' : constants.MAX_OXYGEN,
+            'player_stacked_TNT' : False,
+            'player_facing_right' : True         
+        }
 
     def save(self):
-        data = [self.map, self.player, self.game]
         with open(self.filename, "wb") as f:
-            pickle.dump(data, f)
+            pickle.dump(self.data, f)
 
     def load(self):
         if os.path.exists(self.filename):
             with open(self.filename, "rb") as f:
-                data = pickle.load(f)
-                self.map = data[0]
-                self.player = data[1]
-                self.game = data[2]
-
+                self.data = pickle.load(f)
 
 # import pygame
 

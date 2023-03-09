@@ -62,7 +62,7 @@ map = Map(game)
 # creates the player
 player = Player(game, map, scoreboard)
 # creates a checkpoint object to load/record game
-checkpoint = Checkpoint(map, player, game)
+checkpoint = Checkpoint()
 # small, opaque font for the FPS counter
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
 
@@ -107,19 +107,43 @@ while True:
                     else: game.restore_music()
                 # pause main loop
                 if event.key == config.pause_key:
+                    ###################
+                    checkpoint.data = {
+                        'map_number' : map.number,
+                        'player_lives' : player.lives,
+                        'player_ammo' : player.ammo,
+                        'player_keys' : player.keys,
+                        'player_TNT' : player.TNT,
+                        'player_oxygen' : player.oxygen,
+                        'player_stacked_TNT' : player.stacked_TNT,
+                        'player_facing_right' : player.facing_right 
+                    }
                     checkpoint.save()
+                    ###################
                     game.pause_music()
                     game.pause()
                     game.restore_music()                                
                 # mute music
                 if event.key == config.mute_key :
+                    ###################
                     checkpoint.load()
-                    # if game.music_status == enums.MUTED:
-                    #     game.music_status = enums.UNMUTED
-                    #     pygame.mixer.music.play()
-                    # else:
-                    #     game.music_status = enums.MUTED
-                    #     pygame.mixer.music.fadeout(1200)
+                    d = checkpoint.data
+                    map.number = d['map_number']
+                    map.last = -1
+                    player.lives = d['player_lives']
+                    player.ammo = d['player_ammo']
+                    player.keys = d['player_keys']
+                    player.TNT = d['player_TNT']
+                    player.oxygen = d['player_oxygen']
+                    player.stacked_TNT = d['player_stacked_TNT']
+                    player.facing_right = d['player_facing_right']
+                    ###################
+                    if game.music_status == enums.MUTED:
+                        game.music_status = enums.UNMUTED
+                        pygame.mixer.music.play()
+                    else:
+                        game.music_status = enums.MUTED
+                        pygame.mixer.music.fadeout(1200)
 
                 # temp code ================
                 if event.key == pygame.K_RIGHT:
