@@ -210,11 +210,11 @@ class Menu():
         menu_page = 0 # page displayed (1 to 4)
         page_timer = 0 # number of loops the page remains on screen
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
-
+        
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             page_timer += 1        
-            self.srf_menu.blit(self.img_menu, (0,0)) # blue background image
+            self.srf_menu.blit(self.img_menu, (0,0)) # background image
             # marquee
             marquee_help.update()
             marquee_credits.update()  

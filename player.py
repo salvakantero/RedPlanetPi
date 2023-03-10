@@ -40,6 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.TNT = 0 # explosives collected  
         self.oxygen = constants.MAX_OXYGEN # oxygen remaining
         self.stacked_TNT = False # the 15 TNT charges have been placed?
+        self.score = 0 # current game score
         self.win = False # Detonated charge?
         self.direction = pygame.math.Vector2(0.0) # direction of movement
         self.x_speed = 2 # movement in the x-axis (pixels)

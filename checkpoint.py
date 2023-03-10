@@ -39,7 +39,8 @@ class Checkpoint():
             'player_oxygen' : constants.MAX_OXYGEN,
             'player_stacked_TNT' : False,
             'player_facing_right' : True,
-            'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE)         
+            'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE),
+            'player_score' : 0   
         }
 
     def save(self):
@@ -62,7 +63,8 @@ class Checkpoint():
         #     'player_oxygen' : player.oxygen,
         #     'player_stacked_TNT' : player.stacked_TNT,
         #     'player_facing_right' : player.facing_right,
-        #     'player_rect' : player.rect 
+        #     'player_rect' : player.rect
+        #     'player_score' : player. 
         # }
         # checkpoint.save()
 
@@ -79,3 +81,5 @@ class Checkpoint():
         # player.stacked_TNT = d['player_stacked_TNT']
         # player.facing_right = d['player_facing_right']
         # player.rect = d['player_rect']
+        # player.score = d['player_score']
+        
