@@ -262,6 +262,11 @@ class Menu():
                         if on_button == 1: # START
                             self.srf_menu.blit(self.img_buttons[enums.START][2], (50, 60))
                             self.game.update_screen()
+                            pygame.time.wait(320)                            
+                            return
+                        elif on_button == 2: # LOAD LAST CHECKPOINT
+                            self.srf_menu.blit(self.img_buttons[enums.LOAD][2], (50, 60))
+                            self.game.update_screen()
                             pygame.time.wait(320)
                             return
                         elif on_button == 4: # EXIT
@@ -272,7 +277,7 @@ class Menu():
             # by clicking the left mouse button returns to the main menu
             elif pygame.mouse.get_pressed() == (1,0,0):
                 menu_page = 1
-                page_timer = 0      
+                page_timer = 0
 
             # keyboard management
             for event in pygame.event.get():

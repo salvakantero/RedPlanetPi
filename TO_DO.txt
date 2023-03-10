@@ -4,8 +4,9 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Teclas redefinibles y otras configuraciones en el menú
 - Grabar/Cargar punto de control con "pickle"
+- Navegación por el menú con cursores, no botones
+- Teclas redefinibles y otras configuraciones en el menú
 
 POR HACER
 =========
@@ -19,6 +20,7 @@ POR HACER
 - Objetos para puntuar (diamantes, joyas, regalos, chuches)
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
+- Actualizar manual
 
 HECHO
 =====

@@ -21,16 +21,16 @@
 #
 # ==============================================================================
 
+import pygame
 import pickle
 import os
 import constants
-import enums
 
 
 class Checkpoint():
     def __init__(self):
         self.filename = 'checkpoint.dat'
-        self.data = {
+        self.data = { # default values...
             'map_number' : 0,
             'player_lives' : 10,
             'player_ammo' : 5,
@@ -38,7 +38,8 @@ class Checkpoint():
             'player_TNT' : 0,
             'player_oxygen' : constants.MAX_OXYGEN,
             'player_stacked_TNT' : False,
-            'player_facing_right' : True         
+            'player_facing_right' : True,
+            'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE)         
         }
 
     def save(self):
@@ -50,33 +51,31 @@ class Checkpoint():
             with open(self.filename, "rb") as f:
                 self.data = pickle.load(f)
 
-# import pygame
 
-# # Clase del juego
-# class Game:
-#     def __init__(self):
-#         self.score = 0
-#         self.player_position = (0, 0)
+        # save game
+        # checkpoint.data = {
+        #     'map_number' : map.number,
+        #     'player_lives' : player.lives,
+        #     'player_ammo' : player.ammo,
+        #     'player_keys' : player.keys,
+        #     'player_TNT' : player.TNT,
+        #     'player_oxygen' : player.oxygen,
+        #     'player_stacked_TNT' : player.stacked_TNT,
+        #     'player_facing_right' : player.facing_right,
+        #     'player_rect' : player.rect 
+        # }
+        # checkpoint.save()
 
-# # Función para guardar el estado del juego
-# def save_game(game, filename):
-#     with open(filename, "wb") as f:
-#         pickle.dump(game, f)
-
-# # Función para cargar el estado del juego
-# def load_game(filename):
-#     with open(filename, "rb") as f:
-#         return pickle.load(f)
-
-# # Inicializar el juego
-# game = Game()
-# game.score = 10
-# game.player_position = (100, 200)
-
-# # Guardar el juego
-# save_game(game, "save.dat")
-
-# # Cargar el juego
-# loaded_game = load_game("save.dat")
-# print(loaded_game.score) # Imprime 10
-# print(loaded_game.player_position) # Imprime (100, 200)
+        # load game
+        # checkpoint.load()
+        # d = checkpoint.data
+        # map.number = d['map_number']
+        # map.last = -1
+        # player.lives = d['player_lives']
+        # player.ammo = d['player_ammo']
+        # player.keys = d['player_keys']
+        # player.TNT = d['player_TNT']
+        # player.oxygen = d['player_oxygen']
+        # player.stacked_TNT = d['player_stacked_TNT']
+        # player.facing_right = d['player_facing_right']
+        # player.rect = d['player_rect']
