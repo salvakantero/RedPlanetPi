@@ -119,6 +119,7 @@ class Player(pygame.sprite.Sprite):
         self.keys = 0
         self.TNT = 0
         self.oxygen = constants.MAX_OXYGEN
+        self.score = 0
         self.stacked_TNT = False
         self.win = False
         self.state = enums.IDLE

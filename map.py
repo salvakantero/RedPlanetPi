@@ -195,6 +195,7 @@ class Map():
         # refresh the scoreboard area
         scoreboard.reset()
         scoreboard.map_info(self.number)
+        scoreboard.map_info_timer = 150 # shows the map info for a few seconds
         scoreboard.invalidate()      
         # reset the sprite groups  
         self.game.all_sprites_group.empty()

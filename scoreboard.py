@@ -28,6 +28,7 @@ import enums
 class Scoreboard():
     def __init__(self, game):
         # attributes
+        self.map_info_timer = 150 # show map info while timer > 0
         self.srf_sboard = game.srf_sboard
         self.fonts = game.fonts
         self.needs_updating = False # redrawing of the data if True
@@ -58,10 +59,11 @@ class Scoreboard():
         text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'        
         self.fonts[enums.S_B_GREEN].render(text_1, self.srf_sboard, (x+1, y+1)) # shadow
         self.fonts[enums.S_F_GREEN].render(text_1, self.srf_sboard, (x, y))
-        # prints a fixed text
+        # prints a fixed text (for the percentage of the game completed)
+        y = 30
         text_2 = 'COMPLETED..'
-        self.fonts[enums.S_B_GREEN].render(text_2, self.srf_sboard, (x+1, y+self.fonts[enums.S_B_GREEN].line_height+1)) # shadow
-        self.fonts[enums.S_F_GREEN].render(text_2, self.srf_sboard, (x, y+self.fonts[enums.S_F_GREEN].line_height))
+        self.fonts[enums.S_B_GREEN].render(text_2, self.srf_sboard, (x+1, y+1)) # shadow
+        self.fonts[enums.S_F_GREEN].render(text_2, self.srf_sboard, (x, y))
 
     # draws a text with its shadow
     def shaded_text(self, data, x, y):       
@@ -92,6 +94,10 @@ class Scoreboard():
 
     # update the data (only if it has been invalidated)
     def update(self, player):
+        # timer for the shared zone (map info or score)
+        if self.map_info_timer > 0: 
+            self.map_info_timer -= 1
+
         if self.needs_updating:
             # player data
             self.clear_zone(18)
@@ -105,10 +111,22 @@ class Scoreboard():
             self.clear_zone(204)
             self.shaded_text(player.TNT, 206, 6)
             self.needs_updating = False
-            # game percentage
-            x = constants.SBOARD_UNSCALED_SIZE[0] - 13
-            y = 30
-            pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK'], ((x, y),(8, 8)))
-            text = str(self.game_percent).rjust(2, '0') + ';' # ; = %
-            self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
-            self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))
+                       
+            if self.map_info_timer > 0:  # time to show the game percentage
+                x = constants.SBOARD_UNSCALED_SIZE[0] - 13
+                y = 30
+                pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK'], ((x, y),(8, 8))) # clears the above content
+                text = str(self.game_percent).rjust(2, '0') + ';' # ; = %            
+                self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
+                self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))
+            else: #  time to show score and high
+                x = constants.SBOARD_UNSCALED_SIZE[0] - 51
+                y = 22
+                pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK'], ((185, y),(54, 15))) # clears the above content
+                text = 'SCORE: ' + str(player.score).rjust(6, '0')
+                self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
+                self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))
+                y = 30
+                text_2 = 'HIGH: ' + str(player.score).rjust(6, '0')
+                self.fonts[enums.S_B_GREEN].render(text_2, self.srf_sboard, (x+5, y+1)) # shadow
+                self.fonts[enums.S_F_GREEN].render(text_2, self.srf_sboard, (x+4, y))

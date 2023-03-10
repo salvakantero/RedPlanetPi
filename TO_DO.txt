@@ -14,7 +14,6 @@ POR HACER
 - Configuración con pickle
 - Pantalla final
 - Linterna en pantallas oscuras
-- Score y High
 - Highs online
 - Tabla de mejores puntuaciones
 - Introducción de high scores
@@ -100,6 +99,7 @@ HECHO
 13/02/23 - Páginas del menu de inicio
 15/02/23 - Pulsación de botones de menú
 10/03/23 - Grabar/Cargar punto de control con "pickle"
+10/03/23 - Score y High en marcador
 
 
 

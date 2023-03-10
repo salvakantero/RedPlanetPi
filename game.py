@@ -344,11 +344,18 @@ class Game():
                     if enemy.type == enums.INFECTED:
                         blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
                         self.floating_text.text = '+25'
+                        player.score += 25
                     else: # flying enemies
                         blast = Explosion(enemy.rect.center, self.blast_images[0])
-                        if enemy.type == enums.AVIRUS: self.floating_text.text = '+50'
-                        elif enemy.type == enums.PELUSOID: self.floating_text.text = '+75'
-                        else: self.floating_text.text = '+100' # fanty           
+                        if enemy.type == enums.AVIRUS: 
+                            self.floating_text.text = '+50'
+                            player.score += 50
+                        elif enemy.type == enums.PELUSOID: 
+                            self.floating_text.text = '+75'
+                            player.score += 75
+                        else: 
+                            self.floating_text.text = '+100' # fanty
+                            player.score += 100
                     self.blast_group.add(blast)
                     self.all_sprites_group.add(blast)
                     self.sfx_enemy_down[enemy.type].play()
@@ -359,6 +366,8 @@ class Game():
                     # removes objects
                     enemy.kill()
                     self.bullet_group.sprite.kill()
+                    # redraws the scoreboard
+                    scoreboard.invalidate()
                     break
 
         # ====================== bullets and map tiles =========================
@@ -385,19 +394,23 @@ class Game():
                 if hotspot.type == enums.TNT:
                     player.TNT += 1
                     scoreboard.game_percent += 3
-                    self.floating_text.text = str(player.TNT) + '/15' 
+                    self.floating_text.text = '+50 ' + str(player.TNT) + '/15'
+                    player.score += 50
                 elif hotspot.type == enums.KEY: 
                     player.keys += 1
                     scoreboard.game_percent += 2
-                    self.floating_text.text = '+1'
+                    self.floating_text.text = '+125'
+                    player.score += 125
                 elif hotspot.type == enums.AMMO:
                     if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
                         player.ammo += constants.AMMO_ROUND
                     else: player.ammo = constants.MAX_AMMO
-                    self.floating_text.text = '+25'
+                    self.floating_text.text = '+75'
+                    player.score += 75
                 elif hotspot.type == enums.OXYGEN:
                     player.oxygen = constants.MAX_OXYGEN
-                    self.floating_text.text = '+99'                                
+                    self.floating_text.text = '+100'
+                    player.score += 100
                 scoreboard.invalidate()
                 self.floating_text.x = hotspot.x*constants.TILE_SIZE
                 self.floating_text.y = hotspot.y*constants.TILE_SIZE
