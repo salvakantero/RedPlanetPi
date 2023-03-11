@@ -37,7 +37,6 @@ class Configuration():
         self.jump_key = pygame.K_q
         self.fire_key = pygame.K_SPACE
         self.action_key = pygame.K_a
-        self.pause_key = pygame.K_h
         self.mute_key = pygame.K_m
 
     def read(self):
@@ -54,7 +53,6 @@ class Configuration():
         # self.jump_key = config['JUMP_KEY']
         # self.fire_key = config['FIRE_KEY']
         # self.action_key = config['ACTION_KEY']
-        # self.pause_key = config['PAUSE_KEY']
         # self.mute_key = config['MUTE_KEY']
 
     def write(self):

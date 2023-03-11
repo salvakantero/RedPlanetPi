@@ -104,12 +104,7 @@ while True:
                     game.pause_music()
                     if game.confirm_exit():
                         game.status = enums.OVER # go to the main menu
-                    else: game.restore_music()
-                # pause main loop
-                if event.key == config.pause_key:
-                    game.pause_music()
-                    game.pause()
-                    game.restore_music()                                
+                    else: game.restore_music()                            
                 # mute music
                 if event.key == config.mute_key :
                     if game.music_status == enums.MUTED:
@@ -132,43 +127,42 @@ while True:
         if map.number != map.last:
             map.change(player, scoreboard)
 
-        if game.status == enums.RUNNING: # (not paused)
-            # update sprites (player, enemies, hotspots, explosions, etc...)
-            game.all_sprites_group.update()
+        # update sprites (player, enemies, hotspots, explosions, etc...)
+        game.all_sprites_group.update()
 
-            # collision between all entities that may collide
-            game.check_collisions(player, scoreboard, map.number, map.tilemap_rect_list)
+        # collision between all entities that may collide
+        game.check_collisions(player, scoreboard, map.number, map.tilemap_rect_list)
 
-            # game over?
-            if player.lives == 0 or player.oxygen < 0:                
-                game.over()
-                game.status = enums.OVER
-                continue
+        # game over?
+        if player.lives == 0 or player.oxygen < 0:                
+            game.over()
+            game.status = enums.OVER
+            continue
+        
+        # change the frame of the animated tiles
+        map.animate_tiles()
+
+        # draws the map free of sprites to clean it up
+        game.srf_map.blit(game.srf_map_bk, (0,0))
+        # draws the sprites in their new positions
+        game.all_sprites_group.draw(game.srf_map)
+
+        # updates the floating text, only if needed (y>0)
+        game.floating_text.update()
+
+        # updates the scoreboard, only if needed (needs_updating = True)
+        scoreboard.update(player)
+
+        # next track in the playlist if the music has been stopped
+        if game.music_status == enums.UNMUTED:
+            game.jukebox.update()
+
+        # display FPS (using the clock)
+        if config.show_fps:
+            test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
             
-            # change the frame of the animated tiles
-            map.animate_tiles()
-
-            # draws the map free of sprites to clean it up
-            game.srf_map.blit(game.srf_map_bk, (0,0))
-            # draws the sprites in their new positions
-            game.all_sprites_group.draw(game.srf_map)
-
-            # updates the floating text, only if needed (y>0)
-            game.floating_text.update()
-
-            # updates the scoreboard, only if needed (needs_updating = True)
-            scoreboard.update(player)
-
-            # next track in the playlist if the music has been stopped
-            if game.music_status == enums.UNMUTED:
-                game.jukebox.update()
-
-            # display FPS (using the clock)
-            if config.show_fps:
-                test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
-                
-            # check map change using player's coordinates
-            # if the player leaves, the map number changes
-            map.check_change(player)
+        # check map change using player's coordinates
+        # if the player leaves, the map number changes
+        map.check_change(player)
             
     game.update_screen()

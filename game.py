@@ -284,18 +284,6 @@ class Game():
                     self.exit()
                 if event.type == pygame.KEYDOWN:                  
                     return
-                
-    # displays a 'pause' message and waits
-    def pause(self):
-        self.message('P a u s e', 'THE MASSACRE CAN WAIT!')
-        pygame.event.clear(pygame.KEYDOWN)
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE or event.key == self.config.pause_key:
-                        return
                     
     # stops the music when the game is paused and a message is displayed.
     def pause_music(self):
