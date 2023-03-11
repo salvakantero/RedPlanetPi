@@ -31,7 +31,7 @@ from marqueetext import MarqueeText
 
 class Menu():
     def __init__(self, game):
-        self.game = game
+        self.game = game        
         self.srf_menu = game.srf_menu    
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
@@ -54,24 +54,8 @@ class Menu():
         self.fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
         self.fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
         self.fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], True)
-        # button images
-        self.img_buttons = {
-            enums.START: [
-                pygame.image.load('images/assets/button1_0.png').convert_alpha(),
-                pygame.image.load('images/assets/button1_1.png').convert_alpha(),                              
-                pygame.image.load('images/assets/button1_2.png').convert_alpha()],
-            enums.LOAD: [
-                pygame.image.load('images/assets/button2_0.png').convert_alpha(),
-                pygame.image.load('images/assets/button2_1.png').convert_alpha(),
-                pygame.image.load('images/assets/button2_2.png').convert_alpha()],
-            enums.OPTIONS: [
-                pygame.image.load('images/assets/button3_0.png').convert_alpha(),
-                pygame.image.load('images/assets/button3_1.png').convert_alpha(),
-                pygame.image.load('images/assets/button3_2.png').convert_alpha()],
-            enums.EXIT: [
-                pygame.image.load('images/assets/button4_0.png').convert_alpha(),
-                pygame.image.load('images/assets/button4_1.png').convert_alpha(),
-                pygame.image.load('images/assets/button4_2.png').convert_alpha()]}
+        # cursor
+        self.cursor = pygame.image.load('images/sprites/player0.png').convert()
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
         # controls
@@ -97,17 +81,10 @@ class Menu():
         # menu options      
         x = 83
         y = 67
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Start New Game', self.srf_page1, x, y, 1)
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Load Checkpoint', self.srf_page1, x, y+25, 1)
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Options', self.srf_page1, x, y+50, 1)
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Exit', self.srf_page1, x, y+75, 1)
-        # menu buttons
-        x = 50
-        y = 60
-        self.srf_page1.blit(self.img_buttons[enums.START][0], (x, y))
-        self.srf_page1.blit(self.img_buttons[enums.LOAD][0], (x, y+25))
-        self.srf_page1.blit(self.img_buttons[enums.OPTIONS][0], (x, y+50))
-        self.srf_page1.blit(self.img_buttons[enums.EXIT][0], (x, y+75))
+        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Start New Game', self.srf_page1, x, y, 1)
+        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Load Checkpoint', self.srf_page1, x, y+25, 1)
+        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Options', self.srf_page1, x, y+50, 1)
+        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Exit', self.srf_page1, x, y+75, 1)
     
     def page_2(self): # enemies/hotspot info
         img_enemies = {
@@ -240,44 +217,44 @@ class Menu():
             else: menu_page = 1
             
             # mouse management
-            pos = pygame.mouse.get_pos()
-            on_button = 0
-            if menu_page == 1 and x == 0: # main menu active?
-                if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
-                    if pos[1] > 200 and pos[1] < 280: # START
-                        self.srf_menu.blit(self.img_buttons[enums.START][1], (50, 60))
-                        on_button = 1
-                    elif pos[1] > 280 and pos[1] < 350: # LOAD
-                        self.srf_menu.blit(self.img_buttons[enums.LOAD][1], (50, 85))
-                        on_button = 2
-                    elif pos[1] > 350 and pos[1] < 430: # OPTIONS
-                        self.srf_menu.blit(self.img_buttons[enums.OPTIONS][1], (50, 110))
-                        on_button = 3
-                    elif pos[1] > 430 and pos[1] < 510: # EXIT
-                        self.srf_menu.blit(self.img_buttons[enums.EXIT][1], (50, 135))
-                        on_button = 4
-                    # click with the left button?
-                    if pygame.mouse.get_pressed() == (1,0,0):
-                        self.sfx_menu_click.play()
-                        if on_button == 1: # START
-                            self.srf_menu.blit(self.img_buttons[enums.START][2], (50, 60))
-                            self.game.update_screen()
-                            pygame.time.wait(320)                            
-                            return
-                        elif on_button == 2: # LOAD LAST CHECKPOINT
-                            self.srf_menu.blit(self.img_buttons[enums.LOAD][2], (50, 60))
-                            self.game.update_screen()
-                            pygame.time.wait(320)
-                            return
-                        elif on_button == 4: # EXIT
-                            self.srf_menu.blit(self.img_buttons[enums.EXIT][2], (50, 135))
-                            self.game.update_screen()
-                            pygame.time.wait(320)
-                            self.game.exit()
-            # by clicking the left mouse button returns to the main menu
-            elif pygame.mouse.get_pressed() == (1,0,0):
-                menu_page = 1
-                page_timer = 0
+            # pos = pygame.mouse.get_pos()
+            # on_button = 0
+            # if menu_page == 1 and x == 0: # main menu active?
+            #     if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
+            #         if pos[1] > 200 and pos[1] < 280: # START
+            #             self.srf_menu.blit(self.img_buttons[enums.START][1], (50, 60))
+            #             on_button = 1
+            #         elif pos[1] > 280 and pos[1] < 350: # LOAD
+            #             self.srf_menu.blit(self.img_buttons[enums.LOAD][1], (50, 85))
+            #             on_button = 2
+            #         elif pos[1] > 350 and pos[1] < 430: # OPTIONS
+            #             self.srf_menu.blit(self.img_buttons[enums.OPTIONS][1], (50, 110))
+            #             on_button = 3
+            #         elif pos[1] > 430 and pos[1] < 510: # EXIT
+            #             self.srf_menu.blit(self.img_buttons[enums.EXIT][1], (50, 135))
+            #             on_button = 4
+            #         # click with the left button?
+            #         if pygame.mouse.get_pressed() == (1,0,0):
+            #             self.sfx_menu_click.play()
+            #             if on_button == 1: # START
+            #                 self.srf_menu.blit(self.img_buttons[enums.START][2], (50, 60))
+            #                 self.game.update_screen()
+            #                 pygame.time.wait(320)                            
+            #                 return
+            #             elif on_button == 2: # LOAD LAST CHECKPOINT
+            #                 self.srf_menu.blit(self.img_buttons[enums.LOAD][2], (50, 60))
+            #                 self.game.update_screen()
+            #                 pygame.time.wait(320)
+            #                 return
+            #             elif on_button == 4: # EXIT
+            #                 self.srf_menu.blit(self.img_buttons[enums.EXIT][2], (50, 135))
+            #                 self.game.update_screen()
+            #                 pygame.time.wait(320)
+            #                 self.game.exit()
+            # # by clicking the left mouse button returns to the main menu
+            # elif pygame.mouse.get_pressed() == (1,0,0):
+            #     menu_page = 1
+            #     page_timer = 0
 
             # keyboard management
             for event in pygame.event.get():

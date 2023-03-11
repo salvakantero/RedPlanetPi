@@ -122,6 +122,11 @@ César Gómez (Mundo Python YT channel)
 ChatGPT
 
 
+
+posiciones del cursor en menú:
+x = 50
+y = 60, 85, 110, 135
+
 Cambiar fondo a negro:
 "workbench.colorCustomizations": {
     "editor.background": "#000000"

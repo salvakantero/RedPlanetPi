@@ -75,7 +75,6 @@ game.show_intro()
 
 while True:    
     if game.status == enums.OVER: # game not running
-        pygame.mouse.set_visible(True)
         # creates and displays the initial menu
         game.show_menu()         
         # new unordered playlist with the 12 available music tracks
@@ -91,7 +90,6 @@ while True:
         map.last = -1
         map.scroll = enums.RIGHT
         scoreboard.game_percent = 0
-        pygame.mouse.set_visible(False)
     else: # game running
         # event management
         for event in pygame.event.get():
