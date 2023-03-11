@@ -27,12 +27,14 @@ import enums
 
 from font import Font
 from marqueetext import MarqueeText
+from bullet import Bullet
 
 
 class Menu():
     def __init__(self, game):
         self.game = game        
         self.srf_menu = game.srf_menu    
+        self.selected_option = 0
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page1.set_colorkey(constants.PALETTE['BLACK']) # transparent background
@@ -54,8 +56,9 @@ class Menu():
         self.fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
         self.fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
         self.fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], True)
-        # cursor
-        self.cursor = pygame.image.load('images/sprites/player0.png').convert()
+        # player
+        self.cursor = pygame.image.load('images/sprites/player0.png').convert_alpha()
+        self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
         # controls
@@ -66,6 +69,7 @@ class Menu():
         # sounds
         self.sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
         self.sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
+        self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
         # generate menu pages
         self.page_1()
         self.page_2()
@@ -81,11 +85,12 @@ class Menu():
         # menu options      
         x = 83
         y = 67
-        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Start New Game', self.srf_page1, x, y, 1)
-        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Load Checkpoint', self.srf_page1, x, y+25, 1)
-        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Options', self.srf_page1, x, y+50, 1)
-        self.shaded_text(self.fnt_LB2, self.fnt_LF, 'Exit', self.srf_page1, x, y+75, 1)
-    
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Start New Game', self.srf_page1, x, y, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Load Checkpoint', self.srf_page1, x, y+25, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Options', self.srf_page1, x, y+50, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Exit', self.srf_page1, x, y+75, 1)
+        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Use arrow keys and ENTER to select', self.srf_page1, x-25, y+100, 1)
+
     def page_2(self): # enemies/hotspot info
         img_enemies = {
             enums.INFECTED: pygame.image.load('images/sprites/infected0.png').convert(),
@@ -215,57 +220,38 @@ class Menu():
             # draw the score table
             elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))              
             else: menu_page = 1
-            
-            # mouse management
-            # pos = pygame.mouse.get_pos()
-            # on_button = 0
-            # if menu_page == 1 and x == 0: # main menu active?
-            #     if pos[0] > 190 and pos[0] < 260: # cursor over one of the buttons
-            #         if pos[1] > 200 and pos[1] < 280: # START
-            #             self.srf_menu.blit(self.img_buttons[enums.START][1], (50, 60))
-            #             on_button = 1
-            #         elif pos[1] > 280 and pos[1] < 350: # LOAD
-            #             self.srf_menu.blit(self.img_buttons[enums.LOAD][1], (50, 85))
-            #             on_button = 2
-            #         elif pos[1] > 350 and pos[1] < 430: # OPTIONS
-            #             self.srf_menu.blit(self.img_buttons[enums.OPTIONS][1], (50, 110))
-            #             on_button = 3
-            #         elif pos[1] > 430 and pos[1] < 510: # EXIT
-            #             self.srf_menu.blit(self.img_buttons[enums.EXIT][1], (50, 135))
-            #             on_button = 4
-            #         # click with the left button?
-            #         if pygame.mouse.get_pressed() == (1,0,0):
-            #             self.sfx_menu_click.play()
-            #             if on_button == 1: # START
-            #                 self.srf_menu.blit(self.img_buttons[enums.START][2], (50, 60))
-            #                 self.game.update_screen()
-            #                 pygame.time.wait(320)                            
-            #                 return
-            #             elif on_button == 2: # LOAD LAST CHECKPOINT
-            #                 self.srf_menu.blit(self.img_buttons[enums.LOAD][2], (50, 60))
-            #                 self.game.update_screen()
-            #                 pygame.time.wait(320)
-            #                 return
-            #             elif on_button == 4: # EXIT
-            #                 self.srf_menu.blit(self.img_buttons[enums.EXIT][2], (50, 135))
-            #                 self.game.update_screen()
-            #                 pygame.time.wait(320)
-            #                 self.game.exit()
-            # # by clicking the left mouse button returns to the main menu
-            # elif pygame.mouse.get_pressed() == (1,0,0):
-            #     menu_page = 1
-            #     page_timer = 0
 
             # keyboard management
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.game.exit()
-                if event.type == pygame.KEYDOWN:                
+                if event.type == pygame.KEYDOWN:             
                     if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
                         self.game.exit()
+                    elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        bullet = Bullet(pygame.Rect(58, 63 + (25 * self.selected_option), 16, 16 ), 0, self.img_bullet)
+                        self.game.all_sprites_group.add(bullet)
+                        self.sfx_shot.play()
+                        for z in range(50):
+                            self.game.all_sprites_group.update()
+                            self.game.update_screen()
+
+                        if self.selected_option == 0:
+                            return
+                        elif self.selected_option == 3:
+                            self.game.exit()
+                    elif menu_page == 1:
+                        page_timer = 0   
+                        if event.key == pygame.K_DOWN and self.selected_option < 3:
+                            self.selected_option += 1
+                        elif event.key == pygame.K_UP and self.selected_option > 0:
+                            self.selected_option -= 1
                     # pressing any key returns to the main menu
-                    elif menu_page != 1:
+                    else:
                         menu_page = 1
                         page_timer = 0    
+            
+            if menu_page == 1 and x == 0:
+                self.srf_menu.blit(self.cursor, (58, 63 + (25 * self.selected_option)))
 
             self.game.update_screen()
