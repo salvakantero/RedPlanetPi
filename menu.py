@@ -34,7 +34,6 @@ class Menu():
     def __init__(self, game):
         self.game = game        
         self.srf_menu = game.srf_menu    
-        self.selected_option = 0
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page1.set_colorkey(constants.PALETTE['BLACK']) # transparent background
@@ -48,14 +47,12 @@ class Menu():
         self.srf_page4 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page4.set_colorkey(constants.PALETTE['BLACK'])
         # menu fonts
-        self.fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True)
-        self.fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], True)
-        self.fnt_LF2 = Font('images/fonts/large_font.png', constants.PALETTE['SAND'], True)
-        self.fnt_LB2 = Font('images/fonts/large_font.png', constants.PALETTE['BROWN'], True)
+        self.fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['SAND'], True)
+        self.fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['BROWN'], False)
         self.fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
-        self.fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], True)
+        self.fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], False)
         self.fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
-        self.fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], True)
+        self.fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
         # player (cursor)
         self.img_player = pygame.image.load('images/sprites/player0.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
@@ -104,7 +101,7 @@ class Menu():
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert()}
         x = 20
         y = 65
-        self.shaded_text(self.fnt_LB2, self.fnt_LF2, 'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
         x = 40
         y = 95
         self.shaded_text(self.fnt_SB, self.fnt_SF, 'Infected (+25)', self.srf_page2, x, y, 1)
@@ -133,7 +130,7 @@ class Menu():
     def page_3(self): # control info
         x = 95
         y = 57
-        self.shaded_text(self.fnt_LB2, self.fnt_LF2, 'Controls', self.srf_page3, x, y, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Controls', self.srf_page3, x, y, 1)
         x = 35
         y = 82
         self.srf_page3.blit(self.img_classic, (x, y)) # image of the classic layout
@@ -152,7 +149,7 @@ class Menu():
     def page_4(self): # high scores
         x = 90
         y = 60
-        self.shaded_text(self.fnt_LB2, self.fnt_LF2, 'High Scores', self.srf_page4, x, y, 1)
+        self.shaded_text(self.fnt_LB, self.fnt_LF, 'High Scores', self.srf_page4, x, y, 1)
         x = 50
         y = 90
         # names
@@ -189,6 +186,8 @@ class Menu():
         pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         pygame.mixer.music.play()
     
+        option_selected = 0 # option where the cursor is located
+        option_fired = False # 'True' when an option is selected
         menu_page = 0 # page displayed (1 to 4)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
@@ -211,9 +210,9 @@ class Menu():
                 page_timer = 0 # and reset the timer
                 x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
             elif page_timer >= 450: # time almost exceeded?
-                x -= 8 # scrolls the page to the left        
+                x -= 8 # scrolls the page to the left (is disappearing)    
             elif x > 0: # as long as the page does not reach the left margin
-                x -= 8 # scrolls the page to the left  
+                x -= 8 # scrolls the page to the left (is appearing)
 
             # draws the main menu
             if menu_page == 1: self.srf_menu.blit(self.srf_page1, (x, 0))
@@ -233,25 +232,17 @@ class Menu():
                     if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
                         self.game.exit()
                     elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                        bullet = Bullet(pygame.Rect(58, 63 + (25 * self.selected_option), 16, 16 ), 1, self.img_bullet)
-                        self.game.all_sprites_group.add(bullet)
+                        bullet = Bullet(pygame.Rect(58, 65 + (20*option_selected), constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet)
+                        self.game.bullet_group.add(bullet)
                         self.sfx_menu_select.play()
-                        for z in range(30):
-                            self.game.all_sprites_group.update()
-                            self.game.all_sprites_group.draw(self.srf_menu)
-                            self.game.update_screen()
-
-                        if self.selected_option == 0:
-                            return
-                        elif self.selected_option == 3:
-                            self.game.exit()
-                    elif menu_page == 1:
-                        page_timer = 0   
-                        if event.key == pygame.K_DOWN and self.selected_option < 3:
-                            self.selected_option += 1
+                        option_fired = True
+                    elif menu_page == 1 and not option_fired:
+                        page_timer = 0
+                        if event.key == pygame.K_DOWN and option_selected < 3:
+                            option_selected += 1
                             self.sfx_menu_click.play()
-                        elif event.key == pygame.K_UP and self.selected_option > 0:
-                            self.selected_option -= 1
+                        elif event.key == pygame.K_UP and option_selected > 0:
+                            option_selected -= 1
                             self.sfx_menu_click.play()
                     # pressing any key returns to the main menu
                     else:
@@ -259,6 +250,14 @@ class Menu():
                         page_timer = 0    
             
             if menu_page == 1 and x == 0:
-                self.srf_menu.blit(self.img_player, (58, 63 + (20 * self.selected_option)))
+                self.srf_menu.blit(self.img_player, (58, 64 + (20*option_selected)))
+                self.game.bullet_group.update()
+                self.game.bullet_group.draw(self.srf_menu)
+
+                if option_fired and self.game.bullet_group.sprite == None:
+                    if option_selected == 0:
+                        return
+                    elif option_selected == 3:
+                        self.game.exit()
 
             self.game.update_screen()

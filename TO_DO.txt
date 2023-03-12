@@ -4,9 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Navegación por el menú con cursores/ENTER/ESC, no botones
-- Seleccionar opción de menú con sprite del player
-- Disparar al seleccionar
 - Páginas de configuraciones en el menú
 
 POR HACER
@@ -100,7 +97,7 @@ HECHO
 15/02/23 - Pulsación de botones de menú
 10/03/23 - Grabar/Cargar punto de control con "pickle"
 10/03/23 - Score y High en marcador
-
+12/03/23 - Navegación por el menú con cursores/ENTER/ESC (no botones)
 
 
 CREDITS
