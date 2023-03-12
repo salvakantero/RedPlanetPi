@@ -75,8 +75,12 @@ class Game():
         self.fonts = {
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
+            enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True),
+            enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], False),
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
-            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False)}
+            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
+            enums.L_F_SAND: Font('images/fonts/large_font.png', constants.PALETTE['SAND'], True),
+            enums.L_B_SAND: Font('images/fonts/large_font.png', constants.PALETTE['BROWN'], False)}
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
          # playlist with the 12 available tracks
@@ -275,7 +279,7 @@ class Game():
     # displays a 'game over' message and waits
     def over(self): 
         self.message('G a m e  O v e r', 'PRESS ANY KEY')
-        pygame.mixer.stop()
+        pygame.mixer.music.stop()
         self.sfx_game_over.play()
         pygame.event.clear(pygame.KEYDOWN)
         while True:

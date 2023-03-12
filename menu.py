@@ -46,13 +46,6 @@ class Menu():
         # page 4: high scores
         self.srf_page4 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page4.set_colorkey(constants.PALETTE['BLACK'])
-        # menu fonts
-        self.fnt_LF = Font('images/fonts/large_font.png', constants.PALETTE['SAND'], True)
-        self.fnt_LB = Font('images/fonts/large_font.png', constants.PALETTE['BROWN'], False)
-        self.fnt_SF = Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True)
-        self.fnt_SB = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], False)
-        self.fnt_SF2 = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True)
-        self.fnt_SB2 = Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False)
         # player (cursor)
         self.img_player = pygame.image.load('images/sprites/player0.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
@@ -82,11 +75,14 @@ class Menu():
         # menu options      
         x = 83
         y = 67
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Start New Game', self.srf_page1, x, y, 1)
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Load Checkpoint', self.srf_page1, x, y+20, 1)
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Options', self.srf_page1, x, y+40, 1)
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Exit', self.srf_page1, x, y+60, 1)
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Use arrow keys and ENTER to select', self.srf_page1, x-25, y+90, 1)
+        fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
+        ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
+        self.shaded_text(fb, ff, 'Start New Game', self.srf_page1, x, y, 1)
+        self.shaded_text(fb, ff, 'Load Checkpoint', self.srf_page1, x, y+20, 1)
+        self.shaded_text(fb, ff, 'Options', self.srf_page1, x, y+40, 1)
+        self.shaded_text(fb, ff, 'Exit', self.srf_page1, x, y+60, 1)
+        self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
+                         'Use arrow keys and ENTER to select', self.srf_page1, x-25, y+90, 1)
 
     def page_2(self): # enemies/hotspot info
         img_enemies = {
@@ -101,18 +97,21 @@ class Menu():
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert()}
         x = 20
         y = 65
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
+                         'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
         x = 40
         y = 95
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Infected (+25)', self.srf_page2, x, y, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Arachnovirus (+50)', self.srf_page2, x, y+20, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Pelusoid (+75)', self.srf_page2, x, y+40, 1)   
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Pelusoid Fanty (+100)', self.srf_page2, x, y+60, 1)
+        fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
+        ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
+        self.shaded_text(fb, ff, 'Infected (+25)', self.srf_page2, x, y, 1)
+        self.shaded_text(fb, ff, 'Arachnovirus (+50)', self.srf_page2, x, y+20, 1)
+        self.shaded_text(fb, ff, 'Pelusoid (+75)', self.srf_page2, x, y+40, 1)   
+        self.shaded_text(fb, ff, 'Pelusoid Fanty (+100)', self.srf_page2, x, y+60, 1)
         x = 163
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Explosives', self.srf_page2, x, y, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Ammunition', self.srf_page2, x, y+20, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Key Card', self.srf_page2, x, y+40, 1) 
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
+        self.shaded_text(fb, ff, 'Explosives', self.srf_page2, x, y, 1)
+        self.shaded_text(fb, ff, 'Ammunition', self.srf_page2, x, y+20, 1)
+        self.shaded_text(fb, ff, 'Key Card', self.srf_page2, x, y+40, 1) 
+        self.shaded_text(fb, ff, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
         # images of enemies
         x = 17
         y = 89
@@ -130,47 +129,55 @@ class Menu():
     def page_3(self): # control info
         x = 95
         y = 57
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'Controls', self.srf_page3, x, y, 1)
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
+                         'Controls', self.srf_page3, x, y, 1)
         x = 35
         y = 82
+        fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
+        ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
         self.srf_page3.blit(self.img_classic, (x, y)) # image of the classic layout
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Classic', self.srf_page3, x+10, y+38, 1)
+        self.shaded_text(fb, ff, 'Classic', self.srf_page3, x+10, y+38, 1)
         x = 100
         self.srf_page3.blit(self.img_gamer, (x, y)) # image of the gamer layout
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Gamer', self.srf_page3, x+12, y+38, 1)
+        self.shaded_text(fb, ff, 'Gamer', self.srf_page3, x+12, y+38, 1)
         x = 165
         self.srf_page3.blit(self.img_retro, (x, y)) # image of the retro layout
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Retro', self.srf_page3, x+18, y+38, 1) 
+        self.shaded_text(fb, ff, 'Retro', self.srf_page3, x+18, y+38, 1) 
         x = 110
         y = 140
         self.srf_page3.blit(self.img_common, (x, y)) # image of the common keys
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Common keys', self.srf_page3, x-52, y+15, 1)
+        self.shaded_text(fb, ff, 'Common keys', self.srf_page3, x-52, y+15, 1)
 
     def page_4(self): # high scores
         x = 90
         y = 60
-        self.shaded_text(self.fnt_LB, self.fnt_LF, 'High Scores', self.srf_page4, x, y, 1)
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
+                         'High Scores', self.srf_page4, x, y, 1)
         x = 50
         y = 90
         # names
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Lukas', self.srf_page4, x, y, 1)
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Dany', self.srf_page4, x, y+10, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Marina', self.srf_page4, x, y+20, 1)   
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Alvaro', self.srf_page4, x, y+30, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Julita', self.srf_page4, x, y+40, 1)
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'Luna_314', self.srf_page4, x, y+50, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, 'Irenita', self.srf_page4, x, y+60, 1)
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, 'salvaKantero', self.srf_page4, x, y+70, 1)
+        fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
+        ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
+        fb2 = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
+        ff2 = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
+        self.shaded_text(fb, ff, 'Lukas', self.srf_page4, x, y, 1)
+        self.shaded_text(fb2, ff2, 'Dany', self.srf_page4, x, y+10, 1)
+        self.shaded_text(fb, ff, 'Marina', self.srf_page4, x, y+20, 1)   
+        self.shaded_text(fb2, ff2, 'Alvaro', self.srf_page4, x, y+30, 1)
+        self.shaded_text(fb, ff, 'Julita', self.srf_page4, x, y+40, 1)
+        self.shaded_text(fb2, ff2, 'Luna_314', self.srf_page4, x, y+50, 1)
+        self.shaded_text(fb, ff, 'Irenita', self.srf_page4, x, y+60, 1)
+        self.shaded_text(fb2, ff2, 'salvaKantero', self.srf_page4, x, y+70, 1)
         # dates and scores
         x = 110
-        self.shaded_text(self.fnt_SB, self.fnt_SF, '14/02/2023' + '    00195325', self.srf_page4, x, y, 1)
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '14/02/2023' + '    00195290', self.srf_page4, x, y+10, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, '11/02/2023' + '    00152645', self.srf_page4, x, y+20, 1)   
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '28/01/2023' + '    00147755', self.srf_page4, x, y+30, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, '30/12/2022' + '    00097430', self.srf_page4, x, y+40, 1)
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '21/01/2023' + '    00042940', self.srf_page4, x, y+50, 1)
-        self.shaded_text(self.fnt_SB, self.fnt_SF, '01/02/2023' + '    00008255', self.srf_page4, x, y+60, 1)
-        self.shaded_text(self.fnt_SB2, self.fnt_SF2, '30/12/2022' + '    00001985', self.srf_page4, x, y+70, 1)
+        self.shaded_text(fb, ff, '14/02/2023' + '    00195325', self.srf_page4, x, y, 1)
+        self.shaded_text(fb2, ff2, '14/02/2023' + '    00195290', self.srf_page4, x, y+10, 1)
+        self.shaded_text(fb, ff, '11/02/2023' + '    00152645', self.srf_page4, x, y+20, 1)   
+        self.shaded_text(fb2, ff2, '28/01/2023' + '    00147755', self.srf_page4, x, y+30, 1)
+        self.shaded_text(fb, ff, '30/12/2022' + '    00097430', self.srf_page4, x, y+40, 1)
+        self.shaded_text(fb2, ff2, '21/01/2023' + '    00042940', self.srf_page4, x, y+50, 1)
+        self.shaded_text(fb, ff, '01/02/2023' + '    00008255', self.srf_page4, x, y+60, 1)
+        self.shaded_text(fb2, ff2, '30/12/2022' + '    00001985', self.srf_page4, x, y+70, 1)
 
     def show(self):
         # help
@@ -183,8 +190,8 @@ class Menu():
             self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2900)
         
         self.sfx_switchoff.play()    
-        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-        pygame.mixer.music.play()
+        #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        #pygame.mixer.music.play()
     
         option_selected = 0 # option where the cursor is located
         option_fired = False # 'True' when an option is selected
