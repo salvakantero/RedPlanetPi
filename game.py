@@ -62,7 +62,7 @@ class Game():
         self.gate_group = pygame.sprite.GroupSingle()
         self.platform_group = pygame.sprite.GroupSingle()
         self.dust_group = pygame.sprite.GroupSingle()
-        self.bullet_group = pygame.sprite.GroupSingle()
+        self.shot_group = pygame.sprite.GroupSingle()
         self.blast_group = pygame.sprite.GroupSingle()
         # generates a main window (or full screen) with title, icon, and 32-bit colour.
         flags = 0
@@ -326,9 +326,9 @@ class Game():
             return
         
         # ======================= bullets and martians =========================
-        if not self.bullet_group.sprite == None:
+        if not self.shot_group.sprite == None:
             for enemy in self.enemies_group:
-                if enemy.rect.colliderect(self.bullet_group.sprite):
+                if enemy.rect.colliderect(self.shot_group.sprite):
                     # shake the map
                     self.shake = [10, 6]
                     self.shake_timer = 14
@@ -357,17 +357,17 @@ class Game():
                     self.floating_text.speed = 0
                     # removes objects
                     enemy.kill()
-                    self.bullet_group.sprite.kill()
+                    self.shot_group.sprite.kill()
                     # redraws the scoreboard
                     scoreboard.invalidate()
                     break
 
         # ====================== bullets and map tiles =========================
-        if not self.bullet_group.sprite == None:
-            bullet_rect = self.bullet_group.sprite.rect
+        if not self.shot_group.sprite == None:
+            bullet_rect = self.shot_group.sprite.rect
             for tile in tilemap_rect_list:
                 if tile.colliderect(bullet_rect):
-                    self.bullet_group.sprite.kill()
+                    self.shot_group.sprite.kill()
                     break
 
         # ======================== player and hotspot ==========================

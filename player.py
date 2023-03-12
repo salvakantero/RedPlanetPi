@@ -28,7 +28,7 @@ from math import sin
 import constants
 import enums
 from dust import DustEffect
-from bullet import Bullet
+from shot import Shot
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
@@ -162,10 +162,10 @@ class Player(pygame.sprite.Sprite):
         # press fire -----------------------------------------------------------
         if key_state[self.game.config.fire_key]:
             if self.ammo > 0 and self.firing <= 0:
-                if self.game.bullet_group.sprite == None: # no shots on screen        
-                    bullet = Bullet(self.rect, self.facing_right, self.img_bullet)
-                    self.game.bullet_group.add(bullet)
-                    self.game.all_sprites_group.add(bullet)
+                if self.game.shot_group.sprite == None: # no shots on screen        
+                    shot = Shot(self.rect, self.facing_right, self.img_bullet)
+                    self.game.shot_group.add(shot)
+                    self.game.all_sprites_group.add(shot)
                     self.sfx_shot.play()
                     self.ammo -= 1
                     self.scoreboard.invalidate()

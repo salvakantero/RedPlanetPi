@@ -27,7 +27,7 @@ import enums
 
 from font import Font
 from marqueetext import MarqueeText
-from bullet import Bullet
+from shot import Shot
 
 
 class Menu():
@@ -193,8 +193,8 @@ class Menu():
         #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         #pygame.mixer.music.play()
     
-        option_selected = 0 # option where the cursor is located
-        option_fired = False # 'True' when an option is selected
+        selected_option = 0 # option where the cursor is located
+        confirmed_option = False # 'True' when a selected option is confirmed
         menu_page = 0 # page displayed (1 to 4)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
@@ -233,38 +233,46 @@ class Menu():
 
             # keyboard management
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT: # X button in the main window
                     self.game.exit()
-                if event.type == pygame.KEYDOWN:             
+                if event.type == pygame.KEYDOWN: # a key has been pressed         
                     if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
                         self.game.exit()
+                    # the selected option is accepted by pressing ENTER or SPACE
                     elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                        bullet = Bullet(pygame.Rect(58, 65 + (20*option_selected), constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet)
-                        self.game.bullet_group.add(bullet)
+                        # creates a shot
+                        shot = Shot(pygame.Rect(58, 65 + (20*selected_option), constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet)
+                        self.game.shot_group.add(shot)
                         self.sfx_menu_select.play()
-                        option_fired = True
-                    elif menu_page == 1 and not option_fired:
-                        page_timer = 0
-                        if event.key == pygame.K_DOWN and option_selected < 3:
-                            option_selected += 1
+                        confirmed_option = True
+                    # Main menu and there is no shot in progress?
+                    elif menu_page == 1 and not confirmed_option:
+                        page_timer = 0 # reset the timer again
+                        # the cursor down has been pressed
+                        if event.key == pygame.K_DOWN and selected_option < 3:
+                            selected_option += 1
                             self.sfx_menu_click.play()
-                        elif event.key == pygame.K_UP and option_selected > 0:
-                            option_selected -= 1
+                        # the cursor up has been pressed
+                        elif event.key == pygame.K_UP and selected_option > 0:
+                            selected_option -= 1
                             self.sfx_menu_click.play()
                     # pressing any key returns to the main menu
                     else:
                         menu_page = 1
                         page_timer = 0    
             
+            # main menu active on screen?
             if menu_page == 1 and x == 0:
-                self.srf_menu.blit(self.img_player, (58, 64 + (20*option_selected)))
-                self.game.bullet_group.update()
-                self.game.bullet_group.draw(self.srf_menu)
-
-                if option_fired and self.game.bullet_group.sprite == None:
-                    if option_selected == 0:
+                # shows the player next to the selected option
+                self.srf_menu.blit(self.img_player, (58, 64 + (20*selected_option)))
+                # draw the shot (if it exists)
+                self.game.shot_group.update()
+                self.game.shot_group.draw(self.srf_menu)
+                # an option was confirmed and the shot was completed?
+                if confirmed_option and self.game.shot_group.sprite == None:
+                    if selected_option == 0: # play
                         return
-                    elif option_selected == 3:
+                    elif selected_option == 3: # exit
                         self.game.exit()
 
             self.game.update_screen()

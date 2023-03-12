@@ -1,6 +1,6 @@
 
 # ==============================================================================
-# .::Bullet class::.
+# .::Shot class::.
 # Creates, destroys, and draws during its lifecycle a player-fired projectile.
 # ==============================================================================
 #
@@ -24,7 +24,7 @@
 import pygame
 import constants
 
-class Bullet(pygame.sprite.Sprite):
+class Shot(pygame.sprite.Sprite):
     def __init__(self, pos, facing_right, img_bullet):
         super().__init__()
         self.facing_right = facing_right
