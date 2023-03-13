@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Cambiar el objeto Bullet por Shot
 - Páginas de configuraciones en el menú
 
 POR HACER

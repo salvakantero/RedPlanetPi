@@ -33,7 +33,8 @@ from shot import Shot
 class Menu():
     def __init__(self, game):
         self.game = game        
-        self.srf_menu = game.srf_menu    
+        self.srf_menu = game.srf_menu   
+
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page1.set_colorkey(constants.PALETTE['BLACK']) # transparent background
@@ -46,6 +47,10 @@ class Menu():
         # page 4: high scores
         self.srf_page4 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page4.set_colorkey(constants.PALETTE['BLACK'])
+        # page 5: options
+        self.srf_page5 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+        self.srf_page5.set_colorkey(constants.PALETTE['BLACK'])
+
         # player (cursor)
         self.img_player = pygame.image.load('images/sprites/player0.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
@@ -179,6 +184,9 @@ class Menu():
         self.shaded_text(fb, ff, '01/02/2023' + '    00008255', self.srf_page4, x, y+60, 1)
         self.shaded_text(fb2, ff2, '30/12/2022' + '    00001985', self.srf_page4, x, y+70, 1)
 
+    def page_5(self): # options
+        pass
+
     def show(self):
         # help
         marquee_help = MarqueeText(
@@ -193,9 +201,9 @@ class Menu():
         #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         #pygame.mixer.music.play()
     
-        selected_option = 0 # option where the cursor is located
+        selected_option = enums.START # option where the cursor is located
         confirmed_option = False # 'True' when a selected option is confirmed
-        menu_page = 0 # page displayed (1 to 4)
+        menu_page = 0 # page displayed (1 to 4 automatically. 5 = config page)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
         
@@ -249,20 +257,20 @@ class Menu():
                     elif menu_page == 1 and not confirmed_option:
                         page_timer = 0 # reset the timer again
                         # the cursor down has been pressed
-                        if event.key == pygame.K_DOWN and selected_option < 3:
+                        if event.key == pygame.K_DOWN and selected_option < enums.EXIT:
                             selected_option += 1
                             self.sfx_menu_click.play()
                         # the cursor up has been pressed
-                        elif event.key == pygame.K_UP and selected_option > 0:
+                        elif event.key == pygame.K_UP and selected_option > enums.START:
                             selected_option -= 1
                             self.sfx_menu_click.play()
                     # pressing any key returns to the main menu
                     else:
                         menu_page = 1
-                        page_timer = 0    
+                        page_timer = 0
             
-            # main menu active on screen?
-            if menu_page == 1 and x == 0:
+            # main menu or options active on screen?
+            if menu_page == 1 or menu_page == 5 and x == 0:
                 # shows the player next to the selected option
                 self.srf_menu.blit(self.img_player, (58, 64 + (20*selected_option)))
                 # draw the shot (if it exists)
@@ -270,9 +278,20 @@ class Menu():
                 self.game.shot_group.draw(self.srf_menu)
                 # an option was confirmed and the shot was completed?
                 if confirmed_option and self.game.shot_group.sprite == None:
-                    if selected_option == 0: # play
+                    if selected_option == enums.START:
                         return
-                    elif selected_option == 3: # exit
+                    elif selected_option == enums.LOAD:
+                        pass
+                    elif selected_option == enums.OPTIONS:
+                        menu_page = 5
+                    elif selected_option == enums.EXIT:
                         self.game.exit()
-
+                    elif selected_option == enums.FULLSCREEN:
+                        pass
+                    elif selected_option == enums.SCANLINES:
+                        pass
+                    elif selected_option == enums.MAP_TRANSITION:
+                        pass
+                    elif selected_option == enums.CONTROL:
+                        pass
             self.game.update_screen()
