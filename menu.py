@@ -70,6 +70,7 @@ class Menu():
         self.page_2()
         self.page_3()
         self.page_4()
+        self.page_5()
         
     # draws a text with its shadow
     def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):           
@@ -78,7 +79,7 @@ class Menu():
 
     def page_1(self): # menu options
         # menu options      
-        x = 83
+        x = 80
         y = 67
         fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
         ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
@@ -87,7 +88,7 @@ class Menu():
         self.shaded_text(fb, ff, 'Options', self.srf_page1, x, y+40, 1)
         self.shaded_text(fb, ff, 'Exit', self.srf_page1, x, y+60, 1)
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use arrow keys and ENTER to select', self.srf_page1, x-25, y+90, 1)
+                         'Use arrow keys and SPACE/ENTER to select', self.srf_page1, x-40, y+90, 1)
 
     def page_2(self): # enemies/hotspot info
         img_enemies = {
@@ -185,7 +186,41 @@ class Menu():
         self.shaded_text(fb2, ff2, '30/12/2022' + '    00001985', self.srf_page4, x, y+70, 1)
 
     def page_5(self): # options
-        pass
+        # menu options      
+        x = 50
+        y = 55
+        fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
+        ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
+        fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
+        ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
+        # full screen
+        if self.game.config.full_screen == 0: value = 'OFF' 
+        else: value = 'ON'
+        self.shaded_text(fb, ff, 'Full Screen:', self.srf_page5, x, y, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y, 1)
+        # scanlines filter
+        if self.game.config.scanlines_type == 0: value = 'OFF' 
+        elif self.game.config.scanlines_type == 1: value = 'FAST'
+        else: value = 'HQ'
+        self.shaded_text(fb, ff, 'Scanlines:', self.srf_page5, x, y+20, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y+20, 1)
+        # map transition
+        if self.game.config.map_transition == 0: value = 'OFF' 
+        else: value = 'ON'
+        self.shaded_text(fb, ff, 'Map Transition:', self.srf_page5, x, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y+40, 1)
+        # control keys
+        if self.game.config.control == 0: value = 'Classic' 
+        elif self.game.config.control == 1: value = 'Gamer'
+        elif self.game.config.control == 2: value = 'Retro'
+        else: value = 'GamePad'
+        self.shaded_text(fb, ff, 'Control Keys:', self.srf_page5, x, y+60, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y+60, 1)
+        # exit
+        self.shaded_text(fb, ff, 'Exit Options', self.srf_page5, x, y+80, 1)
+        
+        self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
+                         'Use arrow keys and SPACE/ENTER to select', self.srf_page5, x-40, y+110, 1)
 
     def show(self):
         # help
@@ -236,7 +271,9 @@ class Menu():
             # draws the information of the control keys
             elif menu_page == 3: self.srf_menu.blit(self.srf_page3, (x, 0))
             # draw the score table
-            elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))              
+            elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))     
+            # draw the options page
+            elif menu_page == 5: self.srf_menu.blit(self.srf_page5, (x, 0))         
             else: menu_page = 1
 
             # keyboard management
@@ -264,6 +301,17 @@ class Menu():
                         elif event.key == pygame.K_UP and selected_option > enums.START:
                             selected_option -= 1
                             self.sfx_menu_click.play()
+                    # Options menu and there is no shot in progress?
+                    elif menu_page == 5 and not confirmed_option:
+                        page_timer = 0 # reset the timer again
+                        # the cursor down has been pressed
+                        if event.key == pygame.K_DOWN and selected_option < enums.EXIT2:
+                            selected_option += 1
+                            self.sfx_menu_click.play()
+                        # the cursor up has been pressed
+                        elif event.key == pygame.K_UP and selected_option > enums.FULLSCREEN:
+                            selected_option -= 1
+                            self.sfx_menu_click.play()
                     # pressing any key returns to the main menu
                     else:
                         menu_page = 1
@@ -283,15 +331,27 @@ class Menu():
                     elif selected_option == enums.LOAD:
                         pass
                     elif selected_option == enums.OPTIONS:
+                        x = constants.MENU_UNSCALED_SIZE[0]
+                        confirmed_option = False
+                        selected_option = 4
                         menu_page = 5
+                        page_timer = 0
                     elif selected_option == enums.EXIT:
                         self.game.exit()
                     elif selected_option == enums.FULLSCREEN:
-                        pass
+                        self.game.config.full_screen += 1
+                        if self.game.config.full_screen > 1: # reset
+                            self.game.config.full_screen = 0
                     elif selected_option == enums.SCANLINES:
-                        pass
+                        self.game.config.scanlines_type += 1
+                        if self.game.config.scanlines_type > 2: # reset
+                            self.game.config.scanlines_type = 0
                     elif selected_option == enums.MAP_TRANSITION:
-                        pass
+                        self.game.config.map_transition += 1
+                        if self.game.config.map_transition > 1: # reset
+                            self.game.config.map_transition = 0
                     elif selected_option == enums.CONTROL:
-                        pass
+                        self.game.config.control += 1
+                        if self.game.config.control > 3: # reset
+                            self.game.config.control = 0
             self.game.update_screen()

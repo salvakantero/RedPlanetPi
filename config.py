@@ -28,15 +28,14 @@ import json
 class Configuration():
     def __init__(self):
         self.full_screen = 0 # 0 = no, 1 = yes
-        self.scanlines_type = 0 # 0 = none, 1 = fast, 2 = HQ   
-        self.map_transition = 0 # 0 = no, 1 = yes
-        self.show_fps = 1 # 0 = no, 1 = yes
-        # keyboard
-        self.left_key = pygame.K_o
-        self.right_key = pygame.K_p
-        self.jump_key = pygame.K_q
+        self.scanlines_type = 1 # 0 = none, 1 = fast, 2 = HQ   
+        self.map_transition = 1 # 0 = no, 1 = yes
+        self.control = 0 # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
+        self.jump_key = pygame.K_UP
+        self.action_key = pygame.K_DOWN
+        self.left_key = pygame.K_LEFT
+        self.right_key = pygame.K_RIGHT
         self.fire_key = pygame.K_SPACE
-        self.action_key = pygame.K_a
         self.mute_key = pygame.K_m
 
     def read(self):
@@ -47,13 +46,26 @@ class Configuration():
         self.full_screen = config['FULL_SCREEN']
         self.scanlines_type = config['SCANLINES_TYPE']
         self.map_transition = config['MAP_TRANSITION']
-        self.show_fps = config['SHOW_FPS']
-        # self.left_key = config['LEFT_KEY']
-        # self.right_key = config['RIGHT_KEY']
-        # self.jump_key = config['JUMP_KEY']
-        # self.fire_key = config['FIRE_KEY']
-        # self.action_key = config['ACTION_KEY']
-        # self.mute_key = config['MUTE_KEY']
+        self.control = config['CONTROL']
+        # control keys
+        if self.control == 0: # classic
+            self.jump_key = pygame.K_UP
+            self.action_key = pygame.K_DOWN
+            self.left_key = pygame.K_LEFT
+            self.right_key = pygame.K_RIGHT
+        elif self.control == 1: # gamer
+            self.jump_key = pygame.K_w
+            self.action_key = pygame.K_s
+            self.left_key = pygame.K_a
+            self.right_key = pygame.K_d
+        elif self.control == 2: # retro
+            self.jump_key = pygame.K_q
+            self.action_key = pygame.K_a
+            self.left_key = pygame.K_o
+            self.right_key = pygame.K_p
+        # common keys
+        self.fire_key = pygame.K_SPACE
+        self.mute_key = pygame.K_m
 
     def write(self):
         pass

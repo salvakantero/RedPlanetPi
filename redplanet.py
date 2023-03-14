@@ -63,8 +63,8 @@ map = Map(game)
 player = Player(game, map, scoreboard)
 # creates a checkpoint object to load/record game
 checkpoint = Checkpoint()
-# small, opaque font for the FPS counter
-test_font = Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], False) 
+# small, opaque font for debug and test
+test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 
 # shows an intro
 game.show_intro()
@@ -154,13 +154,12 @@ while True:
         # next track in the playlist if the music has been stopped
         if game.music_status == enums.UNMUTED:
             game.jukebox.update()
-
-        # display FPS (using the clock)
-        if config.show_fps:
-            test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
             
         # check map change using player's coordinates
         # if the player leaves, the map number changes
         map.check_change(player)
             
+        # TEST ZONE
+        test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
+
     game.update_screen()

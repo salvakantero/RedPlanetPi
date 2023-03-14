@@ -2,12 +2,5 @@
     "FULL_SCREEN": 0,
     "SCANLINES_TYPE": 1,
     "MAP_TRANSITION": 1,
-    "SHOW_FPS": 1,
-
-    "LEFT_KEY": 97,
-    "RIGHT_KEY": 100,
-    "JUMP_KEY": 119,
-    "FIRE_KEY": 119,
-    "ACTION_KEY": 115,
-    "MUTE_KEY": 109
+    "CONTROL": 1
 }

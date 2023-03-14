@@ -4,11 +4,12 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Páginas de configuraciones en el menú
+- Página de opciones en el menú
 
 POR HACER
 =========
 - Configuración con pickle
+- Control mediante PAD / Joystick
 - Pantalla final
 - Linterna en pantallas oscuras
 - Highs online
