@@ -187,7 +187,7 @@ class Menu():
 
     def page_5(self): # options
         # menu options      
-        x = 58
+        x = 60
         y = 55
         fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
         ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
@@ -197,25 +197,25 @@ class Menu():
         if self.game.config.full_screen == 0: value = 'OFF'
         else: value = 'ON'
         self.shaded_text(fb, ff, 'Full Screen:', self.srf_page5, x, y, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y, 1)
         # scanlines filter
         if self.game.config.scanlines_type == 0: value = 'OFF' 
         elif self.game.config.scanlines_type == 1: value = 'FAST'
         else: value = 'HQ'
         self.shaded_text(fb, ff, 'Scanlines:', self.srf_page5, x, y+20, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y+20, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+20, 1)
         # map transition
         if self.game.config.map_transition == 0: value = 'OFF' 
         else: value = 'ON'
         self.shaded_text(fb, ff, 'Map Transition:', self.srf_page5, x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+40, 1)
         # control keys
         if self.game.config.control == 0: value = 'Classic' 
         elif self.game.config.control == 1: value = 'Gamer'
         elif self.game.config.control == 2: value = 'Retro'
         else: value = 'GamePad'
         self.shaded_text(fb, ff, 'Control Keys:', self.srf_page5, x, y+60, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y+60, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+60, 1)
         # exit
         self.shaded_text(fb, ff, 'Exit Options', self.srf_page5, x, y+80, 1)
         
@@ -291,7 +291,7 @@ class Menu():
                             shot_x = 58
                             shot_y = 65+(20*selected_option)
                         elif menu_page == 5:
-                            shot_x = 46
+                            shot_x = 38
                             shot_y = -28+(20*selected_option)
                         shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet)
                         self.game.shot_group.add(shot)
@@ -329,8 +329,8 @@ class Menu():
                 # shows the player next to the selected option
                 if menu_page == 1:
                     self.srf_menu.blit(self.img_player, (55, 64 + (20*selected_option)))
-                else:
-                    self.srf_menu.blit(self.img_player, (33, -28 + (20*selected_option)))
+                else: # page 5
+                    self.srf_menu.blit(self.img_player, (34, -28 + (20*selected_option)))
                 # draw the shot (if it exists)
                 self.game.shot_group.update()
                 self.game.shot_group.draw(self.srf_menu)
@@ -352,18 +352,22 @@ class Menu():
                         self.game.config.full_screen += 1
                         if self.game.config.full_screen > 1: # reset
                             self.game.config.full_screen = 0
+                        self.page_5() # reload page
                     elif selected_option == enums.SCANLINES:
                         self.game.config.scanlines_type += 1
                         if self.game.config.scanlines_type > 2: # reset
                             self.game.config.scanlines_type = 0
+                        self.page_5() # reload page
                     elif selected_option == enums.MAP_TRANSITION:
                         self.game.config.map_transition += 1
                         if self.game.config.map_transition > 1: # reset
                             self.game.config.map_transition = 0
+                        self.page_5() # reload page
                     elif selected_option == enums.CONTROL:
                         self.game.config.control += 1
                         if self.game.config.control > 3: # reset
                             self.game.config.control = 0
+                        self.page_5() # reload page
                     elif selected_option == enums.EXIT2:
                         x = constants.MENU_UNSCALED_SIZE[0]
                         confirmed_option = False
