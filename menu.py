@@ -88,7 +88,7 @@ class Menu():
         self.shaded_text(fb, ff, 'Options', self.srf_page1, x, y+40, 1)
         self.shaded_text(fb, ff, 'Exit', self.srf_page1, x, y+60, 1)
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use arrow keys and SPACE/ENTER to select', self.srf_page1, x-40, y+90, 1)
+                         'Use arrow keys and SPACE/ENTER to select', self.srf_page1, x-35, y+90, 1)
 
     def page_2(self): # enemies/hotspot info
         img_enemies = {
@@ -187,40 +187,40 @@ class Menu():
 
     def page_5(self): # options
         # menu options      
-        x = 50
+        x = 58
         y = 55
         fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
         ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
         ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
         # full screen
-        if self.game.config.full_screen == 0: value = 'OFF' 
+        if self.game.config.full_screen == 0: value = 'OFF'
         else: value = 'ON'
         self.shaded_text(fb, ff, 'Full Screen:', self.srf_page5, x, y, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y, 1)
         # scanlines filter
         if self.game.config.scanlines_type == 0: value = 'OFF' 
         elif self.game.config.scanlines_type == 1: value = 'FAST'
         else: value = 'HQ'
         self.shaded_text(fb, ff, 'Scanlines:', self.srf_page5, x, y+20, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y+20, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y+20, 1)
         # map transition
         if self.game.config.map_transition == 0: value = 'OFF' 
         else: value = 'ON'
         self.shaded_text(fb, ff, 'Map Transition:', self.srf_page5, x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y+40, 1)
         # control keys
         if self.game.config.control == 0: value = 'Classic' 
         elif self.game.config.control == 1: value = 'Gamer'
         elif self.game.config.control == 2: value = 'Retro'
         else: value = 'GamePad'
         self.shaded_text(fb, ff, 'Control Keys:', self.srf_page5, x, y+60, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page5, x+120, y+60, 1)
+        self.shaded_text(fb2, ff2, value, self.srf_page5, x+116, y+60, 1)
         # exit
         self.shaded_text(fb, ff, 'Exit Options', self.srf_page5, x, y+80, 1)
         
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use arrow keys and SPACE/ENTER to select', self.srf_page5, x-40, y+110, 1)
+                         'Use arrow keys and SPACE/ENTER to select', self.srf_page5, x-10, y+110, 1)
 
     def show(self):
         # help
@@ -238,10 +238,10 @@ class Menu():
     
         selected_option = enums.START # option where the cursor is located
         confirmed_option = False # 'True' when a selected option is confirmed
-        menu_page = 0 # page displayed (1 to 4 automatically. 5 = config page)
+        menu_page = 1 # page displayed (1 to 4 automatically. 5 = config page)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
-        
+
         # main menu loop
         pygame.event.clear(pygame.KEYDOWN)
         while True:
@@ -257,8 +257,10 @@ class Menu():
             # transition of menu pages
             if page_timer >= 500: # time exceeded?
                 menu_page += 1 # change the page
+                if menu_page > 4: menu_page = 1 # reset
                 page_timer = 0 # and reset the timer
                 x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
+                selected_option = 0
             elif page_timer >= 450: # time almost exceeded?
                 x -= 8 # scrolls the page to the left (is disappearing)    
             elif x > 0: # as long as the page does not reach the left margin
@@ -273,8 +275,7 @@ class Menu():
             # draw the score table
             elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))     
             # draw the options page
-            elif menu_page == 5: self.srf_menu.blit(self.srf_page5, (x, 0))         
-            else: menu_page = 1
+            else: self.srf_menu.blit(self.srf_page5, (x, 0))         
 
             # keyboard management
             for event in pygame.event.get():
@@ -286,7 +287,13 @@ class Menu():
                     # the selected option is accepted by pressing ENTER or SPACE
                     elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         # creates a shot
-                        shot = Shot(pygame.Rect(58, 65 + (20*selected_option), constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet)
+                        if menu_page == 1: 
+                            shot_x = 58
+                            shot_y = 65+(20*selected_option)
+                        elif menu_page == 5:
+                            shot_x = 46
+                            shot_y = -28+(20*selected_option)
+                        shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet)
                         self.game.shot_group.add(shot)
                         self.sfx_menu_select.play()
                         confirmed_option = True
@@ -320,7 +327,10 @@ class Menu():
             # main menu or options active on screen?
             if menu_page == 1 or menu_page == 5 and x == 0:
                 # shows the player next to the selected option
-                self.srf_menu.blit(self.img_player, (58, 64 + (20*selected_option)))
+                if menu_page == 1:
+                    self.srf_menu.blit(self.img_player, (55, 64 + (20*selected_option)))
+                else:
+                    self.srf_menu.blit(self.img_player, (33, -28 + (20*selected_option)))
                 # draw the shot (if it exists)
                 self.game.shot_group.update()
                 self.game.shot_group.draw(self.srf_menu)
@@ -354,4 +364,11 @@ class Menu():
                         self.game.config.control += 1
                         if self.game.config.control > 3: # reset
                             self.game.config.control = 0
+                    elif selected_option == enums.EXIT2:
+                        x = constants.MENU_UNSCALED_SIZE[0]
+                        confirmed_option = False
+                        selected_option = 0
+                        menu_page = 1
+                        page_timer = 0
+
             self.game.update_screen()
