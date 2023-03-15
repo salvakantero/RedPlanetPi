@@ -345,9 +345,11 @@ class Menu():
                 if confirmed_option and self.game.shot_group.sprite == None:
                     # main menu page
                     if selected_option == enums.START:
-                        return
+                        self.game.new = True
+                        return                        
                     elif selected_option == enums.LOAD:
-                        pass
+                        self.game.new = False
+                        return
                     elif selected_option == enums.OPTIONS:
                         x = constants.MENU_UNSCALED_SIZE[0]
                         selected_option = enums.FULLSCREEN

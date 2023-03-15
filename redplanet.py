@@ -36,6 +36,7 @@ from map import Map
 from scoreboard import Scoreboard
 from font import Font
 from player import Player
+from checkpoint import Checkpoint
 
 
 #===============================================================================
@@ -52,14 +53,17 @@ config = Configuration()
 config.read()
 # clock to control the FPS and timers
 clock = pygame.time.Clock()
+# creates a checkpoint object to load/record game
+checkpoint = Checkpoint()
 # game object, container for common variables and functions
-game = Game(clock, config)
+game = Game(clock, config, checkpoint)
 # create the Scoreboard object
 scoreboard = Scoreboard(game)
 # creates the Map object
 map = Map(game)
 # creates the player
 player = Player(game, map, scoreboard)
+
 # small, opaque font for debug and test
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 
@@ -78,15 +82,30 @@ while True:
         pygame.mixer.music.stop()
         game.jukebox.shuffle()
         # reset variables
-        player.reset()
-        for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
-        for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors
+        map.last = -1
         game.status = enums.RUNNING
         game.floating_text.y = 0
-        map.number = 0
-        map.last = -1
         map.scroll = enums.RIGHT
-        scoreboard.game_percent = 0
+        if game.new:
+            player.reset()
+            for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
+            for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
+            map.number = 0                        
+            scoreboard.game_percent = 0
+        else: # load the last checkpoint
+            checkpoint.load()
+            d = checkpoint.data
+            map.number = d['map_number']
+            scoreboard.game_percent = d['game_percent']
+            player.lives = d['player_lives']
+            player.ammo = d['player_ammo']
+            player.keys = d['player_keys']
+            player.TNT = d['player_TNT']
+            player.oxygen = d['player_oxygen']
+            player.stacked_TNT = d['player_stacked_TNT']
+            player.facing_right = d['player_facing_right']
+            player.rect = d['player_rect']
+            player.score = d['player_score']
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -102,6 +121,24 @@ while True:
                     else: game.restore_music()                            
                 # mute music
                 if event.key == config.mute_key :
+                    # ====================================================================
+                    # save game
+                    checkpoint.data = {
+                        'map_number' : map.number,
+                        'game_percent' : scoreboard.game_percent,
+                        'player_lives' : player.lives,
+                        'player_ammo' : player.ammo,
+                        'player_keys' : player.keys,
+                        'player_TNT' : player.TNT,
+                        'player_oxygen' : player.oxygen,
+                        'player_stacked_TNT' : player.stacked_TNT,
+                        'player_facing_right' : player.facing_right,
+                        'player_rect' : player.rect,
+                        'player_score' : player.score
+                    }
+                    checkpoint.save()
+                    # ====================================================================
+
                     if game.music_status == enums.MUTED:
                         game.music_status = enums.UNMUTED
                         pygame.mixer.music.play()

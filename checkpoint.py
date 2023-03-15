@@ -32,6 +32,7 @@ class Checkpoint():
         self.filename = 'checkpoint.dat'
         self.data = { # default values...
             'map_number' : 0,
+            'game_percent' : 0,
             'player_lives' : 10,
             'player_ammo' : 5,
             'player_keys' : 0,
@@ -63,7 +64,7 @@ class Checkpoint():
         #     'player_oxygen' : player.oxygen,
         #     'player_stacked_TNT' : player.stacked_TNT,
         #     'player_facing_right' : player.facing_right,
-        #     'player_rect' : player.rect
+        #     'player_rect' : player.rect,
         #     'player_score' : player. 
         # }
         # checkpoint.save()
