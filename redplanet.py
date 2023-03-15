@@ -36,7 +36,6 @@ from map import Map
 from scoreboard import Scoreboard
 from font import Font
 from player import Player
-from checkpoint import Checkpoint
 
 
 #===============================================================================
@@ -61,8 +60,6 @@ scoreboard = Scoreboard(game)
 map = Map(game)
 # creates the player
 player = Player(game, map, scoreboard)
-# creates a checkpoint object to load/record game
-checkpoint = Checkpoint()
 # small, opaque font for debug and test
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 

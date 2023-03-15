@@ -33,12 +33,14 @@ from menu import Menu
 from jukebox import Jukebox
 from explosion import Explosion
 from floatingtext import FloatingText
+from checkpoint import Checkpoint
 
 
 class Game():
     def __init__(self, clock, config):
         self.clock = clock # game clock for FPS and timers
         self.config = config
+        self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.status = enums.OVER
         self.music_status = enums.UNMUTED
         # area covered by the menu
