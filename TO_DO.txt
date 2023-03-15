@@ -5,11 +5,12 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Página de opciones en el menú
+- Hotspot para checkpoint (aparece tras recoger TNT)
 
 POR HACER
 =========
-- Configuración con pickle
 - Control mediante PAD / Joystick
+- Configuración con pickle
 - Pantalla final
 - Linterna en pantallas oscuras
 - Highs online

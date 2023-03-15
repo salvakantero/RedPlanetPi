@@ -106,6 +106,8 @@ while True:
             player.facing_right = d['player_facing_right']
             player.rect = d['player_rect']
             player.score = d['player_score']
+            constants.HOTSPOT_DATA = d['hotspot_data']
+            constants.GATE_DATA = d['gate_data']
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -134,7 +136,9 @@ while True:
                         'player_stacked_TNT' : player.stacked_TNT,
                         'player_facing_right' : player.facing_right,
                         'player_rect' : player.rect,
-                        'player_score' : player.score
+                        'player_score' : player.score,
+                        'hotspot_data' : constants.HOTSPOT_DATA,
+                        'gate_data' : constants.GATE_DATA
                     }
                     checkpoint.save()
                     # ====================================================================

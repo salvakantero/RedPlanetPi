@@ -41,7 +41,9 @@ class Checkpoint():
             'player_stacked_TNT' : False,
             'player_facing_right' : True,
             'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE),
-            'player_score' : 0   
+            'player_score' : 0,
+            'hotspot_data' : constants.HOTSPOT_DATA,
+            'gate_data' : constants.GATE_DATA
         }
 
     def save(self):
@@ -54,33 +56,4 @@ class Checkpoint():
                 self.data = pickle.load(f)
 
 
-        # save game
-        # checkpoint.data = {
-        #     'map_number' : map.number,
-        #     'player_lives' : player.lives,
-        #     'player_ammo' : player.ammo,
-        #     'player_keys' : player.keys,
-        #     'player_TNT' : player.TNT,
-        #     'player_oxygen' : player.oxygen,
-        #     'player_stacked_TNT' : player.stacked_TNT,
-        #     'player_facing_right' : player.facing_right,
-        #     'player_rect' : player.rect,
-        #     'player_score' : player. 
-        # }
-        # checkpoint.save()
-
-        # load game
-        # checkpoint.load()
-        # d = checkpoint.data
-        # map.number = d['map_number']
-        # map.last = -1
-        # player.lives = d['player_lives']
-        # player.ammo = d['player_ammo']
-        # player.keys = d['player_keys']
-        # player.TNT = d['player_TNT']
-        # player.oxygen = d['player_oxygen']
-        # player.stacked_TNT = d['player_stacked_TNT']
-        # player.facing_right = d['player_facing_right']
-        # player.rect = d['player_rect']
-        # player.score = d['player_score']
         
