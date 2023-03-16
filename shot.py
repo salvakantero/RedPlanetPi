@@ -25,10 +25,10 @@ import pygame
 import constants
 
 class Shot(pygame.sprite.Sprite):
-    def __init__(self, pos, facing_right, img_bullet):
+    def __init__(self, pos, facing_right, img_bullet, speed):
         super().__init__()
         self.facing_right = facing_right
-        self.speed = 4 # pixels per frame
+        self.speed = speed # pixels per frame
         self.image = img_bullet
         # positions the bullet in front of the weapon
         self.rect = self.image.get_rect(center = pos.center)

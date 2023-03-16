@@ -52,8 +52,7 @@ class Game():
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # surface to save the previous map (transition effect between screens)
-        if config.map_transition:
-            self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # surface for HQ scanlines
         self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
         self.srf_scanlines.set_alpha(40)

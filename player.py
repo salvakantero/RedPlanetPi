@@ -163,7 +163,7 @@ class Player(pygame.sprite.Sprite):
         if key_state[self.game.config.fire_key]:
             if self.ammo > 0 and self.firing <= 0:
                 if self.game.shot_group.sprite == None: # no shots on screen        
-                    shot = Shot(self.rect, self.facing_right, self.img_bullet)
+                    shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
                     self.game.shot_group.add(shot)
                     self.game.all_sprites_group.add(shot)
                     self.sfx_shot.play()

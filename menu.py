@@ -70,7 +70,6 @@ class Menu():
         self.page_2()
         self.page_3()
         self.page_4()
-        self.page_5()
         
     # draws a text with its shadow
     def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):           
@@ -231,9 +230,9 @@ class Menu():
         marquee_credits = MarqueeText(
             self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
             self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2900)
-        
-        # main theme song
+                
         self.sfx_switchoff.play() # cool sound effect... who turned off the light?
+        # main theme song
         #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         #pygame.mixer.music.play()
     
@@ -286,51 +285,52 @@ class Menu():
                 if event.type == pygame.KEYDOWN and x == 0: # a key has been pressed         
                     if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
                         self.game.exit()
+                    # active pages
+                    if menu_page == 1 or menu_page == 5:
+                        # the selected option is accepted by pressing ENTER or SPACE
+                        if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                            # creates a shot.
+                            # the starting position depends on the current page and the selected option
+                            if menu_page == 1: 
+                                shot_x = 58
+                                shot_y = 65+(20*selected_option)
+                            elif menu_page == 5:
+                                shot_x = 38
+                                shot_y = -28+(20*selected_option)
+                            shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet, 8)
+                            self.game.shot_group.add(shot)
+                            self.sfx_menu_select.play()
+                            confirmed_option = True
 
-                    # the selected option is accepted by pressing ENTER or SPACE
-                    elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                        # creates a shot.
-                        # the starting position depends on the current page and the selected option
-                        if menu_page == 1: 
-                            shot_x = 58
-                            shot_y = 65+(20*selected_option)
-                        elif menu_page == 5:
-                            shot_x = 38
-                            shot_y = -28+(20*selected_option)
-                        shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet)
-                        self.game.shot_group.add(shot)
-                        self.sfx_menu_select.play()
-                        confirmed_option = True
-
-                    # Main menu and there is no shot in progress?
-                    elif menu_page == 1 and not confirmed_option:
-                        page_timer = 0 # reset the timer again
-                        # the cursor down has been pressed
-                        if event.key == pygame.K_DOWN and selected_option < enums.EXIT:
-                            selected_option += 1
-                            self.sfx_menu_click.play()
-                        # the cursor up has been pressed
-                        elif event.key == pygame.K_UP and selected_option > enums.START:
-                            selected_option -= 1
-                            self.sfx_menu_click.play()
-                    # Options menu and there is no shot in progress?
-                    elif menu_page == 5 and not confirmed_option:
-                        page_timer = 0 # reset the timer again
-                        # the cursor down has been pressed
-                        if event.key == pygame.K_DOWN and selected_option < enums.EXIT2:
-                            selected_option += 1
-                            self.sfx_menu_click.play()
-                        # the cursor up has been pressed
-                        elif event.key == pygame.K_UP and selected_option > enums.FULLSCREEN:
-                            selected_option -= 1
-                            self.sfx_menu_click.play()
+                        # Main menu and there is no shot in progress?
+                        elif menu_page == 1 and not confirmed_option:
+                            page_timer = 0 # reset the timer again
+                            # the cursor down has been pressed
+                            if event.key == pygame.K_DOWN and selected_option < enums.EXIT:
+                                selected_option += 1
+                                self.sfx_menu_click.play()
+                            # the cursor up has been pressed
+                            elif event.key == pygame.K_UP and selected_option > enums.START:
+                                selected_option -= 1
+                                self.sfx_menu_click.play()
+                        # Options menu and there is no shot in progress?
+                        elif menu_page == 5 and not confirmed_option:
+                            page_timer = 0 # reset the timer again
+                            # the cursor down has been pressed
+                            if event.key == pygame.K_DOWN and selected_option < enums.EXIT2:
+                                selected_option += 1
+                                self.sfx_menu_click.play()
+                            # the cursor up has been pressed
+                            elif event.key == pygame.K_UP and selected_option > enums.FULLSCREEN:
+                                selected_option -= 1
+                                self.sfx_menu_click.play()
                     # pressing any key on a passive page, returns to the main menu
                     else:
                         menu_page = 1
                         page_timer = 0
             
             # =================== management of active pages ===================
-            if menu_page == 1 or menu_page == 5 and x == 0:
+            if (menu_page == 1 or menu_page == 5) and x == 0:
                 # shows the player (cursor) next to the selected option
                 if menu_page == 1:
                     self.srf_menu.blit(self.img_player, (55, 64 + (20*selected_option)))
