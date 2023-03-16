@@ -382,6 +382,8 @@ class Menu():
                     # common operations
                     confirmed_option = False
                     page_timer = 0
-                    if menu_page == 5: self.page_5() # reload page
+                    if menu_page == 5: 
+                        self.game.config.apply_controls() # remap the keyboard
+                        self.page_5() # reload page
 
             self.game.update_screen()

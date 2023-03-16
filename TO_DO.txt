@@ -7,7 +7,6 @@ EN PROCESO
 - BUGS: 
     en menú se muestra el cursor antes de tiempo
     se superponen los valores de la configuración
-    no se aplican los cambios en los controles
 - Página de opciones en el menú
 - Hotspot para checkpoint (aparece tras recoger TNT)
 

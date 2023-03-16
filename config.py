@@ -31,6 +31,7 @@ class Configuration():
         self.scanlines_type = 1 # 0 = none, 1 = fast, 2 = HQ   
         self.map_transition = 1 # 0 = no, 1 = yes
         self.control = 0 # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
+        # default values
         self.jump_key = pygame.K_UP
         self.action_key = pygame.K_DOWN
         self.left_key = pygame.K_LEFT
@@ -47,6 +48,12 @@ class Configuration():
         self.scanlines_type = config['SCANLINES_TYPE']
         self.map_transition = config['MAP_TRANSITION']
         self.control = config['CONTROL']
+        self.apply_controls()
+
+    def write(self):
+        pass
+
+    def apply_controls(self):
         # control keys
         if self.control == 0: # classic
             self.jump_key = pygame.K_UP
@@ -63,10 +70,4 @@ class Configuration():
             self.action_key = pygame.K_a
             self.left_key = pygame.K_o
             self.right_key = pygame.K_p
-        # common keys
-        self.fire_key = pygame.K_SPACE
-        self.mute_key = pygame.K_m
-
-    def write(self):
-        pass
     
