@@ -283,10 +283,10 @@ class Menu():
                 if event.type == pygame.QUIT: # X button in the main window
                     self.game.exit()
                 if event.type == pygame.KEYDOWN and x == 0: # a key has been pressed         
-                    if event.key == pygame.K_ESCAPE: # exit by pressing ESC key
-                        self.game.exit()
                     # active pages
                     if menu_page == 1 or menu_page == 5:
+                        if event.key == pygame.K_ESCAPE and menu_page == 1: # exit by pressing ESC key
+                            self.game.exit()
                         # the selected option is accepted by pressing ENTER or SPACE
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             # creates a shot.
@@ -303,27 +303,29 @@ class Menu():
                             confirmed_option = True
 
                         # Main menu and there is no shot in progress?
-                        elif menu_page == 1 and not confirmed_option:
-                            page_timer = 0 # reset the timer again
+                        elif menu_page == 1 and not confirmed_option:                            
                             # the cursor down has been pressed
                             if event.key == pygame.K_DOWN and selected_option < enums.EXIT:
                                 selected_option += 1
                                 self.sfx_menu_click.play()
+                                page_timer = 0
                             # the cursor up has been pressed
                             elif event.key == pygame.K_UP and selected_option > enums.START:
                                 selected_option -= 1
                                 self.sfx_menu_click.play()
+                                page_timer = 0
                         # Options menu and there is no shot in progress?
                         elif menu_page == 5 and not confirmed_option:
-                            page_timer = 0 # reset the timer again
                             # the cursor down has been pressed
                             if event.key == pygame.K_DOWN and selected_option < enums.EXIT2:
                                 selected_option += 1
                                 self.sfx_menu_click.play()
+                                page_timer = 0
                             # the cursor up has been pressed
                             elif event.key == pygame.K_UP and selected_option > enums.FULLSCREEN:
                                 selected_option -= 1
                                 self.sfx_menu_click.play()
+                                page_timer = 0                             
                     # pressing any key on a passive page, returns to the main menu
                     else:
                         menu_page = 1
@@ -351,6 +353,7 @@ class Menu():
                         self.game.new = False
                         return
                     elif selected_option == enums.OPTIONS:
+                        # reinitialises common variables and loads the page
                         x = constants.MENU_UNSCALED_SIZE[0]
                         selected_option = enums.FULLSCREEN
                         menu_page = 5
@@ -358,22 +361,15 @@ class Menu():
                         self.game.exit()
 
                     # options menu page
-                    elif selected_option == enums.FULLSCREEN:
-                        self.game.config.full_screen += 1
-                        if self.game.config.full_screen > 1: # reset
-                            self.game.config.full_screen = 0
-                    elif selected_option == enums.SCANLINES:
-                        self.game.config.scanlines_type += 1
-                        if self.game.config.scanlines_type > 2: # reset
-                            self.game.config.scanlines_type = 0
-                    elif selected_option == enums.MAP_TRANSITION:
-                        self.game.config.map_transition += 1
-                        if self.game.config.map_transition > 1: # reset
-                            self.game.config.map_transition = 0
-                    elif selected_option == enums.CONTROL:
-                        self.game.config.control += 1
-                        if self.game.config.control > 3: # reset
-                            self.game.config.control = 0
+                    elif selected_option == enums.FULLSCREEN:  # 0 = no, 1 = yes
+                        self.game.config.full_screen = (self.game.config.full_screen + 1) % 2
+                    elif selected_option == enums.SCANLINES: # 0 = none, 1 = fast, 2 = HQ
+                        self.game.config.scanlines_type = (self.game.config.scanlines_type + 1) % 3
+                    elif selected_option == enums.MAP_TRANSITION: # 0 = no, 1 = yes
+                        self.game.config.map_transition = (self.game.config.map_transition + 1) % 2
+                    elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
+                        self.game.config.control = (self.game.config.control + 1) % 4
+                        self.game.config.apply_controls() # remap the keyboard
                     elif selected_option == enums.EXIT2:
                         x = constants.MENU_UNSCALED_SIZE[0]
                         menu_page = 1
@@ -382,8 +378,10 @@ class Menu():
                     # common operations
                     confirmed_option = False
                     page_timer = 0
-                    if menu_page == 5: 
-                        self.game.config.apply_controls() # remap the keyboard
-                        self.page_5() # reload page
+                    if menu_page == 5:                         
+                        # recreate the page with the new data
+                        self.srf_page5 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+                        self.srf_page5.set_colorkey(constants.PALETTE['BLACK'])
+                        self.page_5()
 
             self.game.update_screen()

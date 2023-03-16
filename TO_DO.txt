@@ -4,10 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- BUGS: 
-    en menú se muestra el cursor antes de tiempo
-    se superponen los valores de la configuración
-- Página de opciones en el menú
 - Hotspot para checkpoint (aparece tras recoger TNT)
 
 POR HACER
@@ -103,6 +99,7 @@ HECHO
 10/03/23 - Grabar/Cargar punto de control con "pickle"
 10/03/23 - Score y High en marcador
 12/03/23 - Navegación por el menú con cursores/ENTER/ESC (no botones)
+16/03/23 - Página de opciones en el menú
 
 
 CREDITS
