@@ -36,7 +36,7 @@ NONE, INFECTED, PELUSOID, AVIRUS, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 5
 # fanty enemy states
 IDLE, CHASING, RETREATING = 0, 1, 2
 # hotspot types
-TNT, KEY, AMMO, OXYGEN, DOOR = 0, 1, 2, 3, 4
+TNT, KEY, AMMO, OXYGEN, CHECKPOINT = 0, 1, 2, 3, 4
 # fonts
 S_F_GREEN, S_B_GREEN, S_F_WHITE, S_B_WHITE, L_F_WHITE, L_B_WHITE, L_F_SAND, L_B_SAND = 0, 1, 2, 3, 4, 5, 6, 7
 # menu

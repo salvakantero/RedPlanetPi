@@ -4,7 +4,9 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Grabar configuración
 - Hotspot para checkpoint (aparece tras recoger TNT)
+- Mejorar Scanlines HQ
 
 POR HACER
 =========

@@ -34,7 +34,6 @@ class Menu():
     def __init__(self, game):
         self.game = game        
         self.srf_menu = game.srf_menu   
-
         # page 1: menu options
         self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page1.set_colorkey(constants.PALETTE['BLACK']) # transparent background
@@ -50,7 +49,6 @@ class Menu():
         # page 5: options
         self.srf_page5 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         self.srf_page5.set_colorkey(constants.PALETTE['BLACK'])
-
         # player (cursor)
         self.img_player = pygame.image.load('images/sprites/player0.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
@@ -90,16 +88,6 @@ class Menu():
                          'Use arrow keys and SPACE/ENTER to select', self.srf_page1, x-35, y+90, 1)
 
     def page_2(self): # enemies/hotspot info
-        img_enemies = {
-            enums.INFECTED: pygame.image.load('images/sprites/infected0.png').convert(),
-            enums.AVIRUS: pygame.image.load('images/sprites/avirus0.png').convert(),
-            enums.PELUSOID: pygame.image.load('images/sprites/pelusoid0.png').convert(),
-            enums.FANTY: pygame.image.load('images/sprites/fanty0.png').convert()}
-        img_hotspot = {
-            enums.TNT: pygame.image.load('images/sprites/hotspot0.png').convert(),
-            enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert(),
-            enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert(),
-            enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert()}
         x = 20
         y = 65
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
@@ -120,16 +108,16 @@ class Menu():
         # images of enemies
         x = 17
         y = 89
-        self.srf_page2.blit(img_enemies[enums.INFECTED], (x, y))
-        self.srf_page2.blit(img_enemies[enums.AVIRUS], (x, y+20))
-        self.srf_page2.blit(img_enemies[enums.PELUSOID], (x, y+40))
-        self.srf_page2.blit(img_enemies[enums.FANTY], (x, y+60))
+        self.srf_page2.blit(self.game.enemy_images[enums.INFECTED][0], (x, y))
+        self.srf_page2.blit(self.game.enemy_images[enums.AVIRUS][0], (x, y+20))
+        self.srf_page2.blit(self.game.enemy_images[enums.PELUSOID][0], (x, y+40))
+        self.srf_page2.blit(self.game.enemy_images[enums.FANTY][0], (x, y+60))
         # images of the hotspots
         x = 139
-        self.srf_page2.blit(img_hotspot[enums.TNT], (x, y))
-        self.srf_page2.blit(img_hotspot[enums.AMMO], (x, y+20))
-        self.srf_page2.blit(img_hotspot[enums.KEY], (x, y+40))
-        self.srf_page2.blit(img_hotspot[enums.OXYGEN], (x, y+60))
+        self.srf_page2.blit(self.game.hotspot_images[enums.TNT], (x, y))
+        self.srf_page2.blit(self.game.hotspot_images[enums.AMMO], (x, y+20))
+        self.srf_page2.blit(self.game.hotspot_images[enums.KEY], (x, y+40))
+        self.srf_page2.blit(self.game.hotspot_images[enums.OXYGEN], (x, y+60))
 
     def page_3(self): # control info
         x = 95
@@ -141,21 +129,21 @@ class Menu():
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
         ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
         self.srf_page3.blit(self.img_classic, (x, y)) # image of the classic layout
-        self.shaded_text(fb, ff, 'Classic', self.srf_page3, x+10, y+38, 1)
+        self.shaded_text(fb, ff, 'Classic', self.srf_page3, x+9, y+38, 1)
         x = 100
         self.srf_page3.blit(self.img_gamer, (x, y)) # image of the gamer layout
         self.shaded_text(fb, ff, 'Gamer', self.srf_page3, x+12, y+38, 1)
         x = 165
         self.srf_page3.blit(self.img_retro, (x, y)) # image of the retro layout
-        self.shaded_text(fb, ff, 'Retro', self.srf_page3, x+18, y+38, 1) 
-        x = 110
+        self.shaded_text(fb, ff, 'Retro', self.srf_page3, x+16, y+38, 1) 
+        x = 108
         y = 140
         self.srf_page3.blit(self.img_common, (x, y)) # image of the common keys
-        self.shaded_text(fb, ff, 'Common keys', self.srf_page3, x-52, y+15, 1)
+        self.shaded_text(fb, ff, 'Common keys', self.srf_page3, x-50, y+15, 1)
 
     def page_4(self): # high scores
         x = 90
-        y = 60
+        y = 62
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
                          'High Scores', self.srf_page4, x, y, 1)
         x = 50
@@ -229,7 +217,7 @@ class Menu():
         # credit text on the marquee      
         marquee_credits = MarqueeText(
             self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
-            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2900)
+            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 3200)
                 
         self.sfx_switchoff.play() # cool sound effect... who turned off the light?
         # main theme song

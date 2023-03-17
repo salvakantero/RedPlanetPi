@@ -109,7 +109,8 @@ class Game():
             enums.TNT: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
             enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
-            enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha()} 
+            enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
+            enums.CHECKPOINT: pygame.image.load('images/sprites/checkpoint.png').convert_alpha()} 
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -149,7 +150,8 @@ class Game():
             enums.TNT: pygame.mixer.Sound('sounds/fx/sfx_TNT.wav'),
             enums.KEY: pygame.mixer.Sound('sounds/fx/sfx_key.wav'),
             enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav')}
+            enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav'),
+            enums.CHECKPOINT: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
@@ -404,6 +406,25 @@ class Game():
                     player.oxygen = constants.MAX_OXYGEN
                     self.floating_text.text = '+100'
                     player.score += 100
+                elif hotspot.type == enums.CHECKPOINT:                    
+                    self.floating_text.text = 'Checkpoint'
+                    # save game
+                    self.checkpoint.data = {
+                        'map_number' : map_number,
+                        'game_percent' : scoreboard.game_percent,
+                        'player_lives' : player.lives,
+                        'player_ammo' : player.ammo,
+                        'player_keys' : player.keys,
+                        'player_TNT' : player.TNT,
+                        'player_oxygen' : player.oxygen,
+                        'player_stacked_TNT' : player.stacked_TNT,
+                        'player_facing_right' : player.facing_right,
+                        'player_rect' : player.rect,
+                        'player_score' : player.score,
+                        'hotspot_data' : constants.HOTSPOT_DATA,
+                        'gate_data' : constants.GATE_DATA
+                    }
+                    self.checkpoint.save()
                 scoreboard.invalidate()
                 self.floating_text.x = hotspot.x*constants.TILE_SIZE
                 self.floating_text.y = hotspot.y*constants.TILE_SIZE

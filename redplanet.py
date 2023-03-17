@@ -68,7 +68,7 @@ player = Player(game, map, scoreboard)
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 
 # shows an intro
-game.show_intro()
+# game.show_intro()
 
 #===============================================================================
 # Main loop
@@ -92,7 +92,7 @@ while True:
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
             map.number = 0                        
             scoreboard.game_percent = 0
-        else: # load the last checkpoint
+        else: # load the last checkpointo
             checkpoint.load()
             d = checkpoint.data
             map.number = d['map_number']
@@ -123,26 +123,6 @@ while True:
                     else: game.restore_music()                            
                 # mute music
                 if event.key == config.mute_key :
-                    # ====================================================================
-                    # save game
-                    checkpoint.data = {
-                        'map_number' : map.number,
-                        'game_percent' : scoreboard.game_percent,
-                        'player_lives' : player.lives,
-                        'player_ammo' : player.ammo,
-                        'player_keys' : player.keys,
-                        'player_TNT' : player.TNT,
-                        'player_oxygen' : player.oxygen,
-                        'player_stacked_TNT' : player.stacked_TNT,
-                        'player_facing_right' : player.facing_right,
-                        'player_rect' : player.rect,
-                        'player_score' : player.score,
-                        'hotspot_data' : constants.HOTSPOT_DATA,
-                        'gate_data' : constants.GATE_DATA
-                    }
-                    checkpoint.save()
-                    # ====================================================================
-
                     if game.music_status == enums.MUTED:
                         game.music_status = enums.UNMUTED
                         pygame.mixer.music.play()
