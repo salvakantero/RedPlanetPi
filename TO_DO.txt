@@ -4,12 +4,13 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Hotspot para checkpoint (aparece tras recoger TNT)
-- Mejorar Scanlines HQ
+- Hotspot para checkpoint (aparece tras recoger TNT?)
 
 BUGS
 ====
 - Siempre suena sfx de sin balas al disparar
+- En nueva partida no aparecen keys, sino disks
+- Mejorar Scanlines HQ
 
 POR HACER
 =========
