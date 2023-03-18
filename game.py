@@ -67,7 +67,7 @@ class Game():
         self.blast_group = pygame.sprite.GroupSingle()
         # generates a main window (or full screen) with title, icon, and 32-bit colour.
         flags = 0
-        if self.config.full_screen: flags = pygame.FULLSCREEN
+        if self.config.data['full_screen']: flags = pygame.FULLSCREEN
         self.screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
         pygame.display.set_caption('.:: Red Planet Pi ::.')
         icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
@@ -184,10 +184,10 @@ class Game():
 
     # applies scanlines according to the configuration
     def apply_scanlines(self):
-        if self.config.scanlines_type == 2: # HQ
+        if self.config.data['scanlines'] == 2: # HQ
             self.scanlines(self.srf_scanlines, 200)
             self.screen.blit(self.srf_scanlines, (0, 0))
-        elif self.config.scanlines_type == 1: # fast
+        elif self.config.data['scanlines'] == 1: # fast
             self.scanlines(self.screen, 15)
     
     # it's necessary to clean the edges of the map after shaking it

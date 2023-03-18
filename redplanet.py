@@ -50,7 +50,7 @@ pygame.mouse.set_visible(False)
 
 # reads the configuration file to apply the personal settings
 config = Configuration()
-config.read()
+config.load()
 # clock to control the FPS and timers
 clock = pygame.time.Clock()
 # creates a checkpoint object to load/record game

@@ -182,7 +182,7 @@ class Map():
         # load the new map
         self.load()
         # preserves the previous map
-        if self.game.config.map_transition:
+        if self.game.config.data['map_transition']:
             self.game.srf_map_bk_prev.blit(self.game.srf_map_bk, (0,0))
         # save the new empty background
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
@@ -190,7 +190,7 @@ class Map():
         if self.number == 44 and player.stacked_TNT:
             self.add_TNT_pile()
         # performs the screen transition
-        if self.game.config.map_transition:
+        if self.game.config.data['map_transition']:
             self.transition()
         # refresh the scoreboard area
         scoreboard.reset()

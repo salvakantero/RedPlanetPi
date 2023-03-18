@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Grabar configuración
 - Hotspot para checkpoint (aparece tras recoger TNT)
 - Mejorar Scanlines HQ
 
@@ -15,7 +14,6 @@ BUGS
 POR HACER
 =========
 - Control mediante PAD / Joystick
-- Configuración con pickle
 - Pantalla final
 - Linterna en pantallas oscuras
 - Highs online
@@ -106,6 +104,7 @@ HECHO
 10/03/23 - Score y High en marcador
 12/03/23 - Navegación por el menú con cursores/ENTER/ESC (no botones)
 16/03/23 - Página de opciones en el menú
+18/03/23 - Grabar/Cargar configuración con "pickle"
 
 
 CREDITS

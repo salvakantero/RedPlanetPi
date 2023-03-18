@@ -181,25 +181,25 @@ class Menu():
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
         ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
         # full screen
-        if self.game.config.full_screen == 0: value = 'OFF'
-        else: value = 'ON'
+        if self.game.config.data['full_screen']: value = 'ON'
+        else: value = 'OFF'
         self.shaded_text(fb, ff, 'Full Screen:', self.srf_page5, x, y, 1)
         self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y, 1)
         # scanlines filter
-        if self.game.config.scanlines_type == 0: value = 'OFF' 
-        elif self.game.config.scanlines_type == 1: value = 'FAST'
+        if self.game.config.data['scanlines'] == 0: value = 'OFF' 
+        elif self.game.config.data['scanlines'] == 1: value = 'FAST'
         else: value = 'HQ'
         self.shaded_text(fb, ff, 'Scanlines:', self.srf_page5, x, y+20, 1)
         self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+20, 1)
         # map transition
-        if self.game.config.map_transition == 0: value = 'OFF' 
-        else: value = 'ON'
+        if self.game.config.data['map_transition']: value = 'ON' 
+        else: value = 'OFF'
         self.shaded_text(fb, ff, 'Map Transition:', self.srf_page5, x, y+40, 1)
         self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+40, 1)
         # control keys
-        if self.game.config.control == 0: value = 'Classic' 
-        elif self.game.config.control == 1: value = 'Gamer'
-        elif self.game.config.control == 2: value = 'Retro'
+        if self.game.config.data['control'] == 0: value = 'Classic' 
+        elif self.game.config.data['control'] == 1: value = 'Gamer'
+        elif self.game.config.data['control'] == 2: value = 'Retro'
         else: value = 'Gamepad'
         self.shaded_text(fb, ff, 'Control Keys:', self.srf_page5, x, y+60, 1)
         self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+60, 1)
@@ -350,13 +350,13 @@ class Menu():
 
                     # options menu page
                     elif selected_option == enums.FULLSCREEN:  # 0 = no, 1 = yes
-                        self.game.config.full_screen = (self.game.config.full_screen + 1) % 2
+                        self.game.config.data['full_screen'] = (self.game.config.data['full_screen'] + 1) % 2
                     elif selected_option == enums.SCANLINES: # 0 = none, 1 = fast, 2 = HQ
-                        self.game.config.scanlines_type = (self.game.config.scanlines_type + 1) % 3
+                        self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 3
                     elif selected_option == enums.MAP_TRANSITION: # 0 = no, 1 = yes
-                        self.game.config.map_transition = (self.game.config.map_transition + 1) % 2
+                        self.game.config.data['map_transition'] = (self.game.config.data['map_transition'] + 1) % 2
                     elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
-                        self.game.config.control = (self.game.config.control + 1) % 4
+                        self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
                     elif selected_option == enums.EXIT2:
                         x = constants.MENU_UNSCALED_SIZE[0]
@@ -366,7 +366,8 @@ class Menu():
                     # common operations
                     confirmed_option = False
                     page_timer = 0
-                    if menu_page == 5:                         
+                    if menu_page == 5:
+                        self.game.config.save()                        
                         # recreate the page with the new data
                         self.srf_page5 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
                         self.srf_page5.set_colorkey(constants.PALETTE['BLACK'])
