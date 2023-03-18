@@ -8,6 +8,10 @@ EN PROCESO
 - Hotspot para checkpoint (aparece tras recoger TNT)
 - Mejorar Scanlines HQ
 
+BUGS
+====
+- Siempre suena sfx de sin balas al disparar
+
 POR HACER
 =========
 - Control mediante PAD / Joystick
