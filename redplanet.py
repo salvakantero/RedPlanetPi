@@ -88,7 +88,9 @@ while True:
         map.scroll = enums.RIGHT
         if game.new:
             player.reset()
-            for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
+            for hotspot in constants.HOTSPOT_DATA:
+                if hotspot[0] == enums.CHECKPOINT: hotspot[0] = enums.KEY 
+                hotspot[3] = True # all visible hotspots
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
             map.number = 0                        
             scoreboard.game_percent = 0
