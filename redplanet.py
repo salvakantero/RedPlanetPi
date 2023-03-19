@@ -89,12 +89,12 @@ while True:
         if game.new:
             player.reset()
             for hotspot in constants.HOTSPOT_DATA:
-                if hotspot[0] == enums.CHECKPOINT: hotspot[0] = enums.KEY 
+                if hotspot[0] == enums.CHECKPOINT: hotspot[0] = enums.KEY # restores the keys to their positions
                 hotspot[3] = True # all visible hotspots
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
             map.number = 0                        
             scoreboard.game_percent = 0
-        else: # load the last checkpointo
+        else: # load the last checkpoint
             checkpoint.load()
             d = checkpoint.data
             map.number = d['map_number']
