@@ -8,7 +8,6 @@ EN PROCESO
 
 BUGS
 ====
-- Siempre suena sfx de sin balas al disparar
 - En nueva partida no aparecen keys, sino disks
 - Mejorar Scanlines HQ
 

@@ -104,6 +104,8 @@ class Player(pygame.sprite.Sprite):
         self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.8)
+        self.sfx_no_action = pygame.mixer.Sound('sounds/fx/sfx_no_action.wav')
+        self.sfx_no_action.set_volume(0.2)
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav')
         self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')        
@@ -161,8 +163,8 @@ class Player(pygame.sprite.Sprite):
             self.sfx_jump[random.randint(0, 3)].play()
         # press fire -----------------------------------------------------------
         if key_state[self.game.config.fire_key]:
-            if self.ammo > 0 and self.firing <= 0:
-                if self.game.shot_group.sprite == None: # no shots on screen        
+            if self.ammo > 0:
+                if self.firing <= 0 and self.game.shot_group.sprite == None: # no shots on screen        
                     shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
                     self.game.shot_group.add(shot)
                     self.game.all_sprites_group.add(shot)
@@ -193,7 +195,7 @@ class Player(pygame.sprite.Sprite):
                     action_taken = True
             # no action required
             if not action_taken:   
-                self.sfx_no_ammo.play()            
+                self.sfx_no_action.play()            
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
