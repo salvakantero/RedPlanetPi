@@ -154,10 +154,17 @@ class Menu():
                          'High Scores', self.srf_page4, x, y, 1)                
         y = 90
         for i in range(8):
+            if i % 2 == 0: # index even
+                fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
+                ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
+            else: # index odd 
+                fb = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
+                ff = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
             # names
-            self.shaded_text(fb, ff, self.game.high_score[i][0], self.srf_page4, 50, y, 1)
+            self.shaded_text(fb, ff, self.game.high_score[i][0], self.srf_page4, 55, y, 1)
             # dates and scores
-            self.shaded_text(fb, ff, self.game.high_score[i][1] + '     ' + self.game.high_score[i][2], self.srf_page4, 110, y, 1)
+            self.shaded_text(fb, ff, self.game.high_score[i][1] + '    ' + 
+                str(self.game.high_score[i][2]).rjust(6, '0'), self.srf_page4, 120, y, 1)
             y += 10
 
     def page_5(self): # options

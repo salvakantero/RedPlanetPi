@@ -31,7 +31,7 @@ class Scoreboard():
         self.map_info_timer = 150 # show map info while timer > 0
         self.srf_sboard = game.srf_sboard
         self.fonts = game.fonts
-        self.hi = game.high_scores[0][2]
+        self.hi = game.high_score[0][2]
         self.needs_updating = False # redrawing of the data if True
         # icons
         self.lives_icon = pygame.image.load('images/sprites/player0.png').convert()

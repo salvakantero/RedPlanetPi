@@ -4,7 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Tabla de mejores puntuaciones
+- Grabar tabla de mejores puntuaciones
 - Introducción de nombre para high scores
 
 BUGS
@@ -104,6 +104,7 @@ HECHO
 16/03/23 - Página de opciones en el menú
 18/03/23 - Grabar/Cargar configuración con "pickle"
 20/03/23 - Hotspot para checkpoint (aparece tras recoger KEYS)
+20/03/23 - Tabla de mejores puntuaciones
 
 
 CREDITS

@@ -162,7 +162,7 @@ class Game():
         self.high_score = []
         today = str(date.today())
         for _ in range(8):
-            self.high_score.add('salvaKantero', today, 0)
+            self.high_score.append(['salvaKantero', today, 0])
 
     # exits to the operating system
     def exit(self):
@@ -311,7 +311,7 @@ class Game():
 
     def update_high_score_table(self, player):
         if player.score > self.high_score[7][2]:
-            self.high_score.add('NEW', str(date.today()), player.score)
+            self.high_score.append(['NEW', str(date.today()), player.score])
             self.high_score.sort(reverse=True, key=lambda x: x[2])
             self.high_score.pop() # remove last score (8 scores remain)
 
