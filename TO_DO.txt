@@ -4,22 +4,20 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Hotspot para checkpoint (aparece tras recoger KEYS?)
+- Tabla de mejores puntuaciones
+- Introducción de nombre para high scores
 
 BUGS
 ====
 
-- Mejorar Scanlines HQ
 
 POR HACER
 =========
+- Objetos para puntuar (diamantes, joyas, regalos, chuches)
 - Control mediante PAD / Joystick
 - Pantalla final
 - Linterna en pantallas oscuras
 - Highs online
-- Tabla de mejores puntuaciones
-- Introducción de high scores
-- Objetos para puntuar (diamantes, joyas, regalos, chuches)
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
 - Actualizar manual
@@ -105,6 +103,7 @@ HECHO
 12/03/23 - Navegación por el menú con cursores/ENTER/ESC (no botones)
 16/03/23 - Página de opciones en el menú
 18/03/23 - Grabar/Cargar configuración con "pickle"
+20/03/23 - Hotspot para checkpoint (aparece tras recoger KEYS)
 
 
 CREDITS
@@ -126,10 +125,6 @@ César Gómez (Mundo Python YT channel)
 ChatGPT
 
 
-
-posiciones del cursor en menú:
-x = 50
-y = 60, 85, 110, 135
 
 Cambiar fondo a negro:
 "workbench.colorCustomizations": {

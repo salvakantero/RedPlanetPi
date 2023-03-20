@@ -55,7 +55,7 @@ class Game():
         self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # surface for HQ scanlines
         self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
-        self.srf_scanlines.set_alpha(40)
+        self.srf_scanlines.set_alpha(25)
         # sprite control groups
         self.all_sprites_group = pygame.sprite.Group()     
         self.enemies_group = pygame.sprite.Group()
@@ -185,10 +185,10 @@ class Game():
     # applies scanlines according to the configuration
     def apply_scanlines(self):
         if self.config.data['scanlines'] == 2: # HQ
-            self.scanlines(self.srf_scanlines, 200)
+            self.scanlines(self.srf_scanlines, 250) # almost white lines
             self.screen.blit(self.srf_scanlines, (0, 0))
         elif self.config.data['scanlines'] == 1: # fast
-            self.scanlines(self.screen, 15)
+            self.scanlines(self.screen, 15) # almost black lines
     
     # it's necessary to clean the edges of the map after shaking it
     def clean_edges(self):         
@@ -424,7 +424,10 @@ class Game():
                         'hotspot_data' : constants.HOTSPOT_DATA,
                         'gate_data' : constants.GATE_DATA
                     }
-                    self.checkpoint.save()
+                    # when loading a game it is not necessary to save the first checkpoint, 
+                    # as it contains the same data.
+                    if self.new: self.checkpoint.save() 
+                    else: self.new = True
                 scoreboard.invalidate()
                 self.floating_text.x = hotspot.x*constants.TILE_SIZE
                 self.floating_text.y = hotspot.y*constants.TILE_SIZE
