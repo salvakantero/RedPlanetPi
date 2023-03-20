@@ -126,6 +126,27 @@ ChatGPT
 
 
 
+
+
+scores = []
+
+while True:
+    name = input("Ingrese su nombre: ")
+    if name == "":
+        break
+    score = int(input("Ingrese su puntaje: "))
+    scores.append((name, score))
+
+scores.sort(reverse=True, key=lambda x: x[1])
+
+print("High Scores:")
+for i, (name, score) in enumerate(scores[:10]):
+    print(f"{i+1}. {name}: {score}")
+
+
+
+    
+
 Cambiar fondo a negro:
 "workbench.colorCustomizations": {
     "editor.background": "#000000"

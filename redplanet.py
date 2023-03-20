@@ -152,8 +152,9 @@ while True:
         game.check_collisions(player, scoreboard, map.number, map.tilemap_rect_list)
 
         # game over?
-        if player.lives == 0 or player.oxygen < 0:                
+        if player.lives == 0 or player.oxygen < 0:           
             game.over()
+            game.update_high_score_table(player)
             game.status = enums.OVER
             continue
         
@@ -179,7 +180,8 @@ while True:
         # if the player leaves, the map number changes
         map.check_change(player)
             
-        # TEST ZONE
+        # TEST ZONE =============================================================
         test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
+        # =======================================================================
 
     game.update_screen()

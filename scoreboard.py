@@ -31,6 +31,7 @@ class Scoreboard():
         self.map_info_timer = 150 # show map info while timer > 0
         self.srf_sboard = game.srf_sboard
         self.fonts = game.fonts
+        self.hi = game.high_scores[0][2]
         self.needs_updating = False # redrawing of the data if True
         # icons
         self.lives_icon = pygame.image.load('images/sprites/player0.png').convert()
@@ -126,7 +127,9 @@ class Scoreboard():
                 text = 'SCORE: ' + str(player.score).rjust(6, '0')
                 self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
                 self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))
+                # high score
                 y = 30
-                text_2 = 'HIGH: ' + str(player.score).rjust(6, '0')
+                score = self.hi if self.hi > player.score else player.score
+                text_2 = 'HIGH: ' + str(score).rjust(6, '0')
                 self.fonts[enums.S_B_GREEN].render(text_2, self.srf_sboard, (x+5, y+1)) # shadow
                 self.fonts[enums.S_F_GREEN].render(text_2, self.srf_sboard, (x+4, y))

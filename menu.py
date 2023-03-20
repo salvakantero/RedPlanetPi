@@ -142,35 +142,23 @@ class Menu():
         self.shaded_text(fb, ff, 'Common keys', self.srf_page3, x-50, y+15, 1)
 
     def page_4(self): # high scores
-        x = 90
-        y = 62
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
-                         'High Scores', self.srf_page4, x, y, 1)
-        x = 50
-        y = 90
-        # names
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
         ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
         fb2 = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
         ff2 = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
-        self.shaded_text(fb, ff, 'Lukas', self.srf_page4, x, y, 1)
-        self.shaded_text(fb2, ff2, 'Dany', self.srf_page4, x, y+10, 1)
-        self.shaded_text(fb, ff, 'Marina', self.srf_page4, x, y+20, 1)   
-        self.shaded_text(fb2, ff2, 'Alvaro', self.srf_page4, x, y+30, 1)
-        self.shaded_text(fb, ff, 'Julita', self.srf_page4, x, y+40, 1)
-        self.shaded_text(fb2, ff2, 'Luna_314', self.srf_page4, x, y+50, 1)
-        self.shaded_text(fb, ff, 'Irenita', self.srf_page4, x, y+60, 1)
-        self.shaded_text(fb2, ff2, 'salvaKantero', self.srf_page4, x, y+70, 1)
-        # dates and scores
-        x = 110
-        self.shaded_text(fb, ff, '14/02/2023' + '    00195325', self.srf_page4, x, y, 1)
-        self.shaded_text(fb2, ff2, '14/02/2023' + '    00195290', self.srf_page4, x, y+10, 1)
-        self.shaded_text(fb, ff, '11/02/2023' + '    00152645', self.srf_page4, x, y+20, 1)   
-        self.shaded_text(fb2, ff2, '28/01/2023' + '    00147755', self.srf_page4, x, y+30, 1)
-        self.shaded_text(fb, ff, '30/12/2022' + '    00097430', self.srf_page4, x, y+40, 1)
-        self.shaded_text(fb2, ff2, '21/01/2023' + '    00042940', self.srf_page4, x, y+50, 1)
-        self.shaded_text(fb, ff, '01/02/2023' + '    00008255', self.srf_page4, x, y+60, 1)
-        self.shaded_text(fb2, ff2, '30/12/2022' + '    00001985', self.srf_page4, x, y+70, 1)
+
+        # header
+        x = 90
+        y = 62
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
+                         'High Scores', self.srf_page4, x, y, 1)                
+        y = 90
+        for i in range(8):
+            # names
+            self.shaded_text(fb, ff, self.game.high_score[i][0], self.srf_page4, 50, y, 1)
+            # dates and scores
+            self.shaded_text(fb, ff, self.game.high_score[i][1] + '     ' + self.game.high_score[i][2], self.srf_page4, 110, y, 1)
+            y += 10
 
     def page_5(self): # options
         # menu options      

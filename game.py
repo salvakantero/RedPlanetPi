@@ -27,6 +27,8 @@ import sys
 import constants
 import enums
 
+from datetime import date
+
 from font import Font
 from intro import Intro
 from menu import Menu
@@ -156,6 +158,11 @@ class Game():
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
         self.shake_timer = 0
+        # high score table
+        self.high_score = []
+        today = str(date.today())
+        for _ in range(8):
+            self.high_score.add('salvaKantero', today, 0)
 
     # exits to the operating system
     def exit(self):
@@ -301,6 +308,12 @@ class Game():
     def restore_music(self):
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
+
+    def update_high_score_table(self, player):
+        if player.score > self.high_score[7][2]:
+            self.high_score.add('NEW', str(date.today()), player.score)
+            self.high_score.sort(reverse=True, key=lambda x: x[2])
+            self.high_score.pop() # remove last score (8 scores remain)
 
     # collisions with mobile platforms, enemies, bullets, hotspots, gates
     def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):
