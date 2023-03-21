@@ -167,7 +167,7 @@ class Game():
     # load the high scores table
     def load_high_scores(self):
         if os.path.exists('scores.dat'):
-            with open(self.filename, "rb") as f:
+            with open('scores.dat', "rb") as f:
                 self.high_score = pickle.load(f)
         else: # default values
             today = str(date.today())

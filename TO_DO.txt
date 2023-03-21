@@ -4,8 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Grabar tabla de mejores puntuaciones
 - Introducción de nombre para high scores
+- Objetos para puntuar (diamante, regalo, chuche)
 
 BUGS
 ====
@@ -13,10 +13,9 @@ BUGS
 
 POR HACER
 =========
-- Objetos para puntuar (diamantes, joyas, regalos, chuches)
-- Control mediante PAD / Joystick
 - Pantalla final
 - Linterna en pantallas oscuras
+- Control mediante PAD / Joystick
 - Highs online
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
