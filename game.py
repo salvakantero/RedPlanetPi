@@ -179,9 +179,23 @@ class Game():
         with open('scores.dat', "wb") as f:
             pickle.dump(self.high_score, f)
 
+    def get_player_name(self):
+        self.message('You achieved a high score!', 'Enter your name...')
+        pygame.event.clear(pygame.KEYDOWN)
+        name = ''
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:                  
+                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:                    
+                        return name
+                    elif event.key > pygame.K_0 and event.key < pygame.K_z:
+                        name += pygame.key.name(event.key)
+                        self.message('You achieved a high score!', name)
+
+    # new high score??
     def update_high_score_table(self, player):
         if player.score > self.high_score[7][2]:
-            self.high_score.append(['NEW', str(date.today()), player.score])
+            self.high_score.append([self.get_player_name(), str(date.today()), player.score])
             self.high_score.sort(reverse=True, key=lambda x: x[2])
             self.high_score.pop() # remove last score (8 scores remain)
             self.save_high_scores()
