@@ -26,6 +26,8 @@ import random
 import sys
 import constants
 import enums
+import os
+import pickle
 
 from datetime import date
 
@@ -158,11 +160,31 @@ class Game():
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
         self.shake_timer = 0
-        # high score table
+        # high scores table
         self.high_score = []
-        today = str(date.today())
-        for _ in range(8):
-            self.high_score.append(['salvaKantero', today, 0])
+        self.load_high_scores()
+
+    # load the high scores table
+    def load_high_scores(self):
+        if os.path.exists('scores.dat'):
+            with open(self.filename, "rb") as f:
+                self.high_score = pickle.load(f)
+        else: # default values
+            today = str(date.today())
+            for _ in range(8):
+                self.high_score.append(['salvaKantero', today, 0])
+
+    # save the high scores table
+    def save_high_scores(self):
+        with open('scores.dat', "wb") as f:
+            pickle.dump(self.high_score, f)
+
+    def update_high_score_table(self, player):
+        if player.score > self.high_score[7][2]:
+            self.high_score.append(['NEW', str(date.today()), player.score])
+            self.high_score.sort(reverse=True, key=lambda x: x[2])
+            self.high_score.pop() # remove last score (8 scores remain)
+            self.save_high_scores()
 
     # exits to the operating system
     def exit(self):
@@ -308,12 +330,6 @@ class Game():
     def restore_music(self):
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
-
-    def update_high_score_table(self, player):
-        if player.score > self.high_score[7][2]:
-            self.high_score.append(['NEW', str(date.today()), player.score])
-            self.high_score.sort(reverse=True, key=lambda x: x[2])
-            self.high_score.pop() # remove last score (8 scores remain)
 
     # collisions with mobile platforms, enemies, bullets, hotspots, gates
     def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):

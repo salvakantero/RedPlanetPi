@@ -142,11 +142,6 @@ class Menu():
         self.shaded_text(fb, ff, 'Common keys', self.srf_page3, x-50, y+15, 1)
 
     def page_4(self): # high scores
-        fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
-        ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
-        fb2 = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
-        ff2 = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
-
         # header
         x = 90
         y = 62
@@ -268,8 +263,12 @@ class Menu():
                 if event.type == pygame.KEYDOWN and x == 0: # a key has been pressed         
                     # active pages
                     if menu_page == 1 or menu_page == 5:
-                        if event.key == pygame.K_ESCAPE and menu_page == 1: # exit by pressing ESC key
-                            self.game.exit()
+                        if event.key == pygame.K_ESCAPE: 
+                            if menu_page == 1: self.game.exit() # exits the application completely
+                            else: # on page 5, return to page 1
+                                menu_page = 1
+                                selected_option = 0
+                                break
                         # the selected option is accepted by pressing ENTER or SPACE
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             # creates a shot.
