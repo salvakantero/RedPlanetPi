@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Introducción de nombre para high scores
 - Objetos para puntuar (diamante, regalo, chuche)
 
 BUGS
@@ -104,6 +103,7 @@ HECHO
 18/03/23 - Grabar/Cargar configuración con "pickle"
 20/03/23 - Hotspot para checkpoint (aparece tras recoger KEYS)
 20/03/23 - Tabla de mejores puntuaciones
+22/03/23 - Introducción de nombre para high scores
 
 
 CREDITS

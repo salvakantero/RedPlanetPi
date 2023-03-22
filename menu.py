@@ -156,10 +156,10 @@ class Menu():
                 fb = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
                 ff = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
             # names
-            self.shaded_text(fb, ff, self.game.high_score[i][0], self.srf_page4, 55, y, 1)
+            self.shaded_text(fb, ff, self.game.high_scores[i][0], self.srf_page4, 55, y, 1)
             # dates and scores
-            self.shaded_text(fb, ff, self.game.high_score[i][1] + '    ' + 
-                str(self.game.high_score[i][2]).rjust(6, '0'), self.srf_page4, 120, y, 1)
+            self.shaded_text(fb, ff, self.game.high_scores[i][1] + '    ' + 
+                str(self.game.high_scores[i][2]).rjust(6, '0'), self.srf_page4, 120, y, 1)
             y += 10
 
     def page_5(self): # options

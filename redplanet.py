@@ -154,7 +154,7 @@ while True:
         # game over?
         if player.lives == 0 or player.oxygen < 0:           
             game.over()
-            game.update_high_score_table(player)
+            game.update_high_score_table(player.score)
             game.status = enums.OVER
             continue
         

@@ -161,43 +161,52 @@ class Game():
         self.shake = [0, 0]
         self.shake_timer = 0
         # high scores table
-        self.high_score = []
+        self.high_scores = []
         self.load_high_scores()
 
     # load the high scores table
     def load_high_scores(self):
         if os.path.exists('scores.dat'):
             with open('scores.dat', "rb") as f:
-                self.high_score = pickle.load(f)
+                self.high_scores = pickle.load(f)
         else: # default values
             today = str(date.today())
             for _ in range(8):
-                self.high_score.append(['salvaKantero', today, 0])
+                self.high_scores.append(['SALVAKANTERO', today, 0])
 
     # save the high scores table
     def save_high_scores(self):
         with open('scores.dat', "wb") as f:
-            pickle.dump(self.high_score, f)
+            pickle.dump(self.high_scores, f)
 
     def get_player_name(self):
-        self.message('You achieved a high score!', 'Enter your name...')
+        self.message('You achieved a high score!', 'Enter your name...', True)
         pygame.event.clear(pygame.KEYDOWN)
         name = ''
         while True:
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:                  
+                if event.type == pygame.KEYDOWN:
+                    # RETURN or ESC has been pressed, ends the entry of the name                  
                     if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:                    
-                        return name
-                    elif event.key > pygame.K_0 and event.key < pygame.K_z:
-                        name += pygame.key.name(event.key)
-                        self.message('You achieved a high score!', name)
+                        return name.upper()
+                    # a key between 0 and Z has been pressed. Is added to the name
+                    elif (event.key > pygame.K_0 and event.key < pygame.K_z):
+                        if len(name) < 12: name += pygame.key.name(event.key)
+                    # The space bar has been pressed. A space is added
+                    elif  event.key == pygame.K_SPACE:
+                        if len(name) < 12: name += ' '
+                    # a delete key has been pressed, deletes the last character                       
+                    elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                        name = name[:-1]
+                    # draws the current name
+                    self.message('You achieved a high score!', name.upper(), False)
 
     # new high score??
-    def update_high_score_table(self, player):
-        if player.score > self.high_score[7][2]:
-            self.high_score.append([self.get_player_name(), str(date.today()), player.score])
-            self.high_score.sort(reverse=True, key=lambda x: x[2])
-            self.high_score.pop() # remove last score (8 scores remain)
+    def update_high_score_table(self, player_score):
+        if player_score > self.high_scores[7][2]:
+            self.high_scores.append([self.get_player_name(), str(date.today()), player_score])
+            self.high_scores.sort(reverse=True, key=lambda x: x[2])
+            self.high_scores.pop() # remove last score (8 scores remain)
             self.save_high_scores()
 
     # exits to the operating system
@@ -270,10 +279,11 @@ class Game():
         self.clock.tick(60) # 60 FPS
 
     # displays a message, darkening the screen
-    def message(self, msg1, msg2):
+    def message(self, msg1, msg2, darken):
         # obscures the surface of the map
-        self.srf_map.set_alpha(120)
-        self.update_screen()
+        if darken:
+            self.srf_map.set_alpha(120)
+            self.update_screen()
         # saves a copy of the darkened screen
         aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
         aux_surf.blit(self.srf_map, (0,0))
@@ -311,7 +321,7 @@ class Game():
 
     # displays a message to confirm exit
     def confirm_exit(self):
-        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE')
+        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True)
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
@@ -324,7 +334,7 @@ class Game():
                 
     # displays a 'game over' message and waits
     def over(self): 
-        self.message('G a m e  O v e r', 'PRESS ANY KEY')
+        self.message('G a m e  O v e r', 'PRESS ANY KEY', True)
         pygame.mixer.music.stop()
         self.sfx_game_over.play()
         pygame.event.clear(pygame.KEYDOWN)
