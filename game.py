@@ -114,7 +114,7 @@ class Game():
             enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
-            enums.CHECKPOINT: pygame.image.load('images/sprites/checkpoint.png').convert_alpha()} 
+            enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha()} 
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
