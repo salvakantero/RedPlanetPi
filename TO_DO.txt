@@ -5,6 +5,7 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Objetos para puntuar (diamante, regalo, chuche)
+- Control mediante PAD / Joystick
 
 BUGS
 ====
@@ -14,7 +15,6 @@ POR HACER
 =========
 - Pantalla final
 - Linterna en pantallas oscuras
-- Control mediante PAD / Joystick
 - Highs online
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
