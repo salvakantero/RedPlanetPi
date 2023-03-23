@@ -226,7 +226,7 @@ class Map():
         elif hotspot[0] == enums.TNT:            
             hotspot[0] = random.randint(5,8) # 5 = Burguer, 6 = Cake, 7 = Donut, 8 = None
             if hotspot[0] < 8:
-                hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[enums.CHECKPOINT])
+                hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
                 self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
                 self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
             constants.HOTSPOT_DATA[self.number][0] = enums.TNT # restores its original type

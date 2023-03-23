@@ -158,7 +158,10 @@ class Game():
             enums.KEY: pygame.mixer.Sound('sounds/fx/sfx_key.wav'),
             enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
             enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav'),
-            enums.CHECKPOINT: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav')}
+            enums.CHECKPOINT: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
+            enums.BURGUER: pygame.mixer.Sound('sounds/fx/sfx_burguer.wav'),
+            enums.CAKE: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
+            enums.DONUT: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
