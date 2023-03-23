@@ -110,6 +110,8 @@ while True:
             player.score = d['player_score']
             constants.HOTSPOT_DATA = d['hotspot_data']
             constants.GATE_DATA = d['gate_data']
+            player.invincible = True
+            player.invincible_time_from = pygame.time.get_ticks()
     else: # game running
         # event management
         for event in pygame.event.get():
