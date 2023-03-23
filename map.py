@@ -46,7 +46,7 @@ class Map():
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
         # to generate the pile of explosives
-        self.img_tnt = pygame.image.load('images/sprites/hotspot0.png').convert_alpha()    
+        self.img_tnt = game.hotspot_images[enums.TNT]
 
     # loads a map and draws it on screen
     def load(self):
@@ -222,6 +222,14 @@ class Map():
             self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
             self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
             constants.HOTSPOT_DATA[self.number][0] = enums.KEY # restores its original type
+        # sometimes adds an extra score at the empty position of the TNT
+        elif hotspot[0] == enums.TNT:            
+            hotspot[0] = random.randint(5,8) # 5 = Burguer, 6 = Cake, 7 = Donut, 8 = None
+            if hotspot[0] < 8:
+                hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[enums.CHECKPOINT])
+                self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
+                self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
+            constants.HOTSPOT_DATA[self.number][0] = enums.TNT # restores its original type
         # add the gate (if there is one visible on the map)
         gate = constants.GATE_DATA.get(self.number)
         if gate != None and gate[2] == True: # visible/available?

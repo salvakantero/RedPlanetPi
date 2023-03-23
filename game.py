@@ -114,7 +114,10 @@ class Game():
             enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
-            enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha()} 
+            enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
+            enums.BURGUER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
+            enums.CAKE: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
+            enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()} 
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -179,6 +182,7 @@ class Game():
         with open('scores.dat', "wb") as f:
             pickle.dump(self.high_scores, f)
 
+    # allows to enter the player's name
     def get_player_name(self):
         self.message('You achieved a high score!', 'Enter your name...', True)
         pygame.event.clear(pygame.KEYDOWN)
@@ -459,6 +463,15 @@ class Game():
                     player.oxygen = constants.MAX_OXYGEN
                     self.floating_text.text = '+100'
                     player.score += 100
+                elif hotspot.type == enums.BURGUER:
+                    self.floating_text.text = '+500'
+                    player.score += 500
+                elif hotspot.type == enums.CAKE:
+                    self.floating_text.text = '+350'
+                    player.score += 350
+                elif hotspot.type == enums.DONUT:
+                    self.floating_text.text = '+200'
+                    player.score += 200                                        
                 elif hotspot.type == enums.CHECKPOINT:                    
                     self.floating_text.text = 'Checkpoint'
                     # save game

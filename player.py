@@ -48,7 +48,7 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground   
-        self.invincible = False # invincible after losing a life
+        self.invincible = True # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2 secs.)
         self.oxygen_time_from = pygame.time.get_ticks() # tick number where oxygen unit begins
@@ -127,7 +127,7 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.IDLE
         self.facing_right = True
         self.on_ground = False  
-        self.invincible = False
+        self.invincible = True
         self.direction = pygame.math.Vector2(0.0)
         self.rect = self.image.get_rect(topleft = (16,112))
         self.firing = 0

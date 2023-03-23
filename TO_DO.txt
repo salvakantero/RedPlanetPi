@@ -4,7 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Objetos para puntuar (diamante, regalo, chuche)
+- Al empezar / cargar checkpoint, comenzar con inmunidad
+- Objetos para puntuar
 - Control mediante PAD / Joystick
 
 BUGS
@@ -15,7 +16,6 @@ POR HACER
 =========
 - Pantalla final
 - Linterna en pantallas oscuras
-- Highs online
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
 - Actualizar manual
