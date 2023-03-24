@@ -25,6 +25,7 @@
 import pygame
 import pickle
 import os
+import enums
 
 class Configuration():
     def __init__(self):
@@ -33,7 +34,7 @@ class Configuration():
             'full_screen' : False,
             'scanlines' : 1, # 0 = none, 1 = fast, 2 = HQ   
             'map_transition' : True, # 0 = no, 1 = yes
-            'control' : 0 # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
+            'control' : enums.CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
         }
         # default values for controls (classic layout)
         self.jump_key = pygame.K_UP
@@ -55,17 +56,17 @@ class Configuration():
 
     def apply_controls(self):
         # control keys
-        if self.data['control'] == 0: # classic
+        if self.data['control'] == enums.CLASSIC:
             self.jump_key = pygame.K_UP
             self.action_key = pygame.K_DOWN
             self.left_key = pygame.K_LEFT
             self.right_key = pygame.K_RIGHT
-        elif self.data['control'] == 1: # gamer
+        elif self.data['control'] == enums.GAMER:
             self.jump_key = pygame.K_w
             self.action_key = pygame.K_s
             self.left_key = pygame.K_a
             self.right_key = pygame.K_d
-        elif self.data['control'] == 2: # retro
+        elif self.data['control'] == enums.RETRO:
             self.jump_key = pygame.K_q
             self.action_key = pygame.K_a
             self.left_key = pygame.K_o

@@ -4,11 +4,11 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Objetos para puntuar
 - Control mediante PAD / Joystick
 
 BUGS
 ====
+- centrar FULL_SCREEN
 
 
 POR HACER
@@ -105,6 +105,8 @@ HECHO
 20/03/23 - Hotspot para checkpoint (aparece tras recoger KEYS)
 20/03/23 - Tabla de mejores puntuaciones
 22/03/23 - Introducción de nombre para high scores
+24/03/23 - Objetos para puntuar; burguer, cake, DONUT
+
 
 
 CREDITS

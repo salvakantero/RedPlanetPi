@@ -112,14 +112,18 @@ class Player(pygame.sprite.Sprite):
         self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')        
         # objects and others
         self.game = game
-        self.active_gamepad = (game.config.data['control'] == 3)
+        self.active_gamepad = (game.config.data['control'] == enums.GAMEPAD)
         self.map = map
         self.scoreboard = scoreboard
         # joystick/gamepad stuff
         if self.active_gamepad:
-            pygame.joystick.init()
-            gamepad = pygame.joystick.Joystick(0)
-            gamepad.init()
+            try: # find a joystick/gamepad
+                pygame.joystick.init()
+                gamepad = pygame.joystick.Joystick(0)
+                gamepad.init()
+            except Exception: # No joystick or gamepad was found.
+                self.active_gamepad = False
+                self.game.config.data['control'] == enums.CLASSIC
 
     # resets the player to the initial values
     def reset(self):

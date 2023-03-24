@@ -187,9 +187,9 @@ class Menu():
         self.shaded_text(fb, ff, 'Map Transition:', self.srf_page5, x, y+40, 1)
         self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+40, 1)
         # control keys
-        if self.game.config.data['control'] == 0: value = 'Classic' 
-        elif self.game.config.data['control'] == 1: value = 'Gamer'
-        elif self.game.config.data['control'] == 2: value = 'Retro'
+        if self.game.config.data['control'] == enums.CLASSIC: value = 'Classic' 
+        elif self.game.config.data['control'] == enums.GAMER: value = 'Gamer'
+        elif self.game.config.data['control'] == enums.RETRO: value = 'Retro'
         else: value = 'Gamepad'
         self.shaded_text(fb, ff, 'Control Keys:', self.srf_page5, x, y+60, 1)
         self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+60, 1)
