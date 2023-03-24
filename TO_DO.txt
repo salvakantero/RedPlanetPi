@@ -15,9 +15,11 @@ POR HACER
 =========
 - Pantalla final
 - Linterna en pantallas oscuras
+
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
 - Actualizar manual
+
 
 HECHO
 =====
@@ -125,7 +127,7 @@ ChatGPT
 
 
 
-Cambiar fondo a negro:
+VSC: Cambiar fondo a negro:
 "workbench.colorCustomizations": {
     "editor.background": "#000000"
 }
