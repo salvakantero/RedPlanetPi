@@ -118,7 +118,6 @@ class Player(pygame.sprite.Sprite):
         # joystick/gamepad stuff
         if self.active_gamepad:
             try: # find a joystick/gamepad
-                pygame.joystick.init()
                 gamepad = pygame.joystick.Joystick(0)
                 gamepad.init()
             except Exception: # No joystick or gamepad was found.
@@ -153,6 +152,8 @@ class Player(pygame.sprite.Sprite):
 
     def gamepad_handle_events(self):
         for event in pygame.event.get():
+            if event.type == pygame.JOYHATMOTION:
+                pass
             if event.type == pygame.JOYAXISMOTION:
                 if event.axis == 0: # horizontal movement
                     if event.value > 0.5: # right
