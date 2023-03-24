@@ -130,12 +130,22 @@ ChatGPT
 
 
 
+Notas
+=====
+
 # Obtener la resolución de la pantalla
 screen = pygame.display.Info()
 screen_width = screen.current_w
 screen_height = screen.current_h
 
 
+Botones gamepad:
+A = 1
+B = 2
+L = 4
+R = 5
+X = 0
+Y = 3
 
 
 VSC: Cambiar fondo a negro:
