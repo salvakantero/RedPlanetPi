@@ -129,6 +129,15 @@ ChatGPT
 
 
 
+
+# Obtener la resolución de la pantalla
+screen = pygame.display.Info()
+screen_width = screen.current_w
+screen_height = screen.current_h
+
+
+
+
 VSC: Cambiar fondo a negro:
 "workbench.colorCustomizations": {
     "editor.background": "#000000"
