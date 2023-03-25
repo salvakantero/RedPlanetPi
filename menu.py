@@ -190,7 +190,7 @@ class Menu():
         if self.game.config.data['control'] == enums.CLASSIC: value = 'Classic' 
         elif self.game.config.data['control'] == enums.GAMER: value = 'Gamer'
         elif self.game.config.data['control'] == enums.RETRO: value = 'Retro'
-        else: value = 'Gamepad'
+        else: value = 'Joypad'
         self.shaded_text(fb, ff, 'Control Keys:', self.srf_page5, x, y+60, 1)
         self.shaded_text(fb2, ff2, value, self.srf_page5, x+115, y+60, 1)
         # exit
@@ -349,7 +349,7 @@ class Menu():
                         self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 3
                     elif selected_option == enums.MAP_TRANSITION: # 0 = no, 1 = yes
                         self.game.config.data['map_transition'] = (self.game.config.data['map_transition'] + 1) % 2
-                    elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
+                    elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
                     elif selected_option == enums.EXIT2:
@@ -361,7 +361,10 @@ class Menu():
                     confirmed_option = False
                     page_timer = 0
                     if menu_page == 5:
-                        self.game.config.save()                        
+                        # create joystick/joypad/gamepad object (if necessary)
+                        self.game.joystick = self.game.config.prepare_joystick()
+                        # saves possible changes to the configuration
+                        self.game.config.save()                       
                         # recreate the page with the new data
                         self.srf_page5 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
                         self.srf_page5.set_colorkey(constants.PALETTE['BLACK'])

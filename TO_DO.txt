@@ -5,10 +5,12 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Control mediante PAD / Joystick
+- Usar botón de ratón para disparar en todos los casos
 
 BUGS
 ====
-- centrar FULL_SCREEN
+- Centrar FULL_SCREEN
+- Cambiar gráfico de botones comunes
 
 
 POR HACER

@@ -112,17 +112,8 @@ class Player(pygame.sprite.Sprite):
         self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')        
         # objects and others
         self.game = game
-        self.active_gamepad = (game.config.data['control'] == enums.GAMEPAD)
         self.map = map
         self.scoreboard = scoreboard
-        # joystick/gamepad stuff
-        if self.active_gamepad:
-            try: # find a joystick/gamepad
-                self.gamepad = pygame.joystick.Joystick(0)
-                self.gamepad.init()
-            except Exception: # No joystick or gamepad was found.
-                self.active_gamepad = False
-                self.game.config.data['control'] == enums.CLASSIC
 
     # resets the player to the initial values
     def reset(self):
@@ -150,7 +141,7 @@ class Player(pygame.sprite.Sprite):
             self.game.dust_group.add(dust_sprite)
             self.game.all_sprites_group.add(dust_sprite)
 
-    # common code from gamepad or keyboard to make the jump
+    # common code from joystick or keyboard to make the jump
     def performs_jump(self):
         self.direction.y = constants.JUMP_VALUE
         self.on_ground = False
@@ -159,7 +150,7 @@ class Player(pygame.sprite.Sprite):
         # randomly plays one of the four jumping sounds
         self.sfx_jump[random.randint(0, 3)].play()
 
-    # common code from gamepad or keyboard to perform the shot
+    # common code from joystick or keyboard to perform the shot
     def performs_shot(self):
         if self.ammo > 0:
             if self.firing <= 0 and self.game.shot_group.sprite == None: # no shots on screen        
@@ -173,7 +164,7 @@ class Player(pygame.sprite.Sprite):
         else: # no bullets
             self.sfx_no_ammo.play()
 
-    # common code from gamepad or keyboard to perform an action
+    # common code from joystick or keyboard to perform an action
     def performs_action(self):
         action_taken = False
         # stacking explosives
@@ -196,11 +187,11 @@ class Player(pygame.sprite.Sprite):
             self.sfx_no_action.play() 
 
     def get_input(self):
-        if self.active_gamepad: # manages the joystick/gamepad
+        if self.game.joystick is not None: # manages the joystick/joypad/gamepad
             # obtains the possible movement of the axes. A value greater than 0.5 
             # is considered as intentional movement. The values obtained range from -1 to 1.
-            axis_x = self.gamepad.get_axis(0)
-            axis_y = self.gamepad.get_axis(1)
+            axis_x = self.game.joystick.get_axis(0)
+            axis_y = self.game.joystick.get_axis(1)
             # eliminates false movements
             if abs(axis_x) < 0.1: axis_x = 0.0
             if abs(axis_y) < 0.1: axis_y = 0.0
@@ -216,10 +207,10 @@ class Player(pygame.sprite.Sprite):
             elif axis_x == 0.0:
                 self.direction.x = 0
             # press jump
-            if (self.gamepad.get_button(0) or self.gamepad.get_button(3) or axis_y < -0.5) and self.on_ground:            
+            if (self.game.joystick.get_button(0) or self.game.joystick.get_button(3) or axis_y < -0.5) and self.on_ground:            
                 self.performs_jump()
             # press fire
-            if self.gamepad.get_button(1) or self.gamepad.get_button(2):
+            if self.game.joystick.get_button(1) or self.game.joystick.get_button(2):
                 self.performs_shot()
             # press action (place TNT, detonator)
             if axis_y > 0.5:

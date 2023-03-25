@@ -34,7 +34,7 @@ class Configuration():
             'full_screen' : False,
             'scanlines' : 1, # 0 = none, 1 = fast, 2 = HQ   
             'map_transition' : True, # 0 = no, 1 = yes
-            'control' : enums.CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = gamepad
+            'control' : enums.CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
         }
         # default values for controls (classic layout)
         self.jump_key = pygame.K_UP
@@ -72,3 +72,13 @@ class Configuration():
             self.left_key = pygame.K_o
             self.right_key = pygame.K_p
     
+    # create a joystick/joypad/gamepad object
+    def prepare_joystick(self):
+        joystick = None
+        if self.data['control'] == enums.JOYSTICK:
+            try: # find a joystick/joypad/gamepad
+                joystick = pygame.joystick.Joystick(0)
+                joystick.init()
+            except Exception: # No device was found
+                self.data['control'] == enums.CLASSIC
+        return joystick

@@ -169,7 +169,9 @@ class Game():
         # high scores table
         self.high_scores = []
         self.load_high_scores()
-
+        # create a joystick/joypad/gamepad object
+        self.joystick = self.config.prepare_joystick()
+    
     # load the high scores table
     def load_high_scores(self):
         if os.path.exists('scores.dat'):
