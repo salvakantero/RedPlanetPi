@@ -4,8 +4,7 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Control mediante PAD / Joystick
-- Usar botón de ratón para disparar en todos los casos
+
 
 BUGS
 ====
@@ -108,7 +107,7 @@ HECHO
 20/03/23 - Tabla de mejores puntuaciones
 22/03/23 - Introducción de nombre para high scores
 24/03/23 - Objetos para puntuar; burguer, cake, DONUT
-
+25/03/23 - Control mediante Joystick
 
 
 CREDITS

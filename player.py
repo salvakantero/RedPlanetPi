@@ -217,7 +217,7 @@ class Player(pygame.sprite.Sprite):
                 self.performs_action()
 
         else: # manages keystrokes
-            key_state = pygame.key.get_pressed()  
+            key_state = pygame.key.get_pressed()
             # press right
             if key_state[self.game.config.right_key]:
                 self.direction.x = 1
@@ -233,7 +233,7 @@ class Player(pygame.sprite.Sprite):
             if key_state[self.game.config.jump_key] and self.on_ground:            
                 self.performs_jump()
             # press fire
-            if key_state[self.game.config.fire_key]:
+            if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
                 self.performs_shot()
             # press action
             if key_state[self.game.config.action_key]:
