@@ -150,125 +150,103 @@ class Player(pygame.sprite.Sprite):
             self.game.dust_group.add(dust_sprite)
             self.game.all_sprites_group.add(dust_sprite)
 
+    # common code from gamepad or keyboard to make the jump
+    def performs_jump(self):
+        self.direction.y = constants.JUMP_VALUE
+        self.on_ground = False
+        self.y_jump = self.rect.y # to detect large jumps on landing            
+        self.dust_effect(self.rect.center, enums.JUMPING)
+        # randomly plays one of the four jumping sounds
+        self.sfx_jump[random.randint(0, 3)].play()
+
+    # common code from gamepad or keyboard to perform the shot
+    def performs_shot(self):
+        if self.ammo > 0:
+            if self.firing <= 0 and self.game.shot_group.sprite == None: # no shots on screen        
+                shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
+                self.game.shot_group.add(shot)
+                self.game.all_sprites_group.add(shot)
+                self.sfx_shot.play()
+                self.ammo -= 1
+                self.scoreboard.invalidate()
+                self.firing = 12 # frames drawing the image "firing".
+        else: # no bullets
+            self.sfx_no_ammo.play()
+
+    # common code from gamepad or keyboard to perform an action
+    def performs_action(self):
+        action_taken = False
+        # stacking explosives
+        if self.map.number == 44 \
+        and self.rect.x > 90 and self.rect.x < 165 \
+        and self.rect.y == 96 and self.TNT == 15:  
+            self.stacked_TNT = True
+            self.TNT = 0
+            self.scoreboard.game_percent += 5
+            self.scoreboard.invalidate()
+            self.map.add_TNT_pile()                  
+            self.sfx_TNT.play()
+            action_taken = True
+        # detonate explosives
+        elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
+            self.win = True
+            action_taken = True
+        # no action required
+        if not action_taken:   
+            self.sfx_no_action.play() 
+
     def get_input(self):
-        if self.active_gamepad:
-            # manages the joystick/gamepad
+        if self.active_gamepad: # manages the joystick/gamepad
+            # obtains the possible movement of the axes. A value greater than 0.5 
+            # is considered as intentional movement. The values obtained range from -1 to 1.
             axis_x = self.gamepad.get_axis(0)
             axis_y = self.gamepad.get_axis(1)
             # eliminates false movements
             if abs(axis_x) < 0.1: axis_x = 0.0
             if abs(axis_y) < 0.1: axis_y = 0.0
-            # press right ----------------------------------------------------------
+            # press right
             if axis_x > 0.5:
                 self.direction.x = 1
                 self.facing_right = True
-            # press left -----------------------------------------------------------
+            # press left
             elif axis_x < -0.5:
                 self.direction.x = -1
                 self.facing_right = False
-            # without lateral movement ---------------------------------------------    
+            # without lateral movement
             elif axis_x == 0.0:
                 self.direction.x = 0
-            # press jump -----------------------------------------------------------
+            # press jump
             if (self.gamepad.get_button(0) or self.gamepad.get_button(3) or axis_y < -0.5) and self.on_ground:            
-                self.direction.y = constants.JUMP_VALUE
-                self.on_ground = False
-                self.y_jump = self.rect.y # to detect large jumps on landing            
-                self.dust_effect(self.rect.center, enums.JUMPING)
-                # randomly plays one of the four jumping sounds
-                self.sfx_jump[random.randint(0, 3)].play()
-            # press fire -----------------------------------------------------------
+                self.performs_jump()
+            # press fire
             if self.gamepad.get_button(1) or self.gamepad.get_button(2):
-                if self.ammo > 0:
-                    if self.firing <= 0 and self.game.shot_group.sprite == None: # no shots on screen        
-                        shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
-                        self.game.shot_group.add(shot)
-                        self.game.all_sprites_group.add(shot)
-                        self.sfx_shot.play()
-                        self.ammo -= 1
-                        self.scoreboard.invalidate()
-                        self.firing = 12 # frames drawing the image "firing".
-                else: # no bullets
-                    self.sfx_no_ammo.play()
-            # press action ---------------------------------------------------------
+                self.performs_shot()
+            # press action (place TNT, detonator)
             if axis_y > 0.5:
-                action_taken = False
-                # stacking explosives
-                if self.map.number == 44 \
-                and self.rect.x > 90 and self.rect.x < 165 \
-                and self.rect.y == 96 and self.TNT == 15:  
-                        self.stacked_TNT = True
-                        self.TNT = 0
-                        self.scoreboard.game_percent += 5
-                        self.scoreboard.invalidate()
-                        self.map.add_TNT_pile()                  
-                        self.sfx_TNT.play()
-                        action_taken = True
-                # detonate explosives
-                elif self.map.number == 0 \
-                and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
-                        self.win = True
-                        action_taken = True
-                # no action required
-                if not action_taken:   
-                    self.sfx_no_action.play() 
-        else:
-            # manages keystrokes
+                self.performs_action()
+
+        else: # manages keystrokes
             key_state = pygame.key.get_pressed()  
-            # press right ----------------------------------------------------------
+            # press right
             if key_state[self.game.config.right_key]:
                 self.direction.x = 1
                 self.facing_right = True
-            # press left -----------------------------------------------------------
+            # press left
             elif key_state[self.game.config.left_key]:
                 self.direction.x = -1
                 self.facing_right = False
-            # without lateral movement ---------------------------------------------
+            # without lateral movement
             elif not key_state[self.game.config.right_key] and not key_state[self.game.config.left_key]:
                 self.direction.x = 0
-            # press jump -----------------------------------------------------------
+            # press jump
             if key_state[self.game.config.jump_key] and self.on_ground:            
-                self.direction.y = constants.JUMP_VALUE
-                self.on_ground = False
-                self.y_jump = self.rect.y # to detect large jumps on landing            
-                self.dust_effect(self.rect.center, enums.JUMPING)
-                # randomly plays one of the four jumping sounds
-                self.sfx_jump[random.randint(0, 3)].play()
-            # press fire -----------------------------------------------------------
+                self.performs_jump()
+            # press fire
             if key_state[self.game.config.fire_key]:
-                if self.ammo > 0:
-                    if self.firing <= 0 and self.game.shot_group.sprite == None: # no shots on screen        
-                        shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
-                        self.game.shot_group.add(shot)
-                        self.game.all_sprites_group.add(shot)
-                        self.sfx_shot.play()
-                        self.ammo -= 1
-                        self.scoreboard.invalidate()
-                        self.firing = 12 # frames drawing the image "firing".
-                else: # no bullets
-                    self.sfx_no_ammo.play()
-            # press action ---------------------------------------------------------
+                self.performs_shot()
+            # press action
             if key_state[self.game.config.action_key]:
-                action_taken = False
-                # stacking explosives
-                if self.map.number == 44 \
-                and self.rect.x > 90 and self.rect.x < 165 \
-                and self.rect.y == 96 and self.TNT == 15:  
-                        self.stacked_TNT = True
-                        self.TNT = 0
-                        self.scoreboard.game_percent += 5
-                        self.scoreboard.invalidate()
-                        self.map.add_TNT_pile()                  
-                        self.sfx_TNT.play()
-                        action_taken = True
-                # detonate explosives
-                elif self.map.number == 0 \
-                and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
-                        self.win = True
-                        action_taken = True
-                # no action required
-                if not action_taken:   
-                    self.sfx_no_action.play()            
+                self.performs_action()
 
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
