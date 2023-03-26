@@ -69,13 +69,18 @@ class Game():
         self.dust_group = pygame.sprite.GroupSingle()
         self.shot_group = pygame.sprite.GroupSingle()
         self.blast_group = pygame.sprite.GroupSingle()
-        # generates a main window (or full screen) with title, icon, and 32-bit colour.
-        flags = 0
-        if self.config.data['full_screen']: flags = pygame.FULLSCREEN
-        self.screen = pygame.display.set_mode(constants.WIN_SIZE, flags, 32)
-        pygame.display.set_caption('.:: Red Planet Pi ::.')
-        icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-        pygame.display.set_icon(icon)
+        # generates a main window with title, icon, and 32-bit colour, or full screen.
+        if self.config.data['full_screen']: 
+            screen = pygame.display.Info()
+            self.screen = pygame.display.set_mode((screen.current_w, screen.current_h), pygame.FULLSCREEN, 32)
+            width_mult = screen.current_w / constants.MENU_UNSCALED_SIZE[0]
+            height_mult = screen.current_h / constants.MENU_UNSCALED_SIZE[1]
+            constants.MENU_SCALED_SIZE = (constants.MENU_UNSCALED_SIZE[0] * width_mult, constants.MENU_UNSCALED_SIZE[1] * height_mult)
+        else:
+            self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
+            pygame.display.set_caption('.:: Red Planet Pi ::.')
+            icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
+            pygame.display.set_icon(icon)
         # common fonts
         self.fonts = {
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
