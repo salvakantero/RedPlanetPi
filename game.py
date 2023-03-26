@@ -73,18 +73,10 @@ class Game():
         if self.config.data['full_screen']: 
             screen = pygame.display.Info()
             self.screen = pygame.display.set_mode((screen.current_w, screen.current_h), pygame.FULLSCREEN, 32)
-            # menu rescaling
-            width_multiplier = screen.current_w / constants.MENU_UNSCALED_SIZE[0]
-            height_multiplier = screen.current_h / constants.MENU_UNSCALED_SIZE[1]
-            constants.MENU_SCALED_SIZE = (constants.MENU_UNSCALED_SIZE[0] * width_multiplier, constants.MENU_UNSCALED_SIZE[1] * height_multiplier)
-            # scoreboard rescaling
-            width_multiplier = screen.current_w / constants.SBOARD_UNSCALED_SIZE[0]
-            height_multiplier = screen.current_h / constants.SBOARD_UNSCALED_SIZE[1]
-            constants.SBOARD_SCALED_SIZE = (constants.SBOARD_UNSCALED_SIZE[0] * width_multiplier, constants.SBOARD_UNSCALED_SIZE[1] * height_multiplier)
-            # map rescaling
-            width_multiplier = screen.current_w / constants.MAP_UNSCALED_SIZE[0]
-            height_multiplier = screen.current_h / constants.MAP_UNSCALED_SIZE[1]
-            constants.MAP_SCALED_SIZE = (constants.MAP_UNSCALED_SIZE[0] * width_multiplier, constants.MAP_UNSCALED_SIZE[1] * height_multiplier)
+            # rescaling of surfaces
+            constants.MENU_SCALED_SIZE = (screen.current_w, screen.current_h) # 100%
+            constants.SBOARD_SCALED_SIZE = (screen.current_w, (screen.current_h * 20) / 100) # 20%
+            constants.MAP_SCALED_SIZE = (screen.current_w, (screen.current_h * 80) / 100) # 80%
             constants.H_MARGIN = 0
             constants.V_MARGIN = 0
         else: # windowed mode

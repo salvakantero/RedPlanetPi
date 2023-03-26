@@ -8,8 +8,7 @@ EN PROCESO
 
 BUGS
 ====
-- Centrar FULL_SCREEN
-- Cambiar gráfico de botones comunes
+- Centrar FULL_SCREEN en cualquier pantalla
 
 
 POR HACER
