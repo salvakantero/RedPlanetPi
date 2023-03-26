@@ -73,10 +73,21 @@ class Game():
         if self.config.data['full_screen']: 
             screen = pygame.display.Info()
             self.screen = pygame.display.set_mode((screen.current_w, screen.current_h), pygame.FULLSCREEN, 32)
-            width_mult = screen.current_w / constants.MENU_UNSCALED_SIZE[0]
-            height_mult = screen.current_h / constants.MENU_UNSCALED_SIZE[1]
-            constants.MENU_SCALED_SIZE = (constants.MENU_UNSCALED_SIZE[0] * width_mult, constants.MENU_UNSCALED_SIZE[1] * height_mult)
-        else:
+            # menu rescaling
+            width_multiplier = screen.current_w / constants.MENU_UNSCALED_SIZE[0]
+            height_multiplier = screen.current_h / constants.MENU_UNSCALED_SIZE[1]
+            constants.MENU_SCALED_SIZE = (constants.MENU_UNSCALED_SIZE[0] * width_multiplier, constants.MENU_UNSCALED_SIZE[1] * height_multiplier)
+            # scoreboard rescaling
+            width_multiplier = screen.current_w / constants.SBOARD_UNSCALED_SIZE[0]
+            height_multiplier = screen.current_h / constants.SBOARD_UNSCALED_SIZE[1]
+            constants.SBOARD_SCALED_SIZE = (constants.SBOARD_UNSCALED_SIZE[0] * width_multiplier, constants.SBOARD_UNSCALED_SIZE[1] * height_multiplier)
+            # map rescaling
+            width_multiplier = screen.current_w / constants.MAP_UNSCALED_SIZE[0]
+            height_multiplier = screen.current_h / constants.MAP_UNSCALED_SIZE[1]
+            constants.MAP_SCALED_SIZE = (constants.MAP_UNSCALED_SIZE[0] * width_multiplier, constants.MAP_UNSCALED_SIZE[1] * height_multiplier)
+            constants.H_MARGIN = 0
+            constants.V_MARGIN = 0
+        else: # windowed mode
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
             pygame.display.set_caption('.:: Red Planet Pi ::.')
             icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
