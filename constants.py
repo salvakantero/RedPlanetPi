@@ -24,7 +24,7 @@
 import enums
 
 # game screen
-WIN_SIZE = 800, 640 # main window size
+WIN_SIZE = 800, 640 # main window size (or full screen resolution)
 TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
 MENU_SCALED_SIZE = 720, 594 # menu size (scaled x3)
 MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)

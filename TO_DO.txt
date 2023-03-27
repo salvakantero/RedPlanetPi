@@ -4,18 +4,15 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-
+- Pantalla final
+- Linterna en pantallas oscuras
 
 BUGS
 ====
-- Centrar FULL_SCREEN en cualquier pantalla
 
 
 POR HACER
 =========
-- Pantalla final
-- Linterna en pantallas oscuras
-
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
 - Actualizar manual
@@ -107,6 +104,7 @@ HECHO
 22/03/23 - Introducción de nombre para high scores
 24/03/23 - Objetos para puntuar; burguer, cake, DONUT
 25/03/23 - Control mediante Joystick
+27/03/23 - FULL_SCREEN adaptado a cualquier pantalla
 
 
 CREDITS
@@ -133,12 +131,6 @@ ChatGPT
 Notas
 =====
 
-# Obtener la resolución de la pantalla
-screen = pygame.display.Info()
-screen_width = screen.current_w
-screen_height = screen.current_h
-
-
 Botones gamepad:
 A = 1
 B = 2
@@ -147,8 +139,14 @@ R = 5
 X = 0
 Y = 3
 
-
 VSC: Cambiar fondo a negro:
 "workbench.colorCustomizations": {
     "editor.background": "#000000"
 }
+
+
+# optimised margins
+#if screen.current_w / screen.current_h < 1.4: constants.H_MARGIN = 0 # 4:3 aspect ratio            
+#else:  # 16:9 aspect ratio
+#    constants.H_MARGIN = 250
+#    constants.WIN_SIZE[0] -= 250      

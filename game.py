@@ -57,9 +57,6 @@ class Game():
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # surface to save the previous map (transition effect between screens)
         self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-        # surface for HQ scanlines
-        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
-        self.srf_scanlines.set_alpha(25)
         # sprite control groups
         self.all_sprites_group = pygame.sprite.Group()     
         self.enemies_group = pygame.sprite.Group()
@@ -69,21 +66,26 @@ class Game():
         self.dust_group = pygame.sprite.GroupSingle()
         self.shot_group = pygame.sprite.GroupSingle()
         self.blast_group = pygame.sprite.GroupSingle()
-        # generates a main window with title, icon, and 32-bit colour, or full screen.
+        # full screen.
         if self.config.data['full_screen']: 
             screen = pygame.display.Info()
-            self.screen = pygame.display.set_mode((screen.current_w, screen.current_h), pygame.FULLSCREEN, 32)
+            constants.WIN_SIZE = (screen.current_w, screen.current_h)
+            self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
             # rescaling of surfaces
-            constants.MENU_SCALED_SIZE = (screen.current_w, screen.current_h) # 100%
+            constants.MENU_SCALED_SIZE = constants.WIN_SIZE # 100%
             constants.SBOARD_SCALED_SIZE = (screen.current_w, (screen.current_h * 20) / 100) # 20%
             constants.MAP_SCALED_SIZE = (screen.current_w, (screen.current_h * 80) / 100) # 80%
-            constants.H_MARGIN = 0
+            # margins
             constants.V_MARGIN = 0
-        else: # windowed mode
+            constants.H_MARGIN = 0    
+        else: # windowed mode, generates a main window with title, icon, and 32-bit colour
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
             pygame.display.set_caption('.:: Red Planet Pi ::.')
             icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
             pygame.display.set_icon(icon)
+        # surface for HQ scanlines
+        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
+        self.srf_scanlines.set_alpha(25)
         # common fonts
         self.fonts = {
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
@@ -243,12 +245,18 @@ class Game():
 
     # draws scanlines
     def scanlines(self, surface, rgb):
-        height = constants.WIN_SIZE[1]-30
         from_x = constants.H_MARGIN
         to_x = constants.WIN_SIZE[0]-constants.H_MARGIN-1
-        y = constants.V_MARGIN
+        y = constants.V_MARGIN        
+        if self.config.data['full_screen']: 
+            height = constants.WIN_SIZE[1]
+            y_step = 2
+        else: 
+            height = constants.WIN_SIZE[1]-30
+            y_step = 3
+
         while y < height:
-            y+=3
+            y += y_step
             pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, y), (to_x, y))
 
     # applies scanlines according to the configuration
@@ -310,10 +318,7 @@ class Game():
         message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
         message2_len = len(msg2) * 4 # approximate length of text 2 in pixels
         # width = length of the longest text + margin
-        if message1_len > message2_len:
-            width = message1_len + constants.V_MARGIN
-        else:
-            width = message2_len + constants.V_MARGIN
+        width = max(message1_len, message2_len) + constants.V_MARGIN
         # calculates the position of the box
         x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
