@@ -77,7 +77,7 @@ class Game():
             constants.MAP_SCALED_SIZE = (screen.current_w, (screen.current_h * 80) / 100) # 80%
             # margins
             constants.V_MARGIN = 0
-            constants.H_MARGIN = 0    
+            constants.H_MARGIN = 0
         else: # windowed mode, generates a main window with title, icon, and 32-bit colour
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
             pygame.display.set_caption('.:: Red Planet Pi ::.')
@@ -248,21 +248,16 @@ class Game():
         from_x = constants.H_MARGIN
         to_x = constants.WIN_SIZE[0]-constants.H_MARGIN-1
         y = constants.V_MARGIN        
-        if self.config.data['full_screen']: 
-            height = constants.WIN_SIZE[1]
-            y_step = 2
-        else: 
-            height = constants.WIN_SIZE[1]-30
-            y_step = 3
-
+        if self.config.data['full_screen']: height = constants.WIN_SIZE[1]
+        else: height = constants.WIN_SIZE[1]-30
         while y < height:
-            y += y_step
+            y += 3
             pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, y), (to_x, y))
 
     # applies scanlines according to the configuration
     def apply_scanlines(self):
         if self.config.data['scanlines'] == 2: # HQ
-            self.scanlines(self.srf_scanlines, 250) # almost white lines
+            self.scanlines(self.srf_scanlines, 255) # almost white lines
             self.screen.blit(self.srf_scanlines, (0, 0))
         elif self.config.data['scanlines'] == 1: # fast
             self.scanlines(self.screen, 15) # almost black lines
@@ -318,7 +313,7 @@ class Game():
         message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
         message2_len = len(msg2) * 4 # approximate length of text 2 in pixels
         # width = length of the longest text + margin
-        width = max(message1_len, message2_len) + constants.V_MARGIN
+        width = max(message1_len, message2_len) + 30
         # calculates the position of the box
         x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
