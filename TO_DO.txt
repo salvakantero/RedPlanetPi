@@ -9,7 +9,7 @@ EN PROCESO
 
 BUGS
 ====
-
+- optimizar FULL SCREEN
 
 POR HACER
 =========
@@ -143,10 +143,4 @@ VSC: Cambiar fondo a negro:
 "workbench.colorCustomizations": {
     "editor.background": "#000000"
 }
-
-
-# optimised margins
-#if screen.current_w / screen.current_h < 1.4: constants.H_MARGIN = 0 # 4:3 aspect ratio            
-#else:  # 16:9 aspect ratio
-#    constants.H_MARGIN = 250
-#    constants.WIN_SIZE[0] -= 250      
+ 

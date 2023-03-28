@@ -71,13 +71,17 @@ class Game():
             screen = pygame.display.Info()
             constants.WIN_SIZE = (screen.current_w, screen.current_h)
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
-            # rescaling of surfaces
-            constants.MENU_SCALED_SIZE = constants.WIN_SIZE # 100%
-            constants.SBOARD_SCALED_SIZE = (screen.current_w, (screen.current_h * 20) / 100) # 20%
-            constants.MAP_SCALED_SIZE = (screen.current_w, (screen.current_h * 80) / 100) # 80%
-            # margins
+            # optimised margins
             constants.V_MARGIN = 0
-            constants.H_MARGIN = 0
+            if screen.current_w / screen.current_h < 1.4: # 4:3 aspect ratio or similar
+                constants.H_MARGIN = 0
+            else:  # 16:9 aspect ratio or similar
+                constants.H_MARGIN = screen.current_w / 6.75
+            # rescaling of surfaces
+            rescaled_width =  screen.current_w - constants.H_MARGIN*2
+            constants.MENU_SCALED_SIZE = (screen.current_w - constants.H_MARGIN*2, screen.current_h) # 100% height
+            constants.SBOARD_SCALED_SIZE = (screen.current_w  - constants.H_MARGIN*2, (screen.current_h*20) / 100) # 20% height
+            constants.MAP_SCALED_SIZE = (screen.current_w  - constants.H_MARGIN*2, (screen.current_h*80) / 100) # 80% height
         else: # windowed mode, generates a main window with title, icon, and 32-bit colour
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
             pygame.display.set_caption('.:: Red Planet Pi ::.')
