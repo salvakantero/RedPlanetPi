@@ -97,7 +97,7 @@ class Menu():
         y = 60
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
                          'The Hotspots', self.srf_page2, x, y, 1)
-        x = 50
+        x = 60
         y = 95
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
         ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
@@ -105,27 +105,27 @@ class Menu():
         self.shaded_text(fb, ff, 'Ammunition', self.srf_page2, x, y+20, 1)
         self.shaded_text(fb, ff, 'Key Card', self.srf_page2, x, y+40, 1) 
         self.shaded_text(fb, ff, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
-        x = 163
+        x = 159
         self.shaded_text(fb, ff, 'Closed door', self.srf_page2, x, y, 1)
-        self.shaded_text(fb, ff, 'Checkpoint.', self.srf_page2, x, y+20, 1) 
-        self.shaded_text(fb, ff, 'Save the game', self.srf_page2, x, y+30, 1)
+        self.shaded_text(fb, ff, 'Checkpoint.', self.srf_page2, x, y+15, 1) 
+        self.shaded_text(fb, ff, '(Save the game)', self.srf_page2, x, y+25, 1)
         # images of the hotspots
-        x = 27
+        x = 37
         y = 89
         self.srf_page2.blit(self.game.hotspot_images[enums.TNT], (x, y))
         self.srf_page2.blit(self.game.hotspot_images[enums.AMMO], (x, y+20))
         self.srf_page2.blit(self.game.hotspot_images[enums.KEY], (x, y+40))
         self.srf_page2.blit(self.game.hotspot_images[enums.OXYGEN], (x, y+60))
-        x = 139
+        x = 136
         self.srf_page2.blit(self.game.gate_image, (x, y))
         self.srf_page2.blit(self.game.hotspot_images[enums.CHECKPOINT], (x, y+20))
 
     def page_3(self): # enemies/gifts info
-        x = 20
+        x = 30
         y = 65
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Baddies       The Gifts', self.srf_page3, x, y, 1)
-        x = 40
+                         'The Baddies     The Gifts', self.srf_page3, x, y, 1)
+        x = 50
         y = 95
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
         ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
@@ -133,12 +133,12 @@ class Menu():
         self.shaded_text(fb, ff, 'Arachnovirus (+50)', self.srf_page3, x, y+20, 1)
         self.shaded_text(fb, ff, 'Pelusoid (+75)', self.srf_page3, x, y+40, 1)   
         self.shaded_text(fb, ff, 'Pelusoid Fanty (+100)', self.srf_page3, x, y+60, 1)
-        x = 163
+        x = 162
         self.shaded_text(fb, ff, 'Burguer (+500)', self.srf_page3, x, y, 1)
         self.shaded_text(fb, ff, 'Cake (+350)', self.srf_page3, x, y+20, 1)
         self.shaded_text(fb, ff, 'Donut (+200)', self.srf_page3, x, y+40, 1) 
         # images of enemies
-        x = 17
+        x = 28
         y = 89
         self.srf_page3.blit(self.game.enemy_images[enums.INFECTED][0], (x, y))
         self.srf_page3.blit(self.game.enemy_images[enums.AVIRUS][0], (x, y+20))

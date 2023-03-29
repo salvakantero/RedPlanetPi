@@ -278,7 +278,7 @@ class Game():
     
     # it's necessary to clean the edges of the map after shaking it
     def clean_edges(self):
-        self.screen.fill((0, 0, 0))        
+        self.screen.fill()        
 
         # if self.config.data['full_screen']:
         #     x = constants.H_MARGIN // 2
