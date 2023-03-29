@@ -66,23 +66,33 @@ class Game():
         self.dust_group = pygame.sprite.GroupSingle()
         self.shot_group = pygame.sprite.GroupSingle()
         self.blast_group = pygame.sprite.GroupSingle()
-        # full screen.
+        # full screen. It is necessary to calculate the dimensions of the playing area 
+        # and the margins according to the size of the screen.
         if self.config.data['full_screen']: 
-            screen = pygame.display.Info()
-            constants.WIN_SIZE = (screen.current_w, screen.current_h)
+            screen = pygame.display.Info() # gets the screen resolution
+            constants.WIN_SIZE = (screen.current_w, screen.current_h) # the main window takes up the entire screen
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
+            # rescaling of surfaces without losing aspect ratio
+            scaling_factor = screen.current_h / constants.MENU_SCALED_SIZE[1]
+            constants.MENU_SCALED_SIZE = (
+                int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
+                int(constants.MENU_SCALED_SIZE[1] * scaling_factor)
+            )
+            constants.SBOARD_SCALED_SIZE = (
+                int(constants.SBOARD_SCALED_SIZE[0] * scaling_factor),
+                int(constants.SBOARD_SCALED_SIZE[1] * scaling_factor)
+            )
+            constants.MAP_SCALED_SIZE = (
+                int(constants.MAP_SCALED_SIZE[0] * scaling_factor),
+                int(constants.MAP_SCALED_SIZE[1] * scaling_factor)
+            )
             # optimised margins
-            constants.V_MARGIN = 0
-            if screen.current_w / screen.current_h < 1.4: # 4:3 aspect ratio or similar
-                constants.H_MARGIN = 0
-            else:  # 16:9 aspect ratio or similar
-                constants.H_MARGIN = screen.current_w / 6.75
-            # rescaling of surfaces
-            rescaled_width =  screen.current_w - constants.H_MARGIN*2
-            constants.MENU_SCALED_SIZE = (screen.current_w - constants.H_MARGIN*2, screen.current_h) # 100% height
-            constants.SBOARD_SCALED_SIZE = (screen.current_w  - constants.H_MARGIN*2, (screen.current_h*20) / 100) # 20% height
-            constants.MAP_SCALED_SIZE = (screen.current_w  - constants.H_MARGIN*2, (screen.current_h*80) / 100) # 80% height
-        else: # windowed mode, generates a main window with title, icon, and 32-bit colour
+            constants.V_MARGIN = 0 # the height of the playing area shall always be that of the screen
+            # the left margin is equal to half the unused width of the screen (to centre the playing area)
+            constants.H_MARGIN = (screen.current_w - constants.MENU_SCALED_SIZE[0]) // 2
+        # windowed mode, generates a main window with title, icon, and 32-bit colour
+        # the window dimensions and the margins are fixed
+        else:
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
             pygame.display.set_caption('.:: Red Planet Pi ::.')
             icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
@@ -250,7 +260,7 @@ class Game():
     # draws scanlines
     def scanlines(self, surface, rgb):
         from_x = constants.H_MARGIN
-        to_x = constants.WIN_SIZE[0]-constants.H_MARGIN-1
+        to_x = constants.WIN_SIZE[0]-constants.H_MARGIN-2
         y = constants.V_MARGIN        
         if self.config.data['full_screen']: height = constants.WIN_SIZE[1]
         else: height = constants.WIN_SIZE[1]-30
@@ -268,9 +278,12 @@ class Game():
     
     # it's necessary to clean the edges of the map after shaking it
     def clean_edges(self):         
-        pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500))
-        pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500))
-        pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20))
+        # pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500)) # left margin
+        # pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500)) # right margin
+        # pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20)) # botton margin
+        pygame.draw.rect(self.screen, constants.PALETTE['RED'], (20, 120 , 20 , 500)) # left margin
+        pygame.draw.rect(self.screen, constants.PALETTE['RED'], (760, 120 , 20 , 500)) # right margin
+        pygame.draw.rect(self.screen, constants.PALETTE['RED'], (40, 610 , 720 , 20)) # botton margin
 
     # dumps and scales surfaces to the screen
     def update_screen(self):

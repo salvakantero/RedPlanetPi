@@ -4,19 +4,20 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Nueva página de menú con checkpoints y puntuaciones
+- Actualizar página de controles del menú con un joystick o gamepad
 - Pantalla final
 - Linterna en pantallas oscuras
 
 BUGS
 ====
-- optimizar FULL SCREEN
+- revisar clean_edges() en FULL_SCREEN
 
 POR HACER
 =========
 - Revisar, simplificar, organizar y comentar el código fuente final
 - Licencia
 - Actualizar manual
-
 
 HECHO
 =====
@@ -105,7 +106,6 @@ HECHO
 24/03/23 - Objetos para puntuar; burguer, cake, DONUT
 25/03/23 - Control mediante Joystick
 27/03/23 - FULL_SCREEN adaptado a cualquier pantalla
-
 
 CREDITS
 =======

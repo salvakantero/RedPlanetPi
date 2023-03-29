@@ -26,14 +26,14 @@ import enums
 # game screen
 WIN_SIZE = 800, 640 # main window size (or full screen resolution)
 TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
-MENU_SCALED_SIZE = 720, 594 # menu size (scaled x3)
+MENU_SCALED_SIZE = 720, 594 # menu size scaled x3 (windowed mode)
 MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
-MAP_SCALED_SIZE = 720, 480 # map size (scaled x3)
+MAP_SCALED_SIZE = 720, 480 # map size scaled x3 (windowed mode)
 MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
-SBOARD_SCALED_SIZE = 720, 114 # scoreboard size (scaled x3)
+SBOARD_SCALED_SIZE = 720, 114 # scoreboard size scaled x3 (windowed mode)
 SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
-H_MARGIN = 40 # horizontal distance between the edge and the playing area
-V_MARGIN = 20 # vertical distance between the edge and the playing area
+H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
+V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 # player
 INVINCIBLE_TIME = 2000 # time of invincibility (2 secs.)
 JUMP_VALUE = -3.2 # value of the initial jump for the player
