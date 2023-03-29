@@ -4,14 +4,11 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Nueva página de menú con checkpoints y puntuaciones
-- Actualizar página de controles del menú con un joystick o gamepad
 - Pantalla final
 - Linterna en pantallas oscuras
 
 BUGS
 ====
-- revisar clean_edges() en FULL_SCREEN
 
 POR HACER
 =========

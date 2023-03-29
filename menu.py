@@ -61,7 +61,7 @@ class Menu():
         self.img_classic = pygame.image.load('images/assets/classic.png').convert_alpha()
         self.img_gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
         self.img_retro = pygame.image.load('images/assets/retro.png').convert_alpha()
-        self.img_joypad = pygame.image.load('images/assets/retro.png').convert_alpha()
+        self.img_joypad = pygame.image.load('images/assets/joypad.png').convert_alpha()
         self.img_common = pygame.image.load('images/assets/common.png').convert_alpha()
         # sounds
         self.sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
@@ -94,31 +94,31 @@ class Menu():
 
     def page_2(self): # hotspot info
         x = 75
-        y = 60
+        y = 65
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
                          'The Hotspots', self.srf_page2, x, y, 1)
-        x = 60
-        y = 95
+        x = 65
+        y = 100
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
         ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
         self.shaded_text(fb, ff, 'Explosives', self.srf_page2, x, y, 1)
-        self.shaded_text(fb, ff, 'Ammunition', self.srf_page2, x, y+20, 1)
-        self.shaded_text(fb, ff, 'Key Card', self.srf_page2, x, y+40, 1) 
-        self.shaded_text(fb, ff, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
-        x = 159
-        self.shaded_text(fb, ff, 'Closed door', self.srf_page2, x, y, 1)
-        self.shaded_text(fb, ff, 'Checkpoint.', self.srf_page2, x, y+15, 1) 
-        self.shaded_text(fb, ff, '(Save the game)', self.srf_page2, x, y+25, 1)
+        self.shaded_text(fb, ff, 'Ammunition', self.srf_page2, x, y+25, 1)
+        self.shaded_text(fb, ff, 'Key Card', self.srf_page2, x, y+50, 1) 
+        x = 155
+        self.shaded_text(fb, ff, 'Oxygen bottle', self.srf_page2, x, y, 1)
+        self.shaded_text(fb, ff, 'Closed door', self.srf_page2, x, y+25, 1)
+        self.shaded_text(fb, ff, 'Checkpoint.', self.srf_page2, x, y+45, 1) 
+        self.shaded_text(fb, ff, '(Save the game)', self.srf_page2, x, y+55, 1)
         # images of the hotspots
-        x = 37
-        y = 89
+        x = 42
+        y = 94
         self.srf_page2.blit(self.game.hotspot_images[enums.TNT], (x, y))
-        self.srf_page2.blit(self.game.hotspot_images[enums.AMMO], (x, y+20))
-        self.srf_page2.blit(self.game.hotspot_images[enums.KEY], (x, y+40))
-        self.srf_page2.blit(self.game.hotspot_images[enums.OXYGEN], (x, y+60))
-        x = 136
-        self.srf_page2.blit(self.game.gate_image, (x, y))
-        self.srf_page2.blit(self.game.hotspot_images[enums.CHECKPOINT], (x, y+20))
+        self.srf_page2.blit(self.game.hotspot_images[enums.AMMO], (x, y+25))
+        self.srf_page2.blit(self.game.hotspot_images[enums.KEY], (x, y+50))
+        x = 132
+        self.srf_page2.blit(self.game.hotspot_images[enums.OXYGEN], (x, y))
+        self.srf_page2.blit(self.game.gate_image, (x, y+25))
+        self.srf_page2.blit(self.game.hotspot_images[enums.CHECKPOINT], (x, y+50))
 
     def page_3(self): # enemies/gifts info
         x = 30
@@ -138,7 +138,7 @@ class Menu():
         self.shaded_text(fb, ff, 'Cake (+350)', self.srf_page3, x, y+20, 1)
         self.shaded_text(fb, ff, 'Donut (+200)', self.srf_page3, x, y+40, 1) 
         # images of enemies
-        x = 28
+        x = 27
         y = 89
         self.srf_page3.blit(self.game.enemy_images[enums.INFECTED][0], (x, y))
         self.srf_page3.blit(self.game.enemy_images[enums.AVIRUS][0], (x, y+20))
@@ -167,10 +167,14 @@ class Menu():
         x = 165
         self.srf_page4.blit(self.img_retro, (x, y)) # image of the retro layout
         self.shaded_text(fb, ff, 'Retro', self.srf_page4, x+16, y+38, 1) 
-        x = 108
-        y = 140
+        x = 58
+        y = 138
+        self.srf_page4.blit(self.img_joypad, (x, y)) # image of the common keys
+        self.shaded_text(fb, ff, 'Joypad', self.srf_page4, x-30, y+15, 1)
+        x = 123
+        y = 138
         self.srf_page4.blit(self.img_common, (x, y)) # image of the common keys
-        self.shaded_text(fb, ff, 'Common keys', self.srf_page4, x-50, y+15, 1)
+        self.shaded_text(fb, ff, 'Common keys', self.srf_page4, x+62, y+15, 1)
 
     def page_5(self): # high scores
         # header

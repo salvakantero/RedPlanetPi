@@ -276,23 +276,6 @@ class Game():
         elif self.config.data['scanlines'] == 1: # fast
             self.scanlines(self.screen, 15) # almost black lines
     
-    # it's necessary to clean the edges of the map after shaking it
-    def clean_edges(self):
-        self.screen.fill()        
-
-        # if self.config.data['full_screen']:
-        #     x = constants.H_MARGIN // 2
-        #     y = self.srf_sboard.get_height - (self.srf_sboard.get_height * 10) // 100
-        #     width = 20
-        #     height = 500
-        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (x, y, width , height)) # left margin
-        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (760, 120 , 20 , 500)) # right margin
-        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (40, 610 , 720 , 20)) # botton margin        
-        # else:
-        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (20, 120 , 20 , 500)) # left margin
-        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (760, 120 , 20 , 500)) # right margin
-        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (40, 610 , 720 , 20)) # botton margin
-
     # dumps and scales surfaces to the screen
     def update_screen(self):
         if self.status == enums.OVER:
@@ -304,8 +287,9 @@ class Game():
             # shakes the surface of the map if it has been requested
             offset = [0,0]
             if self.shake_timer > 0:
-                if self.shake_timer == 1: # last frame shaken   
-                    self.clean_edges()
+                if self.shake_timer == 1: # last frame shaken
+                    # it's necessary to clean the edges of the map after shaking it
+                    self.screen.fill(constants.PALETTE['BLACK'])
                 else:
                     offset[0] = random.randint(-self.shake[0], self.shake[0])
                     offset[1] = random.randint(-self.shake[1], self.shake[1])
