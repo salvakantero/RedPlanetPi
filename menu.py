@@ -93,42 +93,38 @@ class Menu():
                          'Use arrow keys and SPACE/ENTER to select', self.srf_page1, x-35, y+90, 1)
 
     def page_2(self): # hotspot info
-        x = 20
-        y = 65
+        x = 75
+        y = 60
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Baddies       The Hotspots', self.srf_page2, x, y, 1)
-        x = 40
+                         'The Hotspots', self.srf_page2, x, y, 1)
+        x = 50
         y = 95
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
         ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
-        self.shaded_text(fb, ff, 'Infected (+25)', self.srf_page2, x, y, 1)
-        self.shaded_text(fb, ff, 'Arachnovirus (+50)', self.srf_page2, x, y+20, 1)
-        self.shaded_text(fb, ff, 'Pelusoid (+75)', self.srf_page2, x, y+40, 1)   
-        self.shaded_text(fb, ff, 'Pelusoid Fanty (+100)', self.srf_page2, x, y+60, 1)
-        x = 163
         self.shaded_text(fb, ff, 'Explosives', self.srf_page2, x, y, 1)
         self.shaded_text(fb, ff, 'Ammunition', self.srf_page2, x, y+20, 1)
         self.shaded_text(fb, ff, 'Key Card', self.srf_page2, x, y+40, 1) 
         self.shaded_text(fb, ff, 'Oxygen bottle', self.srf_page2, x, y+60, 1)
-        # images of enemies
-        x = 17
-        y = 89
-        self.srf_page2.blit(self.game.enemy_images[enums.INFECTED][0], (x, y))
-        self.srf_page2.blit(self.game.enemy_images[enums.AVIRUS][0], (x, y+20))
-        self.srf_page2.blit(self.game.enemy_images[enums.PELUSOID][0], (x, y+40))
-        self.srf_page2.blit(self.game.enemy_images[enums.FANTY][0], (x, y+60))
+        x = 163
+        self.shaded_text(fb, ff, 'Closed door', self.srf_page2, x, y, 1)
+        self.shaded_text(fb, ff, 'Checkpoint.', self.srf_page2, x, y+20, 1) 
+        self.shaded_text(fb, ff, 'Save the game', self.srf_page2, x, y+30, 1)
         # images of the hotspots
-        x = 139
+        x = 27
+        y = 89
         self.srf_page2.blit(self.game.hotspot_images[enums.TNT], (x, y))
         self.srf_page2.blit(self.game.hotspot_images[enums.AMMO], (x, y+20))
         self.srf_page2.blit(self.game.hotspot_images[enums.KEY], (x, y+40))
         self.srf_page2.blit(self.game.hotspot_images[enums.OXYGEN], (x, y+60))
+        x = 139
+        self.srf_page2.blit(self.game.gate_image, (x, y))
+        self.srf_page2.blit(self.game.hotspot_images[enums.CHECKPOINT], (x, y+20))
 
     def page_3(self): # enemies/gifts info
         x = 20
         y = 65
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Baddies       The Hotspots', self.srf_page3, x, y, 1)
+                         'The Baddies       The Gifts', self.srf_page3, x, y, 1)
         x = 40
         y = 95
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
@@ -138,10 +134,9 @@ class Menu():
         self.shaded_text(fb, ff, 'Pelusoid (+75)', self.srf_page3, x, y+40, 1)   
         self.shaded_text(fb, ff, 'Pelusoid Fanty (+100)', self.srf_page3, x, y+60, 1)
         x = 163
-        self.shaded_text(fb, ff, 'Explosives', self.srf_page3, x, y, 1)
-        self.shaded_text(fb, ff, 'Ammunition', self.srf_page3, x, y+20, 1)
-        self.shaded_text(fb, ff, 'Key Card', self.srf_page3, x, y+40, 1) 
-        self.shaded_text(fb, ff, 'Oxygen bottle', self.srf_page3, x, y+60, 1)
+        self.shaded_text(fb, ff, 'Burguer (+500)', self.srf_page3, x, y, 1)
+        self.shaded_text(fb, ff, 'Cake (+350)', self.srf_page3, x, y+20, 1)
+        self.shaded_text(fb, ff, 'Donut (+200)', self.srf_page3, x, y+40, 1) 
         # images of enemies
         x = 17
         y = 89
@@ -149,12 +144,11 @@ class Menu():
         self.srf_page3.blit(self.game.enemy_images[enums.AVIRUS][0], (x, y+20))
         self.srf_page3.blit(self.game.enemy_images[enums.PELUSOID][0], (x, y+40))
         self.srf_page3.blit(self.game.enemy_images[enums.FANTY][0], (x, y+60))
-        # images of the hotspots
+        # images of the gifts
         x = 139
-        self.srf_page3.blit(self.game.hotspot_images[enums.TNT], (x, y))
-        self.srf_page3.blit(self.game.hotspot_images[enums.AMMO], (x, y+20))
-        self.srf_page3.blit(self.game.hotspot_images[enums.KEY], (x, y+40))
-        self.srf_page3.blit(self.game.hotspot_images[enums.OXYGEN], (x, y+60))
+        self.srf_page3.blit(self.game.hotspot_images[enums.BURGUER], (x, y))
+        self.srf_page3.blit(self.game.hotspot_images[enums.CAKE], (x, y+20))
+        self.srf_page3.blit(self.game.hotspot_images[enums.DONUT], (x, y+40))
 
     def page_4(self): # control info
         x = 95
@@ -284,14 +278,16 @@ class Menu():
 
             # draws the main menu
             if menu_page == 1: self.srf_menu.blit(self.srf_page1, (x, 0))
-            # draws enemy and hotspot information        
+            # draws hotspot information        
             elif menu_page == 2: self.srf_menu.blit(self.srf_page2, (x, 0))
-            # draws the information of the control keys
+            # draws enemies and gifts information        
             elif menu_page == 3: self.srf_menu.blit(self.srf_page3, (x, 0))
+            # draws the information of the control keys
+            elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))
             # draw the score table
-            elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))     
+            elif menu_page == 5: self.srf_menu.blit(self.srf_page5, (x, 0))     
             # draw the options page
-            else: self.srf_menu.blit(self.srf_page5, (x, 0))         
+            else: self.srf_menu.blit(self.srf_page6, (x, 0))         
 
             # ====================== keyboard management =======================
             for event in pygame.event.get():
@@ -299,10 +295,10 @@ class Menu():
                     self.game.exit()
                 if event.type == pygame.KEYDOWN and x == 0: # a key has been pressed         
                     # active pages
-                    if menu_page == 1 or menu_page == 5:
+                    if menu_page == 1 or menu_page == 6:
                         if event.key == pygame.K_ESCAPE: 
                             if menu_page == 1: self.game.exit() # exits the application completely
-                            else: # on page 5, return to page 1
+                            else: # on page 6, return to page 1
                                 menu_page = 1
                                 selected_option = 0
                                 break
@@ -313,7 +309,7 @@ class Menu():
                             if menu_page == 1: 
                                 shot_x = 58
                                 shot_y = 65+(20*selected_option)
-                            elif menu_page == 5:
+                            elif menu_page == 6:
                                 shot_x = 38
                                 shot_y = -28+(20*selected_option)
                             shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet, 8)
@@ -334,7 +330,7 @@ class Menu():
                                 self.sfx_menu_click.play()
                                 page_timer = 0
                         # Options menu and there is no shot in progress?
-                        elif menu_page == 5 and not confirmed_option:
+                        elif menu_page == 6 and not confirmed_option:
                             # the cursor down has been pressed
                             if event.key == pygame.K_DOWN and selected_option < enums.EXIT2:
                                 selected_option += 1
@@ -351,11 +347,11 @@ class Menu():
                         page_timer = 0
             
             # =================== management of active pages ===================
-            if (menu_page == 1 or menu_page == 5) and x == 0:
+            if (menu_page == 1 or menu_page == 6) and x == 0:
                 # shows the player (cursor) next to the selected option
                 if menu_page == 1:
                     self.srf_menu.blit(self.img_player, (55, 64 + (20*selected_option)))
-                else: # page 5
+                else: # page 6
                     self.srf_menu.blit(self.img_player, (34, -28 + (20*selected_option)))
                 
                 # draw the shot (if it exists)
@@ -375,7 +371,7 @@ class Menu():
                         # reinitialises common variables and loads the page
                         x = constants.MENU_UNSCALED_SIZE[0]
                         selected_option = enums.FULLSCREEN
-                        menu_page = 5
+                        menu_page = 6
                     elif selected_option == enums.EXIT:
                         self.game.exit()
 
@@ -397,14 +393,14 @@ class Menu():
                     # common operations
                     confirmed_option = False
                     page_timer = 0
-                    if menu_page == 5:
+                    if menu_page == 6:
                         # create joystick/joypad/gamepad object (if necessary)
                         self.game.joystick = self.game.config.prepare_joystick()
                         # saves possible changes to the configuration
                         self.game.config.save()                       
                         # recreate the page with the new data
-                        self.srf_page5 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-                        self.srf_page5.set_colorkey(constants.PALETTE['BLACK'])
-                        self.page_5()
+                        self.srf_page6 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+                        self.srf_page6.set_colorkey(constants.PALETTE['BLACK'])
+                        self.page_6()
 
             self.game.update_screen()

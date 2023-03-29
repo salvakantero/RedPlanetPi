@@ -277,13 +277,21 @@ class Game():
             self.scanlines(self.screen, 15) # almost black lines
     
     # it's necessary to clean the edges of the map after shaking it
-    def clean_edges(self):         
-        # pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (20, 120 , 20 , 500)) # left margin
-        # pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (760, 120 , 20 , 500)) # right margin
-        # pygame.draw.rect(self.screen, constants.PALETTE['BLACK'], (40, 610 , 720 , 20)) # botton margin
-        pygame.draw.rect(self.screen, constants.PALETTE['RED'], (20, 120 , 20 , 500)) # left margin
-        pygame.draw.rect(self.screen, constants.PALETTE['RED'], (760, 120 , 20 , 500)) # right margin
-        pygame.draw.rect(self.screen, constants.PALETTE['RED'], (40, 610 , 720 , 20)) # botton margin
+    def clean_edges(self):
+        self.screen.fill((0, 0, 0))        
+
+        # if self.config.data['full_screen']:
+        #     x = constants.H_MARGIN // 2
+        #     y = self.srf_sboard.get_height - (self.srf_sboard.get_height * 10) // 100
+        #     width = 20
+        #     height = 500
+        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (x, y, width , height)) # left margin
+        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (760, 120 , 20 , 500)) # right margin
+        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (40, 610 , 720 , 20)) # botton margin        
+        # else:
+        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (20, 120 , 20 , 500)) # left margin
+        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (760, 120 , 20 , 500)) # right margin
+        #     pygame.draw.rect(self.screen, constants.PALETTE['RED'], (40, 610 , 720 , 20)) # botton margin
 
     # dumps and scales surfaces to the screen
     def update_screen(self):
