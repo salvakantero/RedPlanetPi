@@ -196,6 +196,14 @@ class Game():
         # windowed mode, generates a main window with title, icon, and 32-bit colour
         # the window dimensions and the margins are fixed
         else:
+            # default values
+            constants.WIN_SIZE = 800, 640
+            constants.MENU_SCALED_SIZE = 720, 594
+            constants.SBOARD_SCALED_SIZE = 720, 114
+            constants.MAP_SCALED_SIZE = 720, 480
+            constants.H_MARGIN = 40
+            constants.V_MARGIN = 20
+            
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
             pygame.display.set_caption('.:: Red Planet Pi ::.')
             icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
