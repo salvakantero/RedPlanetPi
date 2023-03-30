@@ -93,7 +93,7 @@ class Menu():
                          'Use arrow keys and SPACE/ENTER to select', self.srf_page1, x-35, y+90, 1)
 
     def page_2(self): # hotspot info
-        x = 75
+        x = 70
         y = 65
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
                          'The Hotspots', self.srf_page2, x, y, 1)
@@ -151,27 +151,27 @@ class Menu():
         self.srf_page3.blit(self.game.hotspot_images[enums.DONUT], (x, y+40))
 
     def page_4(self): # control info
-        x = 95
+        x = 90
         y = 57
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
                          'Controls', self.srf_page4, x, y, 1)
-        x = 35
+        x = 30
         y = 82
         fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
         ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
         self.srf_page4.blit(self.img_classic, (x, y)) # image of the classic layout
         self.shaded_text(fb, ff, 'Classic', self.srf_page4, x+9, y+38, 1)
-        x = 100
+        x = 95
         self.srf_page4.blit(self.img_gamer, (x, y)) # image of the gamer layout
         self.shaded_text(fb, ff, 'Gamer', self.srf_page4, x+12, y+38, 1)
-        x = 165
+        x = 160
         self.srf_page4.blit(self.img_retro, (x, y)) # image of the retro layout
         self.shaded_text(fb, ff, 'Retro', self.srf_page4, x+16, y+38, 1) 
-        x = 58
+        x = 53
         y = 138
         self.srf_page4.blit(self.img_joypad, (x, y)) # image of the common keys
         self.shaded_text(fb, ff, 'Joypad', self.srf_page4, x-30, y+15, 1)
-        x = 123
+        x = 118
         y = 138
         self.srf_page4.blit(self.img_common, (x, y)) # image of the common keys
         self.shaded_text(fb, ff, 'Common keys', self.srf_page4, x+62, y+15, 1)
@@ -398,10 +398,11 @@ class Menu():
                     confirmed_option = False
                     page_timer = 0
                     if menu_page == 6:
-                        # create joystick/joypad/gamepad object (if necessary)
-                        self.game.joystick = self.game.config.prepare_joystick()
-                        # saves possible changes to the configuration
-                        self.game.config.save()                       
+                        # create joystick/joypad/gamepad object (if it exists)
+                        self.game.joystick = self.game.config.prepare_joystick()                        
+                        # saves and apply possible changes to the configuration
+                        self.game.config.save()  
+                        self.game.apply_display_settings()                     
                         # recreate the page with the new data
                         self.srf_page6 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
                         self.srf_page6.set_colorkey(constants.PALETTE['BLACK'])

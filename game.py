@@ -66,37 +66,8 @@ class Game():
         self.dust_group = pygame.sprite.GroupSingle()
         self.shot_group = pygame.sprite.GroupSingle()
         self.blast_group = pygame.sprite.GroupSingle()
-        # full screen. It is necessary to calculate the dimensions of the playing area 
-        # and the margins according to the size of the screen.
-        if self.config.data['full_screen']: 
-            screen = pygame.display.Info() # gets the screen resolution
-            constants.WIN_SIZE = (screen.current_w, screen.current_h) # the main window takes up the entire screen
-            self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
-            # rescaling of surfaces without losing aspect ratio
-            scaling_factor = screen.current_h / constants.MENU_SCALED_SIZE[1]
-            constants.MENU_SCALED_SIZE = (
-                int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
-                int(constants.MENU_SCALED_SIZE[1] * scaling_factor)
-            )
-            constants.SBOARD_SCALED_SIZE = (
-                int(constants.SBOARD_SCALED_SIZE[0] * scaling_factor),
-                int(constants.SBOARD_SCALED_SIZE[1] * scaling_factor)
-            )
-            constants.MAP_SCALED_SIZE = (
-                int(constants.MAP_SCALED_SIZE[0] * scaling_factor),
-                int(constants.MAP_SCALED_SIZE[1] * scaling_factor)
-            )
-            # optimised margins
-            constants.V_MARGIN = 0 # the height of the playing area shall always be that of the screen
-            # the left margin is equal to half the unused width of the screen (to centre the playing area)
-            constants.H_MARGIN = (screen.current_w - constants.MENU_SCALED_SIZE[0]) // 2
-        # windowed mode, generates a main window with title, icon, and 32-bit colour
-        # the window dimensions and the margins are fixed
-        else:
-            self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
-            pygame.display.set_caption('.:: Red Planet Pi ::.')
-            icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-            pygame.display.set_icon(icon)
+        # creates a window or full-screen environment 
+        self.apply_display_settings()
         # surface for HQ scanlines
         self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
         self.srf_scanlines.set_alpha(25)
@@ -196,6 +167,40 @@ class Game():
         # create a joystick/joypad/gamepad object
         self.joystick = self.config.prepare_joystick()
     
+    # creates a window or full-screen environment 
+    def apply_display_settings(self):
+        # full screen. It is necessary to calculate the dimensions of the playing area 
+        # and the margins according to the size of the screen.
+        if self.config.data['full_screen']: 
+            screen = pygame.display.Info() # gets the screen resolution
+            constants.WIN_SIZE = (screen.current_w, screen.current_h) # the main window takes up the entire screen
+            self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
+            # rescaling of surfaces without losing aspect ratio
+            scaling_factor = screen.current_h / constants.MENU_SCALED_SIZE[1]
+            constants.MENU_SCALED_SIZE = (
+                int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
+                int(constants.MENU_SCALED_SIZE[1] * scaling_factor)
+            )
+            constants.SBOARD_SCALED_SIZE = (
+                int(constants.SBOARD_SCALED_SIZE[0] * scaling_factor),
+                int(constants.SBOARD_SCALED_SIZE[1] * scaling_factor)
+            )
+            constants.MAP_SCALED_SIZE = (
+                int(constants.MAP_SCALED_SIZE[0] * scaling_factor),
+                int(constants.MAP_SCALED_SIZE[1] * scaling_factor)
+            )
+            # optimised margins
+            constants.V_MARGIN = 0 # the height of the playing area shall always be that of the screen
+            # the left margin is equal to half the unused width of the screen (to centre the playing area)
+            constants.H_MARGIN = (screen.current_w - constants.MENU_SCALED_SIZE[0]) // 2
+        # windowed mode, generates a main window with title, icon, and 32-bit colour
+        # the window dimensions and the margins are fixed
+        else:
+            self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
+            pygame.display.set_caption('.:: Red Planet Pi ::.')
+            icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
+            pygame.display.set_icon(icon)
+
     # load the high scores table
     def load_high_scores(self):
         if os.path.exists('scores.dat'):
