@@ -141,3 +141,34 @@ VSC: Cambiar fondo a negro:
     "editor.background": "#000000"
 }
  
+
+# Define las dimensiones de la ventana
+size = width, height = 640, 480
+
+# Crea la superficie de la ventana
+screen = pygame.display.set_mode(size)
+
+# Crea una superficie negra que cubra toda la pantalla
+mask = pygame.Surface(size)
+mask.fill((0, 0, 0))
+
+# Crea un círculo blanco en el centro de la pantalla
+circle_radius = 100
+circle_surface = pygame.Surface((circle_radius * 2, circle_radius * 2), pygame.SRCALPHA)
+pygame.draw.circle(circle_surface, (255, 255, 255, 128), (circle_radius, circle_radius), circle_radius)
+
+# Bucle principal del juego
+running = True
+while running:
+    # Procesa eventos
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Dibuja el juego
+    screen.blit(mask, (0, 0))
+    mask.set_clip((width // 2 - circle_radius, height // 2 - circle_radius, circle_radius * 2, circle_radius * 2))
+    # Dibuja los elementos del juego dentro del círculo blanco
+    # ...
+    screen.blit(circle_surface, (width // 2 - circle_radius, height // 2 - circle_radius))
+    mask.set_clip(None)
