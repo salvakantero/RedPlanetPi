@@ -57,8 +57,11 @@ class Game():
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # surface to save the previous map (transition effect between screens)
         self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        # surface for HQ scanlines
+        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
+        self.srf_scanlines.set_alpha(25)
         # sprite control groups
-        self.all_sprites_group = pygame.sprite.Group()     
+        self.all_sprites_group = pygame.sprite.Group()
         self.enemies_group = pygame.sprite.Group()
         self.hotspot_group = pygame.sprite.GroupSingle()
         self.gate_group = pygame.sprite.GroupSingle()
@@ -66,11 +69,12 @@ class Game():
         self.dust_group = pygame.sprite.GroupSingle()
         self.shot_group = pygame.sprite.GroupSingle()
         self.blast_group = pygame.sprite.GroupSingle()
+        # gets the screen resolution
+        screen = pygame.display.Info()
+        self.screen_width = screen.current_w
+        self.screen_height = screen.current_h
         # creates a window or full-screen environment 
         self.apply_display_settings()
-        # surface for HQ scanlines
-        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
-        self.srf_scanlines.set_alpha(25)
         # common fonts
         self.fonts = {
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
@@ -172,11 +176,11 @@ class Game():
         # full screen. It is necessary to calculate the dimensions of the playing area 
         # and the margins according to the size of the screen.
         if self.config.data['full_screen']: 
-            screen = pygame.display.Info() # gets the screen resolution
-            constants.WIN_SIZE = (screen.current_w, screen.current_h) # the main window takes up the entire screen
+            # the main window takes up the entire screen
+            constants.WIN_SIZE = (self.screen_width, self.screen_height)
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
             # rescaling of surfaces without losing aspect ratio
-            scaling_factor = screen.current_h / constants.MENU_SCALED_SIZE[1]
+            scaling_factor = self.screen_height / constants.MENU_SCALED_SIZE[1]
             constants.MENU_SCALED_SIZE = (
                 int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
                 int(constants.MENU_SCALED_SIZE[1] * scaling_factor)
@@ -192,15 +196,25 @@ class Game():
             # optimised margins
             constants.V_MARGIN = 0 # the height of the playing area shall always be that of the screen
             # the left margin is equal to half the unused width of the screen (to centre the playing area)
-            constants.H_MARGIN = (screen.current_w - constants.MENU_SCALED_SIZE[0]) // 2
-            
+            constants.H_MARGIN = (self.screen_width - constants.MENU_SCALED_SIZE[0]) // 2
         # windowed mode, generates a main window with title, icon, and 32-bit colour
         # the window dimensions and the margins are fixed
         else:
+            # restores default values
+            constants.WIN_SIZE = 800, 640
+            constants.MENU_SCALED_SIZE = 720, 594
+            constants.SBOARD_SCALED_SIZE = 720, 114
+            constants.MAP_SCALED_SIZE = 720, 480
+            constants.H_MARGIN = 40
+            constants.V_MARGIN = 20
+            # creates the window
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
             pygame.display.set_caption('.:: Red Planet Pi ::.')
             icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
             pygame.display.set_icon(icon)
+        # resize the surface for HQ scanlines
+        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
+        self.srf_scanlines.set_alpha(25)
 
     # load the high scores table
     def load_high_scores(self):
