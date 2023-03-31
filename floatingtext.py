@@ -27,7 +27,6 @@ from font import Font
 
 class FloatingText():
     def __init__(self, surface):
-        # attributes
         self.surface = surface    
         self.font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True)
         self.font2 = Font('images/fonts/small_font.png', constants.PALETTE['BROWN'], True) 
@@ -41,6 +40,6 @@ class FloatingText():
     def update(self):
         if self.y > 0:
             self.speed += self.acceleration
-            self.y -= self.speed
+            self.y -= self.speed # decreases Y, goes upwards
             self.font2.render(self.text, self.surface, (self.x+1, self.y+1))
             self.font.render(self.text, self.surface, (self.x, self.y))

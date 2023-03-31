@@ -86,7 +86,7 @@ class Menu():
         fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
         ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
         self.shaded_text(fb, ff, 'Start New Game', self.srf_page1, x, y, 1)
-        self.shaded_text(fb, ff, 'Load Checkpoint', self.srf_page1, x, y+20, 1)
+        self.shaded_text(fb, ff, 'Continue Game', self.srf_page1, x, y+20, 1)
         self.shaded_text(fb, ff, 'Options', self.srf_page1, x, y+40, 1)
         self.shaded_text(fb, ff, 'Exit', self.srf_page1, x, y+60, 1)
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
@@ -336,7 +336,7 @@ class Menu():
                         # Options menu and there is no shot in progress?
                         elif menu_page == 6 and not confirmed_option:
                             # the cursor down has been pressed
-                            if event.key == pygame.K_DOWN and selected_option < enums.EXIT2:
+                            if event.key == pygame.K_DOWN and selected_option < enums.EXIT_OPTIONS:
                                 selected_option += 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
@@ -389,7 +389,7 @@ class Menu():
                     elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
-                    elif selected_option == enums.EXIT2:
+                    elif selected_option == enums.EXIT_OPTIONS:
                         x = constants.MENU_UNSCALED_SIZE[0]
                         menu_page = 1
                         selected_option = enums.START

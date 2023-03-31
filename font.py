@@ -29,7 +29,7 @@ class Font():
     def __init__(self, path, color, transparent):
         self.path = path
         self.color = color
-        self.transparent = transparent
+        self.transparent = transparent # does not erase the background if True
         self.letters, self.letter_spacing, self.line_height = self.load_font_img()
         self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
         'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e',

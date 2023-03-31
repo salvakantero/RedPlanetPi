@@ -62,7 +62,7 @@ scoreboard = Scoreboard(game)
 # creates the Map object
 map = Map(game)
 # creates the player
-player = Player(game, map, scoreboard)
+#player = Player(game, map, scoreboard)
 
 # small, opaque font for debug and test
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
@@ -83,14 +83,12 @@ while True:
         game.jukebox.shuffle()
         # reset variables
         map.last = -1
+        map.scroll = enums.RIGHT
         game.status = enums.RUNNING
         game.floating_text.y = 0
-        map.scroll = enums.RIGHT
+        player = Player(game, map, scoreboard)
         if game.new:
-            player.reset()
-            for hotspot in constants.HOTSPOT_DATA:
-                if hotspot[0] == enums.CHECKPOINT: hotspot[0] = enums.KEY # restores the keys to their positions
-                hotspot[3] = True # all visible hotspots
+            for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
             map.number = 0                        
             scoreboard.game_percent = 0

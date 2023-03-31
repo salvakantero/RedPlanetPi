@@ -33,4 +33,7 @@ class Gate(pygame.sprite.Sprite):
         # image
         self.image = gate_image
         self.rect = self.image.get_rect()
+        # coordinates in tiles have to be converted to pixels
         self.rect.topleft = (self.x*constants.TILE_SIZE, self.y*constants.TILE_SIZE)
+
+        # GATES does not need to be updated here

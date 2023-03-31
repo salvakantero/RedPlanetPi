@@ -6,13 +6,13 @@ EN PROCESO
 ==========
 - Pantalla final
 - Linterna en pantallas oscuras
+- Revisar, simplificar, organizar y comentar el código fuente final
 
 BUGS
 ====
 
 POR HACER
 =========
-- Revisar, simplificar, organizar y comentar el código fuente final
 - Actualizar manual
 
 HECHO

@@ -28,10 +28,12 @@ class Intro():
     def __init__(self, game):
         self.game = game
         self.srf_menu = game.srf_menu
-        self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro  
+        # images
+        self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro logo  
         self.img_intro1 = pygame.image.load('images/assets/intro1.png').convert() # background
         self.img_intro2 = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
         self.img_intro3 = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
+        # sounds
         self.sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
         self.sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
         self.sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro

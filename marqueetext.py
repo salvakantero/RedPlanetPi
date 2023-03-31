@@ -24,7 +24,6 @@
 
 class MarqueeText():
     def __init__(self, surface, font, y, speed, text, text_width):
-        # attributes
         self.surface = surface    
         self.font = font
         self.x = surface.get_width() # to the far right

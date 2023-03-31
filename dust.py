@@ -31,7 +31,7 @@ class DustEffect(pygame.sprite.Sprite):
         self.frames = dust_animation # image list
         self.image = self.frames[0] # first frame
         self.rect = self.image.get_rect(center = pos) # position
-        self.rect.y += 2 # offset
+        self.rect.y += 2 # offset to position the image at the player's feet
         
     # loads next frame of animation or ends
     def animate(self):

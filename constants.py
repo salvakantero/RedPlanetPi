@@ -24,7 +24,7 @@
 import enums
 
 # game screen
-WIN_SIZE = 800, 640 # main window size (or full screen resolution)
+WIN_SIZE = 800, 640 # main window size (windowed mode)
 TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
 MENU_SCALED_SIZE = 720, 594 # menu size scaled x3 (windowed mode)
 MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
@@ -35,14 +35,14 @@ SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 # player
-INVINCIBLE_TIME = 2000 # time of invincibility (2 secs.)
+INVINCIBLE_TIME = 2500 # time of invincibility (+-2,5 secs.)
 JUMP_VALUE = -3.2 # value of the initial jump for the player
 GRAVITY = 0.180 # acceleration of gravity for the player
 MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
 MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 25 # bullets per reload
 MAX_OXYGEN = 99 # oxygen units per refill
-OXYGEN_TIME = 2000 # time of each oxygen unit (2 secs.)
+OXYGEN_TIME = 2000 # time of each oxygen unit (+-2 secs.)
 
 # animated tiles
 ANIM_TILES = {
@@ -54,7 +54,7 @@ ANIM_TILES = {
     'T71.png' : 'T84.png'   # lava
 }
 
-# colour palette (Pico8)
+# colour palette (similar to Pico8)
 PALETTE = {
     'BLACK': (0, 0, 0),
     'DARK_BLUE' : (35, 50, 90),
@@ -372,7 +372,8 @@ HOTSPOT_DATA = [
     [enums.OXYGEN, 1, 2, True]
 ]   
 
-# doors per map; map number: [x, y, visible?]
+# doors per map
+# map number: [x, y, visible?]
 GATE_DATA = {    
     8: [14, 8, True],
     13: [14, 7, True],
@@ -397,7 +398,7 @@ HELP += 'that are scattered around the station, and place them in the explosives
 HELP += ', deep inside the martian base.     Once deposited, you must RETURN '
 HELP += 'to the control centre and activate the DETONATOR. Good luck!'
 
-# credits for the main menu (marquee)
+# credits for the main menu
 CREDITS  = '.::Red Planet Pi::. v1.0     PlayOnRetro 2023     '
 CREDITS += 'PROGRAMMING: salvaKantero     '
 CREDITS += 'GRAPHICS: salvaKantero     '

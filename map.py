@@ -85,13 +85,11 @@ class Map():
         tile_name = tile_name.replace('.png', '')
         tile_name = tile_name.replace('T', '')
         return int(tile_name)
-
+  
     # get a value from a dictionary
     def find_data(self, lst, key, value):
-        for i, dic in enumerate(lst):
-            if dic[key] == value:
-                return dic
-        return -1
+        matches = [d for d in lst if d[key] == value]
+        return matches[0] if matches else None
 
     # draws the tile map on the screen
     def draw_map(self):
@@ -142,9 +140,7 @@ class Map():
                 tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
                 self.game.srf_map_bk.blit(tile, tileRect) # draws on the background image
                 # update frame number (0,1)
-                anim_tile[4] += 1
-                if anim_tile[4] > 1:
-                    anim_tile[4] = 0    
+                anim_tile[4] = (anim_tile[4] + 1) % 2
 
     # checks if the map needs to be changed (depending on the player's XY position)
     def check_change(self, player):
@@ -181,10 +177,10 @@ class Map():
         self.last = self.number
         # load the new map
         self.load()
-        # preserves the previous map
+        # preserves the previous map to make the transition
         if self.game.config.data['map_transition']:
             self.game.srf_map_bk_prev.blit(self.game.srf_map_bk, (0,0))
-        # save the new empty background
+        # save the new background (empty of sprites)
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
         # add the TNT pile if necessary to the background
         if self.number == 44 and player.stacked_TNT:
@@ -205,16 +201,18 @@ class Map():
         self.game.platform_group.empty()
         self.game.dust_group.empty()
         self.game.blast_group.empty()
-        # deletes the active floating text
+        # removes any possible floating text
         self.game.floating_text.y = 0
         # add the player  
         self.game.all_sprites_group.add(player)
+
         # add the hotspot (if available)
         hotspot = constants.HOTSPOT_DATA[self.number]
         if hotspot[3] == True: # visible/available?           
             hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
             self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
             self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
+
         # add a checkpoint at the empty position of the keys
         elif hotspot[0] == enums.KEY:
             hotspot[0] = enums.CHECKPOINT
@@ -222,20 +220,23 @@ class Map():
             self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
             self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
             constants.HOTSPOT_DATA[self.number][0] = enums.KEY # restores its original type
+
         # sometimes adds an extra score at the empty position of the TNT
         elif hotspot[0] == enums.TNT:            
-            hotspot[0] = random.randint(5,8) # 5 = Burguer, 6 = Cake, 7 = Donut, 8 = None
+            hotspot[0] = random.randint(5,9) # 5 = Burguer, 6 = Cake, 7 = Donut, 8-9 = None
             if hotspot[0] < 8:
                 hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
                 self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
                 self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
             constants.HOTSPOT_DATA[self.number][0] = enums.TNT # restores its original type
+
         # add the gate (if there is one visible on the map)
         gate = constants.GATE_DATA.get(self.number)
         if gate != None and gate[2] == True: # visible/available?
             gate_sprite = Gate(gate, self.game.gate_image)
             self.game.all_sprites_group.add(gate_sprite) # to update/draw it
             self.game.gate_group.add(gate_sprite) # to check for collisions
+
         # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
         # a maximum of three enemies per map
         # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
@@ -244,7 +245,7 @@ class Map():
             if enemy_data[6] != enums.NONE:
                 enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[6]])
                 self.game.all_sprites_group.add(enemy) # to update/draw it
-                # enemy sprite? add to the enemy group (to check for collisions)
+                # enemy sprite? add to the enemy group
                 if enemy_data[6] != enums.PLATFORM_SPR:
                     self.game.enemies_group.add(enemy) # to check for collisions
                 else: # platform sprite? add to the platform group
@@ -256,6 +257,11 @@ class Map():
         srf_map_t_h = pygame.Surface((constants.MAP_UNSCALED_SIZE[0]*2, constants.MAP_UNSCALED_SIZE[1]))
         srf_map_t_v = pygame.Surface((constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
 
+        #  -----------   
+        #  | new map |  /|\
+        #  -----------   |
+        #  | old map |   |
+        #  -----------   
         if self.scroll == enums.UP:
             # joins the two maps on a single surface
             srf_map_t_v.blit(self.game.srf_map_bk, (0,0))
@@ -264,6 +270,12 @@ class Map():
             for y in range(-constants.MAP_UNSCALED_SIZE[1], 0, 4):
                 self.game.srf_map.blit(srf_map_t_v, (0, y))
                 self.game.update_screen()
+
+        #  -----------   
+        #  | old map |   |
+        #  -----------   |
+        #  | new map |  \|/
+        #  -----------   
         elif self.scroll == enums.DOWN:
             # joins the two maps on a single surface
             srf_map_t_v.blit(self.game.srf_map_bk_prev, (0,0))
@@ -272,6 +284,11 @@ class Map():
             for y in range(0, -constants.MAP_UNSCALED_SIZE[1], -4):
                 self.game.srf_map.blit(srf_map_t_v, (0, y))
                 self.game.update_screen()
+
+        #         <-----
+        #  ---------------------
+        #  | new map | old map |
+        #  ---------------------
         elif self.scroll == enums.LEFT:
             # joins the two maps on a single surface
             srf_map_t_h.blit(self.game.srf_map_bk, (0,0))
@@ -280,6 +297,11 @@ class Map():
             for x in range(-constants.MAP_UNSCALED_SIZE[0], 0, 6):
                 self.game.srf_map.blit(srf_map_t_h, (x, 0))
                 self.game.update_screen()
+
+        #         ----->
+        #  ---------------------
+        #  | old map | new map |
+        #  ---------------------
         else: # right
             # joins the two maps on a single surface
             srf_map_t_h.blit(self.game.srf_map_bk_prev, (0,0))

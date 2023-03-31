@@ -25,7 +25,7 @@
 NO_ACTION, OBSTACLE, PLATFORM_TILE, ITEM, KILLER, DOOR = 0, 1, 2, 3, 4, 5 
 # game states
 RUNNING, OVER = 0, 1
-# directions
+# directions of movement
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 # music states
 UNMUTED, MUTED = 0, 1
@@ -37,9 +37,9 @@ NONE, INFECTED, PELUSOID, AVIRUS, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 5
 IDLE, CHASING, RETREATING = 0, 1, 2
 # hotspot types
 TNT, KEY, AMMO, OXYGEN, CHECKPOINT, BURGUER, CAKE, DONUT = 0, 1, 2, 3, 4, 5, 6, 7
-# fonts
+# fonts; S=small L=large F=foreground B=background
 S_F_GREEN, S_B_GREEN, S_F_WHITE, S_B_WHITE, L_F_WHITE, L_B_WHITE, L_F_SAND, L_B_SAND = 0, 1, 2, 3, 4, 5, 6, 7
 # menu
-START, LOAD, OPTIONS, EXIT, FULLSCREEN, SCANLINES, MAP_TRANSITION, CONTROL, EXIT2 = 0, 1, 2, 3, 4, 5, 6, 7, 8
+START, LOAD, OPTIONS, EXIT, FULLSCREEN, SCANLINES, MAP_TRANSITION, CONTROL, EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7, 8
 # keyboard control types
 CLASSIC, GAMER, RETRO, JOYSTICK = 0, 1, 2, 3

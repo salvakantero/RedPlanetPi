@@ -34,7 +34,6 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images):
         # enemy_data = (x1, y1, x2, y2, vx, vy, type)
         super().__init__()
-        self.player = player_rect # player's current position
         # from xy values
         self.x = self.x1 = enemy_data[0]
         self.y = self.y1 = enemy_data[1]
@@ -46,29 +45,32 @@ class Enemy(pygame.sprite.Sprite):
         self.vy = enemy_data[5]
         # enemy type; Infected, Avirus, Pelusoid, Fanty, Platform
         self.type = enemy_data[6]
-        if self.type == enums.FANTY:
+        # additional attributes for the enemy Fanty
+        if self.type == enums.FANTY:            
             self.state = enums.IDLE          
             self.sight_distance = 64 # pixels/frame
             self.acceleration = 0.05 # pixels/frame
             self.max_speed = 2 # pixels/frame
+        # player's current position (some enemies look at the player)
+        self.player = player_rect
         # images
         self.image_list = enemy_images
         self.frame_index = 0 # frame number
         self.animation_timer = 12 # timer to change frame
         self.animation_speed = 12 # frame dwell time
-        self.image = self.image_list[0]
+        self.image = self.image_list[0] # first frame
         self.rect = self.image.get_rect()
 
-    # changes a sign value according to the sign of another value
+    # changes a sign value according to the sign of another value (used for the Fanty)
     def addsign (self, n, value):
         if n >= 0: return value
         else: return -value
 
-    # calculates the distance between two points
+    # calculates the distance between two points (used for the Fanty)
     def distance (self, x1, y1, x2, y2):
         return math.hypot(x2 - x1, y2 - y1)
 
-    # maintains a value within limits
+    # maintains a value within limits (used for the Fanty)
     def limit(self, val, min, max):
         if val < min: return min
         elif val > max: return max
@@ -96,9 +98,9 @@ class Enemy(pygame.sprite.Sprite):
         if self.type != enums.FANTY: # no fanty  
             self.x += self.vx
             self.y += self.vy
-            if self.x == self.x1 or self.x == self.x2:
+            if self.x == self.x1 or self.x == self.x2: # x limit reached
                 self.vx = -self.vx
-            if self.y == self.y1 or self.y == self.y2:
+            if self.y == self.y1 or self.y == self.y2: # y limit reached
                 self.vy = -self.vy
         else: # fanty
             if self.state == enums.IDLE:                

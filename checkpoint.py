@@ -30,7 +30,9 @@ import constants
 class Checkpoint():
     def __init__(self):
         self.filename = 'checkpoint.dat'
-        self.data = { # default values...
+        # defaults (these are the equivalent values at the start of a game)
+        # allow a checkpoint to be loaded even if the file does not exist.
+        self.data = {
             'map_number' : 0,
             'game_percent' : 0,
             'player_lives' : 10,
@@ -46,10 +48,12 @@ class Checkpoint():
             'gate_data' : constants.GATE_DATA
         }
 
+    # generates a new 'checkpoint.dat' with the current game data 
     def save(self):
         with open(self.filename, "wb") as f:
             pickle.dump(self.data, f)
 
+    # loads data from 'checkpoint.dat' if file exists
     def load(self):
         if os.path.exists(self.filename):
             with open(self.filename, "rb") as f:

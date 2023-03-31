@@ -30,9 +30,10 @@ import enums
 class Configuration():
     def __init__(self):
         self.filename = 'config.dat'
-        self.data = { # default values
+        self.data = { 
+            # default values
             'full_screen' : False,
-            'scanlines' : 1, # 0 = none, 1 = fast, 2 = HQ   
+            'scanlines' : 1, # 0 = none, 1 = fast, 2 = HQ
             'map_transition' : True, # 0 = no, 1 = yes
             'control' : enums.CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
         }
@@ -41,21 +42,24 @@ class Configuration():
         self.action_key = pygame.K_DOWN
         self.left_key = pygame.K_LEFT
         self.right_key = pygame.K_RIGHT
+        # the following values are independent of the layout
         self.fire_key = pygame.K_SPACE
         self.mute_key = pygame.K_m
 
+    # generates a new 'config.dat' with the current configuration
     def save(self):
         with open(self.filename, "wb") as f:
             pickle.dump(self.data, f)
 
+    # loads data from 'config.dat' if file exists
     def load(self):
         if os.path.exists(self.filename):
             with open(self.filename, "rb") as f:
                 self.data = pickle.load(f)
             self.apply_controls()
 
+    # assigns the keys corresponding to the selected layout
     def apply_controls(self):
-        # control keys
         if self.data['control'] == enums.CLASSIC:
             self.jump_key = pygame.K_UP
             self.action_key = pygame.K_DOWN
@@ -79,6 +83,7 @@ class Configuration():
             try: # find a joystick/joypad/gamepad
                 joystick = pygame.joystick.Joystick(0)
                 joystick.init()
-            except Exception: # No device was found
+            except Exception: # No valid device was found
+                # classic layout by default
                 self.data['control'] == enums.CLASSIC
         return joystick

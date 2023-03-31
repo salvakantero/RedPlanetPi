@@ -34,7 +34,6 @@ from shot import Shot
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
-        # attributes
         self.lives = 10 # lives remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
@@ -42,17 +41,16 @@ class Player(pygame.sprite.Sprite):
         self.oxygen = constants.MAX_OXYGEN # oxygen remaining
         self.stacked_TNT = False # the 15 TNT charges have been placed?
         self.score = 0 # current game score
-        self.win = False # Detonated charge?
         self.direction = pygame.math.Vector2(0.0) # direction of movement
         self.x_speed = 2 # movement in the x-axis (pixels)
-        self.y_jump = constants.MAP_UNSCALED_SIZE[1] # Y value when jumping (to detect large jumps)
+        self.y_jump = constants.MAP_UNSCALED_SIZE[1] # value of Y before jumping (to detect large jumps)
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.on_ground = False # perched on the ground   
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
-        self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2 secs.)
-        self.oxygen_time_from = 0 # tick number where oxygen unit begins
+        self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2,5 secs.)
+        self.oxygen_time_from = pygame.time.get_ticks() # tick number where oxygen unit begins
         self.oxygen_time_to = constants.OXYGEN_TIME # consumption time of each oxygen unit (2 secs.)
         # image/animation        
         self.image_list = {
@@ -105,34 +103,15 @@ class Player(pygame.sprite.Sprite):
         self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.8)
-        self.sfx_no_action = pygame.mixer.Sound('sounds/fx/sfx_no_action.wav')
+        self.sfx_no_action = pygame.mixer.Sound('sounds/fx/sfx_no_action.wav') # not enough TNT or no detonator
         self.sfx_no_action.set_volume(0.2)
-        self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
-        self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav')
-        self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav')        
+        self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav') # touched by an enemy
+        self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav') # low oxygen
+        self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav') # places the TNT        
         # objects and others
         self.game = game
         self.map = map
         self.scoreboard = scoreboard
-
-    # resets the player to the initial values
-    def reset(self):
-        self.lives = 10
-        self.ammo = 5
-        self.keys = 0
-        self.TNT = 0
-        self.oxygen = constants.MAX_OXYGEN
-        self.oxygen_time_from = pygame.time.get_ticks()
-        self.score = 0
-        self.stacked_TNT = False
-        self.win = False
-        self.state = enums.IDLE
-        self.facing_right = True
-        self.on_ground = False  
-        self.invincible = False
-        self.direction = pygame.math.Vector2(0.0)
-        self.rect = self.image.get_rect(topleft = (16,112))
-        self.firing = 0
 
     # dust effect when jumping or landing
     def dust_effect(self, pos, state):
@@ -180,15 +159,15 @@ class Player(pygame.sprite.Sprite):
             action_taken = True
         # detonate explosives
         elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
-            self.win = True
             action_taken = True
         # no action required
         if not action_taken:   
             self.sfx_no_action.play() 
 
+    # keyboard/mouse/joystick keystroke input
     def get_input(self):
         if self.game.joystick is not None: # manages the joystick/joypad/gamepad
-            # obtains the possible movement of the axes. A value greater than 0.5 
+            # obtains the possible movement of the axes. A value greater than +-0.5 
             # is considered as intentional movement. The values obtained range from -1 to 1.
             axis_x = self.game.joystick.get_axis(0)
             axis_y = self.game.joystick.get_axis(1)
@@ -232,13 +211,14 @@ class Player(pygame.sprite.Sprite):
             # press jump
             if key_state[self.game.config.jump_key] and self.on_ground:            
                 self.performs_jump()
-            # press fire
+            # press fire or left mouse button
             if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
                 self.performs_shot()
             # press action
             if key_state[self.game.config.action_key]:
                 self.performs_action()
 
+    # player status according to movement
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
             self.state = enums.JUMPING
@@ -252,7 +232,7 @@ class Player(pygame.sprite.Sprite):
                 self.state = enums.IDLE
 
     def horizontal_mov(self):
-        # gets the new rectangle and check for collision
+        # gets the new rect after applying the movement and check for collision
         x_temp = self.rect.x + (self.direction.x * self.x_speed)
         temp_rect = pygame.Rect((x_temp, self.rect.y),
             (constants.TILE_SIZE, constants.TILE_SIZE))
@@ -269,6 +249,7 @@ class Player(pygame.sprite.Sprite):
                     self.rect.left = tile.right
                 elif self.direction.x > 0: # adjusts to the left of the tile
                     self.rect.right = tile.left
+                break # stop the loop after the collision is detected
         if not collision:
             self.rect.x = x_temp # apply the new X position
 
@@ -278,7 +259,7 @@ class Player(pygame.sprite.Sprite):
         if self.direction.y < constants.MAX_Y_SPEED:
             self.direction.y += constants.GRAVITY
             
-        # gets the new rectangle and check for collision
+        # gets the new rectangle after applying the movement and check for collision
         y_temp = self.rect.y + self.direction.y
         temp_rect = pygame.Rect((self.rect.x, y_temp), 
             (constants.TILE_SIZE, constants.TILE_SIZE))  
@@ -290,7 +271,6 @@ class Player(pygame.sprite.Sprite):
             index += 1
             if tile.colliderect(temp_rect):
                 collision = True
-
                 # fixed platform, only stops from above ------------------------
                 if self.map.tilemap_behaviour_list[index] == enums.PLATFORM_TILE:   
                     # if the player is not jumping (if not climbing)    
@@ -307,7 +287,7 @@ class Player(pygame.sprite.Sprite):
                         else: collision = False
                     # if it's jumping it keeps moving
                     else: collision = False
-
+                    break
                 # obstacles, stops the player from all directions --------------      
                 elif self.map.tilemap_behaviour_list[index] == enums.OBSTACLE:
                     self.direction.y = 0
@@ -315,14 +295,15 @@ class Player(pygame.sprite.Sprite):
                     if tile.y > y_temp:
                         # sticks to tile             
                         self.rect.y = tile.y - self.rect.height
-                        self.on_ground = True
-                        
+                        self.on_ground = True    
+                    break
                 # toxic waste and lava, one life less --------------------------           
                 elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
                     # makes a preventive jump (this time without dust)
                     self.direction.y = constants.JUMP_VALUE
+                    break
 
         if not collision:
             self.rect.y = y_temp # apply the new Y position
@@ -335,7 +316,7 @@ class Player(pygame.sprite.Sprite):
             if self.rect.y > self.y_jump:                
                 self.game.shake = [0, 4]
                 self.game.shake_timer = 4
-                self.y_jump = constants.MAP_UNSCALED_SIZE[1]
+                self.y_jump = constants.MAP_UNSCALED_SIZE[1] # reset
                 
     def animate(self):
         # animation
