@@ -7,6 +7,7 @@ EN PROCESO
 - Pantalla final
 - Linterna en pantallas oscuras
 - Revisar, simplificar, organizar y comentar el código fuente final
+    - a partir de player.py; falta además game.py y menu.py
 
 BUGS
 ====

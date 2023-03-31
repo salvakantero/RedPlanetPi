@@ -27,7 +27,6 @@ import enums
 
 class Scoreboard():
     def __init__(self, game):
-        # attributes
         self.map_info_timer = 150 # show map info while timer > 0
         self.srf_sboard = game.srf_sboard
         self.fonts = game.fonts
