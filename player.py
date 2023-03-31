@@ -1,7 +1,7 @@
 
 # ==============================================================================
 # .::Player class::.
-# Create the main sprite and manage keyboard/mouse control, 
+# Create the main sprite and manage keyboard/mouse/joystick control, 
 # movement and animation according to its state.
 # ==============================================================================
 #

@@ -13,7 +13,6 @@ BUGS
 POR HACER
 =========
 - Revisar, simplificar, organizar y comentar el código fuente final
-- Licencia
 - Actualizar manual
 
 HECHO
@@ -103,6 +102,7 @@ HECHO
 24/03/23 - Objetos para puntuar; burguer, cake, DONUT
 25/03/23 - Control mediante Joystick
 27/03/23 - FULL_SCREEN adaptado a cualquier pantalla
+31/03/23 - Licencia (GPL 3)
 
 CREDITS
 =======
@@ -135,6 +135,7 @@ L = 4
 R = 5
 X = 0
 Y = 3
+
 
 VSC: Cambiar fondo a negro:
 "workbench.colorCustomizations": {

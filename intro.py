@@ -1,7 +1,7 @@
 
 # ==============================================================================
 # .::Intro class::.
-# An introduction with graphics and sound as an introduction to the game
+# An animation with graphics and sound as an introduction to the game
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero

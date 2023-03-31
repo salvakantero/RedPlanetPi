@@ -1,7 +1,7 @@
 
 #===============================================================================
 # .::Checkpoint class::.
-# Save/Load system
+# System for loading/saving games
 #===============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero

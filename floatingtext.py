@@ -2,7 +2,7 @@
 # ==============================================================================
 # .::FloatingText class::.
 # Generates a text in the play area with the score obtained (or other data) 
-# that disappears at the top of the screen..
+# that goes up and disappears at the top of the screen..
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero

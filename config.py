@@ -2,7 +2,7 @@
 # ==============================================================================
 # .::Configuration class::.
 # Save/Load the configuration file.
-# Makes the configuration accessible from the attributes of class.
+# Makes the configuration accessible from the attributes of the class.
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
