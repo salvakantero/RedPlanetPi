@@ -21,15 +21,11 @@
 #
 # ==============================================================================
 
-# pygame library functions
 import pygame
-from pygame.locals import *
-from pygame.constants import *
 
-# own code
-import constants, enums
+import constants
+import enums
 
-# own classes
 from config import Configuration
 from game import Game
 from map import Map
@@ -38,10 +34,6 @@ from font import Font
 from player import Player
 from checkpoint import Checkpoint
 
-
-#===============================================================================
-# Initialisation and creation of the main objects
-#===============================================================================
 
 # initialisation
 pygame.init()
@@ -61,32 +53,29 @@ game = Game(clock, config, checkpoint)
 scoreboard = Scoreboard(game)
 # creates the Map object
 map = Map(game)
-# creates the player
-#player = Player(game, map, scoreboard)
 
 # small, opaque font for debug and test
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 
 # shows an intro
-# game.show_intro()
+game.show_intro()
 
-#===============================================================================
+
 # Main loop
-#===============================================================================
-
-while True:    
+while True:
     if game.status == enums.OVER: # game not running
         # creates and displays the initial menu
         game.show_menu()         
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         game.jukebox.shuffle()
+        # create the player
+        player = Player(game, map, scoreboard)
         # reset variables
         map.last = -1
         map.scroll = enums.RIGHT
         game.status = enums.RUNNING
         game.floating_text.y = 0
-        player = Player(game, map, scoreboard)
         if game.new:
             for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
@@ -125,13 +114,9 @@ while True:
                     else: game.restore_music()                            
                 # mute music
                 if event.key == config.mute_key :
-                    if game.music_status == enums.MUTED:
-                        game.music_status = enums.UNMUTED
-                        pygame.mixer.music.play()
-                    else:
-                        game.music_status = enums.MUTED
-                        pygame.mixer.music.fadeout(1200)
-
+                    game.music_status = enums.UNMUTED if game.music_status == enums.MUTED else enums.MUTED
+                    pygame.mixer.music.play() if game.music_status == enums.UNMUTED else pygame.mixer.music.fadeout(1200)
+                    
                 # temp code ================
                 if event.key == pygame.K_RIGHT:
                     if map.number < 44:
