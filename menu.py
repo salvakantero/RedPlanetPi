@@ -33,25 +33,7 @@ from shot import Shot
 class Menu():
     def __init__(self, game):
         self.game = game        
-        self.srf_menu = game.srf_menu   
-        # page 1: menu options
-        self.srf_page1 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-        self.srf_page1.set_colorkey(constants.PALETTE['BLACK']) # transparent background
-        # page 2: hotspot information
-        self.srf_page2 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-        self.srf_page2.set_colorkey(constants.PALETTE['BLACK'])
-        # page 3: enemy/gift information
-        self.srf_page3 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-        self.srf_page3.set_colorkey(constants.PALETTE['BLACK'])
-        # page 4: control information
-        self.srf_page4 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-        self.srf_page4.set_colorkey(constants.PALETTE['BLACK'])
-        # page 5: high scores
-        self.srf_page5 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-        self.srf_page5.set_colorkey(constants.PALETTE['BLACK'])
-        # page 6: options
-        self.srf_page6 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-        self.srf_page6.set_colorkey(constants.PALETTE['BLACK'])
+        self.srf_menu = game.srf_menu           
         # player (cursor)
         self.img_player = pygame.image.load('images/sprites/player0.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
@@ -67,7 +49,18 @@ class Menu():
         self.sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
         self.sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
         self.sfx_menu_select = pygame.mixer.Sound('sounds/fx/sfx_menu_select.wav')
-        # generate menu pages
+
+        # page 1: menu options
+        # page 2: hotspot information
+        # page 3: enemy/gift information
+        # page 4: control information
+        # page 5: high scores
+        # page 6: options
+        self.menu_pages = []
+        for i in range(1, 7):
+            surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+            surface.set_colorkey(constants.PALETTE['BLACK'])
+            self.menu_pages.append(surface)   
         self.page_1()
         self.page_2()
         self.page_3()
@@ -79,109 +72,77 @@ class Menu():
         font_BG.render(text, surface, (x, y))  # shadow
         font_FG.render(text, surface, (x-offset, y-offset))
 
-    def page_1(self): # menu options
-        # menu options      
-        x = 80
-        y = 67
-        fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
-        ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
-        self.shaded_text(fb, ff, 'Start New Game', self.srf_page1, x, y, 1)
-        self.shaded_text(fb, ff, 'Continue Game', self.srf_page1, x, y+20, 1)
-        self.shaded_text(fb, ff, 'Options', self.srf_page1, x, y+40, 1)
-        self.shaded_text(fb, ff, 'Exit', self.srf_page1, x, y+60, 1)
+    def page_1(self): # menu options    
+        options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
+        x, y = 80, 67
+        for i, option in enumerate(options):
+            self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
+                             option, self.menu_pages[1], x, y + i*20, 1)            
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use arrow keys and SPACE/ENTER to select', self.srf_page1, x-35, y+90, 1)
+                        'Use arrow keys and SPACE/ENTER to select', self.menu_pages[1], x-35, y+90, 1)
 
     def page_2(self): # hotspot info
-        x = 70
-        y = 65
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        left_items = [
+            ('Explosives', 50, enums.TNT),
+            ('Ammunition', 75, enums.AMMO),
+            ('Key Card', 125, enums.KEY)]
+        right_items = [
+            ('Oxygen bottle', 100, enums.OXYGEN),
+            ('Closed door', 0, enums.GATE),
+            ('Checkpoint', 0, enums.CHECKPOINT)]
+
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Hotspots', self.srf_page2, x, y, 1)
-        x = 65
-        y = 100
-        fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
-        ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
-        self.shaded_text(fb, ff, 'Explosives', self.srf_page2, x, y, 1)
-        self.shaded_text(fb, ff, 'Ammunition', self.srf_page2, x, y+25, 1)
-        self.shaded_text(fb, ff, 'Key Card', self.srf_page2, x, y+50, 1) 
-        x = 155
-        self.shaded_text(fb, ff, 'Oxygen bottle', self.srf_page2, x, y, 1)
-        self.shaded_text(fb, ff, 'Closed door', self.srf_page2, x, y+25, 1)
-        self.shaded_text(fb, ff, 'Checkpoint.', self.srf_page2, x, y+45, 1) 
-        self.shaded_text(fb, ff, '(Save the game)', self.srf_page2, x, y+55, 1)
-        # images of the hotspots
-        x = 42
-        y = 94
-        self.srf_page2.blit(self.game.hotspot_images[enums.TNT], (x, y))
-        self.srf_page2.blit(self.game.hotspot_images[enums.AMMO], (x, y+25))
-        self.srf_page2.blit(self.game.hotspot_images[enums.KEY], (x, y+50))
-        x = 132
-        self.srf_page2.blit(self.game.hotspot_images[enums.OXYGEN], (x, y))
-        self.srf_page2.blit(self.game.gate_image, (x, y+25))
-        self.srf_page2.blit(self.game.hotspot_images[enums.CHECKPOINT], (x, y+50))
+                         'The Hotspots', self.menu_pages[2], 70, 65, 1)
+        
+        for i, (name, score, img_index) in enumerate(left_items):
+            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (42, 89+i*25))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 65, 100+i*25, 1)        
+        for i, (name, score, img_index) in enumerate(right_items):
+            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (132, 89+i*25))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 155, 100+i*25, 1)
 
     def page_3(self): # enemies/gifts info
-        x = 30
-        y = 65
+        x, y = 50, 95
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        enemies = [
+            ('Infected', 25, enums.INFECTED), 
+            ('Arachnovirus', 50, enums.AVIRUS), 
+            ('Pelusoid', 75, enums.PELUSOID), 
+            ('Pelusoid Fanty', 100, enums.FANTY)]
+        gifts = [
+            ('Burguer', 500, enums.BURGUER), 
+            ('Cake', 350, enums.CAKE), 
+            ('Donut', 200, enums.DONUT)]
+
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Baddies     The Gifts', self.srf_page3, x, y, 1)
-        x = 50
-        y = 95
-        fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
-        ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
-        self.shaded_text(fb, ff, 'Infected (+25)', self.srf_page3, x, y, 1)
-        self.shaded_text(fb, ff, 'Arachnovirus (+50)', self.srf_page3, x, y+20, 1)
-        self.shaded_text(fb, ff, 'Pelusoid (+75)', self.srf_page3, x, y+40, 1)   
-        self.shaded_text(fb, ff, 'Pelusoid Fanty (+100)', self.srf_page3, x, y+60, 1)
-        x = 162
-        self.shaded_text(fb, ff, 'Burguer (+500)', self.srf_page3, x, y, 1)
-        self.shaded_text(fb, ff, 'Cake (+350)', self.srf_page3, x, y+20, 1)
-        self.shaded_text(fb, ff, 'Donut (+200)', self.srf_page3, x, y+40, 1) 
-        # images of enemies
-        x = 27
-        y = 89
-        self.srf_page3.blit(self.game.enemy_images[enums.INFECTED][0], (x, y))
-        self.srf_page3.blit(self.game.enemy_images[enums.AVIRUS][0], (x, y+20))
-        self.srf_page3.blit(self.game.enemy_images[enums.PELUSOID][0], (x, y+40))
-        self.srf_page3.blit(self.game.enemy_images[enums.FANTY][0], (x, y+60))
-        # images of the gifts
-        x = 139
-        self.srf_page3.blit(self.game.hotspot_images[enums.BURGUER], (x, y))
-        self.srf_page3.blit(self.game.hotspot_images[enums.CAKE], (x, y+20))
-        self.srf_page3.blit(self.game.hotspot_images[enums.DONUT], (x, y+40))
+                    'The Baddies     The Gifts', self.menu_pages[3], 30, 65, 1)
+        for i, (name, score, img_index) in enumerate(enemies):
+            self.menu_pages[3].blit(self.game.enemy_images[img_index][0], (27, 89+i*20))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], x, y+i*20, 1)        
+        for i, (name, score, img_index) in enumerate(gifts):
+            self.menu_pages[3].blit(self.game.hotspot_images[img_index], (139, 89+i*20))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], 162, y+i*20, 1)
 
     def page_4(self): # control info
-        x = 90
-        y = 57
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'Controls', self.srf_page4, x, y, 1)
-        x = 30
-        y = 82
-        fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
-        ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
-        self.srf_page4.blit(self.img_classic, (x, y)) # image of the classic layout
-        self.shaded_text(fb, ff, 'Classic', self.srf_page4, x+9, y+38, 1)
-        x = 95
-        self.srf_page4.blit(self.img_gamer, (x, y)) # image of the gamer layout
-        self.shaded_text(fb, ff, 'Gamer', self.srf_page4, x+12, y+38, 1)
-        x = 160
-        self.srf_page4.blit(self.img_retro, (x, y)) # image of the retro layout
-        self.shaded_text(fb, ff, 'Retro', self.srf_page4, x+16, y+38, 1) 
-        x = 53
-        y = 138
-        self.srf_page4.blit(self.img_joypad, (x, y)) # image of the common keys
-        self.shaded_text(fb, ff, 'Joypad', self.srf_page4, x-30, y+15, 1)
-        x = 118
-        y = 138
-        self.srf_page4.blit(self.img_common, (x, y)) # image of the common keys
-        self.shaded_text(fb, ff, 'Common keys', self.srf_page4, x+62, y+15, 1)
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        layouts = [
+            (self.img_classic, (30, 82), 'Classic', (39, 120)),
+            (self.img_gamer, (95, 82), 'Gamer', (104, 120)),
+            (self.img_retro, (160, 82), 'Retro', (169, 120)),
+            (self.img_joypad, (53, 138), 'Joypad', (23, 153)),
+            (self.img_common, (118, 138), 'Common keys', (180, 153))]
+        
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 'Controls', self.menu_pages[4], 90, 57, 1)        
+        for i, (image, img_pos, text, text_pos) in enumerate(layouts):
+            self.menu_pages[4].blit(image, img_pos)
+            self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
 
     def page_5(self): # high scores
         # header
-        x = 90
-        y = 62
+        x, y = 90, 62
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
-                         'High Scores', self.srf_page5, x, y, 1)                
+                         'High Scores', self.menu_pages[5], x, y, 1)                
         y = 90
         for i in range(8):
             if i % 2 == 0: # index even
@@ -191,16 +152,15 @@ class Menu():
                 fb = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
                 ff = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
             # names
-            self.shaded_text(fb, ff, self.game.high_scores[i][0], self.srf_page5, 55, y, 1)
+            self.shaded_text(fb, ff, self.game.high_scores[i][0], self.menu_pages[5], 55, y, 1)
             # dates and scores
             self.shaded_text(fb, ff, self.game.high_scores[i][1] + '    ' + 
-                str(self.game.high_scores[i][2]).rjust(6, '0'), self.srf_page5, 120, y, 1)
+                str(self.game.high_scores[i][2]).rjust(6, '0'), self.menu_pages[5], 120, y, 1)
             y += 10
 
     def page_6(self): # options
         # menu options      
-        x = 60
-        y = 55
+        x, y = 60, 55
         fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
         ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
@@ -208,33 +168,33 @@ class Menu():
         # full screen
         if self.game.config.data['full_screen']: value = 'ON'
         else: value = 'OFF'
-        self.shaded_text(fb, ff, 'Full Screen:', self.srf_page6, x, y, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page6, x+115, y, 1)
+        self.shaded_text(fb, ff, 'Full Screen:', self.menu_pages[6], x, y, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y, 1)
         # scanlines filter
         if self.game.config.data['scanlines'] == 0: value = 'OFF' 
         elif self.game.config.data['scanlines'] == 1: value = 'FAST'
         else: value = 'HQ'
-        self.shaded_text(fb, ff, 'Scanlines:', self.srf_page6, x, y+20, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page6, x+115, y+20, 1)
+        self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+20, 1)
         # map transition
         if self.game.config.data['map_transition']: value = 'ON' 
         else: value = 'OFF'
-        self.shaded_text(fb, ff, 'Map Transition:', self.srf_page6, x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page6, x+115, y+40, 1)
+        self.shaded_text(fb, ff, 'Map Transition:', self.menu_pages[6], x, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+40, 1)
         # control keys
         if self.game.config.data['control'] == enums.CLASSIC: value = 'CLASSIC' 
         elif self.game.config.data['control'] == enums.GAMER: value = 'GAMER'
         elif self.game.config.data['control'] == enums.RETRO: value = 'RETRO'
         else: value = 'JOYPAD'
-        self.shaded_text(fb, ff, 'Control Keys:', self.srf_page6, x, y+60, 1)
-        self.shaded_text(fb2, ff2, value, self.srf_page6, x+115, y+60, 1)
+        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+60, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+60, 1)
         # exit
-        self.shaded_text(fb, ff, 'Exit Options', self.srf_page6, x, y+80, 1)
+        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+80, 1)
         
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use arrow keys and SPACE/ENTER to select', self.srf_page6, x-10, y+110, 1)
+                         'Use arrow keys and SPACE/ENTER to select', self.menu_pages[6], x-10, y+110, 1)
 
-    def show(self):        
+    def show(self):
         # help text on the marquee
         marquee_help = MarqueeText(
             self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
@@ -278,20 +238,12 @@ class Menu():
             elif page_timer >= 450: # time almost exceeded?
                 x -= 8 # scrolls the page to the left (is disappearing)    
             elif x > 0: # as long as the page does not reach the left margin
-                x -= 8 # scrolls the page to the left (is appearing)
-
-            # draws the main menu
-            if menu_page == 1: self.srf_menu.blit(self.srf_page1, (x, 0))
-            # draws hotspot information        
-            elif menu_page == 2: self.srf_menu.blit(self.srf_page2, (x, 0))
-            # draws enemies and gifts information        
-            elif menu_page == 3: self.srf_menu.blit(self.srf_page3, (x, 0))
-            # draws the information of the control keys
-            elif menu_page == 4: self.srf_menu.blit(self.srf_page4, (x, 0))
-            # draw the score table
-            elif menu_page == 5: self.srf_menu.blit(self.srf_page5, (x, 0))     
-            # draw the options page
-            else: self.srf_menu.blit(self.srf_page6, (x, 0))         
+                x -= 8 # scrolls the page to the left (is appearing)           
+             # draw one of the 6 menu pages
+            for i in range(1, 7):
+                if menu_page == i:
+                    self.srf_menu.blit(self.menu_pages[i], (x, 0))
+                    break
 
             # ====================== keyboard management =======================
             for event in pygame.event.get():
@@ -310,12 +262,10 @@ class Menu():
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             # creates a shot.
                             # the starting position depends on the current page and the selected option
-                            if menu_page == 1: 
-                                shot_x = 58
-                                shot_y = 65+(20*selected_option)
+                            if menu_page == 1:
+                                shot_x, shot_y = 58, 65+(20*selected_option)
                             elif menu_page == 6:
-                                shot_x = 38
-                                shot_y = -28+(20*selected_option)
+                                shot_x, shot_y = 38, -28+(20*selected_option)
                             shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet, 8)
                             self.game.shot_group.add(shot)
                             self.sfx_menu_select.play()
@@ -394,9 +344,10 @@ class Menu():
                         menu_page = 1
                         selected_option = enums.START
 
-                    # common operations
+                    # common values for pages 1 and 6
                     confirmed_option = False
                     page_timer = 0
+
                     if menu_page == 6:
                         # create joystick/joypad/gamepad object (if it exists)
                         self.game.joystick = self.game.config.prepare_joystick()                        
@@ -404,8 +355,8 @@ class Menu():
                         self.game.config.save()  
                         self.game.apply_display_settings()                     
                         # recreate the page with the new data
-                        self.srf_page6 = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-                        self.srf_page6.set_colorkey(constants.PALETTE['BLACK'])
+                        self.menu_pages[6] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+                        self.menu_pages[6].set_colorkey(constants.PALETTE['BLACK'])
                         self.page_6()
 
             self.game.update_screen()

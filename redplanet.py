@@ -26,13 +26,11 @@ import pygame
 import constants
 import enums
 
-from config import Configuration
 from game import Game
 from map import Map
 from scoreboard import Scoreboard
 from font import Font
 from player import Player
-from checkpoint import Checkpoint
 
 
 # initialisation
@@ -40,15 +38,8 @@ pygame.init()
 pygame.mixer.init()
 pygame.mouse.set_visible(False)
 
-# reads the configuration file to apply the personal settings
-config = Configuration()
-config.load()
-# clock to control the FPS and timers
-clock = pygame.time.Clock()
-# creates a checkpoint object to load/record game
-checkpoint = Checkpoint()
 # game object, container for common variables and functions
-game = Game(clock, config, checkpoint)
+game = Game()
 # create the Scoreboard object
 scoreboard = Scoreboard(game)
 # creates the Map object
@@ -58,7 +49,7 @@ map = Map(game)
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 
 # shows an intro
-game.show_intro()
+#game.show_intro()
 
 
 # Main loop
@@ -82,8 +73,8 @@ while True:
             map.number = 0                        
             scoreboard.game_percent = 0
         else: # load the last checkpoint
-            checkpoint.load()
-            d = checkpoint.data
+            game.checkpoint.load()
+            d = game.checkpoint.data
             map.number = d['map_number']
             scoreboard.game_percent = d['game_percent']
             player.lives = d['player_lives']
@@ -113,7 +104,7 @@ while True:
                         game.status = enums.OVER # go to the main menu
                     else: game.restore_music()                            
                 # mute music
-                if event.key == config.mute_key :
+                if event.key == game.config.mute_key :
                     game.music_status = enums.UNMUTED if game.music_status == enums.MUTED else enums.MUTED
                     pygame.mixer.music.play() if game.music_status == enums.UNMUTED else pygame.mixer.music.fadeout(1200)
                     
@@ -166,7 +157,7 @@ while True:
         map.check_change(player)
             
         # TEST ZONE =============================================================
-        test_font.render(str(int(clock.get_fps())), game.srf_map, (233, 154))
+        test_font.render(str(int(game.clock.get_fps())), game.srf_map, (233, 154))
         # =======================================================================
 
     game.update_screen()

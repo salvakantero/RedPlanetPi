@@ -31,19 +31,22 @@ import pickle
 
 from datetime import date
 
+from config import Configuration
 from font import Font
 from intro import Intro
 from menu import Menu
+from checkpoint import Checkpoint
 from jukebox import Jukebox
 from explosion import Explosion
 from floatingtext import FloatingText
 
 
 class Game():
-    def __init__(self, clock, config, checkpoint):
-        self.clock = clock # game clock for FPS and timers
-        self.config = config
-        self.checkpoint = checkpoint
+    def __init__(self, checkpoint):
+        self.clock = pygame.time.Clock() # game clock for FPS and timers
+        self.config = Configuration() # reads the configuration file to apply the personal settings
+        self.config.load()
+        self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.new = True # if 'False', load last checkpoint
         self.status = enums.OVER
         self.music_status = enums.UNMUTED
@@ -69,7 +72,7 @@ class Game():
         self.dust_group = pygame.sprite.GroupSingle()
         self.shot_group = pygame.sprite.GroupSingle()
         self.blast_group = pygame.sprite.GroupSingle()
-        # gets the screen resolution
+        # gets the screen resolution (required for full screen)
         screen = pygame.display.Info()
         self.screen_width = screen.current_w
         self.screen_height = screen.current_h
@@ -116,7 +119,8 @@ class Game():
             enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.BURGUER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.CAKE: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()} 
+            enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha(),
+            enums.GATE: pygame.image.load('images/tiles/T60.png').convert()} 
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -140,8 +144,7 @@ class Game():
                 pygame.image.load('images/sprites/blast13.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast14.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast15.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast16.png').convert_alpha()]}
-        self.gate_image = pygame.image.load('images/tiles/T60.png').convert()  
+                pygame.image.load('images/sprites/blast16.png').convert_alpha()]} 
         # sound effects
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
         self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')

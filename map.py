@@ -233,7 +233,7 @@ class Map():
         # add the gate (if there is one visible on the map)
         gate = constants.GATE_DATA.get(self.number)
         if gate != None and gate[2] == True: # visible/available?
-            gate_sprite = Gate(gate, self.game.gate_image)
+            gate_sprite = Gate(gate, self.game.hotspot_images[enums.GATE])
             self.game.all_sprites_group.add(gate_sprite) # to update/draw it
             self.game.gate_group.add(gate_sprite) # to check for collisions
 
