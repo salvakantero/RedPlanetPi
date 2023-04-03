@@ -42,7 +42,7 @@ from floatingtext import FloatingText
 
 
 class Game():
-    def __init__(self, checkpoint):
+    def __init__(self):
         self.clock = pygame.time.Clock() # game clock for FPS and timers
         self.config = Configuration() # reads the configuration file to apply the personal settings
         self.config.load()

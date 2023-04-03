@@ -158,14 +158,16 @@ screen = pygame.display.set_mode(new_resolution)
 ------------------------------------------------------
 
 
-La función scanlines() parece ser una función que agrega líneas de exploración a una superficie de Pygame. La única operación que realiza es dibujar una línea en la superficie de Pygame.
+La función scanlines() parece ser una función que agrega líneas de exploración a 
+una superficie de Pygame. La única operación que realiza es dibujar una línea en 
+la superficie de Pygame.
 
-Esta función se puede simplificar si utilizamos la función pygame.draw.line() para dibujar las líneas de exploración directamente en la superficie de Pygame, en lugar de usar un bucle while para calcular la posición de cada línea de exploración.
+Esta función se puede simplificar si utilizamos la función pygame.draw.line() 
+para dibujar las líneas de exploración directamente en la superficie de Pygame, 
+en lugar de usar un bucle while para calcular la posición de cada línea de exploración.
 
 Aquí hay una posible versión simplificada de la función:
 
-python
-Copy code
 def scanlines(self, surface, rgb):
     line_height = 3
     line_color = (rgb, rgb, rgb)
