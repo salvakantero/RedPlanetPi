@@ -212,7 +212,7 @@ class Menu():
         # some local variables are initialised
         selected_option = enums.START # option where the cursor is located
         confirmed_option = False # 'True' when a selected option is confirmed
-        menu_page = 1 # page displayed (1 to 4 automatically. 5 = config page)
+        menu_page = 0 # page displayed (0 to 4 automatically. 5 = config page)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
 
@@ -231,7 +231,7 @@ class Menu():
             # ========== transition of menu pages from right to left ===========
             if page_timer >= 500: # time exceeded?
                 menu_page += 1 # change the page
-                if menu_page > 4: menu_page = 1 # reset
+                if menu_page > 4: menu_page = 0 # reset
                 page_timer = 0 # and reset the timer
                 x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
                 selected_option = enums.START
@@ -251,20 +251,20 @@ class Menu():
                     self.game.exit()
                 if event.type == pygame.KEYDOWN and x == 0: # a key has been pressed         
                     # active pages
-                    if menu_page == 1 or menu_page == 6:
+                    if menu_page == 0 or menu_page == 5:
                         if event.key == pygame.K_ESCAPE: 
-                            if menu_page == 1: self.game.exit() # exits the application completely
-                            else: # on page 6, return to page 1
-                                menu_page = 1
+                            if menu_page == 0: self.game.exit() # exits the application completely
+                            else: # on page 5, return to page 0
+                                menu_page = 0
                                 selected_option = 0
                                 break
                         # the selected option is accepted by pressing ENTER or SPACE
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             # creates a shot.
                             # the starting position depends on the current page and the selected option
-                            if menu_page == 1:
+                            if menu_page == 0:
                                 shot_x, shot_y = 58, 65+(20*selected_option)
-                            elif menu_page == 6:
+                            elif menu_page == 5:
                                 shot_x, shot_y = 38, -28+(20*selected_option)
                             shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet, 8)
                             self.game.shot_group.add(shot)
@@ -272,7 +272,7 @@ class Menu():
                             confirmed_option = True
 
                         # Main menu and there is no shot in progress?
-                        elif menu_page == 1 and not confirmed_option:                            
+                        elif menu_page == 0 and not confirmed_option:                            
                             # the cursor down has been pressed
                             if event.key == pygame.K_DOWN and selected_option < enums.EXIT:
                                 selected_option += 1
@@ -284,7 +284,7 @@ class Menu():
                                 self.sfx_menu_click.play()
                                 page_timer = 0
                         # Options menu and there is no shot in progress?
-                        elif menu_page == 6 and not confirmed_option:
+                        elif menu_page == 5 and not confirmed_option:
                             # the cursor down has been pressed
                             if event.key == pygame.K_DOWN and selected_option < enums.EXIT_OPTIONS:
                                 selected_option += 1
@@ -297,15 +297,15 @@ class Menu():
                                 page_timer = 0                             
                     # pressing any key on a passive page, returns to the main menu
                     else:
-                        menu_page = 1
+                        menu_page = 0
                         page_timer = 0
             
             # =================== management of active pages ===================
-            if (menu_page == 1 or menu_page == 6) and x == 0:
+            if (menu_page == 0 or menu_page == 5) and x == 0:
                 # shows the player (cursor) next to the selected option
-                if menu_page == 1:
+                if menu_page == 0:
                     self.srf_menu.blit(self.img_player, (55, 64 + (20*selected_option)))
-                else: # page 6
+                else: # page 5
                     self.srf_menu.blit(self.img_player, (34, -28 + (20*selected_option)))
                 
                 # draw the shot (if it exists)
@@ -325,7 +325,7 @@ class Menu():
                         # reinitialises common variables and loads the page
                         x = constants.MENU_UNSCALED_SIZE[0]
                         selected_option = enums.FULLSCREEN
-                        menu_page = 6
+                        menu_page = 5
                     elif selected_option == enums.EXIT:
                         self.game.exit()
 
@@ -341,22 +341,22 @@ class Menu():
                         self.game.config.apply_controls() # remap the keyboard
                     elif selected_option == enums.EXIT_OPTIONS:
                         x = constants.MENU_UNSCALED_SIZE[0]
-                        menu_page = 1
+                        menu_page = 0
                         selected_option = enums.START
 
                     # common values for pages 1 and 6
                     confirmed_option = False
                     page_timer = 0
 
-                    if menu_page == 6:
+                    if menu_page == 5:
                         # create joystick/joypad/gamepad object (if it exists)
                         self.game.joystick = self.game.config.prepare_joystick()                        
                         # saves and apply possible changes to the configuration
                         self.game.config.save()  
                         self.game.apply_display_settings()                     
                         # recreate the page with the new data
-                        self.menu_pages[6] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-                        self.menu_pages[6].set_colorkey(constants.PALETTE['BLACK'])
-                        self.page_6()
+                        self.menu_pages[5] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+                        self.menu_pages[5].set_colorkey(constants.PALETTE['BLACK'])
+                        self.page_5()
 
             self.game.update_screen()
