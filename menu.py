@@ -51,10 +51,10 @@ class Menu():
         self.sfx_menu_select = pygame.mixer.Sound('sounds/fx/sfx_menu_select.wav')
 
         # page 0: menu options
-        # page 1: hotspot information
-        # page 2: enemy/gift information
-        # page 3: control information
-        # page 4: high scores
+        # page 1: high scores
+        # page 2: hotspot information
+        # page 3: enemy/gift information
+        # page 4: control information
         # page 5: options
         self.menu_pages = []
         for i in range(0, 6):
@@ -81,68 +81,11 @@ class Menu():
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
                         'Use arrow keys and SPACE/ENTER to select', self.menu_pages[0], x-35, y+90, 1)
 
-    def page_1(self): # hotspot info
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        left_items = [
-            ('Explosives', 50, enums.TNT),
-            ('Ammunition', 75, enums.AMMO),
-            ('Key Card', 125, enums.KEY)]
-        right_items = [
-            ('Oxygen bottle', 100, enums.OXYGEN),
-            ('Closed door', 0, enums.GATE),
-            ('Checkpoint', 0, enums.CHECKPOINT)]
-
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Hotspots', self.menu_pages[1], 70, 65, 1)
-        
-        for i, (name, score, img_index) in enumerate(left_items):
-            self.menu_pages[1].blit(self.game.hotspot_images[img_index], (42, 89+i*25))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[1], 65, 100+i*25, 1)        
-        for i, (name, score, img_index) in enumerate(right_items):
-            self.menu_pages[1].blit(self.game.hotspot_images[img_index], (132, 89+i*25))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[1], 155, 100+i*25, 1)
-
-    def page_2(self): # enemies/gifts info
-        x, y = 50, 95
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        enemies = [
-            ('Infected', 25, enums.INFECTED), 
-            ('Arachnovirus', 50, enums.AVIRUS), 
-            ('Pelusoid', 75, enums.PELUSOID), 
-            ('Pelusoid Fanty', 100, enums.FANTY)]
-        gifts = [
-            ('Burguer', 500, enums.BURGUER), 
-            ('Cake', 350, enums.CAKE), 
-            ('Donut', 200, enums.DONUT)]
-
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                    'The Baddies     The Gifts', self.menu_pages[2], 30, 65, 1)
-        for i, (name, score, img_index) in enumerate(enemies):
-            self.menu_pages[2].blit(self.game.enemy_images[img_index][0], (27, 89+i*20))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], x, y+i*20, 1)        
-        for i, (name, score, img_index) in enumerate(gifts):
-            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (139, 89+i*20))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 162, y+i*20, 1)
-
-    def page_3(self): # control info
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        layouts = [
-            (self.img_classic, (30, 82), 'Classic', (39, 120)),
-            (self.img_gamer, (95, 82), 'Gamer', (104, 120)),
-            (self.img_retro, (160, 82), 'Retro', (169, 120)),
-            (self.img_joypad, (53, 138), 'Joypad', (23, 153)),
-            (self.img_common, (118, 138), 'Common keys', (180, 153))]
-        
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 'Controls', self.menu_pages[3], 90, 57, 1)        
-        for i, (image, img_pos, text, text_pos) in enumerate(layouts):
-            self.menu_pages[3].blit(image, img_pos)
-            self.shaded_text(fb, ff, text, self.menu_pages[3], text_pos[0], text_pos[1], 1)
-
-    def page_4(self): # high scores
+    def page_1(self): # high scores
         # header
-        x, y = 90, 62
+        x, y = 85, 62
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
-                         'High Scores', self.menu_pages[4], x, y, 1)                
+                         'High Scores', self.menu_pages[1], x, y, 1)                
         y = 90
         for i in range(8):
             if i % 2 == 0: # index even
@@ -152,11 +95,68 @@ class Menu():
                 fb = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
                 ff = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
             # names
-            self.shaded_text(fb, ff, self.game.high_scores[i][0], self.menu_pages[4], 55, y, 1)
+            self.shaded_text(fb, ff, self.game.high_scores[i][0], self.menu_pages[1], 50, y, 1)
             # dates and scores
             self.shaded_text(fb, ff, self.game.high_scores[i][1] + '    ' + 
-                str(self.game.high_scores[i][2]).rjust(6, '0'), self.menu_pages[4], 120, y, 1)
+                str(self.game.high_scores[i][2]).rjust(6, '0'), self.menu_pages[1], 115, y, 1)
             y += 10
+
+    def page_2(self): # hotspot info
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        left_items = [
+            ('Explosives', 50, enums.TNT),
+            ('Ammunition', 75, enums.AMMO),
+            ('Oxygen', 100, enums.OXYGEN)]
+        right_items = [
+            ('Key Card', 125, enums.KEY),
+            ('Closed door', 150, enums.GATE),
+            ('Checkpoint', 0, enums.CHECKPOINT)]
+
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
+                         'The Hotspots', self.menu_pages[2], 75, 65, 1)
+        
+        for i, (name, score, img_index) in enumerate(left_items):
+            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (24, 94+i*25))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 47, 100+i*25, 1)        
+        for i, (name, score, img_index) in enumerate(right_items):
+            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (128, 94+i*25))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 151, 100+i*25, 1)
+
+    def page_3(self): # enemies/gifts info
+        x, y = 50, 95
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        enemies = [
+            ('Infected', 25, enums.INFECTED), 
+            ('Arachnovirus', 50, enums.AVIRUS), 
+            ('Pelusoid', 75, enums.PELUSOID), 
+            ('Pelusoid Fanty', 100, enums.FANTY)]
+        gifts = [
+            ('Donut', 200, enums.DONUT),
+            ('Cake', 350, enums.CAKE),
+            ('Burguer', 500, enums.BURGUER)]
+
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
+                    'The Baddies     The Gifts', self.menu_pages[3], 30, 65, 1)
+        for i, (name, score, img_index) in enumerate(enemies):
+            self.menu_pages[3].blit(self.game.enemy_images[img_index][0], (27, 89+i*20))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], x, y+i*20, 1)        
+        for i, (name, score, img_index) in enumerate(gifts):
+            self.menu_pages[3].blit(self.game.hotspot_images[img_index], (139, 89+i*20))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], 162, y+i*20, 1)
+
+    def page_4(self): # control info
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        layouts = [
+            (self.img_classic, (30, 82), 'Classic', (39, 120)),
+            (self.img_gamer, (95, 82), 'Gamer', (104, 120)),
+            (self.img_retro, (160, 82), 'Retro', (169, 120)),
+            (self.img_joypad, (53, 138), 'Joypad', (23, 153)),
+            (self.img_common, (118, 138), 'Common keys', (180, 153))]
+        
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 'Controls', self.menu_pages[4], 90, 57, 1)        
+        for i, (image, img_pos, text, text_pos) in enumerate(layouts):
+            self.menu_pages[4].blit(image, img_pos)
+            self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
 
     def page_5(self): # options
         # menu options      
@@ -235,7 +235,7 @@ class Menu():
                 page_timer = 0 # and reset the timer
                 x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
                 selected_option = enums.START
-            elif page_timer >= 450: # time almost exceeded?
+            elif page_timer >= 470: # time almost exceeded?
                 x -= 8 # scrolls the page to the left (is disappearing)    
             elif x > 0: # as long as the page does not reach the left margin
                 x -= 8 # scrolls the page to the left (is appearing)           
