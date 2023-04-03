@@ -147,37 +147,13 @@ VSC: Cambiar fondo a negro:
  
 ------------------------------------------------------
 
-
 # Definir la resolución deseada
 new_resolution = (800, 600)
 
 # Crear una nueva ventana con la resolución deseada
 screen = pygame.display.set_mode(new_resolution)
 
-
-------------------------------------------------------
-
-
-La función scanlines() parece ser una función que agrega líneas de exploración a 
-una superficie de Pygame. La única operación que realiza es dibujar una línea en 
-la superficie de Pygame.
-
-Esta función se puede simplificar si utilizamos la función pygame.draw.line() 
-para dibujar las líneas de exploración directamente en la superficie de Pygame, 
-en lugar de usar un bucle while para calcular la posición de cada línea de exploración.
-
-Aquí hay una posible versión simplificada de la función:
-
-def scanlines(self, surface, rgb):
-    line_height = 3
-    line_color = (rgb, rgb, rgb)
-    line_width = surface.get_width() - constants.H_MARGIN * 2 - 2
-    for y in range(constants.V_MARGIN + line_height, surface.get_height(), line_height * 2):
-        pygame.draw.line(surface, line_color, (constants.H_MARGIN, y), (constants.H_MARGIN + line_width, y), 1)
-
-
 --------------------------------------------------------
-
 
 # Define las dimensiones de la ventana
 size = width, height = 640, 480

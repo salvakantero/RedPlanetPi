@@ -302,7 +302,7 @@ class Game():
     # dumps and scales surfaces to the screen
     def update_screen(self):
         if self.status == enums.OVER:
-            # scale x 3 the menu
+            # scale the menu
             self.screen.blit(pygame.transform.scale(
                 self.srf_menu, constants.MENU_SCALED_SIZE),
                 (constants.H_MARGIN, constants.V_MARGIN))
@@ -317,11 +317,11 @@ class Game():
                     offset[0] = random.randint(-self.shake[0], self.shake[0])
                     offset[1] = random.randint(-self.shake[1], self.shake[1])
                 self.shake_timer -= 1
-            # scale x 3 the scoreboard
+            # scale the scoreboard
             self.screen.blit(pygame.transform.scale(
                 self.srf_sboard, constants.SBOARD_SCALED_SIZE), 
                 (constants.H_MARGIN, constants.V_MARGIN))
-            # scale x 3 the map
+            # scale the map
             self.screen.blit(pygame.transform.scale(
                 self.srf_map, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
                 constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
