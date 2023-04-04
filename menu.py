@@ -68,7 +68,7 @@ class Menu():
         self.page_4()
         
     # draws a text with its shadow
-    def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):           
+    def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
         font_BG.render(text, surface, (x, y))  # shadow
         font_FG.render(text, surface, (x-offset, y-offset))
 

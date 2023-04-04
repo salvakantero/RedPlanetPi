@@ -404,40 +404,40 @@ class Game():
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
 
-    # collisions with mobile platforms, enemies, bullets, hotspots, gates
+    # collisions between mobile platforms, enemies, bullets, hotspots and gates
     def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):
         # ==================== player and mobile platform ======================
-        if self.platform_group.sprite != None \
-        and pygame.sprite.spritecollide(player, self.platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
-            platform = self.platform_group.sprite
-            # the player is above the platform?
-            if player.rect.bottom - 2 < platform.rect.top:               
-                player.rect.bottom = platform.rect.top
-                player.direction.y = 0                    
-                player.on_ground = True                                        
-                # horizontal platform?
-                if platform.vy == 0:
-                    # if the movement keys are not pressed
-                    # takes the movement of the platform
-                    key_state = pygame.key.get_pressed()
-                    if not key_state[self.config.left_key] and not key_state[self.config.right_key]:
-                        player.rect.x += platform.vx
+        if self.platform_group.sprite is not None:
+            if pygame.sprite.spritecollide(player, self.platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
+                platform = self.platform_group.sprite
+                # the player is above the platform?
+                if player.rect.bottom - 2 < platform.rect.top:               
+                    player.rect.bottom = platform.rect.top
+                    player.direction.y = 0                    
+                    player.on_ground = True                                        
+                    # horizontal platform?
+                    if platform.vy == 0:
+                        # if the movement keys are not pressed
+                        # takes the movement of the platform
+                        key_state = pygame.key.get_pressed()
+                        if not key_state[self.config.left_key] and not key_state[self.config.right_key]:
+                            player.rect.x += platform.vx
 
         # ======================== player and martians =========================
-        if not player.invincible and pygame.sprite.spritecollide(player, 
-        self.enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
-            player.loses_life()        
-            scoreboard.invalidate() # redraws the scoreboard
-            return
+        if not player.invincible:
+            if pygame.sprite.spritecollide(player, self.enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
+                player.loses_life()        
+                scoreboard.invalidate() # redraws the scoreboard
+                return
         
         # ======================= bullets and martians =========================
-        if not self.shot_group.sprite == None:
+        if self.shot_group.sprite is not None:
             for enemy in self.enemies_group:
                 if enemy.rect.colliderect(self.shot_group.sprite):
                     # shake the map
                     self.shake = [10, 6]
                     self.shake_timer = 14
-                    # creates an explosion
+                    # creates an explosion and assigns a score according to the type of enemy
                     if enemy.type == enums.INFECTED:
                         blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
                         self.floating_text.text = '+25'
@@ -450,13 +450,13 @@ class Game():
                         elif enemy.type == enums.PELUSOID: 
                             self.floating_text.text = '+75'
                             player.score += 75
-                        else: 
-                            self.floating_text.text = '+100' # fanty
+                        else: # fanty
+                            self.floating_text.text = '+100'
                             player.score += 100
                     self.blast_group.add(blast)
                     self.all_sprites_group.add(blast)
                     self.sfx_enemy_down[enemy.type].play()
-                    # floating text position                                
+                    # floating text position
                     self.floating_text.x = enemy.rect.x
                     self.floating_text.y = enemy.rect.y
                     self.floating_text.speed = 0
@@ -468,7 +468,7 @@ class Game():
                     break
 
         # ====================== bullets and map tiles =========================
-        if not self.shot_group.sprite == None:
+        if self.shot_group.sprite is not None:
             bullet_rect = self.shot_group.sprite.rect
             for tile in tilemap_rect_list:
                 if tile.colliderect(bullet_rect):
@@ -476,7 +476,7 @@ class Game():
                     break
 
         # ======================== player and hotspot ==========================
-        if not self.hotspot_group.sprite == None:
+        if self.hotspot_group.sprite is not None:
             if player.rect.colliderect(self.hotspot_group.sprite):
                 hotspot = self.hotspot_group.sprite
                 # shake the map (just a little)
@@ -493,7 +493,7 @@ class Game():
                     scoreboard.game_percent += 3
                     self.floating_text.text = '+50 ' + str(player.TNT) + '/15'
                     player.score += 50
-                elif hotspot.type == enums.KEY: 
+                elif hotspot.type == enums.KEY:
                     player.keys += 1
                     scoreboard.game_percent += 2
                     self.floating_text.text = '+125'
@@ -549,7 +549,7 @@ class Game():
                 return
 
         # ========================= player and gates ===========================
-        if self.gate_group.sprite != None:
+        if self.gate_group.sprite is not None:
             if player.rect.colliderect(self.gate_group.sprite):
                 if player.keys > 0:
                     player.keys -= 1
@@ -564,7 +564,13 @@ class Game():
                     # increases the percentage of game play
                     scoreboard.game_percent += 3
                     scoreboard.invalidate()
-                else:
+                    # increases the score
+                    player.score += 150
+                    self.floating_text.text = '+150'
+                    self.floating_text.speed = 0
+                    self.floating_text.x = player.rect.x
+                    self.floating_text.y = player.rect.y
+                else: # no key
                     self.sfx_locked_door.play()
                     # shake the map (just a little in X)
                     self.shake = [4, 0]
@@ -572,4 +578,3 @@ class Game():
                     # bounces the player
                     if player.facing_right: player.rect.x -= 5
                     else: player.rect.x += 5
-
