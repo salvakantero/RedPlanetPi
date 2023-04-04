@@ -109,7 +109,7 @@ class Menu():
             ('Oxygen', 100, enums.OXYGEN)]
         right_items = [
             ('Key Card', 125, enums.KEY),
-            ('Closed door', 150, enums.GATE),
+            ('Closed door', 150, enums.GATE_TILE),
             ('Checkpoint', 0, enums.CHECKPOINT)]
 
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 

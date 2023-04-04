@@ -126,7 +126,7 @@ class Game():
             enums.BURGUER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.CAKE: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
             enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha(),
-            enums.GATE: pygame.image.load('images/tiles/T60.png').convert()} 
+            enums.GATE_TILE: pygame.image.load('images/tiles/T60.png').convert()} 
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -189,8 +189,8 @@ class Game():
             constants.WIN_SIZE = (self.screen_width, self.screen_height)
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
             if self.screen_width != 800:
-                # is not forcing 800x600. It is necessary to resize
-                # rescaling of surfaces without losing aspect ratio
+                # not forcing 800x600. 
+                # it is necessary to resize the surfaces without losing aspect ratio
                 scaling_factor = self.screen_height / constants.MENU_SCALED_SIZE[1]
                 constants.MENU_SCALED_SIZE = (
                     int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
@@ -201,12 +201,13 @@ class Game():
                 constants.MAP_SCALED_SIZE = (
                     int(constants.MAP_SCALED_SIZE[0] * scaling_factor),
                     int(constants.MAP_SCALED_SIZE[1] * scaling_factor))
-                # optimised margins
-                constants.V_MARGIN = 0 # the height of the playing area shall always be that of the screen
-            else:
-                constants.V_MARGIN = 6
-            # the left margin is equal to half the unused width of the screen (to centre the playing area)
-            constants.H_MARGIN = (self.screen_width - constants.MENU_SCALED_SIZE[0]) // 2
+                # height of the playing area equal to the screen
+                constants.V_MARGIN = 0
+                # left margin is equal to half the unused width of the screen
+                constants.H_MARGIN = (self.screen_width - constants.MENU_SCALED_SIZE[0]) // 2
+            else: # 800x600
+                constants.V_MARGIN = 6 # height of the play area somewhat smaller than the screen
+            
         # windowed mode, generates a main window with title, icon, and 32-bit colour
         # the window dimensions and the margins are fixed
         else:
@@ -335,7 +336,7 @@ class Game():
 
         self.apply_scanlines()
         pygame.display.update() # refreshes the screen
-        self.clock.tick() # 60 FPS
+        self.clock.tick(60) # 60 FPS
 
     # displays a message, darkening the screen
     def message(self, msg1, msg2, darken):

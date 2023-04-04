@@ -6,12 +6,10 @@ EN PROCESO
 ==========
 - Pantalla final
 - Linterna en pantallas oscuras
-- Revisar, simplificar, organizar y comentar el código fuente final
-    - arrays para surfaces?
-    - cambiar a una resolución de 800x600?
 
 BUGS
 ====
+- Revisar hi que se muestra en el scoreboard
 
 POR HACER
 =========
@@ -105,6 +103,8 @@ HECHO
 25/03/23 - Control mediante Joystick
 27/03/23 - FULL_SCREEN adaptado a cualquier pantalla
 31/03/23 - Licencia (GPL 3)
+04/04/23 - Revisar, simplificar, organizar y comentar el código fuente final
+
 
 CREDITS
 =======
