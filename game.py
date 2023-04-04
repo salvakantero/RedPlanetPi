@@ -75,8 +75,13 @@ class Game():
             pygame.sprite.GroupSingle()] # blast
         # gets the screen resolution (required for full screen)
         screen = pygame.display.Info()
-        self.screen_width = screen.current_w
-        self.screen_height = screen.current_h
+        if screen.current_h >= 600:
+            # 800x600 applies. Faaaasssst!
+            self.screen_width = 800
+            self.screen_height = 600
+        else: # apply the strange resolution of the monitor
+            self.screen_width = screen.current_w
+            self.screen_height = screen.current_h
         # creates a window or full-screen environment 
         self.apply_display_settings()
         # common fonts
@@ -183,22 +188,23 @@ class Game():
             # the main window takes up the entire screen
             constants.WIN_SIZE = (self.screen_width, self.screen_height)
             self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
-            # rescaling of surfaces without losing aspect ratio
-            scaling_factor = self.screen_height / constants.MENU_SCALED_SIZE[1]
-            constants.MENU_SCALED_SIZE = (
-                int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
-                int(constants.MENU_SCALED_SIZE[1] * scaling_factor)
-            )
-            constants.SBOARD_SCALED_SIZE = (
-                int(constants.SBOARD_SCALED_SIZE[0] * scaling_factor),
-                int(constants.SBOARD_SCALED_SIZE[1] * scaling_factor)
-            )
-            constants.MAP_SCALED_SIZE = (
-                int(constants.MAP_SCALED_SIZE[0] * scaling_factor),
-                int(constants.MAP_SCALED_SIZE[1] * scaling_factor)
-            )
-            # optimised margins
-            constants.V_MARGIN = 0 # the height of the playing area shall always be that of the screen
+            if self.screen_width != 800:
+                # is not forcing 800x600. It is necessary to resize
+                # rescaling of surfaces without losing aspect ratio
+                scaling_factor = self.screen_height / constants.MENU_SCALED_SIZE[1]
+                constants.MENU_SCALED_SIZE = (
+                    int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
+                    int(constants.MENU_SCALED_SIZE[1] * scaling_factor))
+                constants.SBOARD_SCALED_SIZE = (
+                    int(constants.SBOARD_SCALED_SIZE[0] * scaling_factor),
+                    int(constants.SBOARD_SCALED_SIZE[1] * scaling_factor))
+                constants.MAP_SCALED_SIZE = (
+                    int(constants.MAP_SCALED_SIZE[0] * scaling_factor),
+                    int(constants.MAP_SCALED_SIZE[1] * scaling_factor))
+                # optimised margins
+                constants.V_MARGIN = 0 # the height of the playing area shall always be that of the screen
+            else:
+                constants.V_MARGIN = 6
             # the left margin is equal to half the unused width of the screen (to centre the playing area)
             constants.H_MARGIN = (self.screen_width - constants.MENU_SCALED_SIZE[0]) // 2
         # windowed mode, generates a main window with title, icon, and 32-bit colour
@@ -329,7 +335,7 @@ class Game():
 
         self.apply_scanlines()
         pygame.display.update() # refreshes the screen
-        self.clock.tick(60) # 60 FPS
+        self.clock.tick() # 60 FPS
 
     # displays a message, darkening the screen
     def message(self, msg1, msg2, darken):

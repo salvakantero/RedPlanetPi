@@ -32,7 +32,6 @@ from scoreboard import Scoreboard
 from font import Font
 from player import Player
 
-
 # initialisation
 pygame.init()
 pygame.mixer.init()
