@@ -122,7 +122,7 @@ while True:
             map.change(player, scoreboard)
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
-        game.all_sprites_group.update()
+        game.groups[enums.ALL].update()
 
         # collision between all entities that may collide
         game.check_collisions(player, scoreboard, map.number, map.tilemap_rect_list)
@@ -140,7 +140,7 @@ while True:
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))
         # draws the sprites in their new positions
-        game.all_sprites_group.draw(game.srf_map)
+        game.groups[enums.ALL].draw(game.srf_map)
 
         # updates the floating text, only if needed (y>0)
         game.floating_text.update()

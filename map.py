@@ -194,31 +194,25 @@ class Map():
         scoreboard.map_info_timer = 150 # shows the map info for a few seconds
         scoreboard.invalidate()      
         # reset the sprite groups  
-        self.game.all_sprites_group.empty()
-        self.game.enemies_group.empty()
-        self.game.hotspot_group.empty()
-        self.game.gate_group.empty()
-        self.game.platform_group.empty()
-        self.game.dust_group.empty()
-        self.game.blast_group.empty()
+        for group in self.game.groups: group.empty()
         # removes any possible floating text
         self.game.floating_text.y = 0
         # add the player  
-        self.game.all_sprites_group.add(player)
+        self.game.groups[enums.ALL].add(player)
 
         # add the hotspot (if available)
         hotspot = constants.HOTSPOT_DATA[self.number]
         if hotspot[3] == True: # visible/available?           
             hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-            self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
-            self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
+            self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
+            self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
 
         # add a checkpoint at the empty position of the keys
         elif hotspot[0] == enums.KEY:
             hotspot[0] = enums.CHECKPOINT
             hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[enums.CHECKPOINT])
-            self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
-            self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
+            self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
+            self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
             constants.HOTSPOT_DATA[self.number][0] = enums.KEY # restores its original type
 
         # sometimes adds an extra score at the empty position of the TNT
@@ -226,16 +220,16 @@ class Map():
             hotspot[0] = random.randint(5,9) # 5 = Burguer, 6 = Cake, 7 = Donut, 8-9 = None
             if hotspot[0] < 8:
                 hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-                self.game.all_sprites_group.add(hotspot_sprite) # to update/draw it
-                self.game.hotspot_group.add(hotspot_sprite) # to check for collisions
+                self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
+                self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
             constants.HOTSPOT_DATA[self.number][0] = enums.TNT # restores its original type
 
         # add the gate (if there is one visible on the map)
         gate = constants.GATE_DATA.get(self.number)
         if gate != None and gate[2] == True: # visible/available?
-            gate_sprite = Gate(gate, self.game.hotspot_images[enums.GATE])
-            self.game.all_sprites_group.add(gate_sprite) # to update/draw it
-            self.game.gate_group.add(gate_sprite) # to check for collisions
+            gate_sprite = Gate(gate, self.game.hotspot_images[enums.GATE_TILE])
+            self.game.groups[enums.ALL].add(gate_sprite) # to update/draw it
+            self.game.groups[enums.GATE].add(gate_sprite) # to check for collisions
 
         # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
         # a maximum of three enemies per map
@@ -244,12 +238,12 @@ class Map():
             enemy_data = constants.ENEMIES_DATA[self.number*3 + i]
             if enemy_data[6] != enums.NONE:
                 enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[6]])
-                self.game.all_sprites_group.add(enemy) # to update/draw it
+                self.game.groups[enums.ALL].add(enemy) # to update/draw it
                 # enemy sprite? add to the enemy group
                 if enemy_data[6] != enums.PLATFORM_SPR:
-                    self.game.enemies_group.add(enemy) # to check for collisions
+                    self.game.groups[enums.ENEMIES].add(enemy) # to check for collisions
                 else: # platform sprite? add to the platform group
-                    self.game.platform_group.add(enemy) # to check for collisions
+                    self.game.groups[enums.PLATFORM].add(enemy) # to check for collisions                
 
     # makes a screen transition between the old map and the new one.
     def transition(self):

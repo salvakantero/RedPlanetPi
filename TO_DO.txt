@@ -7,8 +7,7 @@ EN PROCESO
 - Pantalla final
 - Linterna en pantallas oscuras
 - Revisar, simplificar, organizar y comentar el código fuente final
-    - meter gates en hotspot?
-    - arrays para grupos de sprites y surfaces?
+    - arrays para surfaces?
     - cambiar a una resolución de 800x600?
 
 BUGS

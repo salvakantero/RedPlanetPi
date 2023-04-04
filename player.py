@@ -90,7 +90,6 @@ class Player(pygame.sprite.Sprite):
                 pygame.image.load('images/sprites/dust6.png').convert_alpha(),
                 pygame.image.load('images/sprites/dust7.png').convert_alpha(),
                 pygame.image.load('images/sprites/dust8.png').convert_alpha()]}
-        self.dust_group = game.dust_group
         # sounds
         self.sfx_jump = (
             pygame.mixer.Sound('sounds/fx/sfx_jump1.wav'),
@@ -115,10 +114,10 @@ class Player(pygame.sprite.Sprite):
 
     # dust effect when jumping or landing
     def dust_effect(self, pos, state):
-        if self.game.dust_group.sprite == None:        
+        if self.game.groups[enums.DUST].sprite == None:        
             dust_sprite = DustEffect(pos, self.dust_image_list[state])
-            self.game.dust_group.add(dust_sprite)
-            self.game.all_sprites_group.add(dust_sprite)
+            self.game.groups[enums.DUST].add(dust_sprite)
+            self.game.groups[enums.ALL].add(dust_sprite)
 
     # common code from joystick or keyboard to make the jump
     def performs_jump(self):
@@ -131,11 +130,11 @@ class Player(pygame.sprite.Sprite):
 
     # common code from joystick or keyboard to perform the shot
     def performs_shot(self):
-        if self.ammo > 0:
-            if self.firing <= 0 and self.game.shot_group.sprite == None: # no shots on screen        
+        if self.ammo > 0:       
+            if self.firing <= 0 and self.game.groups[enums.SHOT].sprite == None: # no shots on screen
                 shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
-                self.game.shot_group.add(shot)
-                self.game.all_sprites_group.add(shot)
+                self.game.groups[enums.SHOT].add(shot)
+                self.game.groups[enums.ALL].add(shot)
                 self.sfx_shot.play()
                 self.ammo -= 1
                 self.scoreboard.invalidate()

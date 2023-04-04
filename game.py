@@ -64,14 +64,15 @@ class Game():
         self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
         self.srf_scanlines.set_alpha(25)
         # sprite control groups
-        self.all_sprites_group = pygame.sprite.Group()
-        self.enemies_group = pygame.sprite.Group()
-        self.hotspot_group = pygame.sprite.GroupSingle()
-        self.gate_group = pygame.sprite.GroupSingle()
-        self.platform_group = pygame.sprite.GroupSingle()
-        self.dust_group = pygame.sprite.GroupSingle()
-        self.shot_group = pygame.sprite.GroupSingle()
-        self.blast_group = pygame.sprite.GroupSingle()
+        self.groups = [
+            pygame.sprite.Group(), # all sprites
+            pygame.sprite.Group(), # enemies
+            pygame.sprite.GroupSingle(), # hotspot
+            pygame.sprite.GroupSingle(), # gate
+            pygame.sprite.GroupSingle(), # mobile platform
+            pygame.sprite.GroupSingle(), # dust
+            pygame.sprite.GroupSingle(), # shot
+            pygame.sprite.GroupSingle()] # blast
         # gets the screen resolution (required for full screen)
         screen = pygame.display.Info()
         self.screen_width = screen.current_w
@@ -407,9 +408,9 @@ class Game():
     # collisions between mobile platforms, enemies, bullets, hotspots and gates
     def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):
         # ==================== player and mobile platform ======================
-        if self.platform_group.sprite is not None:
-            if pygame.sprite.spritecollide(player, self.platform_group, False, pygame.sprite.collide_rect_ratio(1.15)):
-                platform = self.platform_group.sprite
+        if self.groups[enums.PLATFORM].sprite is not None:
+            if pygame.sprite.spritecollide(player, self.groups[enums.PLATFORM], False, pygame.sprite.collide_rect_ratio(1.15)):
+                platform = self.groups[enums.PLATFORM].sprite                
                 # the player is above the platform?
                 if player.rect.bottom - 2 < platform.rect.top:               
                     player.rect.bottom = platform.rect.top
@@ -425,15 +426,15 @@ class Game():
 
         # ======================== player and martians =========================
         if not player.invincible:
-            if pygame.sprite.spritecollide(player, self.enemies_group, False, pygame.sprite.collide_rect_ratio(0.60)):
+            if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life()        
                 scoreboard.invalidate() # redraws the scoreboard
                 return
         
         # ======================= bullets and martians =========================
-        if self.shot_group.sprite is not None:
-            for enemy in self.enemies_group:
-                if enemy.rect.colliderect(self.shot_group.sprite):
+        if self.groups[enums.SHOT].sprite is not None:
+            for enemy in self.groups[enums.ENEMIES]:
+                if enemy.rect.colliderect(self.groups[enums.SHOT].sprite):        
                     # shake the map
                     self.shake = [10, 6]
                     self.shake_timer = 14
@@ -453,8 +454,8 @@ class Game():
                         else: # fanty
                             self.floating_text.text = '+100'
                             player.score += 100
-                    self.blast_group.add(blast)
-                    self.all_sprites_group.add(blast)
+                    self.groups[enums.BLAST].add(blast)
+                    self.groups[enums.ALL].add(blast)                    
                     self.sfx_enemy_down[enemy.type].play()
                     # floating text position
                     self.floating_text.x = enemy.rect.x
@@ -462,30 +463,30 @@ class Game():
                     self.floating_text.speed = 0
                     # removes objects
                     enemy.kill()
-                    self.shot_group.sprite.kill()
+                    self.groups[enums.SHOT].sprite.kill()
                     # redraws the scoreboard
                     scoreboard.invalidate()
                     break
 
         # ====================== bullets and map tiles =========================
-        if self.shot_group.sprite is not None:
-            bullet_rect = self.shot_group.sprite.rect
+        if self.groups[enums.SHOT].sprite is not None:
+            bullet_rect = self.groups[enums.SHOT].sprite.rect
             for tile in tilemap_rect_list:
                 if tile.colliderect(bullet_rect):
-                    self.shot_group.sprite.kill()
-                    break
+                    self.groups[enums.SHOT].sprite.kill()
+                    break        
 
         # ======================== player and hotspot ==========================
-        if self.hotspot_group.sprite is not None:
-            if player.rect.colliderect(self.hotspot_group.sprite):
-                hotspot = self.hotspot_group.sprite
+        if self.groups[enums.HOTSPOT].sprite is not None:
+            if player.rect.colliderect(self.groups[enums.HOTSPOT].sprite):
+                hotspot = self.groups[enums.HOTSPOT].sprite
                 # shake the map (just a little)
                 self.shake = [4, 4]
                 self.shake_timer = 4
                 # creates a magic halo
                 blast = Explosion(hotspot.rect.center, self.blast_images[2])
-                self.blast_group.add(blast)
-                self.all_sprites_group.add(blast)
+                self.groups[enums.BLAST].add(blast)
+                self.groups[enums.ALL].add(blast)                
                 self.sfx_hotspot[hotspot.type].play()
                 # manages the object according to the type
                 if hotspot.type == enums.TNT:
@@ -544,22 +545,22 @@ class Game():
                 self.floating_text.y = hotspot.y*constants.TILE_SIZE
                 self.floating_text.speed = 0
                 # removes objects
-                self.hotspot_group.sprite.kill()
+                self.groups[enums.HOTSPOT].sprite.kill()
                 constants.HOTSPOT_DATA[map_number][3] = False # not visible
                 return
 
         # ========================= player and gates ===========================
-        if self.gate_group.sprite is not None:
-            if player.rect.colliderect(self.gate_group.sprite):
+        if self.groups[enums.GATE].sprite is not None:
+            if player.rect.colliderect(self.groups[enums.GATE].sprite):        
                 if player.keys > 0:
                     player.keys -= 1
                     self.sfx_open_door.play()
                     # creates a magic halo
-                    blast = Explosion(self.gate_group.sprite.rect.center, self.blast_images[2])
-                    self.blast_group.add(blast)
-                    self.all_sprites_group.add(blast)
+                    blast = Explosion(self.groups[enums.GATE].sprite.rect.center, self.blast_images[2])
+                    self.groups[enums.BLAST].add(blast)
+                    self.groups[enums.ALL].add(blast)
                     # deletes the door
-                    self.gate_group.sprite.kill()
+                    self.groups[enums.GATE].sprite.kill()                    
                     constants.GATE_DATA[map_number][2] = False # not visible
                     # increases the percentage of game play
                     scoreboard.game_percent += 3

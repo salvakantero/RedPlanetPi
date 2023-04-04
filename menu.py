@@ -267,7 +267,7 @@ class Menu():
                             elif menu_page == 5:
                                 shot_x, shot_y = 38, -28+(20*selected_option)
                             shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet, 8)
-                            self.game.shot_group.add(shot)
+                            self.game.groups[enums.SHOT].add(shot)
                             self.sfx_menu_select.play()
                             confirmed_option = True
 
@@ -309,11 +309,11 @@ class Menu():
                     self.srf_menu.blit(self.img_player, (34, -28 + (20*selected_option)))
                 
                 # draw the shot (if it exists)
-                self.game.shot_group.update()
-                self.game.shot_group.draw(self.srf_menu)
+                self.game.groups[enums.SHOT].update()
+                self.game.groups[enums.SHOT].draw(self.srf_menu)
 
                 # an option was confirmed and the shot was completed?
-                if confirmed_option and self.game.shot_group.sprite == None:
+                if confirmed_option and self.game.groups[enums.SHOT].sprite == None:
                     # main menu page
                     if selected_option == enums.START:
                         self.game.new = True
