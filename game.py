@@ -77,6 +77,9 @@ class Game():
         self.v_margin = constants.V_MARGIN
         self.h_margin = constants.H_MARGIN
         self.win_size = constants.WIN_SIZE
+        # main surface
+        self.screen = pygame.display.set_mode(self.win_size, 0, 32)
+        # change the resolution and type of display according to the settings
         self.apply_display_settings()
         # common fonts
         self.fonts = {
