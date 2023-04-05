@@ -30,6 +30,7 @@ from marqueetext import MarqueeText
 from shot import Shot
 
 
+
 class Menu():
     def __init__(self, game):
         self.game = game        
@@ -67,10 +68,14 @@ class Menu():
         self.page_3()
         self.page_4()
         
+
+
     # draws a text with its shadow
     def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
         font_BG.render(text, surface, (x, y))  # shadow
         font_FG.render(text, surface, (x-offset, y-offset))
+
+
 
     def page_0(self): # menu options    
         options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
@@ -80,6 +85,8 @@ class Menu():
                              option, self.menu_pages[0], x, y + i*20, 1)            
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
                         'Use arrow keys and SPACE/ENTER to select', self.menu_pages[0], x-35, y+90, 1)
+
+
 
     def page_1(self): # high scores
         # header
@@ -101,6 +108,8 @@ class Menu():
                 str(self.game.high_scores[i][2]).rjust(6, '0'), self.menu_pages[1], 115, y, 1)
             y += 10
 
+
+
     def page_2(self): # hotspot info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         left_items = [
@@ -121,6 +130,8 @@ class Menu():
         for i, (name, score, img_index) in enumerate(right_items):
             self.menu_pages[2].blit(self.game.hotspot_images[img_index], (128, 94+i*25))
             self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 151, 100+i*25, 1)
+
+
 
     def page_3(self): # enemies/gifts info
         x, y = 50, 95
@@ -144,6 +155,8 @@ class Menu():
             self.menu_pages[3].blit(self.game.hotspot_images[img_index], (139, 89+i*20))
             self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], 162, y+i*20, 1)
 
+
+
     def page_4(self): # control info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         layouts = [
@@ -158,6 +171,8 @@ class Menu():
             self.menu_pages[4].blit(image, img_pos)
             self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
 
+
+
     def page_5(self): # options
         # menu options      
         x, y = 60, 55
@@ -166,7 +181,8 @@ class Menu():
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
         ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
         # full screen
-        if self.game.config.data['full_screen']: value = 'ON'
+        if self.game.config.data['full_screen'] == enums.X600: value = '4:3'
+        elif self.game.config.data['full_screen'] == enums.X720: value = '16:9'
         else: value = 'OFF'
         self.shaded_text(fb, ff, 'Full Screen:', self.menu_pages[5], x, y, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y, 1)
@@ -193,6 +209,8 @@ class Menu():
         
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
                          'Use arrow keys and SPACE/ENTER to select', self.menu_pages[5], x-10, y+110, 1)
+
+
 
     def show(self):
         # help text on the marquee
@@ -330,8 +348,8 @@ class Menu():
                         self.game.exit()
 
                     # options menu page
-                    elif selected_option == enums.FULLSCREEN:  # 0 = no, 1 = yes
-                        self.game.config.data['full_screen'] = (self.game.config.data['full_screen'] + 1) % 2
+                    elif selected_option == enums.FULLSCREEN:  # 0 = off, 1 = 4:3, 2 = 16:9
+                        self.game.config.data['full_screen'] = (self.game.config.data['full_screen'] + 1) % 3
                     elif selected_option == enums.SCANLINES: # 0 = none, 1 = fast, 2 = HQ
                         self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 3
                     elif selected_option == enums.MAP_TRANSITION: # 0 = no, 1 = yes
@@ -352,6 +370,7 @@ class Menu():
                         # create joystick/joypad/gamepad object (if it exists)
                         self.game.joystick = self.game.config.prepare_joystick()                        
                         # saves and apply possible changes to the configuration
+
                         self.game.config.save()  
                         self.game.apply_display_settings()                     
                         # recreate the page with the new data

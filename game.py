@@ -73,16 +73,10 @@ class Game():
             pygame.sprite.GroupSingle(), # dust
             pygame.sprite.GroupSingle(), # shot
             pygame.sprite.GroupSingle()] # blast
-        # gets the screen resolution (required for full screen)
-        screen = pygame.display.Info()
-        if screen.current_h >= 600:
-            # 800x600 applies. Faaaasssst!
-            self.screen_width = 800
-            self.screen_height = 600
-        else: # apply the strange resolution of the monitor
-            self.screen_width = screen.current_w
-            self.screen_height = screen.current_h
-        # creates a window or full-screen environment 
+        # display mode and margins
+        self.v_margin = constants.V_MARGIN
+        self.h_margin = constants.H_MARGIN
+        self.win_size = constants.WIN_SIZE
         self.apply_display_settings()
         # common fonts
         self.fonts = {
@@ -179,53 +173,60 @@ class Game():
         self.load_high_scores()
         # create a joystick/joypad/gamepad object
         self.joystick = self.config.prepare_joystick()
-    
+   
+
+
+    # windowed mode, generates a main window with title, icon, and 32-bit colour
+    def apply_windowed_mode(self):        
+        # default margins
+        self.v_margin = constants.V_MARGIN
+        self.h_margin = constants.H_MARGIN
+        # creates the window
+        self.win_size = constants.WIN_SIZE
+        self.screen = pygame.display.set_mode(self.win_size, 0, 32)
+        pygame.display.set_caption('.:: Red Planet Pi ::.')
+        icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
+        pygame.display.set_icon(icon)    
+
+
+
+    # 4:3 (800x600) clear and faaaasssst!
+    def apply_full_screen_X600(self):   
+        if (800, 600) in pygame.display.list_modes():
+            self.win_size = 800, 600
+            self.v_margin = 4            
+            self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+        else: # full screen at low resolution not available
+            self.apply_windowed_mode(self)
+
+
+
+    # 16:9 (1280x720) clear and is still fast!
+    def apply_full_screen_X720(self):
+        if (1280, 720) in pygame.display.list_modes():
+            self.win_size = 1280, 720
+            self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
+            self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
+            self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+        else: # full screen at low resolution not available
+            self.apply_windowed_mode(self)
+
+
+
     # creates a window or full-screen environment 
     def apply_display_settings(self):
-        # full screen. It is necessary to calculate the dimensions of the playing area 
-        # and the margins according to the size of the screen.
-        if self.config.data['full_screen']: 
-            # the main window takes up the entire screen
-            constants.WIN_SIZE = (self.screen_width, self.screen_height)
-            self.screen = pygame.display.set_mode(constants.WIN_SIZE, pygame.FULLSCREEN, 32)
-            if self.screen_width != 800:
-                # not forcing 800x600. 
-                # it is necessary to resize the surfaces without losing aspect ratio
-                scaling_factor = self.screen_height / constants.MENU_SCALED_SIZE[1]
-                constants.MENU_SCALED_SIZE = (
-                    int(constants.MENU_SCALED_SIZE[0] * scaling_factor),
-                    int(constants.MENU_SCALED_SIZE[1] * scaling_factor))
-                constants.SBOARD_SCALED_SIZE = (
-                    int(constants.SBOARD_SCALED_SIZE[0] * scaling_factor),
-                    int(constants.SBOARD_SCALED_SIZE[1] * scaling_factor))
-                constants.MAP_SCALED_SIZE = (
-                    int(constants.MAP_SCALED_SIZE[0] * scaling_factor),
-                    int(constants.MAP_SCALED_SIZE[1] * scaling_factor))
-                # height of the playing area equal to the screen
-                constants.V_MARGIN = 0
-                # left margin is equal to half the unused width of the screen
-                constants.H_MARGIN = (self.screen_width - constants.MENU_SCALED_SIZE[0]) // 2
-            else: # 800x600
-                constants.V_MARGIN = 6 # height of the play area somewhat smaller than the screen
-            
-        # windowed mode, generates a main window with title, icon, and 32-bit colour
-        # the window dimensions and the margins are fixed
+        if self.config.data['full_screen'] == enums.X600:
+            self.apply_full_screen_X600()
+        elif self.config.data['full_screen'] == enums.X720:
+            self.apply_full_screen_X720()
         else:
-            # restores default values
-            constants.WIN_SIZE = 800, 640
-            constants.MENU_SCALED_SIZE = 720, 594
-            constants.SBOARD_SCALED_SIZE = 720, 114
-            constants.MAP_SCALED_SIZE = 720, 480
-            constants.H_MARGIN = 40
-            constants.V_MARGIN = 20
-            # creates the window
-            self.screen = pygame.display.set_mode(constants.WIN_SIZE, 0, 32)
-            pygame.display.set_caption('.:: Red Planet Pi ::.')
-            icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-            pygame.display.set_icon(icon)
+            self.apply_windowed_mode() 
+        
         # resize the surface for HQ scanlines
-        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
+        self.srf_scanlines = pygame.Surface(self.win_size)
         self.srf_scanlines.set_alpha(25)
+
+
 
     # load the high scores table
     def load_high_scores(self):
@@ -237,10 +238,14 @@ class Game():
             for _ in range(8):
                 self.high_scores.append(['SALVAKANTERO', today, 0])
 
+
+
     # save the high scores table
     def save_high_scores(self):
         with open('scores.dat', "wb") as f:
             pickle.dump(self.high_scores, f)
+
+
 
     # allows to enter the player's name
     def get_player_name(self):
@@ -265,6 +270,8 @@ class Game():
                     # draws the current name
                     self.message('You achieved a high score!', name.upper(), False)
 
+
+
     # new high score??
     def update_high_score_table(self, player_score):
         if player_score > self.high_scores[7][2]:
@@ -273,31 +280,43 @@ class Game():
             self.high_scores.pop() # remove last score (8 scores remain)
             self.save_high_scores()
 
+
+
     # exits to the operating system
     def exit(self):
         pygame.quit()
         sys.exit()
+
+
 
     # shows an intro
     def show_intro(self):
         intro = Intro(self)
         intro.play()
 
+
+
     # creates the initial Menu object
     def show_menu(self):
         menu = Menu(self)
         menu.show()
 
+
+
     # draws scanlines
     def scanlines(self, surface, rgb):
-        from_x = constants.H_MARGIN
-        to_x = constants.WIN_SIZE[0]-constants.H_MARGIN-2
-        y = constants.V_MARGIN        
-        if self.config.data['full_screen']: height = constants.WIN_SIZE[1]
-        else: height = constants.WIN_SIZE[1]-30
+        x = self.win_size[0]-self.h_margin-1
+        y = self.v_margin    
+        if self.config.data['full_screen'] is not enums.OFF: 
+            height = self.win_size[1]-self.v_margin
+        else: # fixed height that does not depend on the margin
+            height = self.win_size[1]-26
+
         while y < height:
-            y += 3
-            pygame.draw.line(surface, (rgb, rgb, rgb), (from_x, y), (to_x, y))
+            pygame.draw.line(surface, (rgb, rgb, rgb), (self.h_margin, y), (x, y))
+            y += 3            
+
+
 
     # applies scanlines according to the configuration
     def apply_scanlines(self):
@@ -307,13 +326,15 @@ class Game():
         elif self.config.data['scanlines'] == 1: # fast
             self.scanlines(self.screen, 15) # almost black lines
     
+
+
     # dumps and scales surfaces to the screen
     def update_screen(self):
         if self.status == enums.OVER:
             # scale the menu
             self.screen.blit(pygame.transform.scale(
                 self.srf_menu, constants.MENU_SCALED_SIZE),
-                (constants.H_MARGIN, constants.V_MARGIN))
+                (self.h_margin, self.v_margin))
         else:
             # shakes the surface of the map if it has been requested
             offset = [0,0]
@@ -328,15 +349,17 @@ class Game():
             # scale the scoreboard
             self.screen.blit(pygame.transform.scale(
                 self.srf_sboard, constants.SBOARD_SCALED_SIZE), 
-                (constants.H_MARGIN, constants.V_MARGIN))
+                (self.h_margin, self.v_margin))
             # scale the map
             self.screen.blit(pygame.transform.scale(
                 self.srf_map, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
-                constants.SBOARD_SCALED_SIZE[1] + constants.V_MARGIN + offset[1]))
+                constants.SBOARD_SCALED_SIZE[1] + self.v_margin + offset[1]))
 
         self.apply_scanlines()
         pygame.display.update() # refreshes the screen
         self.clock.tick(60) # 60 FPS
+
+
 
     # displays a message, darkening the screen
     def message(self, msg1, msg2, darken):
@@ -376,6 +399,8 @@ class Game():
         self.update_screen()        
         self.sfx_message.play()
 
+
+
     # displays a message to confirm exit
     def confirm_exit(self):
         self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True)
@@ -388,7 +413,9 @@ class Game():
                     if event.key == pygame.K_ESCAPE:                    
                         return True 
                     return False
-                
+
+
+
     # displays a 'game over' message and waits
     def over(self): 
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True)
@@ -401,16 +428,22 @@ class Game():
                     self.exit()
                 if event.type == pygame.KEYDOWN:                  
                     return
-                    
+
+
+
     # stops the music when the game is paused and a message is displayed.
     def pause_music(self):
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.pause()
 
+
+
     # restores music if it returns from a message
     def restore_music(self):
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
+
+
 
     # collisions between mobile platforms, enemies, bullets, hotspots and gates
     def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):

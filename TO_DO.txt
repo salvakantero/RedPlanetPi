@@ -6,10 +6,12 @@ EN PROCESO
 ==========
 - Pantalla final
 - Linterna en pantallas oscuras
+- Marco en 1280x720
 
 BUGS
 ====
 - Revisar hi que se muestra en el scoreboard
+- Cambiar sonido al teclear nombre de HI
 
 POR HACER
 =========

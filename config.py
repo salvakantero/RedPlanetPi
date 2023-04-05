@@ -32,7 +32,7 @@ class Configuration():
         self.filename = 'config.dat'
         self.data = { 
             # default values
-            'full_screen' : False,
+            'full_screen' : 0, # 0 = off, 1 = 4:3 800x600, 2 = 16:9 1280x720
             'scanlines' : 1, # 0 = none, 1 = fast, 2 = HQ
             'map_transition' : True, # 0 = no, 1 = yes
             'control' : enums.CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
