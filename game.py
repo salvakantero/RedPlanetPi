@@ -71,13 +71,15 @@ class Game():
             pygame.sprite.GroupSingle(), # mobile platform
             pygame.sprite.GroupSingle(), # dust
             pygame.sprite.GroupSingle(), # shot
-            pygame.sprite.GroupSingle()] # blast
-        # display mode and margins
+            pygame.sprite.GroupSingle()] # blast        
+        # display mode and margins        
         self.v_margin = constants.V_MARGIN
         self.h_margin = constants.H_MARGIN
         self.win_size = constants.WIN_SIZE
         # main surface
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
+        # wallpaper for the 16:9 mode
+        self.img_background = pygame.image.load('images/assets/screen_back.png').convert()        
         # change the resolution and type of display according to the settings
         self.apply_display_settings()
         # common fonts
@@ -146,7 +148,7 @@ class Game():
                 pygame.image.load('images/sprites/blast13.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast14.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast15.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast16.png').convert_alpha()]} 
+                pygame.image.load('images/sprites/blast16.png').convert_alpha()]}         
         # sound effects
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav') 
@@ -211,6 +213,7 @@ class Game():
             self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
             self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+            self.screen.blit(self.img_background, (0,0))
         else: # full screen at low resolution not available
             self.apply_windowed_mode(self)
 
@@ -343,7 +346,10 @@ class Game():
             if self.shake_timer > 0:
                 if self.shake_timer == 1: # last frame shaken
                     # it's necessary to clean the edges of the map after shaking it
-                    self.screen.fill(constants.PALETTE['BLACK'])
+                    if self.config.data['full_screen'] == enums.X720:
+                        self.screen.blit(self.img_background, (0,0))
+                    else: 
+                        self.screen.fill(constants.PALETTE['BLACK'])
                 else:
                     offset[0] = random.randint(-self.shake[0], self.shake[0])
                     offset[1] = random.randint(-self.shake[1], self.shake[1])
@@ -354,7 +360,7 @@ class Game():
                 (self.h_margin, self.v_margin))
             # scale the map
             self.screen.blit(pygame.transform.scale(
-                self.srf_map, constants.MAP_SCALED_SIZE), (constants.H_MARGIN + offset[0], 
+                self.srf_map, constants.MAP_SCALED_SIZE), (self.h_margin + offset[0], 
                 constants.SBOARD_SCALED_SIZE[1] + self.v_margin + offset[1]))
 
         self.apply_scanlines()
