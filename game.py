@@ -28,9 +28,7 @@ import constants
 import enums
 import os
 import pickle
-
 from datetime import date
-
 from config import Configuration
 from font import Font
 from intro import Intro
@@ -39,6 +37,7 @@ from checkpoint import Checkpoint
 from jukebox import Jukebox
 from explosion import Explosion
 from floatingtext import FloatingText
+
 
 
 class Game():
@@ -149,7 +148,8 @@ class Game():
                 pygame.image.load('images/sprites/blast15.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast16.png').convert_alpha()]} 
         # sound effects
-        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav') 
+        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
+        self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav') 
         self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
         self.sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
         self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
@@ -223,8 +223,7 @@ class Game():
         elif self.config.data['full_screen'] == enums.X720:
             self.apply_full_screen_X720()
         else:
-            self.apply_windowed_mode() 
-        
+            self.apply_windowed_mode()         
         # resize the surface for HQ scanlines
         self.srf_scanlines = pygame.Surface(self.win_size)
         self.srf_scanlines.set_alpha(25)
@@ -252,7 +251,7 @@ class Game():
 
     # allows to enter the player's name
     def get_player_name(self):
-        self.message('You achieved a high score!', 'Enter your name...', True)
+        self.message('You achieved a high score!', 'Enter your name...', True, False)
         pygame.event.clear(pygame.KEYDOWN)
         name = ''
         while True:
@@ -271,7 +270,7 @@ class Game():
                     elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                         name = name[:-1]
                     # draws the current name
-                    self.message('You achieved a high score!', name.upper(), False)
+                    self.message('You achieved a high score!', name.upper(), False, True)
 
 
 
@@ -365,7 +364,7 @@ class Game():
 
 
     # displays a message, darkening the screen
-    def message(self, msg1, msg2, darken):
+    def message(self, msg1, msg2, darken, muted):
         # obscures the surface of the map
         if darken:
             self.srf_map.set_alpha(120)
@@ -400,13 +399,14 @@ class Game():
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
         self.update_screen()        
-        self.sfx_message.play()
+        if muted: self.sfx_click.play()
+        else: self.sfx_message.play()
 
 
 
     # displays a message to confirm exit
     def confirm_exit(self):
-        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True)
+        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True, False)
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
@@ -421,7 +421,7 @@ class Game():
 
     # displays a 'game over' message and waits
     def over(self): 
-        self.message('G a m e  O v e r', 'PRESS ANY KEY', True)
+        self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True)
         pygame.mixer.music.stop()
         self.sfx_game_over.play()
         pygame.event.clear(pygame.KEYDOWN)

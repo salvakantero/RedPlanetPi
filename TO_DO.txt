@@ -10,8 +10,6 @@ EN PROCESO
 
 BUGS
 ====
-- Revisar hi que se muestra en el scoreboard
-- Cambiar sonido al teclear nombre de HI
 
 POR HACER
 =========
