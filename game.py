@@ -191,7 +191,7 @@ class Game():
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
         pygame.display.set_caption('.:: Red Planet Pi ::.')
         icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-        pygame.display.set_icon(icon)    
+        pygame.display.set_icon(icon)
 
 
 

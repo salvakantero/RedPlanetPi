@@ -4,15 +4,15 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Pantalla final
-- Linterna en pantallas oscuras
-- Marco en 1280x720
 
 BUGS
 ====
+- no se ve el marco con scanlines HQ
 
 POR HACER
 =========
+- Pantalla final
+- Linterna en pantallas oscuras
 - Actualizar manual
 
 HECHO
@@ -104,7 +104,7 @@ HECHO
 27/03/23 - FULL_SCREEN adaptado a cualquier pantalla
 31/03/23 - Licencia (GPL 3)
 04/04/23 - Revisar, simplificar, organizar y comentar el código fuente final
-
+05/04/23 - Marco en modo 16:9
 
 CREDITS
 =======
