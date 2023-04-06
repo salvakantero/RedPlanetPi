@@ -59,9 +59,6 @@ class Game():
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # surface to save the previous map (transition effect between screens)
         self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-        # surface for HQ scanlines
-        self.srf_scanlines = pygame.Surface(constants.WIN_SIZE)
-        self.srf_scanlines.set_alpha(25)
         # sprite control groups
         self.groups = [
             pygame.sprite.Group(), # all sprites
@@ -202,7 +199,7 @@ class Game():
             self.v_margin = 4            
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
         else: # full screen at low resolution not available
-            self.apply_windowed_mode(self)
+            self.apply_windowed_mode()
 
 
 
@@ -215,7 +212,7 @@ class Game():
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
             self.screen.blit(self.img_background, (0,0))
         else: # full screen at low resolution not available
-            self.apply_windowed_mode(self)
+            self.apply_windowed_mode()
 
 
 
@@ -227,9 +224,6 @@ class Game():
             self.apply_full_screen_X720()
         else:
             self.apply_windowed_mode()         
-        # resize the surface for HQ scanlines
-        self.srf_scanlines = pygame.Surface(self.win_size)
-        self.srf_scanlines.set_alpha(25)
 
 
 
@@ -309,27 +303,16 @@ class Game():
 
 
     # draws scanlines
-    def scanlines(self, surface, rgb):
+    def apply_scanlines(self):
         x = self.win_size[0]-self.h_margin-1
         y = self.v_margin    
         if self.config.data['full_screen'] is not enums.OFF: 
             height = self.win_size[1]-self.v_margin
         else: # fixed height that does not depend on the margin
             height = self.win_size[1]-26
-
         while y < height:
-            pygame.draw.line(surface, (rgb, rgb, rgb), (self.h_margin, y), (x, y))
+            pygame.draw.line(self.screen, (10, 10, 10), (self.h_margin, y), (x, y))
             y += 3            
-
-
-
-    # applies scanlines according to the configuration
-    def apply_scanlines(self):
-        if self.config.data['scanlines'] == 2: # HQ
-            self.scanlines(self.srf_scanlines, 255) # almost white lines
-            self.screen.blit(self.srf_scanlines, (0, 0))
-        elif self.config.data['scanlines'] == 1: # fast
-            self.scanlines(self.screen, 15) # almost black lines
     
 
 
@@ -362,8 +345,8 @@ class Game():
             self.screen.blit(pygame.transform.scale(
                 self.srf_map, constants.MAP_SCALED_SIZE), (self.h_margin + offset[0], 
                 constants.SBOARD_SCALED_SIZE[1] + self.v_margin + offset[1]))
-
-        self.apply_scanlines()
+        if self.config.data['scanlines']:
+            self.apply_scanlines()
         pygame.display.update() # refreshes the screen
         self.clock.tick(60) # 60 FPS
 

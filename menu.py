@@ -186,10 +186,9 @@ class Menu():
         else: value = 'OFF'
         self.shaded_text(fb, ff, 'Full Screen:', self.menu_pages[5], x, y, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y, 1)
-        # scanlines filter
-        if self.game.config.data['scanlines'] == 0: value = 'OFF' 
-        elif self.game.config.data['scanlines'] == 1: value = 'FAST'
-        else: value = 'HQ'
+        # scanlines filter 
+        if self.game.config.data['scanlines']: value = 'ON'
+        else: value = 'OFF'
         self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[5], x, y+20, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+20, 1)
         # map transition
@@ -350,8 +349,8 @@ class Menu():
                     # options menu page
                     elif selected_option == enums.FULLSCREEN:  # 0 = off, 1 = 4:3, 2 = 16:9
                         self.game.config.data['full_screen'] = (self.game.config.data['full_screen'] + 1) % 3
-                    elif selected_option == enums.SCANLINES: # 0 = none, 1 = fast, 2 = HQ
-                        self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 3
+                    elif selected_option == enums.SCANLINES: # 0 = no, 1 = yes
+                        self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 2
                     elif selected_option == enums.MAP_TRANSITION: # 0 = no, 1 = yes
                         self.game.config.data['map_transition'] = (self.game.config.data['map_transition'] + 1) % 2
                     elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
