@@ -24,6 +24,7 @@
 import pygame
 import constants
 
+
 class Intro():
     def __init__(self, game):
         self.game = game
@@ -41,12 +42,14 @@ class Intro():
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 
+
     # the ESC, RETURN or SPACE key has been pressed.
     def main_key_pressed(self):
         for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         return True
+
 
     def fades_surface(self, target_surf, aux_surf, opacity, delay):
         aux_surf.set_alpha(0) # totally transparent    
@@ -55,6 +58,7 @@ class Intro():
             target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
             self.game.update_screen() # draw target_surf
             pygame.time.wait(delay) # speed of transition
+
 
     def play(self):
         # PlayOnRetro logo

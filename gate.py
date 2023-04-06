@@ -24,6 +24,7 @@
 import pygame
 import constants
 
+
 class Gate(pygame.sprite.Sprite):
     def __init__(self, gate_data, gate_image):
         super().__init__()

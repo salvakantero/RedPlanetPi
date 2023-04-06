@@ -30,7 +30,6 @@ from marqueetext import MarqueeText
 from shot import Shot
 
 
-
 class Menu():
     def __init__(self, game):
         self.game = game        
@@ -69,12 +68,10 @@ class Menu():
         self.page_4()
         
 
-
     # draws a text with its shadow
     def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
         font_BG.render(text, surface, (x, y))  # shadow
         font_FG.render(text, surface, (x-offset, y-offset))
-
 
 
     def page_0(self): # menu options    
@@ -85,7 +82,6 @@ class Menu():
                              option, self.menu_pages[0], x, y + i*20, 1)            
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
                         'Use arrow keys and SPACE/ENTER to select', self.menu_pages[0], x-35, y+90, 1)
-
 
 
     def page_1(self): # high scores
@@ -109,7 +105,6 @@ class Menu():
             y += 10
 
 
-
     def page_2(self): # hotspot info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         left_items = [
@@ -130,7 +125,6 @@ class Menu():
         for i, (name, score, img_index) in enumerate(right_items):
             self.menu_pages[2].blit(self.game.hotspot_images[img_index], (128, 94+i*25))
             self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 151, 100+i*25, 1)
-
 
 
     def page_3(self): # enemies/gifts info
@@ -156,7 +150,6 @@ class Menu():
             self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], 162, y+i*20, 1)
 
 
-
     def page_4(self): # control info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         layouts = [
@@ -170,7 +163,6 @@ class Menu():
         for i, (image, img_pos, text, text_pos) in enumerate(layouts):
             self.menu_pages[4].blit(image, img_pos)
             self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
-
 
 
     def page_5(self): # options
@@ -208,7 +200,6 @@ class Menu():
         
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
                          'Use arrow keys and SPACE/ENTER to select', self.menu_pages[5], x-10, y+110, 1)
-
 
 
     def show(self):

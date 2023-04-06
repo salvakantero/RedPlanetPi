@@ -25,6 +25,7 @@ import pygame
 import constants
 import enums
 
+
 class Scoreboard():
     def __init__(self, game):
         self.map_info_timer = 150 # show map info while timer > 0
@@ -47,6 +48,7 @@ class Scoreboard():
         # TOTAL:                  100%
         self.game_percent = 0
 
+
     # draws the name of the map and other data
     def map_info(self, map_number):
         # print map name
@@ -65,10 +67,12 @@ class Scoreboard():
         self.fonts[enums.S_B_GREEN].render(text_2, self.srf_sboard, (x+1, y+1)) # shadow
         self.fonts[enums.S_F_GREEN].render(text_2, self.srf_sboard, (x, y))
 
+
     # draws a text with its shadow
     def shaded_text(self, data, x, y):       
         self.fonts[enums.L_B_WHITE].render(str(data).rjust(2, '0'), self.srf_sboard, (x, y))  # shadow
         self.fonts[enums.L_F_WHITE].render(str(data).rjust(2, '0'), self.srf_sboard, (x-2, y-2))
+
 
     # draws the entire scoreboard
     def reset(self):
@@ -84,13 +88,16 @@ class Scoreboard():
         self.shaded_text('\'50', 116, 6) # ' = /
         self.shaded_text('\'15', 220, 6)
 
+
     # forces the redrawing of the data
     def invalidate(self):
         self.needs_updating = True
 
+
     # clean the previous data
     def clear_zone(self, x):
         pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK'], ((x, 4),(13, 12)))
+
 
     # update the data (only if it has been invalidated)
     def update(self, player):

@@ -27,6 +27,7 @@ import pickle
 import os
 import enums
 
+
 class Configuration():
     def __init__(self):
         self.filename = 'config.dat'
@@ -46,10 +47,12 @@ class Configuration():
         self.fire_key = pygame.K_SPACE
         self.mute_key = pygame.K_m
 
+
     # generates a new 'config.dat' with the current configuration
     def save(self):
         with open(self.filename, "wb") as f:
             pickle.dump(self.data, f)
+
 
     # loads data from 'config.dat' if file exists
     def load(self):
@@ -57,6 +60,7 @@ class Configuration():
             with open(self.filename, "rb") as f:
                 self.data = pickle.load(f)
             self.apply_controls()
+
 
     # assigns the keys corresponding to the selected layout
     def apply_controls(self):
@@ -76,6 +80,7 @@ class Configuration():
             self.left_key = pygame.K_o
             self.right_key = pygame.K_p
     
+
     # create a joystick/joypad/gamepad object
     def prepare_joystick(self):
         joystick = None

@@ -48,10 +48,12 @@ class Map():
         # to generate the pile of explosives
         self.img_tnt = game.hotspot_images[enums.TNT]
 
+
     # loads a map and draws it on screen
     def load(self):
         self.map_data = self.process_map('maps/map{}.json'.format(self.number))
         self.draw_map() # draws the tile map on the screen
+
 
     # dump the tiled file into mapdata
     def process_map(self, map_file):
@@ -80,16 +82,19 @@ class Map():
             data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
         return data
 
+
     # extracts the tile number from the filename
     def get_tile_number(self, tile_name):
         tile_name = tile_name.replace('.png', '')
         tile_name = tile_name.replace('T', '')
         return int(tile_name)
   
+
     # get a value from a dictionary
     def find_data(self, lst, key, value):
         matches = [d for d in lst if d[key] == value]
         return matches[0] if matches else None
+
 
     # draws the tile map on the screen
     def draw_map(self):
@@ -129,6 +134,7 @@ class Map():
                         + constants.ANIM_TILES[t['image']]).convert(), 
                         tileRect.topleft[0], tileRect.topleft[1], 0])
 
+
     # select some of the animated tiles on the current map to change the frame
     # and apply to the surface. 
     # anim_tiles_list = (frame_1, frame_2, x, y, num_frame)
@@ -141,6 +147,7 @@ class Map():
                 self.game.srf_map_bk.blit(tile, tileRect) # draws on the background image
                 # update frame number (0,1)
                 anim_tile[4] = (anim_tile[4] + 1) % 2
+
 
     # checks if the map needs to be changed (depending on the player's XY position)
     def check_change(self, player):
@@ -170,6 +177,7 @@ class Map():
             self.number += 5
             self.scroll = enums.DOWN
             player.rect.top = 0
+
 
     # does everything necessary to change the map and add enemies and hotspots.
     def change(self, player, scoreboard):
@@ -245,6 +253,7 @@ class Map():
                 else: # platform sprite? add to the platform group
                     self.game.groups[enums.PLATFORM].add(enemy) # to check for collisions                
 
+
     # makes a screen transition between the old map and the new one.
     def transition(self):
         # surfaces to save the old and the new map together
@@ -304,6 +313,7 @@ class Map():
             for x in range(0, -constants.MAP_UNSCALED_SIZE[0], -6):
                 self.game.srf_map.blit(srf_map_t_h, (x, 0))
                 self.game.update_screen()
+
 
     # add the pile of explosives to the background (5 x 3)
     def add_TNT_pile(self):

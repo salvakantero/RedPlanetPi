@@ -61,20 +61,24 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.image_list[0] # first frame
         self.rect = self.image.get_rect()
 
+
     # changes a sign value according to the sign of another value (used for the Fanty)
     def addsign (self, n, value):
         if n >= 0: return value
         else: return -value
 
+
     # calculates the distance between two points (used for the Fanty)
     def distance (self, x1, y1, x2, y2):
         return math.hypot(x2 - x1, y2 - y1)
+
 
     # maintains a value within limits (used for the Fanty)
     def limit(self, val, min, max):
         if val < min: return min
         elif val > max: return max
         return val
+
 
     def animate(self):
         self.animation_timer += 1
@@ -92,6 +96,7 @@ class Enemy(pygame.sprite.Sprite):
         # moving to the left, or idle looking at the player
         elif self.vx < 0 or (self.vx == 0 and self.player.x < self.x):
             self.image = pygame.transform.flip(self.image_list[self.frame_index], True, False)
+
 
     def update(self):
         # movement

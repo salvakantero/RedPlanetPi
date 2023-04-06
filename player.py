@@ -31,6 +31,7 @@ import enums
 from dust import DustEffect
 from shot import Shot
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
@@ -112,12 +113,14 @@ class Player(pygame.sprite.Sprite):
         self.map = map
         self.scoreboard = scoreboard
 
+
     # dust effect when jumping or landing
     def dust_effect(self, pos, state):
         if self.game.groups[enums.DUST].sprite == None:        
             dust_sprite = DustEffect(pos, self.dust_image_list[state])
             self.game.groups[enums.DUST].add(dust_sprite)
             self.game.groups[enums.ALL].add(dust_sprite)
+
 
     # common code from joystick or keyboard to make the jump
     def performs_jump(self):
@@ -127,6 +130,7 @@ class Player(pygame.sprite.Sprite):
         self.dust_effect(self.rect.center, enums.JUMPING)
         # randomly plays one of the four jumping sounds
         self.sfx_jump[random.randint(0, 3)].play()
+
 
     # common code from joystick or keyboard to perform the shot
     def performs_shot(self):
@@ -141,6 +145,7 @@ class Player(pygame.sprite.Sprite):
                 self.firing = 12 # frames drawing the image "firing".
         else: # no bullets
             self.sfx_no_ammo.play()
+
 
     # common code from joystick or keyboard to perform an action
     def performs_action(self):
@@ -162,6 +167,7 @@ class Player(pygame.sprite.Sprite):
         # no action required
         if not action_taken:   
             self.sfx_no_action.play() 
+
 
     # keyboard/mouse/joystick keystroke input
     def get_input(self):
@@ -217,6 +223,7 @@ class Player(pygame.sprite.Sprite):
             if key_state[self.game.config.action_key]:
                 self.performs_action()
 
+
     # player status according to movement
     def get_state(self):
         if self.direction.y < 0: # decrementing Y. Jumping
@@ -229,6 +236,7 @@ class Player(pygame.sprite.Sprite):
                 self.state = enums.WALKING
             else: # x does not change. Stopped
                 self.state = enums.IDLE
+
 
     def horizontal_mov(self):
         # gets the new rect after applying the movement and check for collision
@@ -251,6 +259,7 @@ class Player(pygame.sprite.Sprite):
                 break # stop the loop after the collision is detected
         if not collision:
             self.rect.x = x_temp # apply the new X position
+
 
     def vertical_mov(self):        
         # applies acceleration of gravity up to the vertical speed limit.
@@ -316,7 +325,8 @@ class Player(pygame.sprite.Sprite):
                 self.game.shake = [0, 4]
                 self.game.shake_timer = 4
                 self.y_jump = constants.MAP_UNSCALED_SIZE[1] # reset
-                
+
+
     def animate(self):
         # animation
         if (self.state == enums.WALKING):
@@ -345,6 +355,7 @@ class Player(pygame.sprite.Sprite):
         if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255
         else: self.image.set_alpha(255) # without transparency
     
+
     # subtracts one life and applies temporary invincibility
     def loses_life(self):
         if not self.invincible:
@@ -353,16 +364,19 @@ class Player(pygame.sprite.Sprite):
             self.invincible = True
             self.invincible_time_from = pygame.time.get_ticks()
 
+
     # controls the invincibility time
     def invincibility_timer(self):
         if self.invincible:
             if (pygame.time.get_ticks() - self.invincible_time_from) >= self.invincible_time_to:
                 self.invincible = False
 
+
     # returns the value 0 or 255 depending on the number of ticks.
     def wave_value(self):
         if sin(pygame.time.get_ticks()) >= 0: return 255
         else: return 0
+
 
     # controls the oxygen time
     def oxygen_timer(self):
@@ -371,6 +385,7 @@ class Player(pygame.sprite.Sprite):
             if self.oxygen <= 10: self.sfx_alarm.play()
             self.scoreboard.invalidate()
             self.oxygen_time_from = pygame.time.get_ticks()
+
 
     def update(self):
         self.get_input()

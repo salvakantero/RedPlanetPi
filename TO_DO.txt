@@ -11,8 +11,9 @@ BUGS
 POR HACER
 =========
 - Pantalla final
-- Linterna en pantallas oscuras
+- Linterna en pantallas oscuras?
 - Actualizar manual
+- Betatesting
 
 HECHO
 =====

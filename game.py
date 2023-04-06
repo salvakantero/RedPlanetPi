@@ -39,7 +39,6 @@ from explosion import Explosion
 from floatingtext import FloatingText
 
 
-
 class Game():
     def __init__(self):
         self.clock = pygame.time.Clock() # game clock for FPS and timers
@@ -177,7 +176,6 @@ class Game():
         self.joystick = self.config.prepare_joystick()
    
 
-
     # windowed mode, generates a main window with title, icon, and 32-bit colour
     def apply_windowed_mode(self):        
         # default margins
@@ -191,7 +189,6 @@ class Game():
         pygame.display.set_icon(icon)
 
 
-
     # 4:3 (800x600) clear and faaaasssst!
     def apply_full_screen_X600(self):   
         if (800, 600) in pygame.display.list_modes():
@@ -200,7 +197,6 @@ class Game():
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
         else: # full screen at low resolution not available
             self.apply_windowed_mode()
-
 
 
     # 16:9 (1280x720) clear and is still fast!
@@ -215,7 +211,6 @@ class Game():
             self.apply_windowed_mode()
 
 
-
     # creates a window or full-screen environment 
     def apply_display_settings(self):
         if self.config.data['full_screen'] == enums.X600:
@@ -224,7 +219,6 @@ class Game():
             self.apply_full_screen_X720()
         else:
             self.apply_windowed_mode()         
-
 
 
     # load the high scores table
@@ -238,12 +232,10 @@ class Game():
                 self.high_scores.append(['SALVAKANTERO', today, 0])
 
 
-
     # save the high scores table
     def save_high_scores(self):
         with open('scores.dat', "wb") as f:
             pickle.dump(self.high_scores, f)
-
 
 
     # allows to enter the player's name
@@ -270,7 +262,6 @@ class Game():
                     self.message('You achieved a high score!', name.upper(), False, True)
 
 
-
     # new high score??
     def update_high_score_table(self, player_score):
         if player_score > self.high_scores[7][2]:
@@ -280,12 +271,10 @@ class Game():
             self.save_high_scores()
 
 
-
     # exits to the operating system
     def exit(self):
         pygame.quit()
         sys.exit()
-
 
 
     # shows an intro
@@ -294,12 +283,10 @@ class Game():
         intro.play()
 
 
-
     # creates the initial Menu object
     def show_menu(self):
         menu = Menu(self)
         menu.show()
-
 
 
     # draws scanlines
@@ -314,7 +301,6 @@ class Game():
             pygame.draw.line(self.screen, (10, 10, 10), (self.h_margin, y), (x, y))
             y += 3            
     
-
 
     # dumps and scales surfaces to the screen
     def update_screen(self):
@@ -349,7 +335,6 @@ class Game():
             self.apply_scanlines()
         pygame.display.update() # refreshes the screen
         self.clock.tick(60) # 60 FPS
-
 
 
     # displays a message, darkening the screen
@@ -392,7 +377,6 @@ class Game():
         else: self.sfx_message.play()
 
 
-
     # displays a message to confirm exit
     def confirm_exit(self):
         self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True, False)
@@ -405,7 +389,6 @@ class Game():
                     if event.key == pygame.K_ESCAPE:                    
                         return True 
                     return False
-
 
 
     # displays a 'game over' message and waits
@@ -422,19 +405,16 @@ class Game():
                     return
 
 
-
     # stops the music when the game is paused and a message is displayed.
     def pause_music(self):
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.pause()
 
 
-
     # restores music if it returns from a message
     def restore_music(self):
         if self.music_status == enums.UNMUTED:
             pygame.mixer.music.unpause()
-
 
 
     # collisions between mobile platforms, enemies, bullets, hotspots and gates

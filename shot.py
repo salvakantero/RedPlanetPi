@@ -24,6 +24,7 @@
 import pygame
 import constants
 
+
 class Shot(pygame.sprite.Sprite):
     def __init__(self, pos, facing_right, img_bullet, speed):
         super().__init__()
@@ -34,6 +35,7 @@ class Shot(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos.center)
         if facing_right: self.rect.x = pos.right
         else: self.rect.x = pos.left - self.rect.width
+        
         
     def update(self):
         # moves the bullet according to the direction

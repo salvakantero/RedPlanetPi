@@ -23,6 +23,7 @@
 
 import pygame
 
+
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, pos, blast_animation):
         super().__init__()
@@ -32,6 +33,7 @@ class Explosion(pygame.sprite.Sprite):
         self.image = self.frames[0] # first frame
         self.rect = self.image.get_rect(center = pos) # position
         
+
     # loads next frame of animation or ends
     def animate(self):
         self.frame_index += self.animation_speed
@@ -39,6 +41,7 @@ class Explosion(pygame.sprite.Sprite):
             self.kill()
         else:
             self.image = self.frames[int(self.frame_index)] # next frame
+
 
     def update(self):
         self.animate()
