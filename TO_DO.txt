@@ -7,7 +7,6 @@ EN PROCESO
 
 BUGS
 ====
-- no se ve el marco con scanlines HQ
 
 POR HACER
 =========
