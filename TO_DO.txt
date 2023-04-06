@@ -109,20 +109,37 @@ HECHO
 CREDITS
 =======
 
-Programming: SalvaKantero
-Graphics: SalvaKantero
-Cover illustration: Masterklown
-Menu Music: Masterklown
-Sound Effects: Juhani Junkala; "The Essential Retro Video Game Sound Effects Collection"
-Greetings:
-Mojon Twins (MK1 engine)
+.::Red Planet Pi::. v1.0     PlayOnRetro 2023
+PROGRAMMING: salvaKantero
+GRAPHICS: salvaKantero
+COVER ILLUSTRATION AND INTRO/MENU BACKGROUNDS: Masterklown
+MENU MUSIC: Masterklown
+IN-GAME MUSIC: Centurion of war
+SOUND EFFECTS: Juhani Junkala
+16:9 BACKGROUND: NASA (Hubble, Dec 2 2022)
+BETA TESTERS: DanieliThor, Dany Cantero, luKas
+
+GREETINGS: 
+Mojon Twins (MK1 8bits engine)
 DaFluffyPotato (Font class, screen scaling)
 Rik Cross (Raspberry Pi Foundation)
 Chris (Clear Code YT channel)
 Mark Vanstone (Raspberry Pi Press)
 Ryan Lambie (Raspberry Pi Press)
-César Gómez (Mundo Python YT channel)
-ChatGPT
+Cesar Gomez (Mundo Python YT channel)
+Kenney (Keys/mouse graphics)
+OpenGameArt.org
+ChatGPT3
+
+PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
+Thanks for playing!!
+
+
+Programming: SalvaKantero
+Graphics: SalvaKantero
+Cover illustration: Masterklown
+Menu Music: Masterklown
+Sound Effects: Juhani Junkala; "The Essential Retro Video Game Sound Effects Collection"
 
 
 
@@ -144,14 +161,6 @@ VSC: Cambiar fondo a negro:
     "editor.background": "#000000"
 }
  
-------------------------------------------------------
-
-# Definir la resolución deseada
-new_resolution = (800, 600)
-
-# Crear una nueva ventana con la resolución deseada
-screen = pygame.display.set_mode(new_resolution)
-
 --------------------------------------------------------
 
 # Define las dimensiones de la ventana
