@@ -417,6 +417,37 @@ class Game():
             pygame.mixer.music.unpause()
 
 
+    # everything blows up and our player wins the game
+    def win(self, score, scoreboard):
+        # prize for completing the objective
+        self.floating_text.text = '+5000'
+        score += 5000
+        self.floating_text.x = 25
+        self.floating_text.y = 96
+        self.floating_text.speed = 0
+        scoreboard.invalidate()
+        # eliminates the remaining martians
+        for enemy in self.groups[enums.ENEMIES]:
+            blast = Explosion(enemy.rect.center, self.blast_images[0])
+            self.groups[enums.BLAST].add(blast)
+            self.groups[enums.ALL].add(blast)                    
+            self.sfx_enemy_down[enemy.type].play()
+            enemy.kill()            
+            # shake the map
+            self.shake = [10, 6]
+            self.shake_timer = 14
+            pygame.time.wait(random.randint(50,200))
+        for _ in range(50):
+            blast = Explosion((random.randint(10,constants.MAP_UNSCALED_SIZE[0]), random.randint(10, constants.MAP_UNSCALED_SIZE[1])), self.blast_images[0])
+            self.groups[enums.BLAST].add(blast)
+            self.groups[enums.ALL].add(blast)                    
+            self.sfx_enemy_down[enemy.type].play()         
+            # shake the map
+            self.shake = [10, 6]
+            self.shake_timer = 14
+            pygame.time.wait(random.randint(50,200))
+
+
     # collisions between mobile platforms, enemies, bullets, hotspots and gates
     def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):
         # ==================== player and mobile platform ======================

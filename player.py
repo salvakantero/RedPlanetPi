@@ -30,6 +30,7 @@ import constants
 import enums
 from dust import DustEffect
 from shot import Shot
+from explosion import Explosion
 
 
 class Player(pygame.sprite.Sprite):
@@ -149,7 +150,6 @@ class Player(pygame.sprite.Sprite):
 
     # common code from joystick or keyboard to perform an action
     def performs_action(self):
-        action_taken = False
         # stacking explosives
         if self.map.number == 44 \
         and self.rect.x > 90 and self.rect.x < 165 \
@@ -160,13 +160,11 @@ class Player(pygame.sprite.Sprite):
             self.scoreboard.invalidate()
             self.map.add_TNT_pile()                  
             self.sfx_TNT.play()
-            action_taken = True
         # detonate explosives
-        elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
-            action_taken = True
+        elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112: #and self.stacked_TNT:
+            self.game.win(self.score, self.scoreboard)
         # no action required
-        if not action_taken:   
-            self.sfx_no_action.play() 
+        else: self.sfx_no_action.play()
 
 
     # keyboard/mouse/joystick keystroke input
