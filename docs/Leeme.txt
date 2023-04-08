@@ -1,4 +1,4 @@
-
+﻿
 =============
 RED PLANET Pi
 =============
@@ -6,19 +6,29 @@ RED PLANET Pi
 
 Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.
 Pero cuidado, el entorno es peligroso. 
-Evita entrar en contacto con los enemigos, y caer en los pozos de lava o de residuos radiactivos.
+Evita entrar en contacto con los alienígenas, y caer en los pozos de lava o de residuos radiactivos.
 
-Para acabar con éxito la misión debes obtener los 15 explosivos que hay repartidos por la estación, y situarlos en el depósito de explosivos, en lo más profundo de la base marciana.
+
+OBJETOS
+=======
+
+EXPLOSIVO: Para acabar con éxito la misión debes obtener los 15 explosivos que hay repartidos por la estación, y situarlos en el depósito de explosivos, en lo más profundo de la base marciana.
 Una vez depositados, tienes que regresar al centro de control y activar el detonador.
 
-En ocasiones tendrás que acceder a zonas cerradas con tarjeta de acceso, por lo que previamente deberás localizar estas tarjetas para continuar tu misión.
+TARJETA: En ocasiones tendrás que acceder a zonas cerradas con tarjeta de acceso, por lo que previamente deberás localizar estas tarjetas para continuar tu misión.
 
-Tienes la posibilidad de disparar balas de plasma contra tus enemigos, pero cuidado, no malgastes munición, ya que ésta es escasa.
-Hay recargas repartidas por todo el complejo. Reserva algo de munición para la vuelta.
+PUERTA: Solo podrás abrirlas si dispone de alguna tarjeta. 
+Las tarjetas son de un solo uso.
 
-El oxígeno disponible es muy escaso. 
-Vigila el estado de tus botellas de oxígeno y busca otras nuevas antes de que se agoten o morirás en el acto.
-Reserva algo de oxígeno para la vuelta.
+MUNICIÓN: Tienes la posibilidad de disparar balas de plasma contra tus enemigos, pero cuidado, no malgastes munición, ya que ésta es escasa.
+Hay recargas repartidas por todo el complejo.
+
+OXÍGENO: Vigila el estado de tus botellas de oxígeno y busca otras nuevas antes de que se agoten o morirás en el acto.
+
+DISKETTE: Graba la situación actual de la partida para continuarla en otra ocasión.
+
+BURGUER, CAKE, DONUT: Sí, a los marcianos también les gustan. 
+Cómetelos si quieres ver aumentar tu puntuación.
 
 
 ENEMIGOS
@@ -34,7 +44,24 @@ Suelen moverse por el aire. Son los alienígenas más numerosos que han coloniza
 PELUSOIDE FANTY: Son muy inteligentes. Pueden permanecer agazapados esperando tu llegada.
 Si te ven o te oyen, se abalanzarán sobre ti. 
 En ese caso acaba con ellos cuanto antes. 
-Lo mejor es mantenerse a distancia.
+
+
+PUNTUACIÓN
+==========
+INFECTED		 25 puntos
+ARACNOVIRUS		 50 puntos
+PELUSOID		 75 puntos
+FANTY			100 puntos
+----------------------------
+TNT			 50 puntos
+MUNICIÓN		 75 puntos
+OXÍGENO		100 puntos
+TARJETA		125 puntos
+PUERTA		150 puntos
+----------------------------
+DONUT			200 puntos
+TARTA			350 puntos
+HAMBURGUESA		500 puntos
 
 
 CONTROL DE JUEGO
@@ -54,7 +81,18 @@ ENTER:  Pausa.
 ESC:    Cancelar partida.
 
 
+TRUCOS
+======
+- Reserva algo de munición y oxígeno para cuando hayas colocado los explosivos y regreses al centro de control.
+
+- Extrema la precaución en los pasillos verticales. Son las zonas más traicioneras.
+
+- Siempre que sea posible, es mejor no molestar a los FANTYS
+
+- Usa el guardado de partida cuando la situación del juego sea adecuada, es decir, con un número de vidas y oxígeno suficiente para acabar la partida. Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
+
+
+
 RED PLANET Pi
 ==================================
-salvaKantero:   Programa, GFX, SFX
-Masterklown:    Música, Portada
+
