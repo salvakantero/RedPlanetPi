@@ -66,6 +66,7 @@ while True:
         map.scroll = enums.RIGHT
         game.status = enums.RUNNING
         game.floating_text.y = 0
+        game.win_secuence = 0
         if game.new:
             for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
@@ -119,6 +120,10 @@ while True:
         # change the map if necessary
         if map.number != map.last:
             map.change(player, scoreboard)
+
+        # everything blows up and our player wins the game
+        if game.win_secuence > 0:            
+            game.win(player.score)
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.ALL].update()
