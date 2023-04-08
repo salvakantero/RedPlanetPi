@@ -49,7 +49,7 @@ map = Map(game)
 test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 
 # shows an intro
-#game.show_intro()
+game.show_intro()
 
 # Main loop
 while True:

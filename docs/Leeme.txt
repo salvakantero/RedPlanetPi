@@ -2,13 +2,13 @@
 =============
 RED PLANET Pi
 =============
-© 2015/2022
+© 2015/2023
 
 Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.
 Pero cuidado, el entorno es peligroso. 
 Evita entrar en contacto con los enemigos, y caer en los pozos de lava o de residuos radiactivos.
 
-Para acabar con éxito la misión debes obtener los 10 explosivos que hay repartidos por la estación, y situarlos en el depósito de explosivos, en lo más profundo de la base marciana.
+Para acabar con éxito la misión debes obtener los 15 explosivos que hay repartidos por la estación, y situarlos en el depósito de explosivos, en lo más profundo de la base marciana.
 Una vez depositados, tienes que regresar al centro de control y activar el detonador.
 
 En ocasiones tendrás que acceder a zonas cerradas con tarjeta de acceso, por lo que previamente deberás localizar estas tarjetas para continuar tu misión.
@@ -28,10 +28,10 @@ INFECTADO: Anteriores compañeros que intentaron realizar la misión y no lo con
 La picadura de los aracnovirus les mantiene en un estado de NO muertos.
 Se mueven de manera lineal y pueden ser muy rápidos, elimínalos antes de que te contagien.
 
-ARACNOVIRUS: De movimientos erráticos y rápidos.
+ARACNOVIRUS/PELUSOIDE: De movimientos erráticos y rápidos.
 Suelen moverse por el aire. Son los alienígenas más numerosos que han colonizado la base.
 
-PELUSOIDE: Son muy inteligentes. Pueden permanecer agazapados esperando tu llegada.
+PELUSOIDE FANTY: Son muy inteligentes. Pueden permanecer agazapados esperando tu llegada.
 Si te ven o te oyen, se abalanzarán sobre ti. 
 En ese caso acaba con ellos cuanto antes. 
 Lo mejor es mantenerse a distancia.

@@ -2,7 +2,7 @@
 =============
 RED PLANET Pi
 =============
-© 2015/2022
+© 2015/2023
 
 Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.
 But beware, the environment is dangerous. 
@@ -58,8 +58,30 @@ ENTER:  Pause.
 ESC:    Cancel game.
 
 
-RED PLANET Pi
-=================================
-salvaKantero:   Program, GFX, SFX
-Masterklown:    Music, Cover
+RED PLANET Pi  (c) PlayOnRetro 2023
+===================================
+PROGRAMMING: salvaKantero
+GRAPHICS: salvaKantero
+COVER ILLUSTRATION AND INTRO/MENU BACKGROUNDS: Masterklown
+MENU MUSIC: Masterklown
+IN-GAME MUSIC: Centurion of war
+SOUND EFFECTS: Juhani Junkala
+16/9 BACKGROUND: NASA (Hubble, Dec 2 2022)
+
+BETA TESTERS: Danielito, Dany Cantero, LuKas, Paudola     
+
+GREETINGS: 
+Mojon Twins (MK1 8bits engine)
+DaFluffyPotato (Font class, screen scaling)
+Rik Cross (Raspberry Pi Foundation)
+Chris (Clear Code YT channel)
+Mark Vanstone (Raspberry Pi Press)
+Ryan Lambie (Raspberry Pi Press)
+Cesar Gomez (Mundo Python YT channel)
+Kenney (Keys/mouse graphics)
+OpenGameArt.org
+ChatGPT
+
+PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
+Thanks for playing!!
 
