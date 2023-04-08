@@ -419,34 +419,33 @@ class Game():
 
     # everything blows up and our player wins the game
     def win(self, score):
-        if self.win_secuence == 200:
-            # prize for completing the objective
-            self.floating_text.text = '+5000'
-            score += 5000
-            self.floating_text.x = 25
-            self.floating_text.y = 96
-            self.floating_text.speed = 0
+        sounds = [enums.INFECTED, enums.PELUSOID, enums.AVIRUS, enums.FANTY]
+        # first frame...
+        if self.win_secuence == 350:
             # eliminate the remaining enemies
             for enemy in self.groups[enums.ENEMIES]:
                 enemy.kill()
                 blast = Explosion([enemy.rect.centerx, enemy.rect.centery], self.blast_images[0])              
                 self.groups[enums.ALL].add(blast)                    
-                self.sfx_enemy_down[1].play()
-                # shake the map
-                self.shake = [10, 6]
-                self.shake_timer = 14
-        elif self.win_secuence % 10 == 0:
-            blast = Explosion((random.randint(0, constants.MAP_UNSCALED_SIZE[0]), random.randint(0, constants.MAP_UNSCALED_SIZE[0])), self.blast_images[0])              
+                self.sfx_enemy_down[1].play()                
+                self.shake = [10, 6] # shake the map
+                self.shake_timer = 14            
+        # intermediate frames. Generates multiple random explosions
+        elif self.win_secuence % random.randint(2, 8) == 0:
+            blast = Explosion((random.randint(30, constants.MAP_UNSCALED_SIZE[0]-10), 
+                random.randint(10, constants.MAP_UNSCALED_SIZE[0]-10)), self.blast_images[0])              
             self.groups[enums.ALL].add(blast)                    
-            self.sfx_enemy_down[1].play()
-            # shake the map
-            self.shake = [10, 6]
+            self.sfx_enemy_down[random.choice(sounds)].play()            
+            self.shake = [10, 6] # shake the map
             self.shake_timer = 14
+        # last frame!
         elif self.win_secuence == 1:
+            self.shake_timer = 1 # clean the edges
             self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True)
             # main theme song
             pygame.mixer.music.load('sounds/music/mus_menu.ogg')
             pygame.mixer.music.play()
+            # wait for a key
             pygame.event.clear(pygame.KEYDOWN)
             while True:
                 for event in pygame.event.get():
@@ -455,9 +454,9 @@ class Game():
                     if event.type == pygame.KEYDOWN:                  
                         self.update_high_score_table(score)
                         self.status = enums.OVER
-                        return                        
+                        return # back to the main menu                       
 
-        self.win_secuence -= 1    
+        self.win_secuence -= 1
 
 
     # collisions between mobile platforms, enemies, bullets, hotspots and gates

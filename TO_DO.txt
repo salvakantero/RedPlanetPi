@@ -4,15 +4,14 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- Actualizar manual
+- Betatesting
 
 BUGS
 ====
 
 POR HACER
 =========
-- Pantalla final
-- Actualizar manual
-- Betatesting
 
 HECHO
 =====
@@ -104,6 +103,8 @@ HECHO
 31/03/23 - Licencia (GPL 3)
 04/04/23 - Revisar, simplificar, organizar y comentar el código fuente final
 05/04/23 - Marco en modo 16:9
+08/04/23 - Pantalla final
+
 
 CREDITS
 =======
@@ -128,7 +129,7 @@ Ryan Lambie (Raspberry Pi Press)
 Cesar Gomez (Mundo Python YT channel)
 Kenney (Keys/mouse graphics)
 OpenGameArt.org
-ChatGPT3
+ChatGPT
 
 PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
 Thanks for playing!!

@@ -122,8 +122,10 @@ while True:
             map.change(player, scoreboard)
 
         # everything blows up and our player wins the game
-        if game.win_secuence > 0:            
-            game.win(player.score)
+        if game.win_secuence > 0:
+            game.win(player.score)         
+            player.score += 14
+            scoreboard.invalidate()
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.ALL].update()
