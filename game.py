@@ -46,6 +46,7 @@ class Game():
         self.config.load()
         self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.new = True # if 'False', load last checkpoint
+        self.win_secuence = 0 # animated sequence on winning (if > 0)
         self.status = enums.OVER
         self.music_status = enums.UNMUTED
         # area covered by the menu
@@ -66,8 +67,7 @@ class Game():
             pygame.sprite.GroupSingle(), # gate
             pygame.sprite.GroupSingle(), # mobile platform
             pygame.sprite.GroupSingle(), # dust
-            pygame.sprite.GroupSingle(), # shot
-            pygame.sprite.GroupSingle()] # blast        
+            pygame.sprite.GroupSingle()] # shot     
         # display mode and margins        
         self.v_margin = constants.V_MARGIN
         self.h_margin = constants.H_MARGIN
@@ -418,34 +418,46 @@ class Game():
 
 
     # everything blows up and our player wins the game
-    def win(self, score, scoreboard):
-        # prize for completing the objective
-        self.floating_text.text = '+5000'
-        score += 5000
-        self.floating_text.x = 25
-        self.floating_text.y = 96
-        self.floating_text.speed = 0
-        scoreboard.invalidate()
-        # eliminates the remaining martians
-        for enemy in self.groups[enums.ENEMIES]:
-            blast = Explosion(enemy.rect.center, self.blast_images[0])
-            self.groups[enums.BLAST].add(blast)
+    def win(self, score):
+        if self.win_secuence == 200:
+            # prize for completing the objective
+            self.floating_text.text = '+5000'
+            score += 5000
+            self.floating_text.x = 25
+            self.floating_text.y = 96
+            self.floating_text.speed = 0
+            # eliminate the remaining enemies
+            for enemy in self.groups[enums.ENEMIES]:
+                enemy.kill()
+                blast = Explosion([enemy.rect.centerx, enemy.rect.centery], self.blast_images[0])              
+                self.groups[enums.ALL].add(blast)                    
+                self.sfx_enemy_down[1].play()
+                # shake the map
+                self.shake = [10, 6]
+                self.shake_timer = 14
+        elif self.win_secuence % 10 == 0:
+            blast = Explosion((random.randint(0, constants.MAP_UNSCALED_SIZE[0]), random.randint(0, constants.MAP_UNSCALED_SIZE[0])), self.blast_images[0])              
             self.groups[enums.ALL].add(blast)                    
-            self.sfx_enemy_down[enemy.type].play()
-            enemy.kill()            
+            self.sfx_enemy_down[1].play()
             # shake the map
             self.shake = [10, 6]
             self.shake_timer = 14
-            pygame.time.wait(random.randint(50,200))
-        for _ in range(50):
-            blast = Explosion((random.randint(10,constants.MAP_UNSCALED_SIZE[0]), random.randint(10, constants.MAP_UNSCALED_SIZE[1])), self.blast_images[0])
-            self.groups[enums.BLAST].add(blast)
-            self.groups[enums.ALL].add(blast)                    
-            self.sfx_enemy_down[enemy.type].play()         
-            # shake the map
-            self.shake = [10, 6]
-            self.shake_timer = 14
-            pygame.time.wait(random.randint(50,200))
+        elif self.win_secuence == 1:
+            self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True)
+            # main theme song
+            pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+            pygame.mixer.music.play()
+            pygame.event.clear(pygame.KEYDOWN)
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.exit()
+                    if event.type == pygame.KEYDOWN:                  
+                        self.update_high_score_table(score)
+                        self.status = enums.OVER
+                        return                        
+
+        self.win_secuence -= 1    
 
 
     # collisions between mobile platforms, enemies, bullets, hotspots and gates
@@ -497,7 +509,6 @@ class Game():
                         else: # fanty
                             self.floating_text.text = '+100'
                             player.score += 100
-                    self.groups[enums.BLAST].add(blast)
                     self.groups[enums.ALL].add(blast)                    
                     self.sfx_enemy_down[enemy.type].play()
                     # floating text position
@@ -528,7 +539,6 @@ class Game():
                 self.shake_timer = 4
                 # creates a magic halo
                 blast = Explosion(hotspot.rect.center, self.blast_images[2])
-                self.groups[enums.BLAST].add(blast)
                 self.groups[enums.ALL].add(blast)                
                 self.sfx_hotspot[hotspot.type].play()
                 # manages the object according to the type
@@ -600,7 +610,6 @@ class Game():
                     self.sfx_open_door.play()
                     # creates a magic halo
                     blast = Explosion(self.groups[enums.GATE].sprite.rect.center, self.blast_images[2])
-                    self.groups[enums.BLAST].add(blast)
                     self.groups[enums.ALL].add(blast)
                     # deletes the door
                     self.groups[enums.GATE].sprite.kill()                    

@@ -162,7 +162,7 @@ class Player(pygame.sprite.Sprite):
             self.sfx_TNT.play()
         # detonate explosives
         elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112: #and self.stacked_TNT:
-            self.game.win(self.score, self.scoreboard)
+            self.game.win_secuence = 200 # animated sequence on winning
         # no action required
         else: self.sfx_no_action.play()
 
