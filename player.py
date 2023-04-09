@@ -36,7 +36,7 @@ from explosion import Explosion
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
-        self.lives = 10 # lives remaining
+        self.lives = 99 #10 # lives remaining
         self.ammo = 5 # unused ammunition collected
         self.keys = 0 # unused keys collected 
         self.TNT = 0 # explosives collected  

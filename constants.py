@@ -212,12 +212,12 @@ ENEMIES_DATA = [
 	(16, 96, 16, 16, 0, -1, 3),
     # 18 COLD ZONE ACCESS CORRIDOR
     (48, 112, 208, 80, 1, -1, 2),
-	(192, 48, 48, 16, -1, -1, 2),
+	(192, 48, 48, 16, -2, -2, 2),
 	(16, 80, 16, 16, 0, -.5, 3),
     # 19 COLD ZONE ACCESS CORRIDOR
 	(32, 48, 192, 48, 1, 0, 1),
 	(160, 112, 112, 112, -1, 0, 1),
-    (0, 0, 0, 0, 0, 0, 0),
+    (192, 48, 32, 48, -1, 0, 1),
     # 20 FROZEN WAREHOUSE 1
 	(112, 48, 32, 48, -1, 0, 1),
 	(144, 128, 144, 80, 0, -1, 3),
@@ -235,9 +235,9 @@ ENEMIES_DATA = [
 	(160, 32, 80, 112, -1, 1, 2),
 	(48, 48, 64, 96, 1, 1, 3),
     # 24 ACCESS TO ICE CAVE
-	(144, 32, 144, 112, 0, 2, 3),
-	(80, 96, 80, 48, 0, -1, 3),
-	(176, 128, 176, 16, 0, -2, 3),
+	(144, 32, 144, 112, 0, 2, 2),
+	(80, 96, 64, 48, -1, -1, 3),
+	(176, 128, 192, 16, 1, -1, 3),
     # 25 FROZEN WAREHOUSE 2
 	(80, 32, 80, 16, 0, 0, 5),
 	(96, 128, 96, 96, 0, -1, 3),
@@ -348,7 +348,7 @@ HOTSPOT_DATA = [
     [enums.TNT, 1, 3, True],
     [enums.AMMO, 13, 4, True],
     [enums.OXYGEN, 12, 2, True],
-    [enums.AMMO, 7, 8, True],
+    [enums.AMMO, 8, 2, True],
     [enums.TNT, 13, 6, True],
     [enums.KEY, 1, 8, True],
     [enums.OXYGEN, 5, 2, True],
@@ -406,11 +406,11 @@ CREDITS += 'COVER ILLUSTRATION AND INTRO/MENU BACKGROUNDS: Masterklown     '
 CREDITS += 'MENU MUSIC: Masterklown     '
 CREDITS += 'IN-GAME MUSIC: Centurion of war     '
 CREDITS += 'SOUND EFFECTS: Juhani Junkala     '
-CREDITS += 'BETA TESTERS: Danielito, Dany Cantero, LuKas, Paudola     '
-CREDITS += '16:9 BACKGROUND: NASA (Hubble, Dec 2 2022)     '
-CREDITS += 'GREETINGS: Mojon Twins (MK1 8bits engine)     DaFluffyPotato (Font class, screen scaling)     '
+CREDITS += '16:9 BACKGROUND: NASA (Hubble, Dec 2 2022)          '
+CREDITS += 'BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero          '
+CREDITS += 'ACKNOWLEDGEMENTS: Mojon Twins (MK1 8bits engine)     DaFluffyPotato (Font class, screen scaling)     '
 CREDITS += 'Rik Cross (Raspberry Pi Foundation)     Chris (Clear Code YT channel)     '
 CREDITS += 'Mark Vanstone (Raspberry Pi Press)     Ryan Lambie (Raspberry Pi Press)     '
-CREDITS += 'Cesar Gomez (Mundo Python YT channel)     Kenney (Keys/mouse icons)     OpenGameArt.org     ChatGPT          '
+CREDITS += 'Cesar Gomez (Mundo Python YT channel)     Kenney (Keys/mouse icons)          '
 CREDITS += 'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi     '
 CREDITS += 'Thanks for playing!!'
