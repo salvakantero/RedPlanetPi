@@ -27,7 +27,7 @@
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"git",
+ "tiledversion":"1.10.1",
  "tileheight":16,
  "tilesets":[
         {

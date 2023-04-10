@@ -46,7 +46,7 @@ class Map():
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
         # to generate the pile of explosives
-        self.img_tnt = game.hotspot_images[enums.TNT]
+        self.img_TNT = game.hotspot_images[enums.TNT]
 
 
     # loads a map and draws it on screen
@@ -319,7 +319,7 @@ class Map():
     def add_TNT_pile(self):
         for y in range(80, 97, 8): # y = 80, 88, 96
             for x in range(105, 154, 12): # x = 105, 117, 129, 141, 153
-                self.game.srf_map_bk.blit(self.TNT_image, (x,y))
+                self.game.srf_map_bk.blit(self.img_TNT, (x,y))
 
 
 

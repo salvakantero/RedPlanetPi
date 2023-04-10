@@ -70,7 +70,7 @@ while True:
         if game.new:
             for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
-            map.number = 19 #0
+            map.number = 0
             scoreboard.game_percent = 0
         else: # load the last checkpoint
             game.checkpoint.load()
