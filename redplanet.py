@@ -38,15 +38,12 @@ pygame.init()
 pygame.mixer.init()
 pygame.mouse.set_visible(False)
 
-# game object, container for common variables and functions
+# creates the Game object, container for common variables and functions
 game = Game()
-# create the Scoreboard object
+# creates the Scoreboard object
 scoreboard = Scoreboard(game)
 # creates the Map object
 map = Map(game)
-
-# small, opaque font for debug and test
-test_font = Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], False) 
 
 # shows an intro
 game.show_intro()
@@ -62,7 +59,7 @@ while True:
         # create the player
         player = Player(game, map, scoreboard)
         # reset variables
-        map.last = -1
+        map.last = -1 # map before the current map
         map.scroll = enums.RIGHT
         game.status = enums.RUNNING
         game.floating_text.y = 0
@@ -70,10 +67,11 @@ while True:
         if game.new:
             for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
             for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
-            map.number = 0
-            scoreboard.game_percent = 0
+            map.number = 0 # current map
+            scoreboard.game_percent = 0 # percentage of completed gameplay
         else: # load the last checkpoint
-            game.checkpoint.load()
+            game.checkpoint.load() # loading the file
+            #assigns the loaded data to the objects
             d = game.checkpoint.data
             map.number = d['map_number']
             scoreboard.game_percent = d['game_percent']
@@ -96,27 +94,18 @@ while True:
             # exit when click on the X in the window
             if event.type == pygame.QUIT:
                 game.exit()
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN: # a key is pressed
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
                     game.pause_music()
                     if game.confirm_exit():
                         game.status = enums.OVER # go to the main menu
                     else: game.restore_music()                            
-                # mute music
+                # mutes the music, or vice versa
                 if event.key == game.config.mute_key :
                     game.music_status = enums.UNMUTED if game.music_status == enums.MUTED else enums.MUTED
                     pygame.mixer.music.play() if game.music_status == enums.UNMUTED else pygame.mixer.music.fadeout(1200)
                     
-                # temp code ================
-                if event.key == pygame.K_RIGHT:
-                    if map.number < 44:
-                        map.number += 1
-                if event.key == pygame.K_LEFT:
-                    if map.number > 0:
-                        map.number -= 1
-                # ==========================
-
         # change the map if necessary
         if map.number != map.last:
             map.change(player, scoreboard)
@@ -124,14 +113,16 @@ while True:
         # everything blows up and our player wins the game
         if game.win_secuence > 0:
             game.win(player.score)         
-            player.score += 14
+            player.score += 15 # 350x15 = +5250 points
             scoreboard.invalidate()
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.ALL].update()
 
-        # collision between all entities that may collide
-        game.check_collisions(player, scoreboard, map.number, map.tilemap_rect_list)
+        # collision between player and mobile platform, martians, hotspot and gates        
+        game.check_player_collisions(player, scoreboard, map.number)
+        # collision between bullets and martians and map tiles
+        game.check_bullet_collisions(player, scoreboard, map.tilemap_rect_list)
 
         # game over?
         if player.lives == 0 or player.oxygen < 0:           
@@ -145,6 +136,7 @@ while True:
 
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))
+        
         # draws the sprites in their new positions
         game.groups[enums.ALL].draw(game.srf_map)
 
@@ -162,8 +154,8 @@ while True:
         # if the player leaves, the map number changes
         map.check_change(player)
 
-        # TEST ZONE =============================================================
-        test_font.render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))
-        # =======================================================================
+        # TEST ZONE ================================================================================
+        game.fonts[enums.S_B_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))
+        # ==========================================================================================
 
         game.update_screen()

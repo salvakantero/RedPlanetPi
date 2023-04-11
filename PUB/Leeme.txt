@@ -5,8 +5,7 @@ RED PLANET Pi
 © 2015/2023
 
 Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.
-Pero cuidado, el entorno es peligroso. 
-Evita entrar en contacto con los alienígenas, y caer en los pozos de lava o de residuos radiactivos.
+Pero cuidado, el entorno es peligroso. Evita entrar en contacto con los alienígenas, y caer en los pozos de lava o de residuos radiactivos.
 
 
 OBJETOS
@@ -86,6 +85,7 @@ ESC:    Pausa / Cancelar partida.
 
 CONSEJOS Y TRUCOS
 =================
+
 - Reserva algo de munición y oxígeno para cuando hayas colocado los explosivos y regreses al centro de control.
 En caso de escasez de oxígeno sonará una alarma durante la cual la prioridad será buscar botellas nuevas.
 
@@ -93,7 +93,8 @@ En caso de escasez de oxígeno sonará una alarma durante la cual la prioridad s
 
 - Siempre que sea posible, es mejor no molestar a los FANTYS
 
-- Usa el guardado de partida cuando la situación del juego sea adecuada, es decir, con un número de vidas y oxígeno suficiente para acabar la partida. Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
+- Usa el guardado de partida cuando la situación del juego sea adecuada, es decir, con un número de vidas y oxígeno suficiente para acabar la partida. 
+Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
 
 - Para colocar los explosivos en su emplazamiento final y para usar el detonador se debe pulsar la tecla ACCIÓN (abajo), en caso contrario no ocurrirá nada.
 
@@ -110,7 +111,7 @@ MÚSICA IN-GAME: Centurion of war
 EFECTOS DE SONIDO: Juhani Junkala
 FONDO DEL MODO 16/9: NASA (Hubble, Dec 2 2022)
 
-BETA TESTERS: Danielito, Dany Cantero, LuKas, Paudola     
+BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero    
 
 AGRADECIMIENTOS*: 
 Mojon Twins (MK1 motor de juegos de 8bits)
@@ -125,6 +126,6 @@ Kenney (gráficos de teclas/ratón)
 * Gracias a todos ellos por compartir sus conocimientos, técnicas y recursos 
 
 CÓDIGO FUENTE PYTHON Y RECURSOS DISPONIBLES EN https://github.com/salvakantero/RedPlanetPi
-RED PLANET Pi se publica bajo licencia GPL. (ver license.txt)
+RED PLANET Pi se publica bajo licencia GPL v3. (ver license.txt)
 
 Gracias por jugar!!

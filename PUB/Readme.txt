@@ -5,8 +5,7 @@ RED PLANET Pi
 © 2015/2023
 
 Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.
-But beware, the environment is dangerous. 
-Avoid coming into contact with the aliens, and avoid falling into the lava or radioactive waste pits.
+But beware, the environment is dangerous. Avoid coming into contact with the aliens, and avoid falling into the lava or radioactive waste pits.
 
 
 ITEMS
@@ -24,6 +23,12 @@ AMMO: You have the possibility to fire plasma bullets at your enemies, but be ca
 There are reloads scattered throughout the complex.
 
 OXYGEN: Keep an eye on the condition of your oxygen cylinders and find new ones before they run out or you will die on the spot.
+
+DISKETTE: Saves the current game situation to continue the game at another time.
+You will be able to locate them on the screens where there were previously cards. 
+
+BURGUER, CAKE, DONUT: Yes, Martians like them too. 
+Eat them if you want to see your score go up.
 
 
 ENEMIES
@@ -90,7 +95,8 @@ In the event of an oxygen shortage, an alarm will sound during which the priorit
 
 - Whenever possible, it is best not to disturb the FANTYS.
 
-- Use the save game when the game situation is appropriate, i.e. with enough lives and oxygen to finish the game. Remember that selecting a DISKETTE overwrites the previous game.
+- Use the save game when the game situation is appropriate, i.e. with enough lives and oxygen to finish the game.
+Remember that selecting a DISKETTE overwrites the previous game.
 
 - To place the explosives in their final location and to use the detonator, press the ACTION key (below), otherwise nothing will happen.
 
@@ -99,7 +105,7 @@ In the event of an oxygen shortage, an alarm will sound during which the priorit
 RED PLANET Pi  (c) PlayOnRetro 2023
 ===================================
 
-PROGRAM: salvaKantero
+PROGRAMMING: salvaKantero
 GRAPHICS: salvaKantero
 COVER/MENU/INTRO ILLUSTRATION: Masterklown 
 MENU MUSIC: Masterklown
@@ -107,7 +113,7 @@ IN-GAME MUSIC: Centurion of war
 SOUND EFFECTS: Juhani Junkala
 16/9 MODE BACKGROUND: NASA (Hubble, Dec 2 2022)
 
-BETA TESTERS: Danielito, Dany Cantero, LuKas, Paudola     
+BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero
 
 ACKNOWLEDGEMENTS*: 
 Mojon Twins (MK1 8bit game engine)
@@ -122,6 +128,6 @@ Kenney (Keyboard/Mouse Graphics)
 * Thanks to all of them for sharing their knowledge, techniques and resources. 
 
 PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
-RED PLANET Pi is released under GPL licence (see license.txt).
+RED PLANET Pi is released under GPL v3 licence (see license.txt).
 
 Thanks for playing!

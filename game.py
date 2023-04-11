@@ -459,9 +459,9 @@ class Game():
         self.win_secuence -= 1
 
 
-    # collisions between mobile platforms, enemies, bullets, hotspots and gates
-    def check_collisions(self, player, scoreboard, map_number, tilemap_rect_list):
-        # ==================== player and mobile platform ======================
+    # collisions between the player and mobile platforms, enemies, hotspots and gates
+    def check_player_collisions(self, player, scoreboard, map_number):
+        # player and mobile platform
         if self.groups[enums.PLATFORM].sprite is not None:
             if pygame.sprite.spritecollide(player, self.groups[enums.PLATFORM], False, pygame.sprite.collide_rect_ratio(1.15)):
                 platform = self.groups[enums.PLATFORM].sprite                
@@ -478,58 +478,14 @@ class Game():
                         if not key_state[self.config.left_key] and not key_state[self.config.right_key]:
                             player.rect.x += platform.vx
 
-        # ======================== player and martians =========================
+        # player and martians
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life()        
                 scoreboard.invalidate() # redraws the scoreboard
                 return
         
-        # ======================= bullets and martians =========================
-        if self.groups[enums.SHOT].sprite is not None:
-            for enemy in self.groups[enums.ENEMIES]:
-                if enemy.rect.colliderect(self.groups[enums.SHOT].sprite):        
-                    # shake the map
-                    self.shake = [10, 6]
-                    self.shake_timer = 14
-                    # creates an explosion and assigns a score according to the type of enemy
-                    if enemy.type == enums.INFECTED:
-                        blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
-                        self.floating_text.text = '+25'
-                        player.score += 25
-                    else: # flying enemies
-                        blast = Explosion(enemy.rect.center, self.blast_images[0])
-                        if enemy.type == enums.AVIRUS: 
-                            self.floating_text.text = '+50'
-                            player.score += 50
-                        elif enemy.type == enums.PELUSOID: 
-                            self.floating_text.text = '+75'
-                            player.score += 75
-                        else: # fanty
-                            self.floating_text.text = '+100'
-                            player.score += 100
-                    self.groups[enums.ALL].add(blast)                    
-                    self.sfx_enemy_down[enemy.type].play()
-                    # floating text position
-                    self.floating_text.x = enemy.rect.x
-                    self.floating_text.y = enemy.rect.y
-                    self.floating_text.speed = 0
-                    # removes objects
-                    enemy.kill()
-                    self.groups[enums.SHOT].sprite.kill()
-                    # redraws the scoreboard
-                    scoreboard.invalidate()
-                    break
-
-        # ====================== bullets and map tiles =========================
-        if self.groups[enums.SHOT].sprite is not None:
-            bullet_rect = self.groups[enums.SHOT].sprite.rect
-            for tile in tilemap_rect_list:
-                if tile.colliderect(bullet_rect):
-                    self.groups[enums.SHOT].sprite.kill()
-                    break        
-
-        # ======================== player and hotspot ==========================
+        # player and hotspot
         if self.groups[enums.HOTSPOT].sprite is not None:
             if player.rect.colliderect(self.groups[enums.HOTSPOT].sprite):
                 hotspot = self.groups[enums.HOTSPOT].sprite
@@ -601,7 +557,7 @@ class Game():
                 constants.HOTSPOT_DATA[map_number][3] = False # not visible
                 return
 
-        # ========================= player and gates ===========================
+        # player and gates
         if self.groups[enums.GATE].sprite is not None:
             if player.rect.colliderect(self.groups[enums.GATE].sprite):        
                 if player.keys > 0:
@@ -630,3 +586,49 @@ class Game():
                     # bounces the player
                     if player.facing_right: player.rect.x -= 5
                     else: player.rect.x += 5
+
+
+    def check_bullet_collisions(self, player, scoreboard, tilemap_rect_list):                
+        # bullets and martians
+        if self.groups[enums.SHOT].sprite is not None:
+            for enemy in self.groups[enums.ENEMIES]:
+                if enemy.rect.colliderect(self.groups[enums.SHOT].sprite):        
+                    # shake the map
+                    self.shake = [10, 6]
+                    self.shake_timer = 14
+                    # creates an explosion and assigns a score according to the type of enemy
+                    if enemy.type == enums.INFECTED:
+                        blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
+                        self.floating_text.text = '+25'
+                        player.score += 25
+                    else: # flying enemies
+                        blast = Explosion(enemy.rect.center, self.blast_images[0])
+                        if enemy.type == enums.AVIRUS: 
+                            self.floating_text.text = '+50'
+                            player.score += 50
+                        elif enemy.type == enums.PELUSOID: 
+                            self.floating_text.text = '+75'
+                            player.score += 75
+                        else: # fanty
+                            self.floating_text.text = '+100'
+                            player.score += 100
+                    self.groups[enums.ALL].add(blast)                    
+                    self.sfx_enemy_down[enemy.type].play()
+                    # floating text position
+                    self.floating_text.x = enemy.rect.x
+                    self.floating_text.y = enemy.rect.y
+                    self.floating_text.speed = 0
+                    # removes objects
+                    enemy.kill()
+                    self.groups[enums.SHOT].sprite.kill()
+                    # redraws the scoreboard
+                    scoreboard.invalidate()
+                    break
+
+        # bullets and map tiles
+        if self.groups[enums.SHOT].sprite is not None:
+            bullet_rect = self.groups[enums.SHOT].sprite.rect
+            for tile in tilemap_rect_list:
+                if tile.colliderect(bullet_rect):
+                    self.groups[enums.SHOT].sprite.kill()
+                    break

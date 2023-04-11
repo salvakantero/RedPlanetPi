@@ -108,6 +108,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_action.set_volume(0.2)
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav') # touched by an enemy
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav') # low oxygen
+        self.sfx_alarm.set_volume(0.8)
         self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav') # places the TNT        
         # objects and others
         self.game = game
@@ -380,7 +381,7 @@ class Player(pygame.sprite.Sprite):
     def oxygen_timer(self):
         if (pygame.time.get_ticks() - self.oxygen_time_from) >= self.oxygen_time_to:
             self.oxygen -= 1
-            if self.oxygen <= 10: self.sfx_alarm.play()
+            if self.oxygen <= 15: self.sfx_alarm.play()
             self.scoreboard.invalidate()
             self.oxygen_time_from = pygame.time.get_ticks()
 
