@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
         self.lives = 99 #10 # lives remaining
-        self.ammo = 5 # unused ammunition collected
+        self.ammo = 10 # unused ammunition collected
         self.keys = 0 # unused keys collected 
         self.TNT = 0 # explosives collected  
         self.oxygen = constants.MAX_OXYGEN # oxygen remaining
@@ -108,7 +108,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav') # touched by an enemy
         self.sfx_alarm = pygame.mixer.Sound('sounds/fx/sfx_alarm.wav') # low oxygen
         self.sfx_alarm.set_volume(0.8)
-        self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT.wav') # places the TNT        
+        self.sfx_TNT = pygame.mixer.Sound('sounds/fx/sfx_TNT2.wav') # places the TNT        
         # objects and others
         self.game = game
         self.map = map
