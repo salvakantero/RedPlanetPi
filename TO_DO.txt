@@ -4,6 +4,8 @@ RED PLANET PI
 
 EN PROCESO
 ==========
+- AMMO de 20 balas?
+- sonido de emplazamiento TNT más espectacular?
 - Actualizar manual
 - Betatesting
 

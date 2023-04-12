@@ -45,40 +45,40 @@ class Game():
         self.config = Configuration() # reads the configuration file to apply the personal settings
         self.config.load()
         self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
-        self.new = True # if 'False', load last checkpoint
+        self.new = True # when 'False', load the last checkpoint
         self.win_secuence = 0 # animated sequence on winning (if > 0)
-        self.status = enums.OVER
-        self.music_status = enums.UNMUTED
+        self.status = enums.OVER # start from menu
+        self.music_status = enums.UNMUTED # Music!
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
         self.srf_map = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-        # surface to save the generated map without sprites
+        # surface to save the generated map without sprites (background for each frame)
         self.srf_map_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # surface to save the previous map (transition effect between screens)
         self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
-        # sprite control groups
+        # sprite control groups (for collision detection)
         self.groups = [
-            pygame.sprite.Group(), # all sprites
+            pygame.sprite.Group(), # all sprites (to display them)
             pygame.sprite.Group(), # enemies
             pygame.sprite.GroupSingle(), # hotspot
             pygame.sprite.GroupSingle(), # gate
             pygame.sprite.GroupSingle(), # mobile platform
             pygame.sprite.GroupSingle(), # dust
-            pygame.sprite.GroupSingle()] # shot     
-        # display mode and margins        
+            pygame.sprite.GroupSingle()] # shot
+        # display mode and margins (default values)
         self.v_margin = constants.V_MARGIN
         self.h_margin = constants.H_MARGIN
         self.win_size = constants.WIN_SIZE
         # main surface
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
-        # wallpaper for the 16:9 mode
+        # wallpaper for the 16:9 fullscreen mode
         self.img_background = pygame.image.load('images/assets/screen_back.png').convert()        
         # change the resolution and type of display according to the settings
         self.apply_display_settings()
-        # common fonts
+        # common fonts. S = small F = foreground B = background
         self.fonts = {
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
@@ -174,7 +174,7 @@ class Game():
         self.load_high_scores()
         # create a joystick/joypad/gamepad object
         self.joystick = self.config.prepare_joystick()
-   
+
 
     # windowed mode, generates a main window with title, icon, and 32-bit colour
     def apply_windowed_mode(self):        
@@ -206,6 +206,7 @@ class Game():
             self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
             self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+            # background image to fill in the black sides
             self.screen.blit(self.img_background, (0,0))
         else: # full screen at low resolution not available
             self.apply_windowed_mode()
@@ -213,9 +214,9 @@ class Game():
 
     # creates a window or full-screen environment 
     def apply_display_settings(self):
-        if self.config.data['full_screen'] == enums.X600:
+        if self.config.data['full_screen'] == enums.X600: # 4:3
             self.apply_full_screen_X600()
-        elif self.config.data['full_screen'] == enums.X720:
+        elif self.config.data['full_screen'] == enums.X720: # 16:9
             self.apply_full_screen_X720()
         else:
             self.apply_windowed_mode()         
@@ -295,9 +296,10 @@ class Game():
         y = self.v_margin    
         if self.config.data['full_screen'] is not enums.OFF: 
             height = self.win_size[1]-self.v_margin
-        else: # fixed height that does not depend on the margin
+        else: # windowed mode: fixed bottom margin of 26 pixels
             height = self.win_size[1]-26
         while y < height:
+            # every 3 lines draws an almost black line
             pygame.draw.line(self.screen, (10, 10, 10), (self.h_margin, y), (x, y))
             y += 3            
     
@@ -310,29 +312,31 @@ class Game():
                 self.srf_menu, constants.MENU_SCALED_SIZE),
                 (self.h_margin, self.v_margin))
         else:
+            # scale the scoreboard
+            self.screen.blit(pygame.transform.scale(
+                self.srf_sboard, constants.SBOARD_SCALED_SIZE), 
+                (self.h_margin, self.v_margin))
+                        
             # shakes the surface of the map if it has been requested
             offset = [0,0]
             if self.shake_timer > 0:
                 if self.shake_timer == 1: # last frame shaken
                     # it's necessary to clean the edges of the map after shaking it
-                    if self.config.data['full_screen'] == enums.X720:
+                    if self.config.data['full_screen'] == enums.X720: # 16:9 fullscreen
                         self.screen.blit(self.img_background, (0,0))
-                    else: 
+                    else: # 4:3 fullscreen or windowed mode
                         self.screen.fill(constants.PALETTE['BLACK'])
                 else:
                     offset[0] = random.randint(-self.shake[0], self.shake[0])
                     offset[1] = random.randint(-self.shake[1], self.shake[1])
                 self.shake_timer -= 1
-            # scale the scoreboard
-            self.screen.blit(pygame.transform.scale(
-                self.srf_sboard, constants.SBOARD_SCALED_SIZE), 
-                (self.h_margin, self.v_margin))
+            
             # scale the map
             self.screen.blit(pygame.transform.scale(
                 self.srf_map, constants.MAP_SCALED_SIZE), (self.h_margin + offset[0], 
                 constants.SBOARD_SCALED_SIZE[1] + self.v_margin + offset[1]))
-        if self.config.data['scanlines']:
-            self.apply_scanlines()
+        
+        if self.config.data['scanlines']: self.apply_scanlines()
         pygame.display.update() # refreshes the screen
         self.clock.tick(60) # 60 FPS
 
@@ -361,10 +365,12 @@ class Game():
         # blue border
         pygame.draw.rect(aux_surf, constants.PALETTE['DARK_BLUE'],(x, y, width, height), 1)
         # draws the text centred inside the window (Y positions are fixed)
+        # line 1
         text_x = (x + (width//2)) - (message1_len//2)
         text_y = y + 5
         self.fonts[enums.L_B_WHITE].render(msg1, aux_surf, (text_x, text_y))
         self.fonts[enums.L_F_WHITE].render(msg1, aux_surf, (text_x - 2, text_y - 2))
+        # line 2
         text_x = (x + (width//2)) - (message2_len//2)
         text_y = y + 25
         self.fonts[enums.S_B_GREEN].render(msg2, aux_surf, (text_x, text_y))
@@ -372,7 +378,7 @@ class Game():
         # return the copy with the message on the map surface and redraw it.
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
-        self.update_screen()        
+        self.update_screen() 
         if muted: self.sfx_click.play()
         else: self.sfx_message.play()
 
@@ -387,8 +393,8 @@ class Game():
                     self.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:                    
-                        return True 
-                    return False
+                        return True # back to menu
+                    return False # continue game
 
 
     # displays a 'game over' message and waits
@@ -402,25 +408,13 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.exit()
                 if event.type == pygame.KEYDOWN:                  
-                    return
-
-
-    # stops the music when the game is paused and a message is displayed.
-    def pause_music(self):
-        if self.music_status == enums.UNMUTED:
-            pygame.mixer.music.pause()
-
-
-    # restores music if it returns from a message
-    def restore_music(self):
-        if self.music_status == enums.UNMUTED:
-            pygame.mixer.music.unpause()
+                    return # back to menu
 
 
     # everything blows up and our player wins the game
     def win(self, score):
         sounds = [enums.INFECTED, enums.PELUSOID, enums.AVIRUS, enums.FANTY]
-        # first frame...
+        # first frame (from 350 to 1)...
         if self.win_secuence == 350:
             # eliminate the remaining enemies
             for enemy in self.groups[enums.ENEMIES]:
@@ -442,7 +436,7 @@ class Game():
         elif self.win_secuence == 1:
             self.shake_timer = 1 # clean the edges
             self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True)
-            # main theme song
+            # main theme song again
             pygame.mixer.music.load('sounds/music/mus_menu.ogg')
             pygame.mixer.music.play()
             # wait for a key
@@ -455,19 +449,19 @@ class Game():
                         self.update_high_score_table(score)
                         self.status = enums.OVER
                         return # back to the main menu                       
-
-        self.win_secuence -= 1
+        self.win_secuence -= 1 # next frame
 
 
     # collisions between the player and mobile platforms, enemies, hotspots and gates
     def check_player_collisions(self, player, scoreboard, map_number):
         # player and mobile platform
-        if self.groups[enums.PLATFORM].sprite is not None:
+        if self.groups[enums.PLATFORM].sprite is not None: # there is a platform on the map
             if pygame.sprite.spritecollide(player, self.groups[enums.PLATFORM], False, pygame.sprite.collide_rect_ratio(1.15)):
                 platform = self.groups[enums.PLATFORM].sprite                
                 # the player is above the platform?
                 if player.rect.bottom - 2 < platform.rect.top:               
                     player.rect.bottom = platform.rect.top
+                    # stops the fall
                     player.direction.y = 0                    
                     player.on_ground = True                                        
                     # horizontal platform?
@@ -477,17 +471,16 @@ class Game():
                         key_state = pygame.key.get_pressed()
                         if not key_state[self.config.left_key] and not key_state[self.config.right_key]:
                             player.rect.x += platform.vx
-
         # player and martians
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life()        
                 scoreboard.invalidate() # redraws the scoreboard
-                return
-        
+                return        
         # player and hotspot
         if self.groups[enums.HOTSPOT].sprite is not None:
             if player.rect.colliderect(self.groups[enums.HOTSPOT].sprite):
+                save_game = False
                 hotspot = self.groups[enums.HOTSPOT].sprite
                 # shake the map (just a little)
                 self.shake = [4, 4]
@@ -508,9 +501,7 @@ class Game():
                     self.floating_text.text = '+125'
                     player.score += 125
                 elif hotspot.type == enums.AMMO:
-                    if player.ammo + constants.AMMO_ROUND < constants.MAX_AMMO: 
-                        player.ammo += constants.AMMO_ROUND
-                    else: player.ammo = constants.MAX_AMMO
+                    player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
                     self.floating_text.text = '+75'
                     player.score += 75
                 elif hotspot.type == enums.OXYGEN:
@@ -527,8 +518,17 @@ class Game():
                     self.floating_text.text = '+200'
                     player.score += 200                                        
                 elif hotspot.type == enums.CHECKPOINT:                    
-                    self.floating_text.text = 'Checkpoint'
-                    # save game
+                    self.floating_text.text = 'Checkpoint'                    
+                    save_game = True
+                scoreboard.invalidate()
+                self.floating_text.x = hotspot.x*constants.TILE_SIZE
+                self.floating_text.y = hotspot.y*constants.TILE_SIZE
+                self.floating_text.speed = 0
+                # removes objects
+                self.groups[enums.HOTSPOT].sprite.kill()
+                constants.HOTSPOT_DATA[map_number][3] = False # not visible
+                # is it necessary to record the status of the game?
+                if save_game:
                     self.checkpoint.data = {
                         'map_number' : map_number,
                         'game_percent' : scoreboard.game_percent,
@@ -542,25 +542,13 @@ class Game():
                         'player_rect' : player.rect,
                         'player_score' : player.score,
                         'hotspot_data' : constants.HOTSPOT_DATA,
-                        'gate_data' : constants.GATE_DATA
-                    }
-                    # when loading a game it is not necessary to save the first checkpoint, 
-                    # as it contains the same data.
-                    if self.new: self.checkpoint.save() 
-                    else: self.new = True
-                scoreboard.invalidate()
-                self.floating_text.x = hotspot.x*constants.TILE_SIZE
-                self.floating_text.y = hotspot.y*constants.TILE_SIZE
-                self.floating_text.speed = 0
-                # removes objects
-                self.groups[enums.HOTSPOT].sprite.kill()
-                constants.HOTSPOT_DATA[map_number][3] = False # not visible
+                        'gate_data' : constants.GATE_DATA }
+                    self.checkpoint.save() 
                 return
-
         # player and gates
-        if self.groups[enums.GATE].sprite is not None:
+        if self.groups[enums.GATE].sprite is not None: # # there is a door on the map
             if player.rect.colliderect(self.groups[enums.GATE].sprite):        
-                if player.keys > 0:
+                if player.keys > 0: # player has a key
                     player.keys -= 1
                     self.sfx_open_door.play()
                     # creates a magic halo
@@ -588,9 +576,16 @@ class Game():
                     else: player.rect.x += 5
 
 
-    def check_bullet_collisions(self, player, scoreboard, tilemap_rect_list):                
+    def check_bullet_collisions(self, player, scoreboard, tilemap_rect_list):  
+        # bullets and map tiles
+        if self.groups[enums.SHOT].sprite is not None: # shot in progress
+            bullet_rect = self.groups[enums.SHOT].sprite.rect
+            for tile in tilemap_rect_list:
+                if tile.colliderect(bullet_rect):
+                    self.groups[enums.SHOT].sprite.kill()
+                    break                                      
         # bullets and martians
-        if self.groups[enums.SHOT].sprite is not None:
+        if self.groups[enums.SHOT].sprite is not None: # still shot in progress
             for enemy in self.groups[enums.ENEMIES]:
                 if enemy.rect.colliderect(self.groups[enums.SHOT].sprite):        
                     # shake the map
@@ -623,12 +618,4 @@ class Game():
                     self.groups[enums.SHOT].sprite.kill()
                     # redraws the scoreboard
                     scoreboard.invalidate()
-                    break
-
-        # bullets and map tiles
-        if self.groups[enums.SHOT].sprite is not None:
-            bullet_rect = self.groups[enums.SHOT].sprite.rect
-            for tile in tilemap_rect_list:
-                if tile.colliderect(bullet_rect):
-                    self.groups[enums.SHOT].sprite.kill()
                     break

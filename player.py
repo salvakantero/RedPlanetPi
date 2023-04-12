@@ -30,7 +30,6 @@ import constants
 import enums
 from dust import DustEffect
 from shot import Shot
-from explosion import Explosion
 
 
 class Player(pygame.sprite.Sprite):
@@ -163,6 +162,7 @@ class Player(pygame.sprite.Sprite):
             self.sfx_TNT.play()
         # detonate explosives
         elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
+            self.scoreboard.game_percent += 5
             self.game.win_secuence = 350 # animated sequence on winning
         # no action required
         else: self.sfx_no_action.play()

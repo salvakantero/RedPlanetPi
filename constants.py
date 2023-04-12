@@ -40,7 +40,7 @@ JUMP_VALUE = -3.2 # value of the initial jump for the player
 GRAVITY = 0.180 # acceleration of gravity for the player
 MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
 MAX_AMMO = 50 # maximum number of bullets
-AMMO_ROUND = 25 # bullets per reload
+AMMO_ROUND = 20 # bullets per reload
 MAX_OXYGEN = 99 # oxygen units per refill
 OXYGEN_TIME = 2000 # time of each oxygen unit (+-2 secs.)
 

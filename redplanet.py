@@ -97,10 +97,15 @@ while True:
             if event.type == pygame.KEYDOWN: # a key is pressed
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
-                    game.pause_music()
+                     # stops the music when the game is paused
+                    if game.music_status == enums.UNMUTED:
+                        pygame.mixer.music.pause()
                     if game.confirm_exit():
                         game.status = enums.OVER # go to the main menu
-                    else: game.restore_music()                            
+                    else:
+                        # restores the music if the game continues
+                        if game.music_status == enums.UNMUTED:
+                            pygame.mixer.music.unpause()                            
                 # mutes the music, or vice versa
                 if event.key == game.config.mute_key :
                     game.music_status = enums.UNMUTED if game.music_status == enums.MUTED else enums.MUTED
@@ -121,7 +126,7 @@ while True:
 
         # collision between player and mobile platform, martians, hotspot and gates        
         game.check_player_collisions(player, scoreboard, map.number)
-        # collision between bullets and martians and map tiles
+        # collision between bullets and martians or map tiles
         game.check_bullet_collisions(player, scoreboard, map.tilemap_rect_list)
 
         # game over?
