@@ -101,6 +101,17 @@ Remember that selecting a DISKETTE overwrites the previous game.
 - To place the explosives in their final location and to use the detonator, press the ACTION key (below), otherwise nothing will happen.
 
 
+AUTHOR'S NOTE
+=============
+
+RED PLANET PI has been made for modern computers with modern tools (Python, object oriented programming, etc).
+But the look and the gameplay is that of a classic ARCADE game from more than 30 years ago. What we call a RETRO game.
+This is because it uses 16 colours, tile maps to generate the screens, or 16x16 pixels sprites, as it is a conversion of RED PLANET for ZX Spectrum and Amstrad CPC.
+The purpose in the 80s was to save memory and processing resources of the machine, but nowadays it still has a great didactic value because we can benefit from a not very extensive source code, and independent of complex game engines.
+So, this project was programmed entirely on Raspberry Pi computers and Python language, thinking about the large number of academies that use these computers around the world to teach computer science and programming.
+If any of these students or casual gamers, access the source code to study it, improve it, make their own game, or simply review and understand it, then it will have been worth it.
+
+
 ===================================
 RED PLANET Pi  (c) PlayOnRetro 2023
 ===================================
