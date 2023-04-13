@@ -35,7 +35,7 @@ from shot import Shot
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
-        self.lives = 99 #10 # lives remaining
+        self.lives = 10 # lives remaining
         self.ammo = 10 # unused ammunition collected
         self.keys = 0 # unused keys collected 
         self.TNT = 0 # explosives collected  
@@ -162,7 +162,6 @@ class Player(pygame.sprite.Sprite):
             self.sfx_TNT.play()
         # detonate explosives
         elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
-            self.scoreboard.game_percent += 5
             self.game.win_secuence = 350 # animated sequence on winning
         # no action required
         else: self.sfx_no_action.play()

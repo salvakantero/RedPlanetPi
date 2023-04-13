@@ -6,7 +6,6 @@ EN PROCESO
 ==========
 - Actualizar manual
 - Betatesting
-    - CHECKPOINT (no reutilizar)
 
 BUGS
 ====

@@ -519,16 +519,6 @@ class Game():
                     player.score += 200                                        
                 elif hotspot.type == enums.CHECKPOINT:                    
                     self.floating_text.text = 'Checkpoint'                    
-                    save_game = True
-                scoreboard.invalidate()
-                self.floating_text.x = hotspot.x*constants.TILE_SIZE
-                self.floating_text.y = hotspot.y*constants.TILE_SIZE
-                self.floating_text.speed = 0
-                # removes objects
-                self.groups[enums.HOTSPOT].sprite.kill()
-                constants.HOTSPOT_DATA[map_number][3] = False # not visible
-                # is it necessary to record the status of the game?
-                if save_game:
                     self.checkpoint.data = {
                         'map_number' : map_number,
                         'game_percent' : scoreboard.game_percent,
@@ -544,6 +534,14 @@ class Game():
                         'hotspot_data' : constants.HOTSPOT_DATA,
                         'gate_data' : constants.GATE_DATA }
                     self.checkpoint.save() 
+
+                scoreboard.invalidate()
+                self.floating_text.x = hotspot.x*constants.TILE_SIZE
+                self.floating_text.y = hotspot.y*constants.TILE_SIZE
+                self.floating_text.speed = 0
+                # removes objects
+                self.groups[enums.HOTSPOT].sprite.kill()
+                constants.HOTSPOT_DATA[map_number][3] = False # not visible            
                 return
         # player and gates
         if self.groups[enums.GATE].sprite is not None: # # there is a door on the map
