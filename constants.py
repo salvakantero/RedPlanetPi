@@ -34,12 +34,13 @@ SBOARD_SCALED_SIZE = 720, 114 # scoreboard size scaled x3 (windowed mode)
 SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
+
 # player
 INVINCIBLE_TIME = 2500 # time of invincibility (+-2,5 secs.)
 JUMP_VALUE = -3.2 # value of the initial jump for the player
 GRAVITY = 0.180 # acceleration of gravity for the player
 MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
-MAX_AMMO = 50 # maximum number of bullets
+MAX_AMMO = 60 # maximum number of bullets
 AMMO_ROUND = 20 # bullets per reload
 MAX_OXYGEN = 99 # oxygen units per refill
 OXYGEN_TIME = 2000 # time of each oxygen unit (+-2 secs.)
@@ -402,7 +403,7 @@ HELP += 'to the control centre and activate the DETONATOR. Good luck!'
 CREDITS  = '.::Red Planet Pi::. v1.0     PlayOnRetro 2023     '
 CREDITS += 'PROGRAMMING: salvaKantero     '
 CREDITS += 'GRAPHICS: salvaKantero     '
-CREDITS += 'COVER ILLUSTRATION AND INTRO/MENU BACKGROUNDS: Masterklown     '
+CREDITS += 'COVER ILLUSTRATION: Masterklown     '
 CREDITS += 'MENU MUSIC: Masterklown     '
 CREDITS += 'IN-GAME MUSIC: Centurion of war     '
 CREDITS += 'SOUND EFFECTS: Juhani Junkala     '

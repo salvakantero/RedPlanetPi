@@ -36,7 +36,7 @@ class Checkpoint():
             'map_number' : 0,
             'game_percent' : 0,
             'player_lives' : 10,
-            'player_ammo' : 5,
+            'player_ammo' : 10,
             'player_keys' : 0,
             'player_TNT' : 0,
             'player_oxygen' : constants.MAX_OXYGEN,

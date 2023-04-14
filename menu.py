@@ -224,7 +224,7 @@ class Menu():
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
 
-        # ============================= main menu loop =========================
+        # ========================= main menu loop =========================
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             page_timer += 1
@@ -360,7 +360,6 @@ class Menu():
                         # create joystick/joypad/gamepad object (if it exists)
                         self.game.joystick = self.game.config.prepare_joystick()                        
                         # saves and apply possible changes to the configuration
-
                         self.game.config.save()  
                         self.game.apply_display_settings()                     
                         # recreate the page with the new data

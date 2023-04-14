@@ -85,7 +85,7 @@ class Scoreboard():
         self.srf_sboard.blit(self.hotspot_images[enums.KEY], (145, 2))
         self.srf_sboard.blit(self.hotspot_images[enums.TNT], (186, 2))
         # fixed texts
-        self.shaded_text('\'50', 116, 6) # ' = /
+        self.shaded_text('\'' + str(constants.MAX_AMMO), 116, 6) # ' = /
         self.shaded_text('\'15', 220, 6)
 
 

@@ -1,6 +1,6 @@
 
 # ==============================================================================
-# .::Enumerations::.
+# .::Enumerations::.  (false enumerations, in fact)
 # Values that are named to clarify the source code.
 # ==============================================================================
 #
