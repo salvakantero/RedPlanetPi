@@ -40,7 +40,7 @@ INVINCIBLE_TIME = 2500 # time of invincibility (+-2,5 secs.)
 JUMP_VALUE = -3.2 # value of the initial jump for the player
 GRAVITY = 0.180 # acceleration of gravity for the player
 MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
-MAX_AMMO = 60 # maximum number of bullets
+MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 20 # bullets per reload
 MAX_OXYGEN = 99 # oxygen units per refill
 OXYGEN_TIME = 2000 # time of each oxygen unit (+-2 secs.)
@@ -389,7 +389,7 @@ GATE_DATA = {
 
 # repetitions for each ingame music track
 # is necessary, due to the large differences in the length of each track.
-MUSIC_LOOP_LIST = (2,1,2,2,2,1,1,3,1,3,2,2)
+MUSIC_LOOP_LIST = (2,2,2,2,2,2,2,1,3,2,3,2)
 
 # introductory help
 HELP = 'Lead our HERO into the underground of the old SPACE STATION to blow up '

@@ -49,7 +49,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.type == enums.FANTY:            
             self.state = enums.IDLE          
             self.sight_distance = 64 # pixels/frame
-            self.acceleration = 0.03 #0.05 # pixels/frame
+            self.acceleration = 0.04 #0.05 # pixels/frame
             self.max_speed = 2 # pixels/frame
         # player's current position (some enemies look at the player)
         self.player = player_rect

@@ -6,11 +6,10 @@ EN PROCESO
 ==========
 - Betatesting
     - revisar MUSIC_LOOP_LIST
-    - probar MAX_AMMO = 60
-    - probar menor acceleration de FANTY
 
 BUGS
 ====
+al meter nombre en gameover
 
 POR HACER
 =========
