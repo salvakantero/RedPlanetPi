@@ -4,7 +4,6 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Actualizar manual
 - Betatesting
     - revisar MUSIC_LOOP_LIST
     - probar MAX_AMMO = 60
@@ -107,6 +106,7 @@ HECHO
 04/04/23 - Revisar, simplificar, organizar y comentar el código fuente final
 05/04/23 - Marco en modo 16:9
 08/04/23 - Pantalla final
+16/04/23 - Actualizar manual
 
 
 Notas

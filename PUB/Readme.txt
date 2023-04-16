@@ -76,7 +76,7 @@ jump:		W		Q		cur.up		button A / button B / joy.up
 action:		S		A		cur.down	joy.down
 left:		A		O		cur.left	joy.left
 right:		D		P		cur.right	joy.right
-shot*:		SPACE		SPACE		SPACE		button X / button Y	 		
+fire*:		SPACE		SPACE		SPACE		button X / button Y	 		
 
 * also left mouse button
 
@@ -107,7 +107,7 @@ RED PLANET Pi  (c) PlayOnRetro 2023
 
 PROGRAMMING: salvaKantero
 GRAPHICS: salvaKantero
-COVER/MENU/INTRO ILLUSTRATION: Masterklown 
+COVER ILLUSTRATION: Masterklown 
 MENU MUSIC: Masterklown
 IN-GAME MUSIC: Centurion of war
 SOUND EFFECTS: Juhani Junkala
@@ -136,10 +136,6 @@ Thanks for playing!
 AUTHOR'S NOTE
 =============
 
-RED PLANET PI has been made for modern computers with modern tools (Python, object-oriented programming, etc.).
-But the look and playability is that of a classic ARCADE game from more than 30 years ago. What we call a RETRO game.
-This is because it uses 16 colours, tile maps to generate the screens, or 16x16 pixels sprites, as it is a conversion of the RED PLANET versions of ZX Spectrum and Amstrad CPC.
-The purpose in the 80s was to save memory and processing resources of the machine, but nowadays it still has a great didactic value because we can benefit from a not very extensive source code, and independent of complex game engines.
-So, this project was programmed entirely on Raspberry Pi computers and Python language, thinking about the large number of academies and users who use these computers around the world to learn computer science and programming.
+This project was programmed entirely on Raspberry Pi computers and Python language, thinking about the large number of academies and users who use these computers around the world to learn computer science and programming.
 If any of these students or casual gamers, access the source code to study it, improve it, make their own game, or simply review and understand it, then it will have been worth the effort.
 
