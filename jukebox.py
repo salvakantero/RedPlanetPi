@@ -1,8 +1,7 @@
 
 # ==============================================================================
 # .::Jukebox class::.
-# Create a playlist with the tracks randomly shuffled and repeated 
-# a certain number of times according to their duration.
+# Create a playlist with the tracks randomly shuffled
 # ==============================================================================
 #
 #  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
