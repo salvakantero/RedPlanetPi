@@ -398,7 +398,8 @@ class Game():
 
 
     # displays a 'game over' message and waits
-    def over(self): 
+    def over(self):
+        self.shake_timer = 1 # clean the edges 
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True)
         pygame.mixer.music.stop()
         self.sfx_game_over.play()

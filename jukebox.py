@@ -27,10 +27,9 @@ import random
 
 
 class Jukebox():
-    def __init__(self, path, base_filename, tracks, loop_list):
+    def __init__(self, path, base_filename, tracks):
         self.track_list = list(range(0, tracks)) # sorted playlist
         self.track_index = 0 # current theme song number
-        self.loop_list = loop_list # list of repetitions assigned to each track
         self.path = path # path to the folder with the music tracks
         self.base_filename = base_filename # common name of the files
 
@@ -52,7 +51,6 @@ class Jukebox():
 
     def update(self):
         if not pygame.mixer.music.get_busy(): # if a track is not playing...
-            self.load_next() # load in memory the following track
-            # applies the number of repetitions assigned to the track and plays it
-            pygame.mixer.music.play(self.loop_list[self.track_list[self.track_index]])
+            self.load_next() # load in memory the following track            
+            pygame.mixer.music.play(2) # play each track twice
      

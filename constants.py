@@ -387,10 +387,6 @@ GATE_DATA = {
     42: [14, 2, True]
 }
 
-# repetitions for each ingame music track
-# is necessary, due to the large differences in the length of each track.
-MUSIC_LOOP_LIST = (2,2,2,2,2,2,2,1,3,2,3,2)
-
 # introductory help
 HELP = 'Lead our HERO into the underground of the old SPACE STATION to blow up '
 HELP += 'the entire complex and wipe out its evil INHABITANTS.     '

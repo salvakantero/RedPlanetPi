@@ -5,7 +5,6 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Betatesting
-    - revisar MUSIC_LOOP_LIST
 
 BUGS
 ====
