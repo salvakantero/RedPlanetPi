@@ -8,7 +8,6 @@ EN PROCESO
 
 BUGS
 ====
-al meter nombre en gameover
 
 POR HACER
 =========

@@ -29,7 +29,6 @@ import enums
 from game import Game
 from map import Map
 from scoreboard import Scoreboard
-from font import Font
 from player import Player
 
 
@@ -160,7 +159,7 @@ while True:
         map.check_change(player)
 
         # TEST ZONE ================================================================================
-        game.fonts[enums.S_B_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))
+        game.fonts[enums.S_F_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))
         # ==========================================================================================
 
         game.update_screen()

@@ -91,7 +91,7 @@ class Game():
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
          # playlist with the 12 available tracks
-        self.jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12, constants.MUSIC_LOOP_LIST)
+        self.jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12)
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
         self.enemy_images = {
