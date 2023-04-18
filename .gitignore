@@ -2,3 +2,6 @@ __pycache__
 scores.dat
 config.dat
 checkpoint.dat
+/redplanet.spec
+/dist
+/build
