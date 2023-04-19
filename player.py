@@ -211,6 +211,13 @@ class Player(pygame.sprite.Sprite):
             # without lateral movement
             elif not key_state[self.game.config.right_key] and not key_state[self.game.config.left_key]:
                 self.direction.x = 0
+            #=================================================================
+            # BETA trick
+            if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
+                if self.lives < 99: 
+                    self.lives += 1
+                    self.scoreboard.invalidate() 
+            # ================================================================          
             # press jump
             if key_state[self.game.config.jump_key] and self.on_ground:            
                 self.performs_jump()
