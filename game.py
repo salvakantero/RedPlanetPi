@@ -241,7 +241,7 @@ class Game():
 
     # allows to enter the player's name
     def get_player_name(self):
-        self.message('You achieved a high score!', 'Enter your name...', True, False)
+        self.message('You achieved a high score!', 'Enter your name...', False, False)
         pygame.event.clear(pygame.KEYDOWN)
         name = ''
         while True:
