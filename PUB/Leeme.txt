@@ -2,7 +2,7 @@
 =============
 RED PLANET Pi
 =============
-© 2015/2023
+(C) 2015/2023
 
 Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.
 Pero cuidado, el entorno es peligroso. Evita entrar en contacto con los alienígenas, y caer en los pozos de lava o de residuos radiactivos.
@@ -56,9 +56,9 @@ FANTY			100 puntos
 --------------------------
 TNT			 50 puntos
 MUNICIÓN		 75 puntos
-OXÍGENO			100 puntos
-TARJETA			125 puntos
-PUERTA			150 puntos
+OXÍGENO		100 puntos
+TARJETA		125 puntos
+PUERTA		150 puntos
 --------------------------
 DONUT			200 puntos
 TARTA			350 puntos
@@ -70,8 +70,8 @@ CONTROL DE JUEGO
 
 			GAMER		RETRO		CLASSIC			JOYPAD
 			----------------------------------------------------------------------
-salto:			W		Q		cur.arriba		botón A / botón B / joy.arriba	
-acción:			S		A		cur.abajo		joy.abajo
+salto:		W		Q		cur.arriba		botón A / botón B / joy.arriba	
+acción:		S		A		cur.abajo		joy.abajo
 izquierda:		A		O		cur.izda.		joy.izda.
 derecha:		D		P		cur.derecha		joy.derecha
 disparo*:		SPACE		SPACE		SPACE			botón X / botón Y	 		
@@ -100,7 +100,7 @@ Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
 
 
 ===================================
-RED PLANET Pi  (c) PlayOnRetro 2023
+RED PLANET Pi  (C) PlayOnRetro 2023
 ===================================
 
 PROGRAMA: salvaKantero
