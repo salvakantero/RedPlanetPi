@@ -21,7 +21,6 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=C:\Users\Salva\RedPlanetPi\PUB\License.txt
-InfoBeforeFile=C:\Users\Salva\RedPlanetPi\PUB\Readme.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=mysetup

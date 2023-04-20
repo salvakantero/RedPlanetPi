@@ -2,7 +2,7 @@
 =============
 RED PLANET Pi
 =============
-© 2015/2023
+(C) 2015/2023
 
 Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.
 But beware, the environment is dangerous. Avoid coming into contact with the aliens, and avoid falling into the lava or radioactive waste pits.
@@ -51,20 +51,20 @@ In that case, finish them off as soon as possible.
 SCORE
 =====
 
-INFECTED		 25 puntos
-ARACHNOVIRUS	 	 50 puntos
-PELUSOID		 75 puntos
-FANTY			100 puntos
---------------------------
-TNT			 50 puntos
-AMMO			 75 puntos
-OXYGEN			100 puntos
-KEYCARD			125 puntos
-GATE			150 puntos
---------------------------
-DONUT			200 puntos
-CAKE			350 puntos
-HAMBURGUER		500 puntos
+INFECTED		25 points
+ARACHNOVIRUS	50 points
+PELUSOID		75 points
+FANTY			100 points
+----------------------------
+TNT			50 points
+AMMO			75 points
+OXYGEN		100 points
+KEYCARD		125 points
+GATE			150 points
+----------------------------
+DONUT			200 points
+CAKE			350 points
+HAMBURGUER		500 points
 
 
 GAME CONTROL
@@ -72,11 +72,11 @@ GAME CONTROL
 
 		GAMER		RETRO		CLASSIC		JOYPAD
 		--------------------------------------------------------------------
-jump:		W		Q		cur.up		button A / button B / joy.up	
-action:		S		A		cur.down	joy.down
+jump:		W		Q		cur.up	button A / button B / joy.up	
+action:	S		A		cur.down	joy.down
 left:		A		O		cur.left	joy.left
-right:		D		P		cur.right	joy.right
-fire*:		SPACE		SPACE		SPACE		button X / button Y	 		
+right:	D		P		cur.right	joy.right
+fire*:	SPACE		SPACE		SPACE		button X / button Y	 		
 
 * also left mouse button
 
@@ -102,7 +102,7 @@ Remember that selecting a DISKETTE overwrites the previous game.
 
 
 ===================================
-RED PLANET Pi  (c) PlayOnRetro 2023
+RED PLANET Pi  (C) PlayOnRetro 2023
 ===================================
 
 PROGRAMMING: salvaKantero
