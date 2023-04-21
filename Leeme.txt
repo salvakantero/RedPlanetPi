@@ -4,7 +4,7 @@ RED PLANET Pi v1.0 (C) 2015/2023
 ================================                
   Para Raspberry Pi / Windows *
 
-*compatible con sistemas que soporten Python/Pygame
+* y otros sistemas compatibles con pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) o superior.
 
 
 
