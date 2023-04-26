@@ -5,7 +5,7 @@ RED PLANET Pi v1.0 (C) 2015/2023
   for Raspberry Pi / Windows *
 
 *and other systems supporting pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) or higher.
-
+ (Windows and Raspberry installers and executables in the /PUB folder)
 
 
 Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.
