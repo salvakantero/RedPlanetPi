@@ -9,6 +9,7 @@ EN PROCESO
 BUGS
 ====
 - Eliminar truco BETA
+- Eliminar FPS
 
 POR HACER
 =========
