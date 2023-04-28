@@ -125,3 +125,15 @@ VSC: Cambiar fondo a negro:
     "editor.background": "#000000"
 }
 
+
+@Centurion_MK_3
+@Subspace_Audio
+@mojon_twins
+@DaFluffyPotato
+@rik_cross_
+@clear_coder
+@MindExplorers
+@ryanlambie
+@Mundo_Python
+@KenneyNL
+
