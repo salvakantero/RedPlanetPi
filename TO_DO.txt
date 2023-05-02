@@ -18,7 +18,6 @@ HECHO
 =====
 14/05/22 - Cargar mapa de TILED 
 14/05/22 - Pintar los tiles de la pantalla a partir de las listas del mapa
-16/05/22 - Cargar música (wav->ogg https://audio.online-convert.com/convert-to-ogg)
 21/05/22 - Mapeado 1ª parte; superficie
 03/06/22 - Filtro Scanlines rápido
 09/06/22 - Gestión de textos con gráficos PNG
@@ -27,8 +26,6 @@ HECHO
 26/06/22 - Adaptar colores de tiles
 30/06/22 - Navegador temporal de mapeado con carga de malotes y objetos
 25/07/22 - Marcador
-27/07/22 - Adaptar las músicas definitivas de tacha a OGG e implementar
-31/07/22 - Filtro Scanlines HQ
 08/08/22 - Sprites de enemigos
 14/08/22 - Movimiento lineal XY de enemigos
 17/08/22 - Transparencia de sprites
@@ -49,21 +46,19 @@ HECHO
 14/11/22 - Animación del player
 15/11/22 - Mejorar animación enemigos
 18/11/22 - Sistema de partículas de polvo para el player
-20/11/22 - Gestión de tilemaps background
-20/11/22 - Gestión de tilemaps bloqueantes
+20/11/22 - Gestión de tiles background
+20/11/22 - Gestión de tiles bloqueantes
 20/11/22 - Gestión de tiles matantes
 20/11/22 - Refrescar marcador solo si es necesario
 27/11/22 - Gestión de tiles plataformas
 30/11/22 - Colisiones player/enemigos
-30/11/22 - El player es invencible durante 1 segundo (parpadea)
+30/11/22 - El player es invencible durante 2 segundo (parpadea)
 11/12/22 - Gestión de plataformas móviles
 14/12/22 - Marcador como una clase
 15/12/22 - Configuración como una clase
-18/12/22 - BUG: colisión con plataforma fija permite entrar en obstáculo por la derecha
 19/12/22 - Empaquetar funciones genéricas en support.py
 21/12/22 - Empaquetar funciones de tiled y mapas en map.py
 23/12/22 - Enemigos verticales siempre miran al jugador
-23/12/22 - BUG: al saltar se queda pegado al techo
 24/12/22 - Plataformas móviles laterales
 25/12/22 - Adaptar mapa, salto y movimiento para afrontar el mapa original
 26/12/22 - Vibra la pantalla al hacer grandes saltos y explosiones
@@ -80,25 +75,24 @@ HECHO
 20/01/23 - Pila de explosivos de la pantalla 44
 21/01/23 - Obtener SFX de opengameart.org
 21/01/23 - Implementar SFX
-26/01/23 - Notas en pantalla de juego (foating text)
+26/01/23 - Notas en pantalla de juego (floating text)
 29/01/23 - Movimiento del enemigo fanty
 01/02/23 - Créditos en marquesina durante el menú de inicio
 03/02/23 - Intro
 03/02/23 - Logo POR
 04/02/23 - Obtener música de opengameart.org
 05/02/23 - Implementar música
-11/02/23 - FPS en opciones
 13/02/23 - Páginas del menu de inicio
 15/02/23 - Pulsación de botones de menú
 10/03/23 - Grabar/Cargar punto de control con "pickle"
 10/03/23 - Score y High en marcador
-12/03/23 - Navegación por el menú con cursores/ENTER/ESC (no botones)
+12/03/23 - Navegación por el menú con cursores/ENTER/ESC
 16/03/23 - Página de opciones en el menú
 18/03/23 - Grabar/Cargar configuración con "pickle"
 20/03/23 - Hotspot para checkpoint (aparece tras recoger KEYS)
 20/03/23 - Tabla de mejores puntuaciones
 22/03/23 - Introducción de nombre para high scores
-24/03/23 - Objetos para puntuar; burguer, cake, DONUT
+24/03/23 - Objetos para puntuar; burguer, cake, donut
 25/03/23 - Control mediante Joystick
 27/03/23 - FULL_SCREEN adaptado a cualquier pantalla
 31/03/23 - Licencia (GPL 3)
