@@ -120,6 +120,10 @@ VSC: Cambiar fondo a negro:
 }
 
 
+Para generar un tar.gz:
+tar cvzf mi_carpeta.tar.gz mi_carpeta
+
+
 @Centurion_MK_3
 @Subspace_Audio
 @mojon_twins
