@@ -70,6 +70,25 @@ TARTA			350 puntos
 HAMBURGUESA		500 puntos
 
 
+MENU PRINCIPAL
+==============
+
+Tras una breve intro inicial o tras cada partida se muestra el menú principal. 
+Éste se compone de una pantalla con las opciones de juego y otra con las opciones de configuración. 
+Si no se pulsa ninguna tecla, cada pocos segundos se muestran páginas deslizantes con la tabla de mejores puntuaciones, ayuda e información resumida de este manual.
+
+En el menú principal podremos comenzar una partida nueva o continuar una partida anterior a partir del último diskette que cogimos. 
+También podemos cambiar la configuración o salir al sistema operativo.
+
+En el menú de configuración podremos cambiar varias características del programa:
+  - La opción "Full Screen" nos permite ver el juego en una ventana, o bien en pantalla completa. A su vez en pantalla completa disponemos de dos opciones. 
+      - La opción "4:3" nos permite disfrutar del juego ocupando toda la pantalla de un monitor o TV  no panorámico con el aspecto correcto. 
+      - Si nuestra pantalla es panorámica probablemente veamos el juego muy achatado. Para corregir ese problema debemos seleccionar la siguiente opción, que es "16:9". Esta opción nos muestra el juego en la parte central de la pantalla con el aspecto correcto.
+  - "Scanlines" simula la imagen que ofrecían las máquinas ARCADE de la época en sus pantallas de tubo, mostrándolas con líneas oscuras visibles.
+  - "Map Transition" desactivado muestra las nuevas pantallas inmediatamente. Si activamos esta opción mostrará la siguiente pantalla deslizándose junto con la anterior. Es más lento pero muestra el mapa de juego como un todo...
+  - "Game Control" ...
+
+
 CONTROL DE JUEGO
 ================
 

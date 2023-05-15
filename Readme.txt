@@ -9,18 +9,18 @@ RED PLANET Pi v1.0 (C) 2015/2023
 
 
 Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.
-But beware, the environment is dangerous. Avoid coming into contact with the aliens, and avoid falling into the lava or radioactive waste pits.
+But beware, the environment is dangerous. Avoid coming into contact with the aliens, and falling into the lava or radioactive waste pits.
 
 
 ITEMS
 =====
 
-EXPLOSIVE: To successfully complete the mission you must obtain the 15 explosives scattered around the station, and place them in the explosives depot, deep inside the Martian base.
+EXPLOSIVES: To successfully complete the mission you must obtain the 15 explosives scattered around the station and place them in the explosives depot, deep inside the Martian base.
 Once deposited, you must return to the control centre and activate the detonator.
 
 KEY CARD: Sometimes you will have to access locked areas with access cards, so you will have to locate these cards before you can continue your mission.
 
-GATE: You will only be able to open them if you have a card. 
+GATES: You will only be able to open them if you have a card. 
 The cards are for single use only, but the door will remain open.
 
 AMMO: You have the possibility to fire plasma bullets at your enemies, but be careful not to waste ammunition, which is scarce.
@@ -28,7 +28,7 @@ There are reloads scattered throughout the complex.
 
 OXYGEN: Keep an eye on the condition of your oxygen cylinders and find new ones before they run out or you will die on the spot.
 
-DISKETTE: Saves the current game situation to continue the game at another time.
+DISKETTE: Save the current game situation to continue the game at another time.
 You will be able to locate them on the screens where there were previously cards. 
 
 BURGUER, CAKE, DONUT: Yes, Martians like them too. 
@@ -71,6 +71,26 @@ CAKE			350 points
 HAMBURGUER		500 points
 
 
+MAIN MENU
+=========
+
+After a short intro or after each game, the main menu is displayed. 
+This consists of a screen with the game options and a screen with the configuration options. 
+If no key is pressed, sliding pages with the highscore table, help and summary information from this manual are displayed every few seconds.
+
+-In the main menu we can start a new game or continue a previous game from the last floppy disk we took.
+We can also change the configuration or exit to the operating system.
+
+-In the configuration menu you can change various features of the programme.
+	-The "Full Screen" option allows us to view the game in a window, or in full screen. 
+	In addition, there are two options available in full screen.
+		-The "4:3" option allows us to enjoy the game occupying the entire screen of a non-widescreen monitor or TV with the correct aspect ratio.
+		-If our screen is widescreen we will probably see the game very flattened. To correct this problem we must select the next option, which is "16:9". This option shows the game in the central part of the screen with the correct aspect ratio.
+	- "Scanlines" simulates the image provided by ARCADE machines of the time on their tube screens, showing them with visible dark lines.
+	- "Map Transition" deactivated shows the new screens immediately. If this option is activated it will show the next screen sliding along with the previous one. It is slower but shows the game map as a whole...
+	- "Game Control" ...
+
+
 GAME CONTROL
 ============
 
@@ -102,7 +122,7 @@ In the event of an oxygen shortage, an alarm will sound during which the priorit
 - Use the save game when the game situation is appropriate, i.e. with enough lives and oxygen to finish the game.
 Remember that selecting a DISKETTE overwrites the previous game.
 
-- To place the explosives in their final location and to use the detonator, press the ACTION key (below), otherwise nothing will happen.
+- To place the explosives in their final location and use the detonator, press the ACTION key (below), otherwise nothing will happen.
 
 
 ===================================
