@@ -5,6 +5,7 @@ RED PLANET PI
 EN PROCESO
 ==========
 - Betatesting
+- Bajar el volumen de disparo
 
 BUGS
 ====

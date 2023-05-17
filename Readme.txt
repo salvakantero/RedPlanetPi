@@ -129,7 +129,7 @@ Remember that selecting a DISKETTE overwrites the previous game.
 RED PLANET Pi  (C) PlayOnRetro 2023
 ===================================
 
-PROGRAMMING: salvaKantero
+PROGRAM: salvaKantero
 GRAPHICS: salvaKantero
 COVER ILLUSTRATION: Masterklown 
 MENU MUSIC: Masterklown
