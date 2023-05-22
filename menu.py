@@ -253,7 +253,7 @@ class Menu():
                     self.srf_menu.blit(self.menu_pages[i], (x, 0))
                     break
 
-            # ====================== keyboard management =======================
+            # ====================== keyboard/gamepad management =======================
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: # X button in the main window
                     self.game.exit()
@@ -261,14 +261,15 @@ class Menu():
                 if (event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYAXISMOTION) and x == 0:
                     # active pages
                     if menu_page == 0 or menu_page == 5:
-                        if event.key == pygame.K_ESCAPE: 
+                        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: 
                             if menu_page == 0: self.game.exit() # exits the application completely
                             else: # on page 5, return to page 0
                                 menu_page = 0
                                 selected_option = 0
                                 break
                         # the selected option is accepted by pressing ENTER or SPACE or any gamepad button
-                        if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE or event.type == pygame.JOYBUTTONDOWN:
+                        if (event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE)) \
+                        or event.type == pygame.JOYBUTTONDOWN:
                             # creates a shot.
                             # the starting position depends on the current page and the selected option
                             if menu_page == 0:
@@ -279,28 +280,35 @@ class Menu():
                             self.game.groups[enums.SHOT].add(shot)
                             self.sfx_menu_select.play()
                             confirmed_option = True
-
                         # Main menu and there is no shot in progress?
                         elif menu_page == 0 and not confirmed_option:                            
-                            # the cursor down has been pressed
-                            if (event.key == pygame.K_DOWN or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value > 0.5)) and selected_option < enums.EXIT:
+                            # the cursor down or joystick down has been pressed
+                            if (event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN) \
+                            or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value > 0.5) \
+                            and selected_option < enums.EXIT:
                                 selected_option += 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
-                            # the cursor up has been pressed
-                            elif (event.key == pygame.K_UP or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value < -0.5)) and selected_option > enums.START:
+                            # the cursor up or joystick up has been pressed
+                            elif (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) \
+                            or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value < -0.5) \
+                            and selected_option > enums.START:
                                 selected_option -= 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
                         # Options menu and there is no shot in progress?
                         elif menu_page == 5 and not confirmed_option:
-                            # the cursor down has been pressed
-                            if (event.key == pygame.K_DOWN or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value > 0.5)) and selected_option < enums.EXIT_OPTIONS:
+                            # the cursor down or joystick down has been pressed
+                            if (event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN) \
+                            or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value > 0.5) \
+                            and selected_option < enums.EXIT_OPTIONS:
                                 selected_option += 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
-                            # the cursor up has been pressed
-                            elif (event.key == pygame.K_UP or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value < -0.5)) and selected_option > enums.FULLSCREEN:
+                            # the cursor up or joystick up has been pressed
+                            elif (event.type == pygame.KEYDOWN and event.key == pygame.K_UP) \
+                            or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value < -0.5) \
+                            and selected_option > enums.FULLSCREEN:
                                 selected_option -= 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0                             

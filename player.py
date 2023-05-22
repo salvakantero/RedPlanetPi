@@ -178,20 +178,17 @@ class Player(pygame.sprite.Sprite):
             # eliminates false movements
             if abs(axis_x) < 0.1: axis_x = 0.0
             if abs(axis_y) < 0.1: axis_y = 0.0            
-            # # press right
-            # if axis_x > 0.5:
-            #     self.direction.x = 1
-            #     self.facing_right = True
-            # # press left
-            # elif axis_x < -0.5:
-            #     self.direction.x = -1
-            #     self.facing_right = False
-            # # without lateral movement
-            # elif axis_x == 0.0:
-            #     self.direction.x = 0
-            # lateral movement
-            self.direction.x = 1 if axis_x > 0.5 else -1 if axis_x < -0.5 else 0
-            self.facing_right = self.direction.x == 1
+            # press right
+            if axis_x > 0.5:
+                self.direction.x = 1
+                self.facing_right = True
+            # press left
+            elif axis_x < -0.5:
+                self.direction.x = -1
+                self.facing_right = False
+            # without lateral movement
+            elif axis_x == 0.0:
+                self.direction.x = 0
             # press jump
             if (self.game.joystick.get_button(0) or self.game.joystick.get_button(3) or axis_y < -0.5) and self.on_ground:            
                 self.performs_jump()

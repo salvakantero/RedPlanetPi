@@ -4,10 +4,10 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Mover el menú con joystick/gamepad (máquina arcade)
 
 BUGS
 ====
+menu arriba/abajo se pasa
 
 POR HACER
 =========
@@ -98,6 +98,7 @@ HECHO
 05/04/23 - Marco en modo 16:9
 08/04/23 - Pantalla final
 16/04/23 - Actualizar manual
+22/05/23 - Mover el menú con joystick/gamepad (máquina arcade)
 
 
 Notas
