@@ -90,12 +90,4 @@ class Configuration():
                 joystick.init()
             else:
                 self.data['control'] == enums.CLASSIC
-                
-            # try: # find a joystick/joypad/gamepad
-            #     joystick = pygame.joystick.Joystick(0)
-            #     joystick.init()
-            # except Exception: # No valid device was found
-            #     # classic layout by default
-            #     self.data['control'] == enums.CLASSIC
-
         return joystick
