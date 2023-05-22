@@ -101,6 +101,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_landing = pygame.mixer.Sound('sounds/fx/sfx_landing.wav')
         self.sfx_landing.set_volume(0.2)
         self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
+        self.sfx_shot.set_volume(0.8)
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.8)
         self.sfx_no_action = pygame.mixer.Sound('sounds/fx/sfx_no_action.wav') # not enough TNT or no detonator
@@ -176,18 +177,21 @@ class Player(pygame.sprite.Sprite):
             axis_y = self.game.joystick.get_axis(1)
             # eliminates false movements
             if abs(axis_x) < 0.1: axis_x = 0.0
-            if abs(axis_y) < 0.1: axis_y = 0.0
-            # press right
-            if axis_x > 0.5:
-                self.direction.x = 1
-                self.facing_right = True
-            # press left
-            elif axis_x < -0.5:
-                self.direction.x = -1
-                self.facing_right = False
-            # without lateral movement
-            elif axis_x == 0.0:
-                self.direction.x = 0
+            if abs(axis_y) < 0.1: axis_y = 0.0            
+            # # press right
+            # if axis_x > 0.5:
+            #     self.direction.x = 1
+            #     self.facing_right = True
+            # # press left
+            # elif axis_x < -0.5:
+            #     self.direction.x = -1
+            #     self.facing_right = False
+            # # without lateral movement
+            # elif axis_x == 0.0:
+            #     self.direction.x = 0
+            # lateral movement
+            self.direction.x = 1 if axis_x > 0.5 else -1 if axis_x < -0.5 else 0
+            self.facing_right = self.direction.x == 1
             # press jump
             if (self.game.joystick.get_button(0) or self.game.joystick.get_button(3) or axis_y < -0.5) and self.on_ground:            
                 self.performs_jump()
@@ -213,10 +217,10 @@ class Player(pygame.sprite.Sprite):
                 self.direction.x = 0
             #=================================================================
             # BETA trick
-            if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
-                if self.lives < 99: 
-                    self.lives += 1
-                    self.scoreboard.invalidate() 
+            #if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
+            #    if self.lives < 99: 
+            #        self.lives += 1
+            #        self.scoreboard.invalidate() 
             # ================================================================          
             # press jump
             if key_state[self.game.config.jump_key] and self.on_ground:            

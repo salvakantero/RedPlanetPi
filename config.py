@@ -64,7 +64,7 @@ class Configuration():
 
     # assigns the keys corresponding to the selected layout
     def apply_controls(self):
-        if self.data['control'] == enums.CLASSIC:
+        if self.data['control'] == enums.CLASSIC or self.data['control'] == enums.JOYSTICK:
             self.jump_key = pygame.K_UP
             self.action_key = pygame.K_DOWN
             self.left_key = pygame.K_LEFT

@@ -4,13 +4,10 @@ RED PLANET PI
 
 EN PROCESO
 ==========
-- Betatesting
-- Bajar el volumen de disparo
+- Mover el menú con joystick/gamepad (máquina arcade)
 
 BUGS
 ====
-- Eliminar truco BETA
-- Eliminar FPS
 
 POR HACER
 =========
