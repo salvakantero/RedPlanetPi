@@ -7,7 +7,6 @@ EN PROCESO
 
 BUGS
 ====
-menu arriba/abajo se pasa
 
 POR HACER
 =========
