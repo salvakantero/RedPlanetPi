@@ -122,7 +122,6 @@ Para generar un tar.gz:
 tar cvzf mi_carpeta.tar.gz mi_carpeta
 
 
-@Centurion_MK_3
 @Subspace_Audio
 @mojon_twins
 @DaFluffyPotato
@@ -132,4 +131,3 @@ tar cvzf mi_carpeta.tar.gz mi_carpeta
 @ryanlambie
 @Mundo_Python
 @KenneyNL
-
