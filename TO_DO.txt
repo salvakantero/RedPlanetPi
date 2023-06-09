@@ -121,7 +121,7 @@ VSC: Cambiar fondo a negro:
 Para generar un tar.gz:
 tar cvzf mi_carpeta.tar.gz mi_carpeta
 
-
+@Urza2
 @Subspace_Audio
 @mojon_twins
 @DaFluffyPotato
