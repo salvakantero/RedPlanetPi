@@ -101,7 +101,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_landing = pygame.mixer.Sound('sounds/fx/sfx_landing.wav')
         self.sfx_landing.set_volume(0.2)
         self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
-        self.sfx_shot.set_volume(0.8)
+        self.sfx_shot.set_volume(0.7)
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.8)
         self.sfx_no_action = pygame.mixer.Sound('sounds/fx/sfx_no_action.wav') # not enough TNT or no detonator
