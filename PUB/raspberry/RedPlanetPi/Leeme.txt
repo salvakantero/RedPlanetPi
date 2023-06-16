@@ -5,6 +5,7 @@ RED PLANET Pi v1.0 (C) 2015/2023
   Para Raspberry Pi / Windows *
 
 * y otros sistemas compatibles con pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) o superior.
+  (Instaladores y ejecutables de Windows y Raspberry Pi en la carpeta /PUB)
 
 
 
@@ -53,32 +54,51 @@ En ese caso acaba con ellos cuanto antes.
 PUNTUACIÓN
 ==========
 
-INFECTADO		 25 puntos
-ARACNOVIRUS		 50 puntos
-PELUSOIDE		 75 puntos
-FANTY			100 puntos
+INFECTADO	 25 puntos
+ARACNOVIRUS	 50 puntos
+PELUSOIDE	 75 puntos
+FANTY		100 puntos
 --------------------------
-TNT			 50 puntos
-MUNICIÓN		 75 puntos
+TNT		 50 puntos
+MUNICIÓN	 75 puntos
 OXÍGENO		100 puntos
 TARJETA		125 puntos
 PUERTA		150 puntos
 --------------------------
-DONUT			200 puntos
-TARTA			350 puntos
-HAMBURGUESA		500 puntos
+DONUT		200 puntos
+TARTA		350 puntos
+HAMBURGUESA	500 puntos
+
+
+MENU PRINCIPAL
+==============
+
+Tras una breve intro inicial o tras cada partida se muestra el menú principal. 
+Éste se compone de una pantalla con las opciones de juego y otra con las opciones de configuración. 
+Si no se pulsa ninguna tecla, cada pocos segundos se muestran páginas deslizantes con la tabla de mejores puntuaciones, ayuda e información resumida de este manual.
+
+En el menú principal podremos comenzar una partida nueva o continuar una partida anterior a partir del último diskette que cogimos. 
+También podemos cambiar la configuración o salir al sistema operativo.
+
+En el menú de configuración podremos cambiar varias características del programa:
+  - La opción "Full Screen" nos permite ver el juego en una ventana, o bien en pantalla completa. A su vez en pantalla completa disponemos de dos opciones. 
+      - La opción "4:3" nos permite disfrutar del juego ocupando toda la pantalla de un monitor o TV  no panorámico con el aspecto correcto. 
+      - Si nuestra pantalla es panorámica probablemente veamos el juego muy achatado. Para corregir ese problema debemos seleccionar la siguiente opción, que es "16:9". Esta opción nos muestra el juego en la parte central de la pantalla con el aspecto correcto.
+  - "Scanlines" simula la imagen que ofrecían las máquinas ARCADE de la época en sus pantallas de tubo, mostrándolas con líneas oscuras visibles.
+  - "Map Transition" desactivado muestra las nuevas pantallas inmediatamente. Si activamos esta opción mostrará la siguiente pantalla deslizándose junto con la anterior. Es más lento pero muestra el mapa de juego como un todo...
+  - "Game Control" ...
 
 
 CONTROL DE JUEGO
 ================
 
-			GAMER		RETRO		CLASSIC			JOYPAD
-			----------------------------------------------------------------------
-salto:		W		Q		cur.arriba		botón A / botón B / joy.arriba	
-acción:		S		A		cur.abajo		joy.abajo
-izquierda:		A		O		cur.izda.		joy.izda.
-derecha:		D		P		cur.derecha		joy.derecha
-disparo*:		SPACE		SPACE		SPACE			botón X / botón Y	 		
+		GAMER		RETRO		CLASSIC		JOYPAD
+		----------------------------------------------------------------
+salto:		W		Q		cur.arriba	botón A / B / joy.arriba	
+acción:		S		A		cur.abajo	joy.abajo
+izquierda:	A		O		cur.izda.	joy.izda.
+derecha:	D		P		cur.derecha	joy.derecha
+disparo*:	SPACE		SPACE		SPACE		botón X / botón Y	 		
 
 * también botón izquierdo del ratón
 
@@ -113,7 +133,7 @@ ILUSTRACIÓN DE PORTADA: Masterklown
 MÚSICA DEL MENÚ: Masterklown
 MÚSICA IN-GAME: Centurion of war
 EFECTOS DE SONIDO: Juhani Junkala
-FONDO DEL MODO 16/9: NASA (Hubble, Dec 2 2022)
+IMAGEN DE FONDO MODO 16/9: NASA (Hubble, Dec 2 2022)
 
 BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero    
 
@@ -122,8 +142,8 @@ Mojon Twins (MK1 motor de juegos de 8bits)
 DaFluffyPotato (clase Font, escalado de pantallas)
 Chris (Clear Code canal de YT)
 Rik Cross (Raspberry Pi Foundation)
-Mark Vanstone (Raspberry Pi Press)
-Ryan Lambie (Raspberry Pi Press)
+Mark Vanstone (Tutoriales de Raspberry Pi Press)
+Ryan Lambie (Tutoriales de Raspberry Pi Press)
 Cesar Gomez (Mundo Python canal de YT)
 Kenney (gráficos de teclas/ratón)
 
