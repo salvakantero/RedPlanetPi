@@ -120,7 +120,7 @@ Para compilar exe:
 pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
 
 Para generar un tar.gz:
-tar cvzf mi_carpeta.tar.gz mi_carpeta
+tar cvzf RedPlanetPi.tar.gz RedPlanetPi
 
 @Urza2
 @Subspace_Audio
