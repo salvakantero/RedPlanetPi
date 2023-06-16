@@ -55,20 +55,20 @@ In that case, finish them off as soon as possible.
 SCORE
 =====
 
-INFECTED		25 points
-ARACHNOVIRUS	50 points
-PELUSOID		75 points
-FANTY			100 points
+INFECTED	 25 points
+ARACHNOVIRUS	 50 points
+PELUSOID	 75 points
+FANTY		100 points
 ----------------------------
-TNT			50 points
-AMMO			75 points
+TNT		 50 points
+AMMO		 75 points
 OXYGEN		100 points
 KEYCARD		125 points
-GATE			150 points
+GATE		150 points
 ----------------------------
-DONUT			200 points
-CAKE			350 points
-HAMBURGUER		500 points
+DONUT		200 points
+CAKE		350 points
+HAMBURGUER	500 points
 
 
 MAIN MENU
@@ -97,11 +97,10 @@ GAME CONTROL
 		GAMER		RETRO		CLASSIC		JOYPAD
 		--------------------------------------------------------------------
 jump:		W		Q		cur.up	button A / button B / joy.up	
-action:	S		A		cur.down	joy.down
+action:		S		A		cur.down	joy.down
 left:		A		O		cur.left	joy.left
-right:	D		P		cur.right	joy.right
-fire*:	SPACE		SPACE		SPACE		button X / button Y	 		
-
+right:		D		P		cur.right	joy.right
+fire*:		SPACE		SPACE		SPACE		button X / button Y	 		
 * also left mouse button
 
 Keys common to all configurations:

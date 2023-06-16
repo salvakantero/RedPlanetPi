@@ -54,20 +54,20 @@ En ese caso acaba con ellos cuanto antes.
 PUNTUACIÓN
 ==========
 
-INFECTADO		 25 puntos
-ARACNOVIRUS		 50 puntos
-PELUSOIDE		 75 puntos
-FANTY			100 puntos
+INFECTADO	 25 puntos
+ARACNOVIRUS	 50 puntos
+PELUSOIDE	 75 puntos
+FANTY		100 puntos
 --------------------------
-TNT			 50 puntos
-MUNICIÓN		 75 puntos
+TNT		 50 puntos
+MUNICIÓN	 75 puntos
 OXÍGENO		100 puntos
 TARJETA		125 puntos
 PUERTA		150 puntos
 --------------------------
-DONUT			200 puntos
-TARTA			350 puntos
-HAMBURGUESA		500 puntos
+DONUT		200 puntos
+TARTA		350 puntos
+HAMBURGUESA	500 puntos
 
 
 MENU PRINCIPAL
@@ -92,13 +92,13 @@ En el menú de configuración podremos cambiar varias características del progr
 CONTROL DE JUEGO
 ================
 
-			GAMER		RETRO		CLASSIC			JOYPAD
-			----------------------------------------------------------------------
-salto:		W		Q		cur.arriba		botón A / botón B / joy.arriba	
-acción:		S		A		cur.abajo		joy.abajo
-izquierda:		A		O		cur.izda.		joy.izda.
-derecha:		D		P		cur.derecha		joy.derecha
-disparo*:		SPACE		SPACE		SPACE			botón X / botón Y	 		
+		GAMER		RETRO		CLASSIC		JOYPAD
+		----------------------------------------------------------------
+salto:		W		Q		cur.arriba	botón A / B / joy.arriba	
+acción:		S		A		cur.abajo	joy.abajo
+izquierda:	A		O		cur.izda.	joy.izda.
+derecha:	D		P		cur.derecha	joy.derecha
+disparo*:	SPACE		SPACE		SPACE		botón X / botón Y	 		
 
 * también botón izquierdo del ratón
 
