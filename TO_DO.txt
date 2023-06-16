@@ -111,12 +111,13 @@ R = 5
 X = 0
 Y = 3
 
-
 VSC: Cambiar fondo a negro:
 "workbench.colorCustomizations": {
     "editor.background": "#000000"
 }
 
+Para compilar exe:
+pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
 
 Para generar un tar.gz:
 tar cvzf mi_carpeta.tar.gz mi_carpeta
