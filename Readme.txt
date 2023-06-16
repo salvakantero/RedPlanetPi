@@ -135,7 +135,7 @@ COVER ILLUSTRATION: Masterklown
 MENU MUSIC: Masterklown
 IN-GAME MUSIC: Centurion of war
 SOUND EFFECTS: Juhani Junkala
-16/9 MODE BACKGROUND: NASA (Hubble, Dec 2 2022)
+16/9 MODE BACKGROUND IMAGE: NASA (Hubble, Dec 2 2022)
 
 BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero
 

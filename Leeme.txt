@@ -143,7 +143,7 @@ DaFluffyPotato (clase Font, escalado de pantallas)
 Chris (Clear Code canal de YT)
 Rik Cross (Raspberry Pi Foundation)
 Mark Vanstone (Tutoriales de Raspberry Pi Press)
-Ryan Lambie (Tutoriles de Raspberry Pi Press)
+Ryan Lambie (Tutoriales de Raspberry Pi Press)
 Cesar Gomez (Mundo Python canal de YT)
 Kenney (gráficos de teclas/ratón)
 
