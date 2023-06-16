@@ -5,7 +5,7 @@ RED PLANET Pi v1.0 (C) 2015/2023
   for Raspberry Pi / Windows *
 
 *and other systems supporting pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) or higher.
- (Windows and Raspberry installers and executables in the /PUB folder)
+ (Windows and Raspberry Pi installers and executables in the /PUB folder)
 
 
 Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.
@@ -144,8 +144,8 @@ Mojon Twins (MK1 8bit game engine)
 DaFluffyPotato (Font class, screen scaling)
 Chris (Clear Code YT channel)
 Rik Cross (Raspberry Pi Foundation)
-Mark Vanstone (Raspberry Pi Press)
-Ryan Lambie (Raspberry Pi Press)
+Mark Vanstone (Raspberry Pi Press tutorials)
+Ryan Lambie (Raspberry Pi Press tutorials)
 Cesar Gomez (Mundo Python YT channel)
 Kenney (Keyboard/Mouse Graphics)
 

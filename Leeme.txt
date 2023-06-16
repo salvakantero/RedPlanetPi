@@ -5,7 +5,7 @@ RED PLANET Pi v1.0 (C) 2015/2023
   Para Raspberry Pi / Windows *
 
 * y otros sistemas compatibles con pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) o superior.
-  (Instaladores y ejecutables de Windows y Raspberry en la carpeta /PUB)
+  (Instaladores y ejecutables de Windows y Raspberry Pi en la carpeta /PUB)
 
 
 
@@ -133,7 +133,7 @@ ILUSTRACIÓN DE PORTADA: Masterklown
 MÚSICA DEL MENÚ: Masterklown
 MÚSICA IN-GAME: Centurion of war
 EFECTOS DE SONIDO: Juhani Junkala
-FONDO DEL MODO 16/9: NASA (Hubble, Dec 2 2022)
+IMAGEN DE FONDO MODO 16/9: NASA (Hubble, Dec 2 2022)
 
 BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero    
 
@@ -142,8 +142,8 @@ Mojon Twins (MK1 motor de juegos de 8bits)
 DaFluffyPotato (clase Font, escalado de pantallas)
 Chris (Clear Code canal de YT)
 Rik Cross (Raspberry Pi Foundation)
-Mark Vanstone (Raspberry Pi Press)
-Ryan Lambie (Raspberry Pi Press)
+Mark Vanstone (Tutoriales de Raspberry Pi Press)
+Ryan Lambie (Tutoriles de Raspberry Pi Press)
 Cesar Gomez (Mundo Python canal de YT)
 Kenney (gráficos de teclas/ratón)
 

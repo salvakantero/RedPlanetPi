@@ -206,7 +206,7 @@ class Menu():
         # help text on the marquee
         marquee_help = MarqueeText(
             self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
-            self.srf_menu.get_height() - 16, .7, constants.HELP, 1700)
+            self.srf_menu.get_height() - 16, .7, constants.HELP, 1590)
         # credit text on the marquee      
         marquee_credits = MarqueeText(
             self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
