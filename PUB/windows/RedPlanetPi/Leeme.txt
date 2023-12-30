@@ -32,7 +32,7 @@ OXÍGENO: Vigila el estado de tus botellas de oxígeno y busca otras nuevas ante
 DISKETTE: Graba la situación actual de la partida para continuarla en otra ocasión.
 Podrás localizarlos en las pantallas donde previamente había tarjetas. 
 
-BURGUER, CAKE, DONUT: Sí, a los marcianos también les gustan. 
+BURGER, CAKE, DONUT: Sí, a los marcianos también les gustan. 
 Cómetelos si quieres ver aumentar tu puntuación.
 
 

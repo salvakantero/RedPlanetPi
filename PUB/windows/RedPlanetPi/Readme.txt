@@ -31,7 +31,7 @@ OXYGEN: Keep an eye on the condition of your oxygen cylinders and find new ones 
 DISKETTE: Save the current game situation to continue the game at another time.
 You will be able to locate them on the screens where there were previously cards. 
 
-BURGUER, CAKE, DONUT: Yes, Martians like them too. 
+BURGER, CAKE, DONUT: Yes, Martians like them too. 
 Eat them if you want to see your score go up.
 
 
@@ -68,7 +68,7 @@ GATE		150 points
 ----------------------------
 DONUT		200 points
 CAKE		350 points
-HAMBURGUER	500 points
+HAMBURGER	500 points
 
 
 MAIN MENU

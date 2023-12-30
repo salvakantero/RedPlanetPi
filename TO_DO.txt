@@ -89,7 +89,7 @@ HECHO
 20/03/23 - Hotspot para checkpoint (aparece tras recoger KEYS)
 20/03/23 - Tabla de mejores puntuaciones
 22/03/23 - Introducción de nombre para high scores
-24/03/23 - Objetos para puntuar; burguer, cake, donut
+24/03/23 - Objetos para puntuar; burger, cake, donut
 25/03/23 - Control mediante Joystick
 27/03/23 - FULL_SCREEN adaptado a cualquier pantalla
 31/03/23 - Licencia (GPL 3)

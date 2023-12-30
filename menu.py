@@ -138,7 +138,7 @@ class Menu():
         gifts = [
             ('Donut', 200, enums.DONUT),
             ('Cake', 350, enums.CAKE),
-            ('Burguer', 500, enums.BURGUER)]
+            ('Burger', 500, enums.BURGER)]
 
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
                     'The Baddies     The Gifts', self.menu_pages[3], 30, 65, 1)

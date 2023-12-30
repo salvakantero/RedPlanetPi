@@ -117,7 +117,7 @@ class Game():
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
             enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
-            enums.BURGUER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
+            enums.BURGER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.CAKE: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
             enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha(),
             enums.GATE_TILE: pygame.image.load('images/tiles/T60.png').convert()} 
@@ -162,7 +162,7 @@ class Game():
             enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
             enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav'),
             enums.CHECKPOINT: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
-            enums.BURGUER: pygame.mixer.Sound('sounds/fx/sfx_burguer.wav'),
+            enums.BURGER: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
             enums.CAKE: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
             enums.DONUT: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
         # modifies the XY position of the map on the screen to create 
@@ -509,7 +509,7 @@ class Game():
                     player.oxygen = constants.MAX_OXYGEN
                     self.floating_text.text = '+100'
                     player.score += 100
-                elif hotspot.type == enums.BURGUER:
+                elif hotspot.type == enums.BURGER:
                     self.floating_text.text = '+500'
                     player.score += 500
                 elif hotspot.type == enums.CAKE:

@@ -228,7 +228,7 @@ class Map():
 
         # sometimes adds an extra score at the empty position of the TNT
         elif hotspot[0] == enums.TNT:            
-            hotspot[0] = random.randint(5,9) # 5 = Burguer, 6 = Cake, 7 = Donut, 8-9 = None
+            hotspot[0] = random.randint(5,9) # 5 = Burger, 6 = Cake, 7 = Donut, 8-9 = None
             if hotspot[0] < 8:
                 hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
                 self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
