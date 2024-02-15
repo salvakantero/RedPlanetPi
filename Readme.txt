@@ -138,6 +138,13 @@ SOUND EFFECTS: Juhani Junkala
 
 BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero
 
+RED PLANET Pi is released under GPL v3 for all software components* (see license.txt).
+* However, please note that the illustrations used for the cover artwork are NOT released under the GPL v3 license. 
+These illustrations are the intellectual property of Masterklown and are subject to separate licensing terms. 
+Any use, reproduction, or distribution of the illustrations must be authorized by Masterklown. 
+
+PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
+
 ACKNOWLEDGEMENTS*: 
 Mojon Twins (MK1 8bit game engine)
 DaFluffyPotato (Font class, screen scaling)
@@ -149,15 +156,6 @@ Cesar Gomez (Mundo Python YT channel)
 Kenney (Keyboard/Mouse Graphics)
 
 * Thanks to all of them for sharing their knowledge, techniques and resources. 
-
-PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
-
-RED PLANET Pi is released under GPL v3 for all software components* (see license.txt).
-* However, please note that the illustrations used for the cover artwork are NOT released under the GPL v3 license. 
-These illustrations are the intellectual property of Masterklown and are subject to separate licensing terms. 
-Any use, reproduction, or distribution of the illustrations must be authorized by Masterklown. 
-
-Thanks for playing!
 
 
 AUTHOR'S NOTE
