@@ -151,7 +151,12 @@ Kenney (Keyboard/Mouse Graphics)
 * Thanks to all of them for sharing their knowledge, techniques and resources. 
 
 PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
-RED PLANET Pi is released under GPL v3 licence (see license.txt).
+
+RED PLANET Pi is released under GPL v3 for all software components* (see license.txt).
+* However, please note that the illustrations used for the cover artwork are NOT released under the GPL v3 license. 
+These illustrations are the intellectual property of MasterKlown and are subject to separate licensing terms. 
+Any use, reproduction, or distribution of the illustrations must be authorized by MasterKlown. 
+Please refer to the individual licensing terms provided by MasterKlown for more information.
 
 Thanks for playing!
 
