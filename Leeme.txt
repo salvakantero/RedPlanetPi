@@ -1,6 +1,6 @@
 ﻿
 ================================
-RED PLANET Pi v1.0 (C) 2015/2023
+RED PLANET Pi v1.1 (C) 2015/2024
 ================================                
   Para Raspberry Pi / Windows *
 
@@ -124,7 +124,7 @@ Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
 
 
 ===================================
-RED PLANET Pi  (C) PlayOnRetro 2023
+RED PLANET Pi  (C) PlayOnRetro 2024
 ===================================
 
 PROGRAMA: salvaKantero
