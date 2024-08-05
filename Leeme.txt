@@ -124,7 +124,7 @@ Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
 
 
 ===================================
-RED PLANET Pi  (C) PlayOnRetro 2024
+RED PLANET Pi  (C) PlayOnRetro 2023
 ===================================
 
 PROGRAMA: salvaKantero
