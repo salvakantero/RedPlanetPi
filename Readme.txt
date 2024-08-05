@@ -1,6 +1,6 @@
 
 ================================
-RED PLANET Pi v1.0 (C) 2015/2023
+RED PLANET Pi v1.1 (C) 2015/2024
 ================================                
   for Raspberry Pi / Windows *
 
