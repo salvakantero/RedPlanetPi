@@ -98,7 +98,7 @@ HECHO
 08/04/23 - Pantalla final
 16/04/23 - Actualizar manual
 22/05/23 - Mover el menú con joystick/gamepad (máquina arcade)
-
+05/08/24 - BUG reparado en versiones python posteriores a la 3.9
 
 Notas
 =====

@@ -274,7 +274,7 @@ class Player(pygame.sprite.Sprite):
             self.direction.y += constants.GRAVITY
             
         # gets the new rectangle after applying the movement and check for collision
-        y_temp = self.rect.y + self.direction.y
+        y_temp = int(self.rect.y + self.direction.y)
         temp_rect = pygame.Rect((self.rect.x, y_temp), 
             (constants.TILE_SIZE, constants.TILE_SIZE))  
 
