@@ -4,8 +4,8 @@ RED PLANET Pi v1.1 (C) 2015/2024
 ================================                
   Para Raspberry Pi / Windows *
 
-*y otros sistemas compatibles con pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) o superior
-*(Programa compilado para Windows/Linux/Pi en la carpeta "/dist") 
+*y otros sistemas compatibles con python/pygame.
+*(Programa compilado para Windows, Linux y Raspberry Pi en la carpeta "/dist") 
 
 
 Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.
